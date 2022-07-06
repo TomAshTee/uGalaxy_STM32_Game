@@ -105,10 +105,10 @@ typedef struct
 
 //------------- STA�E, ZMIENNE --------------
 
-#define num_shots  		8			//maksymalna ilo�c strza��w
-#define num_boss_shots 	5			// ilosc strza��w bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!!
-#define num_enemies  	10			//maksymalna ilosc przeciwnik�w
-#define num_backgrand	40			//max. obiekt�w w tle( gwiazd) (du�a konsumpacja pamieci RAM)
+#define num_shots  		8			//maksymalna ilość strzałów
+#define num_boss_shots 	5			//ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
+#define num_enemies  	10			//maksymalna ilość przeciwników
+#define num_backgrand	200			//max. obiekt�w w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
 
 #define initial_lives 	20			//początkowa ilość żyć
 #define initial_score 	0			//początkowy wynik gry
@@ -470,7 +470,7 @@ void add_backgrand(void)
 			backgrand[i].active = true;
 			backgrand[i].x 		= 128;
 			backgrand[i].y		= (rand()%(screen_height-10)) +10;
-			backgrand[i].update_delay = (rand()%4)+2;
+			backgrand[i].update_delay = (rand()%6)+2; // def. (rand()%4)+2;
 
 			break;
 		}
@@ -602,9 +602,9 @@ void run_dead(void)
 	x += dx;
 	if (x < 1 || x > 55) dx = -dx;
 	ssd1327_CLR();
-	GFX_DrowBitMap_P(x,4,Defeated_map,67,16,1);
-	GFX_DrowBitMap_P(35,24,Score_map,37,10,1);
-	GFX_PutInt(73,27,player.score,1,1,0);
+	GFX_DrowBitMap_P(x,(screen_height/2) - 4,Defeated_map,67,16,1);
+	GFX_DrowBitMap_P(35,(screen_height/2) + 24,Score_map,37,10,1);
+	GFX_PutInt(73,(screen_height/2) + 27,player.score,1,1,0);
 	//GFX_DrowBitMap_P(36,40,Best_map,27,10,1);
 	//GFX_PutInt(73,43,player.high_score,1,1,0);
 	ssd1327_display();
@@ -628,7 +628,7 @@ void play_dead_anim(void)
 	for (i = 0; i < 10; ++i)
 	{
 		ssd1327_CLR();
-		GFX_FillRect(0,0,128,64,1);
+		GFX_FillRect(0,0,128,128,1);
 		ssd1327_display();
 
 		ssd1327_CLR();
@@ -693,8 +693,7 @@ bool colliding(int x0, int y0, int x1, int y1)
 void update_scene(void)
 {
 	/*
-	 * Tu dziej� si� g��wne �eczy zwi�zane z gr� , jest tego
-	 * za du�o zeby w tym miejscu wszystko opisa� :P
+	 * Tu jest zawarta cała logika gry
 	 */
 	uint8_t i,j;
 
@@ -967,7 +966,7 @@ void drow_game(void)
 	{
 		if(backgrand[i].active)
 		{
-			ssd1327_setPixel(backgrand[i].x, backgrand[i].y,1);
+			ssd1327_setPixel(backgrand[i].x, backgrand[i].y,(rand()%15));
 		}
 	}
 
@@ -1004,9 +1003,23 @@ void run_menu (void)
 	if (x < 1 || x > 65) dx = -dx;
 	ssd1327_CLR();
 
-	GFX_DrowBitMap_P(x,10,uGalaxy_map,54,16,1);
-	GFX_DrowRoundRect(15,34,93,20,8,1);;
-	GFX_DrowBitMap_P(26, 37, PressToStart_map, 66,10,1);
+	//Test ---
+	GFX_FillRect(0, 0, 10, 10, 0);
+	GFX_FillRect(10, 0, 10, 10, 1);
+	GFX_FillRect(20, 0, 10, 10, 2);
+	GFX_FillRect(30, 0, 10, 10, 3);
+	GFX_FillRect(40, 0, 10, 10, 4);
+	GFX_FillRect(50, 0, 10, 10, 5);
+	GFX_FillRect(60, 0, 10, 10, 6);
+	GFX_FillRect(70, 0, 10, 10, 7);
+	GFX_FillRect(80, 0, 10, 10, 8);
+	GFX_FillRect(90, 0, 10, 10, 9);
+	GFX_FillRect(100, 0, 10, 10, 15);
+	//--------
+
+	GFX_DrowBitMap_P(x,(screen_height/2) - 10,uGalaxy_map,54,16,1);
+	GFX_DrowRoundRect(15,(screen_height/2) + 34,93,20,8,1);
+	GFX_DrowBitMap_P(26, (screen_height/2)+ 37, PressToStart_map, 66,10,1);
 
 	if(button_pressed())
 	{

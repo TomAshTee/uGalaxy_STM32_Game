@@ -111,7 +111,7 @@ void ssd1327_Init (void){
 	ssd1327_cmd(0x7f);  //end row  127
 
 	ssd1327_cmd(0x81);  //set contrast control
-	ssd1327_cmd(0x80);  //50% (128/255)
+	ssd1327_cmd(0x80);  //50% (128/255) def.0x80
 
 	ssd1327_cmd(0xa0);   //gment remap
 	ssd1327_cmd(0x51);  //51 (To my understanding, this is orientation
@@ -150,7 +150,7 @@ void ssd1327_Init (void){
 	ssd1327_cmd(0xfd); //Unlock commands
 	ssd1327_cmd(0x12);
 
-	ssd1327_cmd(0xAF);
+	ssd1327_cmd(0xA4);
 
 	ssd1327_cmd(SSD1327_DISPLAYON);
 }
@@ -174,7 +174,7 @@ void ssd1327_display (void){
 }
 
 void ssd1327_CLR(void){
-		memset(buffer, (BLACK << 4 | BLACK), BUF_SIZE);
+		memset(buffer, (0 << 4 | 0), BUF_SIZE);
 }
 
 void ssd1327_setPixel( int x , int y , uint8_t bw){
@@ -195,6 +195,8 @@ void ssd1327_setPixel( int x , int y , uint8_t bw){
 	}
 
 	buffer[x/2 + y*(SSD1327_WIDTH/2)] = SelectedCell;
+
+
 
 //	if ((x < 0) || (x >= SSD1327_WIDTH) || (y < 0) || (y >= SSD1327_HEIGHT))
 //		return;

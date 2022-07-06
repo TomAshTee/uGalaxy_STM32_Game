@@ -1,0 +1,8 @@
+../Core/Src/ssd1327.c:17:6:ssd1327_cmd	16	static
+../Core/Src/ssd1327.c:26:6:ssd1327_SetContrast	16	static
+../Core/Src/ssd1327.c:32:6:ssd1327_Reset	8	static
+../Core/Src/ssd1327.c:40:6:ssd1327_SpiInit	16	static
+../Core/Src/ssd1327.c:49:6:ssd1327_Init	8	static
+../Core/Src/ssd1327.c:158:6:ssd1327_display	8	static
+../Core/Src/ssd1327.c:176:6:ssd1327_CLR	8	static
+../Core/Src/ssd1327.c:180:6:ssd1327_setPixel	32	static

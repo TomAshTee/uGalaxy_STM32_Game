@@ -42,7 +42,6 @@ void GFX_DrowCircle(int CX, int CY ,int R,int I_O) {
 	              Xchange+=2;
 	        }
 	   }
-
 }
 
 //Bresenham's algorithm - Wikipedia

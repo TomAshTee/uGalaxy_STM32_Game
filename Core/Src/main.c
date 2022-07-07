@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "graphics_map.h"
+#include "game_logic.h"
 #include "ssd1327.h"
 #include <stdbool.h>
 
@@ -31,96 +32,13 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-//--------------------------------------
 
-//------------- WYLICZENIA --------------
-
-typedef enum
-{
-	et_diver,
-	et_tracker,
-	et_bobber,
-}enemy_type;
-
-typedef enum
-{
-	st_menu,
-	st_playing,
-	st_dead,
-}gamestate;
-
-//---------------------------------------
-//------------- STRUKT�RY --------------
-
-typedef struct		//strukt�ra gracza
-{
-	int x, y;
-	int score, high_score;
-	int lives;
-	int level;
-	int game_progres; //stan gry , 1 oznacza pe�ny przebieg ekranu 128 punkt�w
-} T_player;
-
-typedef struct		//struktura pocisk�w , strza��w
-{
-	bool active;
-	int x, y;
-}T_shot;
-
-typedef struct		//s. odpowiadajaca za t�o w grze
-{
-	bool active;
-	int x;
-	int y;
-	int next_update;
-	int update_delay;
-}T_backgrand;
-
-typedef struct
-{
-	bool active;
-	int x;
-	int y;
-	enemy_type type;
-	uint8_t* bit_map;
-	int next_update;
-	int update_delay;
-}T_enemy;
-
-typedef struct
-{
-	bool active;
-	int x,y;
-	int next_update;
-	int update_delay;
-	int lives;
-	int level;
-}T_boss;
-//--------------------------------------
 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-//------------- STA�E, ZMIENNE --------------
-
-#define num_shots  		8			//maksymalna ilość strzałów
-#define num_boss_shots 	5			//ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
-#define num_enemies  	10			//maksymalna ilość przeciwników
-#define num_backgrand	200			//max. obiekt�w w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
-
-#define initial_lives 	20			//początkowa ilość żyć
-#define initial_score 	0			//początkowy wynik gry
-#define initial_x		2			//początkowa pozycja X gracza
-#define initial_y		64			//początkowa pozycja Y gracza
-#define initial_level	1			//początkowy poziom gry
-#define initial_game_progres 0		//początkowy postę gry
-
-#define BLACK 			0
-#define WHITE 			15
-#define screen_width 	SSD1327_WIDTH
-#define screen_height 	SSD1327_HEIGHT
 
 /* USER CODE END PD */
 
@@ -136,7 +54,10 @@ SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
 
-//------- TABLICE I TABLICE STRUKT�R ---------
+/*
+ * ----------------------------------------------------------------------
+ * 					Struktóry i tablice struktór
+ */
 T_player player; 						//tworzenie gracza
 T_shot shots[num_shots]; 				//tworzenie stra��w
 T_shot boss_shots [num_boss_shots];		//tworzenie strza��w od bosa
@@ -149,6 +70,11 @@ gamestate state = st_menu;		//poczatkowy stan gry
 uint8_t score_1, score_0;		//przechwycenie najelepszych wynik�w
 uint8_t btn_prev = 0;			//obs�uga klawiszy zapobiega , repetycji
 
+/*
+ * ----------------------------------------------------------------------
+ * ----------------------------------------------------------------------
+ */
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -157,23 +83,6 @@ static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 /* USER CODE BEGIN PFP */
-
-void start_game(void); 							//rozpocz�cie gry
-void add_enemy(void);							//dodawniae przeciwnik�w
-void run_menu (void);							//obs�ga menu
-void run_game (void);							//g��wny szkielet sekfencji gry
-void drow_game(void);							//"rysowanie" gry
-void update_scene(void);						//Obs�uga wydarze� w grze "g��wny rdze� gry"
-void shoot(void);								//Dodanie strza�u gracza
-void boss_shoot(void);							//dodanie strza�u bossa
-void play_dead_anim(void);						//Wyswietlenie animacji smierci  , taki tam przerywnik
-void run_dead(void);							//Obs�uga konca gry
-void update_lvl(void);							//aktualizacja levelu gracza
-void update_backgrand(void);					//obs�uga t�a
-void add_backgrand(void);						//Dodanie jednostki t�a, jedenj
-bool colliding(int x0, int y0, int x1, int y1);	//sprawdzanie kolizji obiekt�w
-void update_enemy (T_enemy* enemy);				//dodanie jednego przeciwnika
-uint8_t button_pressed (void); 					//czy klawisz wcisniety
 
 /* USER CODE END PFP */
 
@@ -456,10 +365,9 @@ static void MX_GPIO_Init(void)
 void add_backgrand(void)
 {
 	/*
-	 * Dodaje pojedyncz� jednostke (strukture) do calej tablicy.
-	 * Dodatkowo ustawia losowe parametry odswiezania jej oraz po�o�enie,
-	 * jedynie po�o�enie osi y.
-	 *
+	 * Dodaje pojedynczą jednostke (strukture) do calej tablicy.
+	 * Dodatkowo ustawia losowe parametry odswiezania jej oraz
+	 * losowe położenie na osi Y.
 	 */
 	uint8_t i;
 
@@ -480,9 +388,9 @@ void add_backgrand(void)
 void update_backgrand(void)
 {
 	/*
-	 * Odswierza efekt t�a, gwiazd.
+	 * Odswierza efekt tła, gwiazd.
 	 * Przesuwa elementy , oraz losuje kiedy ma
-	 * zosta� dodany nowy element
+	 * zostać dodany nowy element.
 	 */
 	uint8_t i;
 
@@ -505,7 +413,7 @@ void update_backgrand(void)
 		}
 	}
 
-	if ((rand()%100) < 20) //czesto�c dodawnaia przeciwnik�w
+	if ((rand()%100) < 20) 		//Częstotliwość dodawania przeciwników
 		add_backgrand();
 
 }
@@ -513,14 +421,14 @@ void update_backgrand(void)
 void update_lvl(void)
 {
 	/*
-	 * Odpowiada za odpowienie pojawianie sie bos�w,
-	 * ich poczatkowych parametr�w oraz dostosowuje poziom gry
+	 * Odpowiada za odpowienie pojawianie sie bosów,
+	 * ich poczatkowych parametrów oraz dostosowuje poziom gry
 	 * do jej postepu.
 	 */
 	static uint8_t i = 0;
 
 	//Obliczanie postepu gry
-	if(i > 70) //poprawne dzia�anie 128 (ca�y ekran)
+	if(i > 70) //poprawne dzia�anie 128 (cały ekran)
 	{
 		player.game_progres += 1;
 		i = 0;
@@ -531,14 +439,14 @@ void update_lvl(void)
 
 	//---- Momenty pojawienia sie bosa -----
 	//Oraz jego parametry
-	//boss.update_delay = x; powienien on posiadac pa�yst� liczb� poniewa�
+	//boss.update_delay = x; powienien on posiadac pażystą liczbę ponieważ
 	//w innym wypadku z niewiadomych przyczyn wysupje sie jego animacja.
 	if(player.game_progres == 29)
 	{
 		boss.active = true;
 		boss.lives = 15;
 		boss.update_delay = 4;
-		player.game_progres += 1; // zeby nie wejsc w tego ifa drugi raz
+		player.game_progres += 1;
 
 	}
 	if(player.game_progres == 59)
@@ -578,7 +486,7 @@ void run_dead(void)
 {
 
 	/*
-	 * Ekran po smierci gracza. Wyswietlanie wybiku oraz
+	 * Ekran po smierci gracza. Wyswietlanie wybiektu oraz
 	 * animowanego napisu.
 	 */
 
@@ -597,7 +505,7 @@ void run_dead(void)
 		eeprom_write_byte(eeprom_magic_addr_1, eeprom_magic_number_1);
 	}
 	*/
-	//pokazanie wyniku i najwyzszego wyniku
+	//Pokazanie wyniku i najwyższego wyniku
 
 	x += dx;
 	if (x < 1 || x > 55) dx = -dx;
@@ -619,9 +527,7 @@ void run_dead(void)
 void play_dead_anim(void)
 {
 	/*
-	 * Animacja miedzy poczczegolnymi eranami. Daje z�udzenie
-	 * takiej starej gry.
-	 * Po sobie sobie jest ekran zapalany i gaszony dajac ciekawy efekt.
+	 * Animacja miedzy poczczegolnymi ekranami. Daje złudzenie starej gry.
 	 */
 	uint8_t i;
 
@@ -640,8 +546,8 @@ void play_dead_anim(void)
 void shoot(void)
 {
 	/*
-	 * Dodanie struktury strza�u do tablicy strza��w
-	 * oraz ustalenie wstepnych jego parametr�w.
+	 * Dodanie struktury strzału do tablicy strzałów
+	 * oraz ustalenie wstepnych jego parametrów.
 	 *
 	 * Obs�uga strza��w gracza.
 	 */
@@ -700,7 +606,7 @@ void update_scene(void)
 	static uint8_t y = 0, dy = 1;
 	  // Read analog stick (but we're just using it as binary input). Thresholds
 	// experimentally determined.
-	int stick = HAL_ADC_GetValue(&hadc1);
+	int stick = joystick_value_y();
 
 	if (stick < 1000)
 		player.y -= 1;
@@ -955,7 +861,7 @@ void drow_game(void)
 			if(enemies[i].type == et_diver)
 				GFX_DrowBitMap_P(enemies[i].x, enemies[i].y, enemies[i].bit_map,3,7,1);
 			if(enemies[i].type == et_bobber)
-				GFX_DrowBitMap_P(enemies[i].x, enemies[i].y, enemies[i].bit_map,4,4,1);
+				GFX_DrowBitMap_P(enemies[i].x, enemies[i].y, enemies[i].bit_map,5,5,1);
 		}
 	}
 	//rysowanie grafiki gracza
@@ -1002,20 +908,6 @@ void run_menu (void)
 	x += dx;
 	if (x < 1 || x > 65) dx = -dx;
 	ssd1327_CLR();
-
-	//Test ---
-	GFX_FillRect(0, 0, 10, 10, 0);
-	GFX_FillRect(10, 0, 10, 10, 1);
-	GFX_FillRect(20, 0, 10, 10, 2);
-	GFX_FillRect(30, 0, 10, 10, 3);
-	GFX_FillRect(40, 0, 10, 10, 4);
-	GFX_FillRect(50, 0, 10, 10, 5);
-	GFX_FillRect(60, 0, 10, 10, 6);
-	GFX_FillRect(70, 0, 10, 10, 7);
-	GFX_FillRect(80, 0, 10, 10, 8);
-	GFX_FillRect(90, 0, 10, 10, 9);
-	GFX_FillRect(100, 0, 10, 10, 15);
-	//--------
 
 	GFX_DrowBitMap_P(x,(screen_height/2) - 10,uGalaxy_map,54,16,1);
 	GFX_DrowRoundRect(15,(screen_height/2) + 34,93,20,8,1);
@@ -1115,7 +1007,7 @@ void add_enemy(void)
 
 uint8_t button_pressed (void)
 {
-	/*
+	/*k
 	 * Sprawdzanie czy klawisz zosta� wcisniety.
 	 * Odpowiednia konstrukcja tej wunkcji zapewnia
 	 * stan aktywny na zbocze "narastajace" i uniemozliwia
@@ -1135,6 +1027,10 @@ uint8_t button_pressed (void)
 		btn_prev = 0;
 	}
 	return 0;
+}
+
+int joystick_value_y (void){
+	return HAL_ADC_GetValue(&hadc1);
 }
 
 /* USER CODE END 4 */

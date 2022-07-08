@@ -17,15 +17,15 @@
  * 								Stałe
  */
 
-#define num_shots  		30			//Maksymalna ilość strzałów def.8
+#define num_shots  		35			//Maksymalna ilość strzałów def.8
 #define num_boss_shots 	5			//Ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
 #define num_enemies  	10			//Maksymalna ilość przeciwników
 #define num_backgrand	200			//Max. obiektów w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
 #define num_bonus		5			//Max. ilość bonusów na mapie
 
-#define frequ_bonus		5			// Częstotliowść pojawiania się bonusów (1-99)
+#define frequ_bonus		10			// Częstotliowść pojawiania się bonusów (1-99)
 
-#define initial_lives 	5			//Początkowa ilość żyć
+#define initial_lives 	10			//Początkowa ilość żyć
 #define initial_score 	0			//Początkowy wynik gry
 #define initial_x		2			//Początkowa pozycja X gracza
 #define initial_y		64			//Początkowa pozycja Y gracza
@@ -67,6 +67,12 @@ typedef enum 			//Rodzaj bonusa
 	bt_live,
 }bonus_type;
 
+typedef enum
+{
+	st_normal,
+	st_tracker,
+}shoot_type;
+
 /*
  * ----------------------------------------------------------------------
  * ----------------------------------------------------------------------
@@ -84,12 +90,15 @@ typedef struct				//Gracz i jego parametry
 	int lives;
 	int level;
 	int game_progres;
+	shoot_type shoot_type;
 } T_player;
 
 typedef struct				//Strzały gracza, strzały bosów
 {
 	bool active;
 	int x, y;
+	shoot_type type;
+	int truck_number;
 }T_shot;
 
 typedef struct				//Tło - "gwiazdy"
@@ -110,6 +119,8 @@ typedef struct				//Przeciwnicy
 	uint8_t* bit_map;
 	int next_update;
 	int update_delay;
+	bool tracked_by_missile;
+	int truck_number;
 }T_enemy;
 
 typedef struct 				// Bosowie

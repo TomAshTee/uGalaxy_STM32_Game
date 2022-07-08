@@ -19,7 +19,6 @@
 /*
  * ToDo:
  * - Wprowadzenie #define jako cześtotliwości dodawania tła
- * - Dodanie do gry obsługi i generowania bonusów
  * - Dodanie innych bonusów i ich losowanie w add_bonus()
  *
  */
@@ -31,6 +30,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include <math.h>
 #include "graphics_map.h"
 #include "game_logic.h"
 #include "ssd1327.h"
@@ -68,7 +68,7 @@ SPI_HandleTypeDef hspi1;
  * 					Struktóry i tablice struktór
  */
 T_player player; 						//Tworzenie gracza
-T_shot shots[num_shots]; 				//Tworzenie strzałów gracza
+T_shot shoots[num_shots]; 				//Tworzenie strzałów gracza
 T_shot boss_shots [num_boss_shots];		//Tworzenie strzałów od bosa
 T_enemy enemies[num_enemies];			//Tworzenie przeciwników
 T_backgrand backgrand[num_backgrand];	//Tworzenie tła
@@ -79,6 +79,9 @@ gamestate state = st_menu;		//Poczatkowy stan gry
 
 uint8_t score_1, score_0;		//Przechwycenie najelepszych wyników
 uint8_t btn_prev = 0;			//Obsługa klawiszy zapobiega , repetycji
+
+int debug_value;
+
 
 /*
  * ----------------------------------------------------------------------
@@ -454,7 +457,7 @@ void update_lvl(void)
 	if(player.game_progres == 29)
 	{
 		boss.active = true;
-		boss.lives = 15;
+		boss.lives = 1;
 		boss.update_delay = 4;
 		player.game_progres += 1;
 
@@ -462,7 +465,7 @@ void update_lvl(void)
 	if(player.game_progres == 59)
 	{
 		boss.active = true;
-		boss.lives = 20;
+		boss.lives = 1;
 		boss.update_delay = 2;
 		player.game_progres += 1;
 	}
@@ -563,13 +566,67 @@ void shoot(void)
 	 */
 	uint8_t i;
 
+	bool is_any_enemies_active;
+
+	int closest_enemy_number;
+	int temp_x;
+	int temp_y;
+	double temp_distance;
+	double smolest_distance = 500;
+	int random_tracking_number;
+
 	for (i = 0; i < num_shots; ++i)
 	{
-		if (!shots[i].active)
+		if (!shoots[i].active)
 		{
-			shots[i].active = true;
-			shots[i].x = 11;
-			shots[i].y = player.y + 5;
+			shoots[i].active = true;
+			shoots[i].x = 11;
+			shoots[i].y = player.y + 5;
+
+			//Ustawienie rodzaju strzału
+			switch(player.shoot_type)
+			{
+			case st_normal:
+				shoots[i].type = st_normal;
+				break;
+			case st_tracker:
+
+				/*
+				 * Czy jest chociaż jeden aktywny przeciwnik który jest nienamieżany.
+				 * Jeśli tak zacznij go namieżać.
+				 * */
+				for(int j = 0; j < num_enemies; j++)
+				{
+					if(enemies[j].active && !enemies[j].tracked_by_missile)
+					{
+						is_any_enemies_active = true;
+						temp_x = enemies[j].x;
+						temp_y = enemies[j].y;
+
+						temp_distance = sqrt(pow(enemies[j].x - player.x, 2) + pow(enemies[j].y - player.y, 2));
+
+						if (temp_distance < smolest_distance)
+						{
+							smolest_distance = temp_distance;
+							closest_enemy_number = j;
+						}
+						break;
+					}
+				}
+				if(is_any_enemies_active)
+				{
+					random_tracking_number = rand();
+					enemies[closest_enemy_number].truck_number = random_tracking_number;
+					enemies[closest_enemy_number].tracked_by_missile = true;
+					shoots[i].type = st_tracker;
+					shoots[i].truck_number = random_tracking_number;
+					debug_value = random_tracking_number;
+				} else {
+					// Jeśli nie znalazłeś żadnego celu zachowój się jak normlany strzał
+					shoots[i].type = st_normal;
+				}
+				break;
+			}
 			return;
 		}
 	}
@@ -627,12 +684,50 @@ void update_scene(void)
 	if (player.y > (screen_height - 14)) player.y = (screen_height - 14);
 
 	// Przesunięcie strałów do przodu
+
+	bool shoot_updated = false;
+
 	for (i = 0; i < num_shots; ++i)
 	{
-		if (shots[i].active)
-			++shots[i].x;
-		if (shots[i].x > 128)
-			shots[i].active = false;
+		switch(shoots[i].type)
+		{
+		case st_normal:
+			if (shoots[i].active)
+				shoots[i].x++;
+			if (shoots[i].x > 128)
+				shoots[i].active = false;
+			break;
+		case st_tracker:
+
+			for (int j = 0; j < num_enemies; j++)
+			{
+				if (shoots[i].truck_number == enemies[j].truck_number)
+				{
+					//shoots[i].x += 1;
+					if(shoots[i].x > enemies[j].x) shoots[i].x -= 2;
+					if(shoots[i].x < enemies[j].x) shoots[i].x += 2;
+					if(shoots[i].y > enemies[j].y) shoots[i].y -= 2;
+					if(shoots[i].y < enemies[j].y) shoots[i].y += 2;
+					shoot_updated = true;
+					break;
+				}
+			}
+			//Usuń śledzące pociski które nie mają celu
+			if(!shoot_updated && shoots[i].type == st_tracker)
+			{
+				shoots[i].active = false;
+				shoots[i].truck_number = 0;
+				shoot_updated = false;
+			}
+
+			if(shoots[i].x > 128)
+			{
+				shoots[i].active = false;
+				shoots[i].truck_number = 0;
+			}
+			break;
+		}
+
 	}
 
 	// Aktualizacja przeciwników
@@ -658,6 +753,8 @@ void update_scene(void)
 						{
 							player.lives -= 1;;
 							enemies[i].active = false;
+							enemies[i].tracked_by_missile = false;
+							enemies[i].truck_number = 0;
 							GFX_DrowBitMap_P(enemies[i].x+2, enemies[i].y, explosion_map,10,10,1);
 							GFX_DrowBitMap_P(player.x + 8, player.y-2, player_shield_map,10 ,16,1);
 							GFX_DrowBitMap_P(player.x, player.y, player_map, 11, 11, 1);
@@ -698,7 +795,12 @@ void update_scene(void)
 						}
 
 						// Jeśli poza ekranem, dezaktywacja
-						if (enemies[i].x < -4) enemies[i].active = false;
+						if (enemies[i].x < -4)
+						{
+							enemies[i].active = false;
+							enemies[i].tracked_by_missile = false;
+							enemies[i].truck_number = 0;
+						}
 					}
 				}
 		}
@@ -763,18 +865,19 @@ void update_scene(void)
 			}
 		}
 
-		// Strzały bosa do gracza
+		// Strzały gracza do bosa
 		for(i = 0; i < num_shots; i++)
 		{
-			if(shots[i].active)
+			if(shoots[i].active)
 			{
-				if(colliding(boss.x, boss.y, shots[i].x, shots[i].y) ||
-				   colliding(boss.x, boss.y+6, shots[i].x, shots[i].y) ||
-				   colliding(boss.x, boss.y+12, shots[i].x, shots[i].y))
+				if(colliding(boss.x, boss.y, shoots[i].x, shoots[i].y) ||
+				   colliding(boss.x, boss.y+6, shoots[i].x, shoots[i].y) ||
+				   colliding(boss.x, boss.y+12, shoots[i].x, shoots[i].y))
 				{
 					boss.lives -= 1;
-					shots[i].active = false;
-					GFX_DrowBitMap_P(shots[i].x, shots[i].y, explosion_map, 10,10,1);
+					shoots[i].active = false;
+					shoots[i].truck_number = 0;
+					GFX_DrowBitMap_P(shoots[i].x, shoots[i].y, explosion_map, 10,10,1);
 
 					if(boss.lives <= 0)
 					{
@@ -810,12 +913,18 @@ void update_scene(void)
 	{
 		for (j = 0; j < num_enemies; ++j)
 		{
-			if (shots[i].active && enemies[j].active)
+			if (shoots[i].active && enemies[j].active)
 			{
-				if (colliding(enemies[j].x, enemies[j].y, shots[i].x, shots[i].y))
+				if (colliding(enemies[j].x, enemies[j].y, shoots[i].x, shoots[i].y))
+//				if(	colliding(enemies[j].x,enemies[j].y, shoots[i].x, shoots[i].y) 	||
+//					colliding(enemies[j].x + 2,enemies[j].y, shoots[i].x, shoots[i].y) 	||
+//					colliding(enemies[j].x,enemies[j].y + 2, shoots[i].x, shoots[i].y)	||
+//					colliding(enemies[j].x + 2,enemies[j].y + 2, shoots[i].x, shoots[i].y))
 				{
 					enemies[j].active = false;
-					shots[i].active = false;
+					enemies[j].tracked_by_missile = false;
+					enemies[j].truck_number = 0;
+					shoots[i].active = false;
 					player.score += 1;
 					GFX_DrowBitMap_P(enemies[j].x, enemies[j].y, explosion_map,10,10,1);
 
@@ -847,9 +956,9 @@ void drow_game(void)
 	//Rysowniae grafiki strzału gracza
 	for(i = 0; i < num_shots; i++)
 	{
-		if(shots[i].active)
+		if(shoots[i].active)
 		{
-			GFX_DrowBitMap_P(shots[i].x, shots[i].y, player_shot_map,4,1,1);
+			GFX_DrowBitMap_P(shoots[i].x, shoots[i].y, player_shot_map,4,1,1);
 		}
 	}
 
@@ -901,6 +1010,9 @@ void drow_game(void)
 		if(bonuses[i].active)
 			GFX_DrowBitMap_P(bonuses[i].x, bonuses[i].y, bonus_live_map, 7, 6, 1);
 	}
+
+	// DEBUG VALUE
+	GFX_PutInt(0, 100, debug_value, 1, 1, 0);
 
 }
 
@@ -959,10 +1071,11 @@ void start_game(void)
 	player.y = initial_y;
 	player.level = initial_level;
 	player.game_progres = initial_game_progres;
+	player.shoot_type = st_tracker;
 
 	//Dezaktywacja pocisków gracza
 	for (i = 0; i < num_shots; ++i)
-		shots[i].active = false;
+		shoots[i].active = false;
 
 	//Dezaktywacja pocisków bosa
 	for (i = 0; i < num_boss_shots; ++i)
@@ -970,7 +1083,11 @@ void start_game(void)
 
 	//Dezaktywacja przeciwników
 	for (i = 0; i < num_enemies; i++)
+	{
 		enemies[i].active = false;
+		enemies[i].truck_number = 0;
+		enemies[i].tracked_by_missile = false;
+	}
 
 	//Dezaktywacja bonusów
 	for (i = 0; i < num_bonus; i++)
@@ -1003,6 +1120,8 @@ void add_enemy(void)
 			enemies[i].active = true;
 			enemies[i].x = 140;			//pozycja startowa przeciwnika
 			enemies[i].y = ((rand()%(screen_height - 10))+10);
+			enemies[i].tracked_by_missile = false;
+			enemies[i].truck_number = 0;
 
 			enemy_type = (rand()%100);
 

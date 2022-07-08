@@ -17,17 +17,20 @@
  * 								Stałe
  */
 
-#define num_shots  		30			//maksymalna ilość strzałów def.8
-#define num_boss_shots 	5			//ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
-#define num_enemies  	10			//maksymalna ilość przeciwników
-#define num_backgrand	200			//max. obiekt�w w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
+#define num_shots  		30			//Maksymalna ilość strzałów def.8
+#define num_boss_shots 	5			//Ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
+#define num_enemies  	10			//Maksymalna ilość przeciwników
+#define num_backgrand	200			//Max. obiektów w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
+#define num_bonus		5			//Max. ilość bonusów na mapie
 
-#define initial_lives 	20			//początkowa ilość żyć
-#define initial_score 	0			//początkowy wynik gry
-#define initial_x		2			//początkowa pozycja X gracza
-#define initial_y		64			//początkowa pozycja Y gracza
-#define initial_level	1			//początkowy poziom gry
-#define initial_game_progres 0		//początkowy postę gry
+#define frequ_bonus		5			// Częstotliowść pojawiania się bonusów (1-99)
+
+#define initial_lives 	5			//Początkowa ilość żyć
+#define initial_score 	0			//Początkowy wynik gry
+#define initial_x		2			//Początkowa pozycja X gracza
+#define initial_y		64			//Początkowa pozycja Y gracza
+#define initial_level	1			//Początkowy poziom gry
+#define initial_game_progres 0		//Początkowy postę gry
 
 #define BLACK 			0
 #define WHITE 			15
@@ -58,6 +61,11 @@ typedef enum			//Stany gry
 	st_playing,
 	st_dead,
 }gamestate;
+
+typedef enum 			//Rodzaj bonusa
+{
+	bt_live,
+}bonus_type;
 
 /*
  * ----------------------------------------------------------------------
@@ -114,6 +122,17 @@ typedef struct 				// Bosowie
 	int level;
 }T_boss;
 
+typedef struct
+{
+	bool active;
+	int x;
+	int y;
+	bonus_type type;
+	uint8_t* bit_map;
+	int next_update;
+	int update_delay;
+}T_bonus;
+
 /*
  * ----------------------------------------------------------------------
  * ----------------------------------------------------------------------
@@ -139,6 +158,8 @@ void update_backgrand(void);					//Obsługa tła
 void add_backgrand(void);						//Dodanie jednostki tła
 bool colliding(int x0, int y0, int x1, int y1);	//Sprawdzanie kolizji obiektów
 void update_enemy (T_enemy* enemy);				//Dodanie przeciwnika
+void add_bonus(int x, int y);					//Dodanie bonusa na pozycji zestrzelonego wroga
+void update_bonus(void);						//Obsługa bonusów
 uint8_t button_pressed (void); 					//Sprawdzenie czy przycisk nr.1  jest wciśnięty
 int joystick_value_y (void);					//Podanie wartości osi Y Joysticka
 

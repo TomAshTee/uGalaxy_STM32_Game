@@ -26,7 +26,7 @@ extern const uint8_t lives_map[];			//Grafika Serca 8x6
 extern const uint8_t Level_map[];			//Napis "Level" 20x7
 extern const uint8_t player_shot_map[];		//Garfika pocisku gracza 4x1
 extern const uint8_t uGalaxy_map[];			//Napis "uGalaxy"54x16
-extern const uint8_t test_map[];
+extern const uint8_t bonus_live_map[];		//Grafika bonusu życia 7x6
 
 
 #endif /* INC_GRAPHICS_MAP_H_ */

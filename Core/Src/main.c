@@ -15,6 +15,15 @@
   *
   ******************************************************************************
   */
+
+/*
+ * ToDo:
+ * - Wprowadzenie #define jako cześtotliwości dodawania tła
+ * - Dodanie do gry obsługi i generowania bonusów
+ * - Dodanie innych bonusów i ich losowanie w add_bonus()
+ *
+ */
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -58,17 +67,18 @@ SPI_HandleTypeDef hspi1;
  * ----------------------------------------------------------------------
  * 					Struktóry i tablice struktór
  */
-T_player player; 						//tworzenie gracza
-T_shot shots[num_shots]; 				//tworzenie stra��w
-T_shot boss_shots [num_boss_shots];		//tworzenie strza��w od bosa
-T_enemy enemies[num_enemies];			//tworzenie przeciwnik�w
-T_backgrand backgrand[num_backgrand];	//tworzenie t�a
-T_boss boss;							//boss w grze
+T_player player; 						//Tworzenie gracza
+T_shot shots[num_shots]; 				//Tworzenie strzałów gracza
+T_shot boss_shots [num_boss_shots];		//Tworzenie strzałów od bosa
+T_enemy enemies[num_enemies];			//Tworzenie przeciwników
+T_backgrand backgrand[num_backgrand];	//Tworzenie tła
+T_boss boss;							//Boss w grze
+T_bonus bonuses[num_bonus];				//Bonusy w grze
 
-gamestate state = st_menu;		//poczatkowy stan gry
+gamestate state = st_menu;		//Poczatkowy stan gry
 
-uint8_t score_1, score_0;		//przechwycenie najelepszych wynik�w
-uint8_t btn_prev = 0;			//obs�uga klawiszy zapobiega , repetycji
+uint8_t score_1, score_0;		//Przechwycenie najelepszych wyników
+uint8_t btn_prev = 0;			//Obsługa klawiszy zapobiega , repetycji
 
 /*
  * ----------------------------------------------------------------------
@@ -413,7 +423,7 @@ void update_backgrand(void)
 		}
 	}
 
-	if ((rand()%100) < 20) 		//Częstotliwość dodawania przeciwników
+	if ((rand()%100) < 20) 		//Częstotliwość dodawania tła
 		add_backgrand();
 
 }
@@ -604,8 +614,7 @@ void update_scene(void)
 	uint8_t i,j;
 
 	static uint8_t y = 0, dy = 1;
-	  // Read analog stick (but we're just using it as binary input). Thresholds
-	// experimentally determined.
+	// Read analog stick
 	int stick = joystick_value_y();
 
 	if (stick < 1000)
@@ -613,11 +622,11 @@ void update_scene(void)
 	else if (stick > 3500)
 		player.y += 1;
 
-	// Keep the player in bounds.
+	// Trzymanie gracza w ramach ekranu
 	if (player.y < 10) player.y = 10;
 	if (player.y > (screen_height - 14)) player.y = (screen_height - 14);
 
-	// Move shots forward.
+	// Przesunięcie strałów do przodu
 	for (i = 0; i < num_shots; ++i)
 	{
 		if (shots[i].active)
@@ -626,7 +635,7 @@ void update_scene(void)
 			shots[i].active = false;
 	}
 
-	// Update enemies.
+	// Aktualizacja przeciwników
 	for (i = 0; i < num_enemies; ++i)
 	{
 
@@ -640,7 +649,7 @@ void update_scene(void)
 
 						enemies[i].next_update = enemies[i].update_delay;
 
-						// Check for hits on player.
+						//Sprawdzanie kolizji przeciwników z graczem
 						if (colliding(enemies[i].x,enemies[i].y, player.x, player.y) 	||
 							colliding(enemies[i].x,enemies[i].y, player.x, player.y+5) 	||
 							colliding(enemies[i].x,enemies[i].y, player.x+7, player.y)	||
@@ -661,7 +670,7 @@ void update_scene(void)
 							}
 						}
 
-						// Move left and do any type-specific behavior.
+						// Przesunięcie w lewo i wykonanie specjalnych ruchów
 						enemies[i].x -= 1;
 
 						switch (enemies[i].type)
@@ -688,14 +697,14 @@ void update_scene(void)
 							break;
 						}
 
-						// If we've moved off the left edge, die.
+						// Jeśli poza ekranem, dezaktywacja
 						if (enemies[i].x < -4) enemies[i].active = false;
 					}
 				}
 		}
 	}
 
-	//------------- Obs�uga Bossa ---------------
+	//------------- Obsługa Bossa ---------------
 	if(boss.active)
 	{
 		boss.next_update -= 1;
@@ -717,7 +726,7 @@ void update_scene(void)
 			if(boss.x < 100) boss.x = 100;
 		}
 
-		//Cz�stosc sztrza��w bossa
+		//Częstotliwość strzałów bosa
 		if((rand()%100) < (boss.level * 2 ))
 			boss_shoot();
 
@@ -754,7 +763,7 @@ void update_scene(void)
 			}
 		}
 
-		// Strza�y gracza do bosa
+		// Strzały bosa do gracza
 		for(i = 0; i < num_shots; i++)
 		{
 			if(shots[i].active)
@@ -778,7 +787,8 @@ void update_scene(void)
 			}
 		}
 	}
-	// zamalowanie i dezaktywacja strza��w pozosta�ych po bosie
+
+	//Zamalowanie i dezaktywacja strzałów pozostałych po bosie
 	if(!boss.active)
 	{
 		for(i = 0; i < num_boss_shots; i++)
@@ -795,7 +805,7 @@ void update_scene(void)
 	if (button_pressed())
 		shoot();
 
-	// Check for enemy/shot collisions.
+	// Sprawdzenie kolicji strzałów gracza z przeciwnikami. Dodawania Bonusów
 	for (i = 0; i < num_shots; ++i)
 	{
 		for (j = 0; j < num_enemies; ++j)
@@ -808,11 +818,15 @@ void update_scene(void)
 					shots[i].active = false;
 					player.score += 1;
 					GFX_DrowBitMap_P(enemies[j].x, enemies[j].y, explosion_map,10,10,1);
+
+					//Dodanie bonusa w miejscu zestrzelenia
+					if((rand()%100) < frequ_bonus)
+						add_bonus(enemies[j].x, enemies[j].y);
 				}
 			}
 		}
 	}
-	if ((rand()%100) < (player.level * 2) && !(boss.active)) //czesto�c dodawnaia przeciwnik�w
+	if ((rand()%100) < (player.level * 2) && !(boss.active)) //Częstotliwość dodawania przeciwników w zależności od poziomu
 			add_enemy();
 }
 
@@ -823,15 +837,14 @@ void drow_game(void)
 	 */
 	uint8_t i;
 
-	//rysownanie informacji o grze
+	//Rsownanie informacji o grze
 	GFX_PutInt(5,0,player.score,1,1,0);
-	//GFX_PutInt(5,0,boss.level,1,1,0);
 	GFX_DrowBitMap_P(102,0,lives_map,8,6,1);
 	GFX_PutInt(122,0,player.lives,1,1,0);
 	GFX_DrowBitMap_P(50,0,Level_map,20,7,1);
 	GFX_PutInt(80,0,player.level,1,1,0);
 
-	//rysowniae grafiki strza�u gracza
+	//Rysowniae grafiki strzału gracza
 	for(i = 0; i < num_shots; i++)
 	{
 		if(shots[i].active)
@@ -840,7 +853,7 @@ void drow_game(void)
 		}
 	}
 
-	//rysowniae grafiki strza�u bosa
+	//Rysowniae grafiki strzału bosa
 	if(boss.active)
 	{
 		for(i = 0; i < num_boss_shots; i++)
@@ -851,7 +864,7 @@ void drow_game(void)
 			}
 		}
 	}
-	//rysownaie grafiki przeciwnik�w
+	//Rysownaie grafiki przeciwników
 	for(i = 0; i < num_enemies; i++)
 	{
 		if(enemies[i].active)
@@ -864,10 +877,10 @@ void drow_game(void)
 				GFX_DrowBitMap_P(enemies[i].x, enemies[i].y, enemies[i].bit_map,5,5,1);
 		}
 	}
-	//rysowanie grafiki gracza
+	//Rysowanie grafiki gracza
 	GFX_DrowBitMap_P(player.x,player.y,player_map,11,11,1);
 
-	//rysowanie t�a
+	//Rysowanie tła
 	for(i = 0; i < num_backgrand; i++)
 	{
 		if(backgrand[i].active)
@@ -876,11 +889,18 @@ void drow_game(void)
 		}
 	}
 
-	//rysowanie bos�w
+	//Rysowanie bosów
 	if(boss.active && player.game_progres == 30)
 		GFX_DrowBitMap_P(boss.x, boss.y, boss_map_1,10,18,1);
 	if(boss.active && player.game_progres == 60)
 		GFX_DrowBitMap_P(boss.x, boss.y, boss_map_2, 10, 18, 1);
+
+	//Rysowanie bonusów
+	for(i = 0; i < num_bonus; i++)
+	{
+		if(bonuses[i].active)
+			GFX_DrowBitMap_P(bonuses[i].x, bonuses[i].y, bonus_live_map, 7, 6, 1);
+	}
 
 }
 
@@ -896,6 +916,7 @@ void run_game (void)
 	update_lvl();
 	update_scene();
 	update_backgrand();
+	update_bonus();
 
 }
 
@@ -925,13 +946,13 @@ void run_menu (void)
 void start_game(void)
 {
 	/*
-	 * Funkcja wywo�ywana tylko raz na poczatku gry.
-	 * Ma ona za zadanie ustawienie dopowiednich parametr�w
+	 * Funkcja wywoływana tylko raz na poczatku gry.
+	 * Ma ona za zadanie ustawienie dopowiednich parametrów
 	 * startowych dla gracza jak i ustawnie pierwszego bosa.
-	 * Co wi�cej "resetuje" ona tablice pocisk�w i przeciwnik�w
+	 * Co więcej "resetuje" ona tablice pocisków, przeciwników i bonosów
 	 */
 	uint8_t i;
-	//ustawiniania pocz�tkowe gracza
+	//Ustawiniania początkowe gracza
 	player.lives = initial_lives;
 	player.score = initial_score;
 	player.x = initial_x;
@@ -939,19 +960,23 @@ void start_game(void)
 	player.level = initial_level;
 	player.game_progres = initial_game_progres;
 
-	//aktywacja pocisk�w gracza(dezaktywacja, zerownaie)
+	//Dezaktywacja pocisków gracza
 	for (i = 0; i < num_shots; ++i)
 		shots[i].active = false;
 
-	//aktywacja pocisk�w bosa
+	//Dezaktywacja pocisków bosa
 	for (i = 0; i < num_boss_shots; ++i)
 		boss_shots[i].active = false;
 
-	//aktywacja pzreciwnik�w
+	//Dezaktywacja przeciwników
 	for (i = 0; i < num_enemies; i++)
 		enemies[i].active = false;
 
-	//aktwyacja boss�w
+	//Dezaktywacja bonusów
+	for (i = 0; i < num_bonus; i++)
+		bonuses[i].active = false;
+
+	//Dezaktywacja bossa
 	boss.active = false;
 	boss.lives = 6;
 	boss.level = 1;
@@ -1001,6 +1026,76 @@ void add_enemy(void)
 				enemies[i].bit_map = bobber_map;
 			}
 			break;
+		}
+	}
+}
+
+void add_bonus(int x, int y)
+{
+	/*
+	 * Dodanie bonusa w mijscu po zestrzelonym przeciwniku.
+	 * Sprawdzenie czy jest to możliwe.
+	 */
+
+	uint8_t i;
+
+	for (i = 0; i < num_bonus; i++)
+	{
+		if (!bonuses[i].active)
+		{
+			bonuses[i].active = true;
+			bonuses[i].x = x;
+			bonuses[i].y = y;
+			bonuses[i].type = bt_live;
+			bonuses[i].bit_map = bonus_live_map;
+			bonuses[i].update_delay = 3;
+			return;
+		}
+	}
+}
+
+void update_bonus(void)
+{
+	/*
+	 * Sprawdzanie czy gracz najechał na bonus.
+	 * Przesuwanie bonusa na mapie
+	 * */
+	int i = 0;
+
+	for (i = 0; i < num_bonus; i++)
+	{
+		if(bonuses[i].active)
+		{
+			bonuses[i].next_update -= 1;
+			if(bonuses[i].next_update <= 0)
+			{
+				if(bonuses[i].active)
+				{
+					bonuses[i].next_update = bonuses[i].update_delay;
+
+					//Sprawdzanie kolizji z graczem
+					if (colliding(bonuses[i].x,bonuses[i].y, player.x, player.y) 	||
+						colliding(bonuses[i].x,bonuses[i].y, player.x, player.y+5) 	||
+						colliding(bonuses[i].x,bonuses[i].y, player.x+7, player.y)	||
+						colliding(bonuses[i].x,bonuses[i].y, player.x+7, player.y+5)
+						)
+					{
+						switch(bonuses[i].type)
+						{
+						case bt_live:
+							player.lives += 1;
+							bonuses[i].active = false;
+							break;
+						}
+
+					}
+
+					bonuses[i].x -= 1;
+					if(bonuses[i].x <= -2){
+						bonuses[i].active = false;
+					}
+				}
+			}
 		}
 	}
 }

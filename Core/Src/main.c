@@ -19,7 +19,6 @@
 /*
  * ToDo:
  * - Wprowadzenie #define jako cześtotliwości dodawania tła
- * - Dodanie innych bonusów i ich losowanie w add_bonus()
  *
  */
 
@@ -426,7 +425,7 @@ void update_backgrand(void)
 		}
 	}
 
-	if ((rand()%100) < 20) 		//Częstotliwość dodawania tła
+	if ((rand()%100) < num_backgrand_freq) 		//Częstotliwość dodawania tła
 		add_backgrand();
 
 }
@@ -457,7 +456,7 @@ void update_lvl(void)
 	if(player.game_progres == 29)
 	{
 		boss.active = true;
-		boss.lives = 1;
+		boss.lives = 3;
 		boss.update_delay = 4;
 		player.game_progres += 1;
 
@@ -465,7 +464,7 @@ void update_lvl(void)
 	if(player.game_progres == 59)
 	{
 		boss.active = true;
-		boss.lives = 1;
+		boss.lives = 6;
 		boss.update_delay = 2;
 		player.game_progres += 1;
 	}
@@ -620,7 +619,6 @@ void shoot(void)
 					enemies[closest_enemy_number].tracked_by_missile = true;
 					shoots[i].type = st_tracker;
 					shoots[i].truck_number = random_tracking_number;
-					debug_value = random_tracking_number;
 				} else {
 					// Jeśli nie znalazłeś żadnego celu zachowój się jak normlany strzał
 					shoots[i].type = st_normal;
@@ -1008,7 +1006,17 @@ void drow_game(void)
 	for(i = 0; i < num_bonus; i++)
 	{
 		if(bonuses[i].active)
-			GFX_DrowBitMap_P(bonuses[i].x, bonuses[i].y, bonus_live_map, 7, 6, 1);
+		{
+			switch(bonuses[i].type)
+			{
+			case bt_live:
+				GFX_DrowBitMap_P(bonuses[i].x, bonuses[i].y, bonus_live_map, 7, 7, 1);
+				break;
+			case bt_tracker_shoot:
+				GFX_DrowBitMap_P(bonuses[i].x, bonuses[i].y, bonus_tracker_shoot_map, 7, 7, 1);
+				break;
+			}
+		}
 	}
 
 	// DEBUG VALUE
@@ -1071,7 +1079,7 @@ void start_game(void)
 	player.y = initial_y;
 	player.level = initial_level;
 	player.game_progres = initial_game_progres;
-	player.shoot_type = st_tracker;
+	player.shoot_type = st_normal;
 
 	//Dezaktywacja pocisków gracza
 	for (i = 0; i < num_shots; ++i)
@@ -1157,6 +1165,7 @@ void add_bonus(int x, int y)
 	 */
 
 	uint8_t i;
+	int bonus_type;
 
 	for (i = 0; i < num_bonus; i++)
 	{
@@ -1165,9 +1174,20 @@ void add_bonus(int x, int y)
 			bonuses[i].active = true;
 			bonuses[i].x = x;
 			bonuses[i].y = y;
-			bonuses[i].type = bt_live;
-			bonuses[i].bit_map = bonus_live_map;
 			bonuses[i].update_delay = 3;
+
+			bonus_type = rand()%100;
+
+			if(bonus_type > 30)
+			{
+				bonuses[i].bit_map = bonus_live_map;
+				bonuses[i].type = st_normal;
+			}
+			if(bonus_type < 30)
+			{
+				bonuses[i].bit_map = bonus_tracker_shoot_map;
+				bonuses[i].type = st_tracker;
+			}
 			return;
 		}
 	}
@@ -1181,6 +1201,16 @@ void update_bonus(void)
 	 * */
 	int i = 0;
 
+	//Sprawdzenie czasu trwania st_tracekr jeśli jest aktywny
+
+	if(player.bonus_duration > 0)
+		player.bonus_duration -= 1;
+	if(player.bonus_duration == 0 && player.shoot_type == st_tracker)
+		player.shoot_type = st_normal;
+
+	debug_value = player.bonus_duration;
+
+	// Sprawdzanie czy gracz najechał na bonus
 	for (i = 0; i < num_bonus; i++)
 	{
 		if(bonuses[i].active)
@@ -1203,6 +1233,11 @@ void update_bonus(void)
 						{
 						case bt_live:
 							player.lives += 1;
+							bonuses[i].active = false;
+							break;
+						case bt_tracker_shoot:
+							player.shoot_type = st_tracker;
+							player.bonus_duration = duration_bonus + (player.level * 50);
 							bonuses[i].active = false;
 							break;
 						}

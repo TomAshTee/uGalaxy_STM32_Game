@@ -17,13 +17,15 @@
  * 								Stałe
  */
 
-#define num_shots  		35			//Maksymalna ilość strzałów def.8
-#define num_boss_shots 	5			//Ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
-#define num_enemies  	10			//Maksymalna ilość przeciwników
-#define num_backgrand	200			//Max. obiektów w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
-#define num_bonus		5			//Max. ilość bonusów na mapie
+#define num_shots  			35		//Maksymalna ilość strzałów def.8
+#define num_boss_shots 		5		//Ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
+#define num_enemies  		10		//Maksymalna ilość przeciwników
+#define num_backgrand		250		//Max. obiektów w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
+#define num_backgrand_freq 	12		//Częstotliwość dodwawnia tła (0-100) def.20
+#define num_bonus			3		//Max. ilość bonusów na mapie
 
 #define frequ_bonus		10			// Częstotliowść pojawiania się bonusów (1-99)
+#define duration_bonus	150			// Czas trwania bonusu
 
 #define initial_lives 	10			//Początkowa ilość żyć
 #define initial_score 	0			//Początkowy wynik gry
@@ -65,6 +67,7 @@ typedef enum			//Stany gry
 typedef enum 			//Rodzaj bonusa
 {
 	bt_live,
+	bt_tracker_shoot,
 }bonus_type;
 
 typedef enum
@@ -91,6 +94,7 @@ typedef struct				//Gracz i jego parametry
 	int level;
 	int game_progres;
 	shoot_type shoot_type;
+	int bonus_duration;
 } T_player;
 
 typedef struct				//Strzały gracza, strzały bosów

@@ -18,7 +18,9 @@
 
 /*
  * ToDo:
- * - Wprowadzenie #define jako cześtotliwości dodawania tła
+ * - Dodanie może wprowadzenia fabularnego ?
+ * - Dodanie przrywników fabularnych ?
+ * - Poprawa czasów trwania poziomów ?
  *
  */
 
@@ -568,8 +570,6 @@ void shoot(void)
 	bool is_any_enemies_active;
 
 	int closest_enemy_number;
-	int temp_x;
-	int temp_y;
 	double temp_distance;
 	double smolest_distance = 500;
 	int random_tracking_number;
@@ -599,8 +599,6 @@ void shoot(void)
 					if(enemies[j].active && !enemies[j].tracked_by_missile)
 					{
 						is_any_enemies_active = true;
-						temp_x = enemies[j].x;
-						temp_y = enemies[j].y;
 
 						temp_distance = sqrt(pow(enemies[j].x - player.x, 2) + pow(enemies[j].y - player.y, 2));
 
@@ -609,7 +607,6 @@ void shoot(void)
 							smolest_distance = temp_distance;
 							closest_enemy_number = j;
 						}
-						break;
 					}
 				}
 				if(is_any_enemies_active)
@@ -658,7 +655,7 @@ bool colliding(int x0, int y0, int x1, int y1)
 	 */
 	int dx = abs(x0 - x1);
 	int dy = abs(y0 - y1);
-	return dx < 5 && dy < 8; // orginlanie  dx < 4 && dy < 6
+	return dx < 6 && dy < 9; // orginlanie  dx < 4 && dy < 6 (testowane 5 i 8)
 }
 
 void update_scene(void)
@@ -718,6 +715,7 @@ void update_scene(void)
 				shoot_updated = false;
 			}
 
+			//Usuń strzały poza mapą
 			if(shoots[i].x > 128)
 			{
 				shoots[i].active = false;
@@ -726,6 +724,22 @@ void update_scene(void)
 			break;
 		}
 
+	}
+
+	//Usuń zanczniki na wrogach których strzały zostały wykorzystane na inncyh
+	bool is_there_a_missile;
+	for(i = 0; i < num_enemies; i++)
+	{
+		is_there_a_missile = false;
+
+		for(j = 0; j < num_shots; j++)
+		{
+			if(enemies[i].truck_number == shoots[j].truck_number)
+				is_there_a_missile = true;
+		}
+
+		if(!is_there_a_missile)
+			enemies[i].truck_number = 0;
 	}
 
 	// Aktualizacja przeciwników
@@ -947,7 +961,7 @@ void drow_game(void)
 	//Rsownanie informacji o grze
 	GFX_PutInt(5,0,player.score,1,1,0);
 	GFX_DrowBitMap_P(102,0,lives_map,8,6,1);
-	GFX_PutInt(122,0,player.lives,1,1,0);
+	GFX_PutInt(114,0,player.lives,1,1,0);
 	GFX_DrowBitMap_P(50,0,Level_map,20,7,1);
 	GFX_PutInt(80,0,player.level,1,1,0);
 
@@ -1020,7 +1034,7 @@ void drow_game(void)
 	}
 
 	// DEBUG VALUE
-	GFX_PutInt(0, 100, debug_value, 1, 1, 0);
+	//GFX_PutInt(0, 100, debug_value, 1, 1, 0);
 
 }
 
@@ -1207,8 +1221,6 @@ void update_bonus(void)
 		player.bonus_duration -= 1;
 	if(player.bonus_duration == 0 && player.shoot_type == st_tracker)
 		player.shoot_type = st_normal;
-
-	debug_value = player.bonus_duration;
 
 	// Sprawdzanie czy gracz najechał na bonus
 	for (i = 0; i < num_bonus; i++)

@@ -24,7 +24,7 @@
 #define num_backgrand_freq 	12		//Częstotliwość dodwawnia tła (0-100) def.20
 #define num_bonus			3		//Max. ilość bonusów na mapie
 
-#define frequ_bonus		10			// Częstotliowść pojawiania się bonusów (1-99)
+#define frequ_bonus		15			// Częstotliowść pojawiania się bonusów (1-99)
 #define duration_bonus	150			// Czas trwania bonusu
 
 #define initial_lives 	10			//Początkowa ilość żyć

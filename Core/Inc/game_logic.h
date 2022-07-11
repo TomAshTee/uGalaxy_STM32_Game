@@ -20,8 +20,8 @@
 #define num_shots  			35		//Maksymalna ilość strzałów def.8
 #define num_boss_shots 		5		//Ilość strzaów bosa !!!! NIE WIADOMO CZEMU GRA SIE KRZACZY PRZY INNEJ ILOSCI !!! def.5
 #define num_enemies  		10		//Maksymalna ilość przeciwników
-#define num_backgrand		250		//Max. obiektów w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
-#define num_backgrand_freq 	12		//Częstotliwość dodwawnia tła (0-100) def.20
+#define num_background		250		//Max. obiektów w tle( gwiazd) (du�a konsumpacja pamieci RAM) def.40
+#define num_background_freq 	12		//Częstotliwość dodwawnia tła (0-100) def.20
 #define num_bonus			3		//Max. ilość bonusów na mapie
 
 #define frequ_bonus		15			// Częstotliowść pojawiania się bonusów (1-99)
@@ -74,7 +74,7 @@ typedef enum
 {
 	st_normal,
 	st_tracker,
-}shoot_type;
+}shot_type;
 
 /*
  * ----------------------------------------------------------------------
@@ -93,7 +93,7 @@ typedef struct				//Gracz i jego parametry
 	int lives;
 	int level;
 	int game_progres;
-	shoot_type shoot_type;
+	shot_type shoot_type;
 	int bonus_duration;
 } T_player;
 
@@ -101,7 +101,7 @@ typedef struct				//Strzały gracza, strzały bosów
 {
 	bool active;
 	int x, y;
-	shoot_type type;
+	shot_type type;
 	int truck_number;
 }T_shot;
 
@@ -164,7 +164,7 @@ void run_menu (void);							//Obsługa menu
 void run_game (void);							//Główny szkielet sekwencji gry
 void drow_game(void);							//"Rysowanie" gry
 void update_scene(void);						//Obsługa wydarzeń w grze "główny rdzeń gry"
-void shoot(void);								//Dodanie strzału gracza
+void shot(void);								//Dodanie strzału gracza
 void boss_shoot(void);							//Dodanie strzału bosa
 void play_dead_anim(void);						//Wyswietlenie animacji po śmierci - budowanie klimatu
 void run_dead(void);							//Obsługa końca gry

@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0002007c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000f18a  00000000  00000000  000200ac  2**0
+ 12 .debug_info   0000f166  00000000  00000000  000200ac  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 0000267b  00000000  00000000  0002f236  2**0
+ 13 .debug_abbrev 0000267b  00000000  00000000  0002f212  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000ec0  00000000  00000000  000318b8  2**3
+ 14 .debug_aranges 00000ec0  00000000  00000000  00031890  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000da0  00000000  00000000  00032778  2**3
+ 15 .debug_ranges 00000da0  00000000  00000000  00032750  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00022bdd  00000000  00000000  00033518  2**0
+ 16 .debug_macro  00022bdd  00000000  00000000  000334f0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000ff33  00000000  00000000  000560f5  2**0
+ 17 .debug_line   0000ff2d  00000000  00000000  000560cd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d1c4f  00000000  00000000  00066028  2**0
+ 18 .debug_str    000d1c4f  00000000  00000000  00065ffa  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  00137c77  2**0
+ 19 .comment      00000050  00000000  00000000  00137c49  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000049e0  00000000  00000000  00137cc8  2**2
+ 20 .debug_frame  000049e0  00000000  00000000  00137c9c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2677,17 +2677,17 @@ void add_backgrand(void)
  8001630:	b580      	push	{r7, lr}
  8001632:	b082      	sub	sp, #8
  8001634:	af00      	add	r7, sp, #0
-	 * Dodatkowo ustawia losowe parametry odswiezania jej oraz
-	 * losowe położenie na osi Y.
+	 * In addition, it sets the random parameters for its
+	 * refreshment and a random position on the Y axis.
 	 */
 	uint8_t i;
 
-	for(i = 0; i < num_backgrand; i++)
+	for(i = 0; i < num_background; i++)
  8001636:	2300      	movs	r3, #0
  8001638:	71fb      	strb	r3, [r7, #7]
  800163a:	e052      	b.n	80016e2 <add_backgrand+0xb2>
 	{
-		if(!backgrand[i].active)
+		if(!background[i].active)
  800163c:	79fa      	ldrb	r2, [r7, #7]
  800163e:	492d      	ldr	r1, [pc, #180]	; (80016f4 <add_backgrand+0xc4>)
  8001640:	4613      	mov	r3, r2
@@ -2701,7 +2701,7 @@ void add_backgrand(void)
  8001652:	2b00      	cmp	r3, #0
  8001654:	d042      	beq.n	80016dc <add_backgrand+0xac>
 		{
-			backgrand[i].active = true;
+			background[i].active = true;
  8001656:	79fa      	ldrb	r2, [r7, #7]
  8001658:	4926      	ldr	r1, [pc, #152]	; (80016f4 <add_backgrand+0xc4>)
  800165a:	4613      	mov	r3, r2
@@ -2711,7 +2711,7 @@ void add_backgrand(void)
  8001662:	440b      	add	r3, r1
  8001664:	2201      	movs	r2, #1
  8001666:	701a      	strb	r2, [r3, #0]
-			backgrand[i].x 		= 128;
+			background[i].x 		= 128;
  8001668:	79fa      	ldrb	r2, [r7, #7]
  800166a:	4922      	ldr	r1, [pc, #136]	; (80016f4 <add_backgrand+0xc4>)
  800166c:	4613      	mov	r3, r2
@@ -2722,7 +2722,7 @@ void add_backgrand(void)
  8001676:	3304      	adds	r3, #4
  8001678:	2280      	movs	r2, #128	; 0x80
  800167a:	601a      	str	r2, [r3, #0]
-			backgrand[i].y		= (rand()%(screen_height-10)) +10;
+			background[i].y		= (rand()%(screen_height-10)) +10;
  800167c:	f005 fd9a 	bl	80071b4 <rand>
  8001680:	4602      	mov	r2, r0
  8001682:	4b1d      	ldr	r3, [pc, #116]	; (80016f8 <add_backgrand+0xc8>)
@@ -2743,7 +2743,7 @@ void add_backgrand(void)
  80016a6:	4403      	add	r3, r0
  80016a8:	3308      	adds	r3, #8
  80016aa:	6019      	str	r1, [r3, #0]
-			backgrand[i].update_delay = (rand()%6)+2; // def. (rand()%4)+2;
+			background[i].update_delay = (rand()%6)+2; // def. (rand()%4)+2;
  80016ac:	f005 fd82 	bl	80071b4 <rand>
  80016b0:	4601      	mov	r1, r0
  80016b2:	4b12      	ldr	r3, [pc, #72]	; (80016fc <add_backgrand+0xcc>)
@@ -2768,7 +2768,7 @@ void add_backgrand(void)
 
 			break;
  80016da:	e006      	b.n	80016ea <add_backgrand+0xba>
-	for(i = 0; i < num_backgrand; i++)
+	for(i = 0; i < num_background; i++)
  80016dc:	79fb      	ldrb	r3, [r7, #7]
  80016de:	3301      	adds	r3, #1
  80016e0:	71fb      	strb	r3, [r7, #7]
@@ -2795,17 +2795,17 @@ void update_backgrand(void)
  8001700:	b580      	push	{r7, lr}
  8001702:	b082      	sub	sp, #8
  8001704:	af00      	add	r7, sp, #0
-	 * Przesuwa elementy , oraz losuje kiedy ma
-	 * zostać dodany nowy element.
+	 * Refreshes the background effect, stars.
+	 * Moves elements and randomises when a new element have to be added.
 	 */
 	uint8_t i;
 
-	for(i = 0; i < num_backgrand; i++)
+	for(i = 0; i < num_background; i++)
  8001706:	2300      	movs	r3, #0
  8001708:	71fb      	strb	r3, [r7, #7]
  800170a:	e06e      	b.n	80017ea <update_backgrand+0xea>
 	{
-		if(backgrand[i].active)
+		if(background[i].active)
  800170c:	79fa      	ldrb	r2, [r7, #7]
  800170e:	4943      	ldr	r1, [pc, #268]	; (800181c <update_backgrand+0x11c>)
  8001710:	4613      	mov	r3, r2
@@ -2817,7 +2817,7 @@ void update_backgrand(void)
  800171c:	2b00      	cmp	r3, #0
  800171e:	d061      	beq.n	80017e4 <update_backgrand+0xe4>
 		{
-			backgrand[i].next_update -= 1;
+			background[i].next_update -= 1;
  8001720:	79fa      	ldrb	r2, [r7, #7]
  8001722:	493e      	ldr	r1, [pc, #248]	; (800181c <update_backgrand+0x11c>)
  8001724:	4613      	mov	r3, r2
@@ -2837,7 +2837,7 @@ void update_backgrand(void)
  8001740:	4403      	add	r3, r0
  8001742:	330c      	adds	r3, #12
  8001744:	6019      	str	r1, [r3, #0]
-			if(backgrand[i].next_update <= 0)
+			if(background[i].next_update <= 0)
  8001746:	79fa      	ldrb	r2, [r7, #7]
  8001748:	4934      	ldr	r1, [pc, #208]	; (800181c <update_backgrand+0x11c>)
  800174a:	4613      	mov	r3, r2
@@ -2850,7 +2850,7 @@ void update_backgrand(void)
  8001758:	2b00      	cmp	r3, #0
  800175a:	dc43      	bgt.n	80017e4 <update_backgrand+0xe4>
 			{
-				backgrand[i].next_update = backgrand[i].update_delay;
+				background[i].next_update = background[i].update_delay;
  800175c:	79f9      	ldrb	r1, [r7, #7]
  800175e:	79fa      	ldrb	r2, [r7, #7]
  8001760:	482e      	ldr	r0, [pc, #184]	; (800181c <update_backgrand+0x11c>)
@@ -2869,7 +2869,7 @@ void update_backgrand(void)
  800177a:	4403      	add	r3, r0
  800177c:	330c      	adds	r3, #12
  800177e:	6019      	str	r1, [r3, #0]
-				if(backgrand[i].active)
+				if(background[i].active)
  8001780:	79fa      	ldrb	r2, [r7, #7]
  8001782:	4926      	ldr	r1, [pc, #152]	; (800181c <update_backgrand+0x11c>)
  8001784:	4613      	mov	r3, r2
@@ -2881,7 +2881,7 @@ void update_backgrand(void)
  8001790:	2b00      	cmp	r3, #0
  8001792:	d027      	beq.n	80017e4 <update_backgrand+0xe4>
 				{
-					backgrand[i].x -= 1;
+					background[i].x -= 1;
  8001794:	79fa      	ldrb	r2, [r7, #7]
  8001796:	4921      	ldr	r1, [pc, #132]	; (800181c <update_backgrand+0x11c>)
  8001798:	4613      	mov	r3, r2
@@ -2902,7 +2902,7 @@ void update_backgrand(void)
  80017b6:	3304      	adds	r3, #4
  80017b8:	6019      	str	r1, [r3, #0]
 
-					if(backgrand[i].x <= -2)
+					if(background[i].x <= -2)
  80017ba:	79fa      	ldrb	r2, [r7, #7]
  80017bc:	4917      	ldr	r1, [pc, #92]	; (800181c <update_backgrand+0x11c>)
  80017be:	4613      	mov	r3, r2
@@ -2914,7 +2914,7 @@ void update_backgrand(void)
  80017ca:	681b      	ldr	r3, [r3, #0]
  80017cc:	f1b3 3fff 	cmp.w	r3, #4294967295
  80017d0:	da08      	bge.n	80017e4 <update_backgrand+0xe4>
-						backgrand[i].active = false;
+						background[i].active = false;
  80017d2:	79fa      	ldrb	r2, [r7, #7]
  80017d4:	4911      	ldr	r1, [pc, #68]	; (800181c <update_backgrand+0x11c>)
  80017d6:	4613      	mov	r3, r2
@@ -2924,7 +2924,7 @@ void update_backgrand(void)
  80017de:	440b      	add	r3, r1
  80017e0:	2200      	movs	r2, #0
  80017e2:	701a      	strb	r2, [r3, #0]
-	for(i = 0; i < num_backgrand; i++)
+	for(i = 0; i < num_background; i++)
  80017e4:	79fb      	ldrb	r3, [r7, #7]
  80017e6:	3301      	adds	r3, #1
  80017e8:	71fb      	strb	r3, [r7, #7]
@@ -2936,7 +2936,7 @@ void update_backgrand(void)
 		}
 	}
 
-	if ((rand()%100) < num_backgrand_freq) 		//Częstotliwość dodawania tła
+	if ((rand()%100) < num_background_freq) 		//Frequency of background additions
  80017f0:	f005 fce0 	bl	80071b4 <rand>
  80017f4:	4602      	mov	r2, r0
  80017f6:	4b0a      	ldr	r3, [pc, #40]	; (8001820 <update_backgrand+0x120>)
@@ -2967,12 +2967,12 @@ void update_lvl(void)
 {
  8001824:	b480      	push	{r7}
  8001826:	af00      	add	r7, sp, #0
-	 * do jej postepu.
+	 * their initial parameters and adjusts the level of play to its progress.
 	 */
 	static uint8_t i = 0;
 
-	//Obliczanie postepu gry
-	if(i > 70) //poprawne dzia�anie 128 (cały ekran)
+	//Calculation of game progress
+	if(i > 70)
  8001828:	4b55      	ldr	r3, [pc, #340]	; (8001980 <update_lvl+0x15c>)
  800182a:	781b      	ldrb	r3, [r3, #0]
  800182c:	2b46      	cmp	r3, #70	; 0x46
@@ -2990,7 +2990,7 @@ void update_lvl(void)
  800183e:	701a      	strb	r2, [r3, #0]
 	}
 
-	//Jesli boss nie aktywny naliczaj postep
+	//If the boss is not active count the progress
 	if(!boss.active) i++;
  8001840:	4b51      	ldr	r3, [pc, #324]	; (8001988 <update_lvl+0x164>)
  8001842:	781b      	ldrb	r3, [r3, #0]
@@ -3005,10 +3005,7 @@ void update_lvl(void)
  8001856:	4b4a      	ldr	r3, [pc, #296]	; (8001980 <update_lvl+0x15c>)
  8001858:	701a      	strb	r2, [r3, #0]
 
-	//---- Momenty pojawienia sie bosa -----
-	//Oraz jego parametry
-	//boss.update_delay = x; powienien on posiadac pażystą liczbę ponieważ
-	//w innym wypadku z niewiadomych przyczyn wysupje sie jego animacja.
+	//---- Moments of boss appearance -----
 	if(player.game_progres == 29)
  800185a:	4b4a      	ldr	r3, [pc, #296]	; (8001984 <update_lvl+0x160>)
  800185c:	699b      	ldr	r3, [r3, #24]
@@ -3062,7 +3059,7 @@ void update_lvl(void)
 	}
 	//--------------------------------------
 
-	//Kolejne levele
+	//Next levels
 	if(player.game_progres > 9 && player.game_progres < 10 )
  80018a2:	4b38      	ldr	r3, [pc, #224]	; (8001984 <update_lvl+0x160>)
  80018a4:	699b      	ldr	r3, [r3, #24]
@@ -3206,10 +3203,10 @@ void run_dead(void)
  800198c:	b580      	push	{r7, lr}
  800198e:	b082      	sub	sp, #8
  8001990:	af02      	add	r7, sp, #8
-		eeprom_write_byte(eeprom_magic_addr_1, eeprom_magic_number_1);
-	}
-	*/
-	//Pokazanie wyniku i najwyższego wyniku
+	 */
+
+	static int x = 0, dx = 1;
+
 
 	x += dx;
  8001992:	4b22      	ldr	r3, [pc, #136]	; (8001a1c <run_dead+0x90>)
@@ -3267,8 +3264,6 @@ void run_dead(void)
  80019f6:	215b      	movs	r1, #91	; 0x5b
  80019f8:	2049      	movs	r0, #73	; 0x49
  80019fa:	f7ff fb63 	bl	80010c4 <GFX_PutInt>
-	//GFX_DrowBitMap_P(36,40,Best_map,27,10,1);
-	//GFX_PutInt(73,43,player.high_score,1,1,0);
 	ssd1327_display();
  80019fe:	f002 f83f 	bl	8003a80 <ssd1327_display>
 
@@ -3304,7 +3299,7 @@ void play_dead_anim(void)
  8001a36:	b084      	sub	sp, #16
  8001a38:	af02      	add	r7, sp, #8
 	/*
-	 * Animacja miedzy poczczegolnymi ekranami. Daje złudzenie starej gry.
+	 * Animation between separate screens. Gives the illusion of an old game.
 	 */
 	uint8_t i;
 
@@ -3347,9 +3342,9 @@ void play_dead_anim(void)
  8001a74:	bd80      	pop	{r7, pc}
 	...
 
-08001a78 <shoot>:
+08001a78 <shot>:
 
-void shoot(void)
+void shot(void)
 {
  8001a78:	b5b0      	push	{r4, r5, r7, lr}
  8001a7a:	b088      	sub	sp, #32
@@ -3361,18 +3356,18 @@ void shoot(void)
 	double temp_distance;
 	double smolest_distance = 500;
  8001a7e:	f04f 0200 	mov.w	r2, #0
- 8001a82:	4b81      	ldr	r3, [pc, #516]	; (8001c88 <shoot+0x210>)
+ 8001a82:	4b81      	ldr	r3, [pc, #516]	; (8001c88 <shot+0x210>)
  8001a84:	e9c7 2304 	strd	r2, r3, [r7, #16]
 	int random_tracking_number;
 
 	for (i = 0; i < num_shots; ++i)
  8001a88:	2300      	movs	r3, #0
  8001a8a:	77fb      	strb	r3, [r7, #31]
- 8001a8c:	e0f0      	b.n	8001c70 <shoot+0x1f8>
+ 8001a8c:	e0f0      	b.n	8001c70 <shot+0x1f8>
 	{
-		if (!shoots[i].active)
+		if (!shots[i].active)
  8001a8e:	7ffa      	ldrb	r2, [r7, #31]
- 8001a90:	497e      	ldr	r1, [pc, #504]	; (8001c8c <shoot+0x214>)
+ 8001a90:	497e      	ldr	r1, [pc, #504]	; (8001c8c <shot+0x214>)
  8001a92:	4613      	mov	r3, r2
  8001a94:	009b      	lsls	r3, r3, #2
  8001a96:	4413      	add	r3, r2
@@ -3382,11 +3377,11 @@ void shoot(void)
  8001a9e:	f083 0301 	eor.w	r3, r3, #1
  8001aa2:	b2db      	uxtb	r3, r3
  8001aa4:	2b00      	cmp	r3, #0
- 8001aa6:	f000 80e0 	beq.w	8001c6a <shoot+0x1f2>
+ 8001aa6:	f000 80e0 	beq.w	8001c6a <shot+0x1f2>
 		{
-			shoots[i].active = true;
+			shots[i].active = true;
  8001aaa:	7ffa      	ldrb	r2, [r7, #31]
- 8001aac:	4977      	ldr	r1, [pc, #476]	; (8001c8c <shoot+0x214>)
+ 8001aac:	4977      	ldr	r1, [pc, #476]	; (8001c8c <shot+0x214>)
  8001aae:	4613      	mov	r3, r2
  8001ab0:	009b      	lsls	r3, r3, #2
  8001ab2:	4413      	add	r3, r2
@@ -3394,9 +3389,9 @@ void shoot(void)
  8001ab6:	440b      	add	r3, r1
  8001ab8:	2201      	movs	r2, #1
  8001aba:	701a      	strb	r2, [r3, #0]
-			shoots[i].x = 11;
+			shots[i].x = 11;
  8001abc:	7ffa      	ldrb	r2, [r7, #31]
- 8001abe:	4973      	ldr	r1, [pc, #460]	; (8001c8c <shoot+0x214>)
+ 8001abe:	4973      	ldr	r1, [pc, #460]	; (8001c8c <shot+0x214>)
  8001ac0:	4613      	mov	r3, r2
  8001ac2:	009b      	lsls	r3, r3, #2
  8001ac4:	4413      	add	r3, r2
@@ -3405,12 +3400,12 @@ void shoot(void)
  8001aca:	3304      	adds	r3, #4
  8001acc:	220b      	movs	r2, #11
  8001ace:	601a      	str	r2, [r3, #0]
-			shoots[i].y = player.y + 5;
- 8001ad0:	4b6f      	ldr	r3, [pc, #444]	; (8001c90 <shoot+0x218>)
+			shots[i].y = player.y + 5;
+ 8001ad0:	4b6f      	ldr	r3, [pc, #444]	; (8001c90 <shot+0x218>)
  8001ad2:	685b      	ldr	r3, [r3, #4]
  8001ad4:	7ffa      	ldrb	r2, [r7, #31]
  8001ad6:	1d59      	adds	r1, r3, #5
- 8001ad8:	486c      	ldr	r0, [pc, #432]	; (8001c8c <shoot+0x214>)
+ 8001ad8:	486c      	ldr	r0, [pc, #432]	; (8001c8c <shot+0x214>)
  8001ada:	4613      	mov	r3, r2
  8001adc:	009b      	lsls	r3, r3, #2
  8001ade:	4413      	add	r3, r2
@@ -3419,24 +3414,24 @@ void shoot(void)
  8001ae4:	3308      	adds	r3, #8
  8001ae6:	6019      	str	r1, [r3, #0]
 
-			//Ustawienie rodzaju strzału
+			//Setting the type of shot
 			switch(player.shoot_type)
- 8001ae8:	4b69      	ldr	r3, [pc, #420]	; (8001c90 <shoot+0x218>)
+ 8001ae8:	4b69      	ldr	r3, [pc, #420]	; (8001c90 <shot+0x218>)
  8001aea:	7f1b      	ldrb	r3, [r3, #28]
  8001aec:	2b00      	cmp	r3, #0
- 8001aee:	d002      	beq.n	8001af6 <shoot+0x7e>
+ 8001aee:	d002      	beq.n	8001af6 <shot+0x7e>
  8001af0:	2b01      	cmp	r3, #1
- 8001af2:	d00b      	beq.n	8001b0c <shoot+0x94>
-					// Jeśli nie znalazłeś żadnego celu zachowój się jak normlany strzał
-					shoots[i].type = st_normal;
+ 8001af2:	d00b      	beq.n	8001b0c <shot+0x94>
+					// If you haven't found a target act like a normal shot
+					shots[i].type = st_normal;
 				}
 				break;
 			}
 			return;
- 8001af4:	e0c0      	b.n	8001c78 <shoot+0x200>
-				shoots[i].type = st_normal;
+ 8001af4:	e0c0      	b.n	8001c78 <shot+0x200>
+				shots[i].type = st_normal;
  8001af6:	7ffa      	ldrb	r2, [r7, #31]
- 8001af8:	4964      	ldr	r1, [pc, #400]	; (8001c8c <shoot+0x214>)
+ 8001af8:	4964      	ldr	r1, [pc, #400]	; (8001c8c <shot+0x214>)
  8001afa:	4613      	mov	r3, r2
  8001afc:	009b      	lsls	r3, r3, #2
  8001afe:	4413      	add	r3, r2
@@ -3446,13 +3441,13 @@ void shoot(void)
  8001b06:	2200      	movs	r2, #0
  8001b08:	701a      	strb	r2, [r3, #0]
 				break;
- 8001b0a:	e0ad      	b.n	8001c68 <shoot+0x1f0>
+ 8001b0a:	e0ad      	b.n	8001c68 <shot+0x1f0>
 				for(int j = 0; j < num_enemies; j++)
  8001b0c:	2300      	movs	r3, #0
  8001b0e:	60fb      	str	r3, [r7, #12]
- 8001b10:	e06d      	b.n	8001bee <shoot+0x176>
+ 8001b10:	e06d      	b.n	8001bee <shot+0x176>
 					if(enemies[j].active && !enemies[j].tracked_by_missile)
- 8001b12:	4960      	ldr	r1, [pc, #384]	; (8001c94 <shoot+0x21c>)
+ 8001b12:	4960      	ldr	r1, [pc, #384]	; (8001c94 <shot+0x21c>)
  8001b14:	68fa      	ldr	r2, [r7, #12]
  8001b16:	4613      	mov	r3, r2
  8001b18:	00db      	lsls	r3, r3, #3
@@ -3461,8 +3456,8 @@ void shoot(void)
  8001b1e:	440b      	add	r3, r1
  8001b20:	781b      	ldrb	r3, [r3, #0]
  8001b22:	2b00      	cmp	r3, #0
- 8001b24:	d060      	beq.n	8001be8 <shoot+0x170>
- 8001b26:	495b      	ldr	r1, [pc, #364]	; (8001c94 <shoot+0x21c>)
+ 8001b24:	d060      	beq.n	8001be8 <shot+0x170>
+ 8001b26:	495b      	ldr	r1, [pc, #364]	; (8001c94 <shot+0x21c>)
  8001b28:	68fa      	ldr	r2, [r7, #12]
  8001b2a:	4613      	mov	r3, r2
  8001b2c:	00db      	lsls	r3, r3, #3
@@ -3474,12 +3469,12 @@ void shoot(void)
  8001b38:	f083 0301 	eor.w	r3, r3, #1
  8001b3c:	b2db      	uxtb	r3, r3
  8001b3e:	2b00      	cmp	r3, #0
- 8001b40:	d052      	beq.n	8001be8 <shoot+0x170>
+ 8001b40:	d052      	beq.n	8001be8 <shot+0x170>
 						is_any_enemies_active = true;
  8001b42:	2301      	movs	r3, #1
  8001b44:	77bb      	strb	r3, [r7, #30]
 						temp_distance = sqrt(pow(enemies[j].x - player.x, 2) + pow(enemies[j].y - player.y, 2));
- 8001b46:	4953      	ldr	r1, [pc, #332]	; (8001c94 <shoot+0x21c>)
+ 8001b46:	4953      	ldr	r1, [pc, #332]	; (8001c94 <shot+0x21c>)
  8001b48:	68fa      	ldr	r2, [r7, #12]
  8001b4a:	4613      	mov	r3, r2
  8001b4c:	00db      	lsls	r3, r3, #3
@@ -3488,18 +3483,18 @@ void shoot(void)
  8001b52:	440b      	add	r3, r1
  8001b54:	3304      	adds	r3, #4
  8001b56:	681a      	ldr	r2, [r3, #0]
- 8001b58:	4b4d      	ldr	r3, [pc, #308]	; (8001c90 <shoot+0x218>)
+ 8001b58:	4b4d      	ldr	r3, [pc, #308]	; (8001c90 <shot+0x218>)
  8001b5a:	681b      	ldr	r3, [r3, #0]
  8001b5c:	1ad3      	subs	r3, r2, r3
  8001b5e:	4618      	mov	r0, r3
  8001b60:	f7fe fcd8 	bl	8000514 <__aeabi_i2d>
  8001b64:	4602      	mov	r2, r0
  8001b66:	460b      	mov	r3, r1
- 8001b68:	ed9f 1b45 	vldr	d1, [pc, #276]	; 8001c80 <shoot+0x208>
+ 8001b68:	ed9f 1b45 	vldr	d1, [pc, #276]	; 8001c80 <shot+0x208>
  8001b6c:	ec43 2b10 	vmov	d0, r2, r3
  8001b70:	f006 fb58 	bl	8008224 <pow>
  8001b74:	ec55 4b10 	vmov	r4, r5, d0
- 8001b78:	4946      	ldr	r1, [pc, #280]	; (8001c94 <shoot+0x21c>)
+ 8001b78:	4946      	ldr	r1, [pc, #280]	; (8001c94 <shot+0x21c>)
  8001b7a:	68fa      	ldr	r2, [r7, #12]
  8001b7c:	4613      	mov	r3, r2
  8001b7e:	00db      	lsls	r3, r3, #3
@@ -3508,14 +3503,14 @@ void shoot(void)
  8001b84:	440b      	add	r3, r1
  8001b86:	3308      	adds	r3, #8
  8001b88:	681a      	ldr	r2, [r3, #0]
- 8001b8a:	4b41      	ldr	r3, [pc, #260]	; (8001c90 <shoot+0x218>)
+ 8001b8a:	4b41      	ldr	r3, [pc, #260]	; (8001c90 <shot+0x218>)
  8001b8c:	685b      	ldr	r3, [r3, #4]
  8001b8e:	1ad3      	subs	r3, r2, r3
  8001b90:	4618      	mov	r0, r3
  8001b92:	f7fe fcbf 	bl	8000514 <__aeabi_i2d>
  8001b96:	4602      	mov	r2, r0
  8001b98:	460b      	mov	r3, r1
- 8001b9a:	ed9f 1b39 	vldr	d1, [pc, #228]	; 8001c80 <shoot+0x208>
+ 8001b9a:	ed9f 1b39 	vldr	d1, [pc, #228]	; 8001c80 <shot+0x208>
  8001b9e:	ec43 2b10 	vmov	d0, r2, r3
  8001ba2:	f006 fb3f 	bl	8008224 <pow>
  8001ba6:	ec53 2b10 	vmov	r2, r3, d0
@@ -3535,7 +3530,7 @@ void shoot(void)
  8001bd2:	f7fe ff7b 	bl	8000acc <__aeabi_dcmplt>
  8001bd6:	4603      	mov	r3, r0
  8001bd8:	2b00      	cmp	r3, #0
- 8001bda:	d005      	beq.n	8001be8 <shoot+0x170>
+ 8001bda:	d005      	beq.n	8001be8 <shot+0x170>
 							smolest_distance = temp_distance;
  8001bdc:	e9d7 2300 	ldrd	r2, r3, [r7]
  8001be0:	e9c7 2304 	strd	r2, r3, [r7, #16]
@@ -3548,16 +3543,16 @@ void shoot(void)
  8001bec:	60fb      	str	r3, [r7, #12]
  8001bee:	68fb      	ldr	r3, [r7, #12]
  8001bf0:	2b09      	cmp	r3, #9
- 8001bf2:	dd8e      	ble.n	8001b12 <shoot+0x9a>
+ 8001bf2:	dd8e      	ble.n	8001b12 <shot+0x9a>
 				if(is_any_enemies_active)
  8001bf4:	7fbb      	ldrb	r3, [r7, #30]
  8001bf6:	2b00      	cmp	r3, #0
- 8001bf8:	d02b      	beq.n	8001c52 <shoot+0x1da>
+ 8001bf8:	d02b      	beq.n	8001c52 <shot+0x1da>
 					random_tracking_number = rand();
  8001bfa:	f005 fadb 	bl	80071b4 <rand>
  8001bfe:	60b8      	str	r0, [r7, #8]
 					enemies[closest_enemy_number].truck_number = random_tracking_number;
- 8001c00:	4924      	ldr	r1, [pc, #144]	; (8001c94 <shoot+0x21c>)
+ 8001c00:	4924      	ldr	r1, [pc, #144]	; (8001c94 <shot+0x21c>)
  8001c02:	69ba      	ldr	r2, [r7, #24]
  8001c04:	4613      	mov	r3, r2
  8001c06:	00db      	lsls	r3, r3, #3
@@ -3568,7 +3563,7 @@ void shoot(void)
  8001c10:	68ba      	ldr	r2, [r7, #8]
  8001c12:	601a      	str	r2, [r3, #0]
 					enemies[closest_enemy_number].tracked_by_missile = true;
- 8001c14:	491f      	ldr	r1, [pc, #124]	; (8001c94 <shoot+0x21c>)
+ 8001c14:	491f      	ldr	r1, [pc, #124]	; (8001c94 <shot+0x21c>)
  8001c16:	69ba      	ldr	r2, [r7, #24]
  8001c18:	4613      	mov	r3, r2
  8001c1a:	00db      	lsls	r3, r3, #3
@@ -3578,9 +3573,9 @@ void shoot(void)
  8001c22:	331c      	adds	r3, #28
  8001c24:	2201      	movs	r2, #1
  8001c26:	701a      	strb	r2, [r3, #0]
-					shoots[i].type = st_tracker;
+					shots[i].type = st_tracker;
  8001c28:	7ffa      	ldrb	r2, [r7, #31]
- 8001c2a:	4918      	ldr	r1, [pc, #96]	; (8001c8c <shoot+0x214>)
+ 8001c2a:	4918      	ldr	r1, [pc, #96]	; (8001c8c <shot+0x214>)
  8001c2c:	4613      	mov	r3, r2
  8001c2e:	009b      	lsls	r3, r3, #2
  8001c30:	4413      	add	r3, r2
@@ -3589,9 +3584,9 @@ void shoot(void)
  8001c36:	330c      	adds	r3, #12
  8001c38:	2201      	movs	r2, #1
  8001c3a:	701a      	strb	r2, [r3, #0]
-					shoots[i].truck_number = random_tracking_number;
+					shots[i].truck_number = random_tracking_number;
  8001c3c:	7ffa      	ldrb	r2, [r7, #31]
- 8001c3e:	4913      	ldr	r1, [pc, #76]	; (8001c8c <shoot+0x214>)
+ 8001c3e:	4913      	ldr	r1, [pc, #76]	; (8001c8c <shot+0x214>)
  8001c40:	4613      	mov	r3, r2
  8001c42:	009b      	lsls	r3, r3, #2
  8001c44:	4413      	add	r3, r2
@@ -3601,10 +3596,10 @@ void shoot(void)
  8001c4c:	68ba      	ldr	r2, [r7, #8]
  8001c4e:	601a      	str	r2, [r3, #0]
 				break;
- 8001c50:	e009      	b.n	8001c66 <shoot+0x1ee>
-					shoots[i].type = st_normal;
+ 8001c50:	e009      	b.n	8001c66 <shot+0x1ee>
+					shots[i].type = st_normal;
  8001c52:	7ffa      	ldrb	r2, [r7, #31]
- 8001c54:	490d      	ldr	r1, [pc, #52]	; (8001c8c <shoot+0x214>)
+ 8001c54:	490d      	ldr	r1, [pc, #52]	; (8001c8c <shot+0x214>)
  8001c56:	4613      	mov	r3, r2
  8001c58:	009b      	lsls	r3, r3, #2
  8001c5a:	4413      	add	r3, r2
@@ -3616,14 +3611,14 @@ void shoot(void)
 				break;
  8001c66:	bf00      	nop
 			return;
- 8001c68:	e006      	b.n	8001c78 <shoot+0x200>
+ 8001c68:	e006      	b.n	8001c78 <shot+0x200>
 	for (i = 0; i < num_shots; ++i)
  8001c6a:	7ffb      	ldrb	r3, [r7, #31]
  8001c6c:	3301      	adds	r3, #1
  8001c6e:	77fb      	strb	r3, [r7, #31]
  8001c70:	7ffb      	ldrb	r3, [r7, #31]
  8001c72:	2b22      	cmp	r3, #34	; 0x22
- 8001c74:	f67f af0b 	bls.w	8001a8e <shoot+0x16>
+ 8001c74:	f67f af0b 	bls.w	8001a8e <shot+0x16>
 		}
 	}
 }
@@ -3645,8 +3640,8 @@ void boss_shoot(void)
  8001c98:	b480      	push	{r7}
  8001c9a:	b083      	sub	sp, #12
  8001c9c:	af00      	add	r7, sp, #0
-	 * To samo co shoot() tylko �e odpowiada za strza�y
-	 * boss�w.
+	/*
+	 * Handling boss shots.
 	 */
 	uint8_t i;
 
@@ -3736,8 +3731,7 @@ bool colliding(int x0, int y0, int x1, int y1)
  8001d2a:	607a      	str	r2, [r7, #4]
  8001d2c:	603b      	str	r3, [r7, #0]
 	/*
-	 * Sprawdzanie czy dane obiekty ze sob� koliduj�.
-	 * Tzw. hitbox.
+	 * Checking whether objects collide with each other.
 	 */
 	int dx = abs(x0 - x1);
  8001d2e:	68fa      	ldr	r2, [r7, #12]
@@ -3755,7 +3749,7 @@ bool colliding(int x0, int y0, int x1, int y1)
  8001d44:	bfb8      	it	lt
  8001d46:	425b      	neglt	r3, r3
  8001d48:	613b      	str	r3, [r7, #16]
-	return dx < 6 && dy < 9; // orginlanie  dx < 4 && dy < 6 (testowane 5 i 8)
+	return dx < 6 && dy < 9;
  8001d4a:	697b      	ldr	r3, [r7, #20]
  8001d4c:	2b05      	cmp	r3, #5
  8001d4e:	dc04      	bgt.n	8001d5a <colliding+0x3a>
@@ -3814,7 +3808,7 @@ void update_scene(void)
  8001da0:	4aac      	ldr	r2, [pc, #688]	; (8002054 <update_scene+0x2e4>)
  8001da2:	6053      	str	r3, [r2, #4]
 
-	// Trzymanie gracza w ramach ekranu
+	// Keeping the player within the screen
 	if (player.y < 10) player.y = 10;
  8001da4:	4bab      	ldr	r3, [pc, #684]	; (8002054 <update_scene+0x2e4>)
  8001da6:	685b      	ldr	r3, [r3, #4]
@@ -3832,8 +3826,7 @@ void update_scene(void)
  8001dbc:	2272      	movs	r2, #114	; 0x72
  8001dbe:	605a      	str	r2, [r3, #4]
 
-	// Przesunięcie strałów do przodu
-
+	// Shifting shots forward
 	bool shoot_updated = false;
  8001dc0:	2300      	movs	r3, #0
  8001dc2:	737b      	strb	r3, [r7, #13]
@@ -3843,7 +3836,7 @@ void update_scene(void)
  8001dc6:	73fb      	strb	r3, [r7, #15]
  8001dc8:	e14e      	b.n	8002068 <update_scene+0x2f8>
 	{
-		switch(shoots[i].type)
+		switch(shots[i].type)
  8001dca:	7bfa      	ldrb	r2, [r7, #15]
  8001dcc:	49a2      	ldr	r1, [pc, #648]	; (8002058 <update_scene+0x2e8>)
  8001dce:	4613      	mov	r3, r2
@@ -3860,7 +3853,7 @@ void update_scene(void)
  8001de4:	e13d      	b.n	8002062 <update_scene+0x2f2>
 		{
 		case st_normal:
-			if (shoots[i].active)
+			if (shots[i].active)
  8001de6:	7bfa      	ldrb	r2, [r7, #15]
  8001de8:	499b      	ldr	r1, [pc, #620]	; (8002058 <update_scene+0x2e8>)
  8001dea:	4613      	mov	r3, r2
@@ -3871,7 +3864,7 @@ void update_scene(void)
  8001df4:	781b      	ldrb	r3, [r3, #0]
  8001df6:	2b00      	cmp	r3, #0
  8001df8:	d011      	beq.n	8001e1e <update_scene+0xae>
-				shoots[i].x++;
+				shots[i].x++;
  8001dfa:	7bfa      	ldrb	r2, [r7, #15]
  8001dfc:	4996      	ldr	r1, [pc, #600]	; (8002058 <update_scene+0x2e8>)
  8001dfe:	4613      	mov	r3, r2
@@ -3890,7 +3883,7 @@ void update_scene(void)
  8001e18:	4403      	add	r3, r0
  8001e1a:	3304      	adds	r3, #4
  8001e1c:	6019      	str	r1, [r3, #0]
-			if (shoots[i].x > 128)
+			if (shots[i].x > 128)
  8001e1e:	7bfa      	ldrb	r2, [r7, #15]
  8001e20:	498d      	ldr	r1, [pc, #564]	; (8002058 <update_scene+0x2e8>)
  8001e22:	4613      	mov	r3, r2
@@ -3902,7 +3895,7 @@ void update_scene(void)
  8001e2e:	681b      	ldr	r3, [r3, #0]
  8001e30:	2b80      	cmp	r3, #128	; 0x80
  8001e32:	f340 810d 	ble.w	8002050 <update_scene+0x2e0>
-				shoots[i].active = false;
+				shots[i].active = false;
  8001e36:	7bfa      	ldrb	r2, [r7, #15]
  8001e38:	4987      	ldr	r1, [pc, #540]	; (8002058 <update_scene+0x2e8>)
  8001e3a:	4613      	mov	r3, r2
@@ -3921,7 +3914,7 @@ void update_scene(void)
  8001e4c:	60bb      	str	r3, [r7, #8]
  8001e4e:	e0b6      	b.n	8001fbe <update_scene+0x24e>
 			{
-				if (shoots[i].truck_number == enemies[j].truck_number)
+				if (shots[i].truck_number == enemies[j].truck_number)
  8001e50:	7bfa      	ldrb	r2, [r7, #15]
  8001e52:	4981      	ldr	r1, [pc, #516]	; (8002058 <update_scene+0x2e8>)
  8001e54:	4613      	mov	r3, r2
@@ -3943,8 +3936,7 @@ void update_scene(void)
  8001e74:	4299      	cmp	r1, r3
  8001e76:	f040 809f 	bne.w	8001fb8 <update_scene+0x248>
 				{
-					//shoots[i].x += 1;
-					if(shoots[i].x > enemies[j].x) shoots[i].x -= 2;
+					if(shots[i].x > enemies[j].x) shots[i].x -= 2;
  8001e7a:	7bfa      	ldrb	r2, [r7, #15]
  8001e7c:	4976      	ldr	r1, [pc, #472]	; (8002058 <update_scene+0x2e8>)
  8001e7e:	4613      	mov	r3, r2
@@ -3984,7 +3976,7 @@ void update_scene(void)
  8001ec2:	4403      	add	r3, r0
  8001ec4:	3304      	adds	r3, #4
  8001ec6:	6019      	str	r1, [r3, #0]
-					if(shoots[i].x < enemies[j].x) shoots[i].x += 2;
+					if(shots[i].x < enemies[j].x) shots[i].x += 2;
  8001ec8:	7bfa      	ldrb	r2, [r7, #15]
  8001eca:	4963      	ldr	r1, [pc, #396]	; (8002058 <update_scene+0x2e8>)
  8001ecc:	4613      	mov	r3, r2
@@ -4024,7 +4016,7 @@ void update_scene(void)
  8001f10:	4403      	add	r3, r0
  8001f12:	3304      	adds	r3, #4
  8001f14:	6019      	str	r1, [r3, #0]
-					if(shoots[i].y > enemies[j].y) shoots[i].y -= 2;
+					if(shots[i].y > enemies[j].y) shots[i].y -= 2;
  8001f16:	7bfa      	ldrb	r2, [r7, #15]
  8001f18:	494f      	ldr	r1, [pc, #316]	; (8002058 <update_scene+0x2e8>)
  8001f1a:	4613      	mov	r3, r2
@@ -4064,7 +4056,7 @@ void update_scene(void)
  8001f5e:	4403      	add	r3, r0
  8001f60:	3308      	adds	r3, #8
  8001f62:	6019      	str	r1, [r3, #0]
-					if(shoots[i].y < enemies[j].y) shoots[i].y += 2;
+					if(shots[i].y < enemies[j].y) shots[i].y += 2;
  8001f64:	7bfa      	ldrb	r2, [r7, #15]
  8001f66:	493c      	ldr	r1, [pc, #240]	; (8002058 <update_scene+0x2e8>)
  8001f68:	4613      	mov	r3, r2
@@ -4118,8 +4110,8 @@ void update_scene(void)
  8001fc2:	f77f af45 	ble.w	8001e50 <update_scene+0xe0>
 				}
 			}
-			//Usuń śledzące pociski które nie mają celu
-			if(!shoot_updated && shoots[i].type == st_tracker)
+			//Remove tracking missiles that have no target
+			if(!shoot_updated && shots[i].type == st_tracker)
  8001fc6:	7b7b      	ldrb	r3, [r7, #13]
  8001fc8:	f083 0301 	eor.w	r3, r3, #1
  8001fcc:	b2db      	uxtb	r3, r3
@@ -4137,7 +4129,7 @@ void update_scene(void)
  8001fe4:	2b01      	cmp	r3, #1
  8001fe6:	d114      	bne.n	8002012 <update_scene+0x2a2>
 			{
-				shoots[i].active = false;
+				shots[i].active = false;
  8001fe8:	7bfa      	ldrb	r2, [r7, #15]
  8001fea:	491b      	ldr	r1, [pc, #108]	; (8002058 <update_scene+0x2e8>)
  8001fec:	4613      	mov	r3, r2
@@ -4147,7 +4139,7 @@ void update_scene(void)
  8001ff4:	440b      	add	r3, r1
  8001ff6:	2200      	movs	r2, #0
  8001ff8:	701a      	strb	r2, [r3, #0]
-				shoots[i].truck_number = 0;
+				shots[i].truck_number = 0;
  8001ffa:	7bfa      	ldrb	r2, [r7, #15]
  8001ffc:	4916      	ldr	r1, [pc, #88]	; (8002058 <update_scene+0x2e8>)
  8001ffe:	4613      	mov	r3, r2
@@ -4163,8 +4155,8 @@ void update_scene(void)
  8002010:	737b      	strb	r3, [r7, #13]
 			}
 
-			//Usuń strzały poza mapą
-			if(shoots[i].x > 128)
+			//Remove off-map shots
+			if(shots[i].x > 128)
  8002012:	7bfa      	ldrb	r2, [r7, #15]
  8002014:	4910      	ldr	r1, [pc, #64]	; (8002058 <update_scene+0x2e8>)
  8002016:	4613      	mov	r3, r2
@@ -4177,7 +4169,7 @@ void update_scene(void)
  8002024:	2b80      	cmp	r3, #128	; 0x80
  8002026:	dd1b      	ble.n	8002060 <update_scene+0x2f0>
 			{
-				shoots[i].active = false;
+				shots[i].active = false;
  8002028:	7bfa      	ldrb	r2, [r7, #15]
  800202a:	490b      	ldr	r1, [pc, #44]	; (8002058 <update_scene+0x2e8>)
  800202c:	4613      	mov	r3, r2
@@ -4187,7 +4179,7 @@ void update_scene(void)
  8002034:	440b      	add	r3, r1
  8002036:	2200      	movs	r2, #0
  8002038:	701a      	strb	r2, [r3, #0]
-				shoots[i].truck_number = 0;
+				shots[i].truck_number = 0;
  800203a:	7bfa      	ldrb	r2, [r7, #15]
  800203c:	4906      	ldr	r1, [pc, #24]	; (8002058 <update_scene+0x2e8>)
  800203e:	4613      	mov	r3, r2
@@ -4216,10 +4208,10 @@ void update_scene(void)
  8002068:	7bfb      	ldrb	r3, [r7, #15]
  800206a:	2b22      	cmp	r3, #34	; 0x22
  800206c:	f67f aead 	bls.w	8001dca <update_scene+0x5a>
-	 *
-	 * */
 
-	//Usuń zanczniki na wrogach których strzały zostały wykorzystane na inncyh
+	}
+
+	//Remove the markers on enemies whose shots have been used on others
 	bool is_there_a_missile;
 	for(i = 0; i < num_enemies; i++)
  8002070:	2300      	movs	r3, #0
@@ -4235,7 +4227,7 @@ void update_scene(void)
  800207c:	73bb      	strb	r3, [r7, #14]
  800207e:	e018      	b.n	80020b2 <update_scene+0x342>
 		{
-			if(enemies[i].truck_number == shoots[j].truck_number)
+			if(enemies[i].truck_number == shots[j].truck_number)
  8002080:	7bfa      	ldrb	r2, [r7, #15]
  8002082:	491a      	ldr	r1, [pc, #104]	; (80020ec <update_scene+0x37c>)
  8002084:	4613      	mov	r3, r2
@@ -4294,7 +4286,7 @@ void update_scene(void)
  80020e2:	d9c8      	bls.n	8002076 <update_scene+0x306>
 	}
 
-	// Aktualizacja przeciwników
+	// Updated enemies
 	for (i = 0; i < num_enemies; ++i)
  80020e4:	2300      	movs	r3, #0
  80020e6:	73fb      	strb	r3, [r7, #15]
@@ -4382,7 +4374,7 @@ void update_scene(void)
  800217e:	3314      	adds	r3, #20
  8002180:	6019      	str	r1, [r3, #0]
 
-						//Sprawdzanie kolizji przeciwników z graczem
+						//Checking for collisions between opponents and the player
 						if (colliding(enemies[i].x,enemies[i].y, player.x, player.y) 	||
  8002182:	7bfa      	ldrb	r2, [r7, #15]
  8002184:	4992      	ldr	r1, [pc, #584]	; (80023d0 <update_scene+0x660>)
@@ -4609,7 +4601,7 @@ void update_scene(void)
 							}
 						}
 
-						// Przesunięcie w lewo i wykonanie specjalnych ruchów
+						// Moving to the left and making special moves
 						enemies[i].x -= 1;
  8002328:	7bfa      	ldrb	r2, [r7, #15]
  800232a:	4929      	ldr	r1, [pc, #164]	; (80023d0 <update_scene+0x660>)
@@ -4925,7 +4917,7 @@ void update_scene(void)
  8002580:	bf00      	nop
 						}
 
-						// Jeśli poza ekranem, dezaktywacja
+						// If off-screen, deactivation
 						if (enemies[i].x < -4)
  8002582:	7bfa      	ldrb	r2, [r7, #15]
  8002584:	4947      	ldr	r1, [pc, #284]	; (80026a4 <update_scene+0x934>)
@@ -4982,7 +4974,7 @@ void update_scene(void)
 		}
 	}
 
-	//------------- Obsługa Bossa ---------------
+	//------------- Boss service ---------------
 	if(boss.active)
  80025e2:	4b31      	ldr	r3, [pc, #196]	; (80026a8 <update_scene+0x938>)
  80025e4:	781b      	ldrb	r3, [r3, #0]
@@ -4996,7 +4988,7 @@ void update_scene(void)
  80025f2:	4a2d      	ldr	r2, [pc, #180]	; (80026a8 <update_scene+0x938>)
  80025f4:	60d3      	str	r3, [r2, #12]
 
-		//Pozycja bosa
+		//Boss position
 		if(boss.next_update <= 0)
  80025f6:	4b2c      	ldr	r3, [pc, #176]	; (80026a8 <update_scene+0x938>)
  80025f8:	68db      	ldr	r3, [r3, #12]
@@ -5074,7 +5066,7 @@ void update_scene(void)
  800266e:	605a      	str	r2, [r3, #4]
 		}
 
-		//Częstotliwość strzałów bosa
+		//Frequency of boss shots
 		if((rand()%100) < (boss.level * 2 ))
  8002670:	f004 fda0 	bl	80071b4 <rand>
  8002674:	4602      	mov	r2, r0
@@ -5395,7 +5387,7 @@ void update_scene(void)
 			}
 		}
 
-		// Strzały gracza do bosa
+		// Player's shots to the boss
 		for(i = 0; i < num_shots; i++)
  80028ce:	2300      	movs	r3, #0
  80028d0:	73fb      	strb	r3, [r7, #15]
@@ -5407,7 +5399,7 @@ void update_scene(void)
  80028e4:	080095d0 	.word	0x080095d0
  80028e8:	20001a0c 	.word	0x20001a0c
 		{
-			if(shoots[i].active)
+			if(shots[i].active)
  80028ec:	7bfa      	ldrb	r2, [r7, #15]
  80028ee:	4977      	ldr	r1, [pc, #476]	; (8002acc <update_scene+0xd5c>)
  80028f0:	4613      	mov	r3, r2
@@ -5419,7 +5411,7 @@ void update_scene(void)
  80028fc:	2b00      	cmp	r3, #0
  80028fe:	f000 8094 	beq.w	8002a2a <update_scene+0xcba>
 			{
-				if(colliding(boss.x, boss.y, shoots[i].x, shoots[i].y) ||
+				if(colliding(boss.x, boss.y, shots[i].x, shots[i].y) ||
  8002902:	4b73      	ldr	r3, [pc, #460]	; (8002ad0 <update_scene+0xd60>)
  8002904:	6858      	ldr	r0, [r3, #4]
  8002906:	4b72      	ldr	r3, [pc, #456]	; (8002ad0 <update_scene+0xd60>)
@@ -5447,7 +5439,7 @@ void update_scene(void)
  8002934:	4603      	mov	r3, r0
  8002936:	2b00      	cmp	r3, #0
  8002938:	d13a      	bne.n	80029b0 <update_scene+0xc40>
-				   colliding(boss.x, boss.y+6, shoots[i].x, shoots[i].y) ||
+				   colliding(boss.x, boss.y+6, shots[i].x, shots[i].y) ||
  800293a:	4b65      	ldr	r3, [pc, #404]	; (8002ad0 <update_scene+0xd60>)
  800293c:	6858      	ldr	r0, [r3, #4]
  800293e:	4b64      	ldr	r3, [pc, #400]	; (8002ad0 <update_scene+0xd60>)
@@ -5474,10 +5466,10 @@ void update_scene(void)
  8002968:	4622      	mov	r2, r4
  800296a:	f7ff f9d9 	bl	8001d20 <colliding>
  800296e:	4603      	mov	r3, r0
-				if(colliding(boss.x, boss.y, shoots[i].x, shoots[i].y) ||
+				if(colliding(boss.x, boss.y, shots[i].x, shots[i].y) ||
  8002970:	2b00      	cmp	r3, #0
  8002972:	d11d      	bne.n	80029b0 <update_scene+0xc40>
-				   colliding(boss.x, boss.y+12, shoots[i].x, shoots[i].y))
+				   colliding(boss.x, boss.y+12, shots[i].x, shots[i].y))
  8002974:	4b56      	ldr	r3, [pc, #344]	; (8002ad0 <update_scene+0xd60>)
  8002976:	6858      	ldr	r0, [r3, #4]
  8002978:	4b55      	ldr	r3, [pc, #340]	; (8002ad0 <update_scene+0xd60>)
@@ -5504,7 +5496,7 @@ void update_scene(void)
  80029a4:	4622      	mov	r2, r4
  80029a6:	f7ff f9bb 	bl	8001d20 <colliding>
  80029aa:	4603      	mov	r3, r0
-				   colliding(boss.x, boss.y+6, shoots[i].x, shoots[i].y) ||
+				   colliding(boss.x, boss.y+6, shots[i].x, shots[i].y) ||
  80029ac:	2b00      	cmp	r3, #0
  80029ae:	d03c      	beq.n	8002a2a <update_scene+0xcba>
 				{
@@ -5514,7 +5506,7 @@ void update_scene(void)
  80029b4:	3b01      	subs	r3, #1
  80029b6:	4a46      	ldr	r2, [pc, #280]	; (8002ad0 <update_scene+0xd60>)
  80029b8:	6153      	str	r3, [r2, #20]
-					shoots[i].active = false;
+					shots[i].active = false;
  80029ba:	7bfa      	ldrb	r2, [r7, #15]
  80029bc:	4943      	ldr	r1, [pc, #268]	; (8002acc <update_scene+0xd5c>)
  80029be:	4613      	mov	r3, r2
@@ -5524,7 +5516,7 @@ void update_scene(void)
  80029c6:	440b      	add	r3, r1
  80029c8:	2200      	movs	r2, #0
  80029ca:	701a      	strb	r2, [r3, #0]
-					shoots[i].truck_number = 0;
+					shots[i].truck_number = 0;
  80029cc:	7bfa      	ldrb	r2, [r7, #15]
  80029ce:	493f      	ldr	r1, [pc, #252]	; (8002acc <update_scene+0xd5c>)
  80029d0:	4613      	mov	r3, r2
@@ -5535,7 +5527,7 @@ void update_scene(void)
  80029da:	3310      	adds	r3, #16
  80029dc:	2200      	movs	r2, #0
  80029de:	601a      	str	r2, [r3, #0]
-					GFX_DrowBitMap_P(shoots[i].x, shoots[i].y, explosion_map, 10,10,1);
+					GFX_DrowBitMap_P(shots[i].x, shots[i].y, explosion_map, 10,10,1);
  80029e0:	7bfa      	ldrb	r2, [r7, #15]
  80029e2:	493a      	ldr	r1, [pc, #232]	; (8002acc <update_scene+0xd5c>)
  80029e4:	4613      	mov	r3, r2
@@ -5572,7 +5564,6 @@ void update_scene(void)
  8002a1c:	4b2c      	ldr	r3, [pc, #176]	; (8002ad0 <update_scene+0xd60>)
  8002a1e:	2200      	movs	r2, #0
  8002a20:	701a      	strb	r2, [r3, #0]
-						//boss.level += 1;
 						boss.lives = 0;
  8002a22:	4b2b      	ldr	r3, [pc, #172]	; (8002ad0 <update_scene+0xd60>)
  8002a24:	2200      	movs	r2, #0
@@ -5590,7 +5581,7 @@ void update_scene(void)
 		}
 	}
 
-	//Zamalowanie i dezaktywacja strzałów pozostałych po bosie
+	//Painting over and deactivating shots left over from the boss
 	if(!boss.active)
  8002a38:	4b25      	ldr	r3, [pc, #148]	; (8002ad0 <update_scene+0xd60>)
  8002a3a:	781b      	ldrb	r3, [r3, #0]
@@ -5669,10 +5660,10 @@ void update_scene(void)
  8002ab6:	4603      	mov	r3, r0
  8002ab8:	2b00      	cmp	r3, #0
  8002aba:	d001      	beq.n	8002ac0 <update_scene+0xd50>
-		shoot();
- 8002abc:	f7fe ffdc 	bl	8001a78 <shoot>
+		shot();
+ 8002abc:	f7fe ffdc 	bl	8001a78 <shot>
 
-	// Sprawdzenie kolicji strzałów gracza z przeciwnikami. Dodawania Bonusów
+	// Checking the collision of a player's shots with opponents. Adding Bonuses
 	for (i = 0; i < num_shots; ++i)
  8002ac0:	2300      	movs	r3, #0
  8002ac2:	73fb      	strb	r3, [r7, #15]
@@ -5688,7 +5679,7 @@ void update_scene(void)
  8002ad8:	20000448 	.word	0x20000448
  8002adc:	080095cc 	.word	0x080095cc
 		{
-			if (shoots[i].active && enemies[j].active)
+			if (shots[i].active && enemies[j].active)
  8002ae0:	7bfa      	ldrb	r2, [r7, #15]
  8002ae2:	496a      	ldr	r1, [pc, #424]	; (8002c8c <update_scene+0xf1c>)
  8002ae4:	4613      	mov	r3, r2
@@ -5710,7 +5701,7 @@ void update_scene(void)
  8002b06:	2b00      	cmp	r3, #0
  8002b08:	f000 8093 	beq.w	8002c32 <update_scene+0xec2>
 			{
-				if (colliding(enemies[j].x, enemies[j].y, shoots[i].x, shoots[i].y))
+				if (colliding(enemies[j].x, enemies[j].y, shots[i].x, shots[i].y))
  8002b0c:	7bba      	ldrb	r2, [r7, #14]
  8002b0e:	4960      	ldr	r1, [pc, #384]	; (8002c90 <update_scene+0xf20>)
  8002b10:	4613      	mov	r3, r2
@@ -5752,10 +5743,6 @@ void update_scene(void)
  8002b5a:	4603      	mov	r3, r0
  8002b5c:	2b00      	cmp	r3, #0
  8002b5e:	d068      	beq.n	8002c32 <update_scene+0xec2>
-//				if(	colliding(enemies[j].x,enemies[j].y, shoots[i].x, shoots[i].y) 	||
-//					colliding(enemies[j].x + 2,enemies[j].y, shoots[i].x, shoots[i].y) 	||
-//					colliding(enemies[j].x,enemies[j].y + 2, shoots[i].x, shoots[i].y)	||
-//					colliding(enemies[j].x + 2,enemies[j].y + 2, shoots[i].x, shoots[i].y))
 				{
 					enemies[j].active = false;
  8002b60:	7bba      	ldrb	r2, [r7, #14]
@@ -5789,7 +5776,7 @@ void update_scene(void)
  8002b94:	3320      	adds	r3, #32
  8002b96:	2200      	movs	r2, #0
  8002b98:	601a      	str	r2, [r3, #0]
-					shoots[i].active = false;
+					shots[i].active = false;
  8002b9a:	7bfa      	ldrb	r2, [r7, #15]
  8002b9c:	493b      	ldr	r1, [pc, #236]	; (8002c8c <update_scene+0xf1c>)
  8002b9e:	4613      	mov	r3, r2
@@ -5885,7 +5872,7 @@ void update_scene(void)
 			}
 		}
 	}
-	if ((rand()%100) < (player.level * 2) && !(boss.active)) //Częstotliwość dodawania przeciwników w zależności od poziomu
+	if ((rand()%100) < (player.level * 2) && !(boss.active)) //Frequency of adding opponents according to level
  8002c4e:	f004 fab1 	bl	80071b4 <rand>
  8002c52:	4602      	mov	r2, r0
  8002c54:	4b11      	ldr	r3, [pc, #68]	; (8002c9c <update_scene+0xf2c>)
@@ -5928,7 +5915,7 @@ void drow_game(void)
  8002ca4:	b5b0      	push	{r4, r5, r7, lr}
  8002ca6:	b084      	sub	sp, #16
  8002ca8:	af02      	add	r7, sp, #8
-	 * Rysowanie ca�ej grafiki podczas gry.
+	 * Drawing all game graphics
 	 */
 	uint8_t i;
 
@@ -5987,13 +5974,13 @@ void drow_game(void)
  8002d0e:	2050      	movs	r0, #80	; 0x50
  8002d10:	f7fe f9d8 	bl	80010c4 <GFX_PutInt>
 
-	//Rysowniae grafiki strzału gracza
+	//Drawing graphics of a player's shot
 	for(i = 0; i < num_shots; i++)
  8002d14:	2300      	movs	r3, #0
  8002d16:	71fb      	strb	r3, [r7, #7]
  8002d18:	e026      	b.n	8002d68 <drow_game+0xc4>
 	{
-		if(shoots[i].active)
+		if(shots[i].active)
  8002d1a:	79fa      	ldrb	r2, [r7, #7]
  8002d1c:	4985      	ldr	r1, [pc, #532]	; (8002f34 <drow_game+0x290>)
  8002d1e:	4613      	mov	r3, r2
@@ -6005,7 +5992,7 @@ void drow_game(void)
  8002d2a:	2b00      	cmp	r3, #0
  8002d2c:	d019      	beq.n	8002d62 <drow_game+0xbe>
 		{
-			GFX_DrowBitMap_P(shoots[i].x, shoots[i].y, player_shot_map,4,1,1);
+			GFX_DrowBitMap_P(shots[i].x, shots[i].y, player_shot_map,4,1,1);
  8002d2e:	79fa      	ldrb	r2, [r7, #7]
  8002d30:	4980      	ldr	r1, [pc, #512]	; (8002f34 <drow_game+0x290>)
  8002d32:	4613      	mov	r3, r2
@@ -6041,7 +6028,7 @@ void drow_game(void)
 		}
 	}
 
-	//Rysowniae grafiki strzału bosa
+	//Drawing graphics of a boss shot
 	if(boss.active)
  8002d6e:	4b73      	ldr	r3, [pc, #460]	; (8002f3c <drow_game+0x298>)
  8002d70:	781b      	ldrb	r3, [r3, #0]
@@ -6101,7 +6088,8 @@ void drow_game(void)
 			}
 		}
 	}
-	//Rysownaie grafiki przeciwników
+
+	//Drawing graphics of enemies
 	for(i = 0; i < num_enemies; i++)
  8002dd0:	2300      	movs	r3, #0
  8002dd2:	71fb      	strb	r3, [r7, #7]
@@ -6266,7 +6254,8 @@ void drow_game(void)
  8002f04:	f67f af67 	bls.w	8002dd6 <drow_game+0x132>
 		}
 	}
-	//Rysowanie grafiki gracza
+
+	//Drawing the player's graphics
 	GFX_DrowBitMap_P(player.x,player.y,player_map,11,11,1);
  8002f08:	4b07      	ldr	r3, [pc, #28]	; (8002f28 <drow_game+0x284>)
  8002f0a:	6818      	ldr	r0, [r3, #0]
@@ -6280,8 +6269,8 @@ void drow_game(void)
  8002f1a:	4a0b      	ldr	r2, [pc, #44]	; (8002f48 <drow_game+0x2a4>)
  8002f1c:	f7fd ff40 	bl	8000da0 <GFX_DrowBitMap_P>
 
-	//Rysowanie tła
-	for(i = 0; i < num_backgrand; i++)
+	//Drawing a background
+	for(i = 0; i < num_background; i++)
  8002f20:	2300      	movs	r3, #0
  8002f22:	71fb      	strb	r3, [r7, #7]
  8002f24:	e045      	b.n	8002fb2 <drow_game+0x30e>
@@ -6296,7 +6285,7 @@ void drow_game(void)
  8002f44:	200004ac 	.word	0x200004ac
  8002f48:	080095d0 	.word	0x080095d0
 	{
-		if(backgrand[i].active)
+		if(background[i].active)
  8002f4c:	79fa      	ldrb	r2, [r7, #7]
  8002f4e:	495d      	ldr	r1, [pc, #372]	; (80030c4 <drow_game+0x420>)
  8002f50:	4613      	mov	r3, r2
@@ -6308,7 +6297,7 @@ void drow_game(void)
  8002f5c:	2b00      	cmp	r3, #0
  8002f5e:	d025      	beq.n	8002fac <drow_game+0x308>
 		{
-			ssd1327_setPixel(backgrand[i].x, backgrand[i].y,(rand()%15));
+			ssd1327_setPixel(background[i].x, background[i].y,(rand()%15));
  8002f60:	79fa      	ldrb	r2, [r7, #7]
  8002f62:	4958      	ldr	r1, [pc, #352]	; (80030c4 <drow_game+0x420>)
  8002f64:	4613      	mov	r3, r2
@@ -6344,7 +6333,7 @@ void drow_game(void)
  8002fa4:	4629      	mov	r1, r5
  8002fa6:	4620      	mov	r0, r4
  8002fa8:	f000 fdae 	bl	8003b08 <ssd1327_setPixel>
-	for(i = 0; i < num_backgrand; i++)
+	for(i = 0; i < num_background; i++)
  8002fac:	79fb      	ldrb	r3, [r7, #7]
  8002fae:	3301      	adds	r3, #1
  8002fb0:	71fb      	strb	r3, [r7, #7]
@@ -6354,7 +6343,7 @@ void drow_game(void)
 		}
 	}
 
-	//Rysowanie bosów
+	//Drawing Boss
 	if(boss.active && player.game_progres == 30)
  8002fb8:	4b44      	ldr	r3, [pc, #272]	; (80030cc <drow_game+0x428>)
  8002fba:	781b      	ldrb	r3, [r3, #0]
@@ -6398,7 +6387,7 @@ void drow_game(void)
  8003002:	4a35      	ldr	r2, [pc, #212]	; (80030d8 <drow_game+0x434>)
  8003004:	f7fd fecc 	bl	8000da0 <GFX_DrowBitMap_P>
 
-	//Rysowanie bonusów
+	//Drawing bonuses
 	for(i = 0; i < num_bonus; i++)
  8003008:	2300      	movs	r3, #0
  800300a:	71fb      	strb	r3, [r7, #7]
@@ -6529,7 +6518,7 @@ void run_game (void)
  80030e8:	b580      	push	{r7, lr}
  80030ea:	af00      	add	r7, sp, #0
 	/*
-	 * G��wna p�tla gry, czyli wykonywanie po kolei odpowiednich sekwencji.
+	 * The main loop of the game, executing the relevant functions one by one
 	 */
 	drow_game();
  80030ec:	f7ff fdda 	bl	8002ca4 <drow_game>
@@ -6559,7 +6548,7 @@ void run_menu (void)
  800310e:	b082      	sub	sp, #8
  8003110:	af02      	add	r7, sp, #8
 	/*
-	 * Startowy ekran, podstawowe info. dla gracza na pocz�tku
+	 * Start screen, basic information for the player at the beginning
 	 */
 	static int x = 0, dx = 1;
 	x += dx;
@@ -6653,11 +6642,11 @@ void start_game(void)
  80031b0:	b480      	push	{r7}
  80031b2:	b083      	sub	sp, #12
  80031b4:	af00      	add	r7, sp, #0
-	 * startowych dla gracza jak i ustawnie pierwszego bosa.
-	 * Co więcej "resetuje" ona tablice pocisków, przeciwników i bonosów
+	 * the player and the first boss. Furthermore, it "resets"
+	 * the arrays of shot, opponents and bonuses.
 	 */
 	uint8_t i;
-	//Ustawiniania początkowe gracza
+	//Player initial settings
 	player.lives = initial_lives;
  80031b6:	4b44      	ldr	r3, [pc, #272]	; (80032c8 <start_game+0x118>)
  80031b8:	220a      	movs	r2, #10
@@ -6687,12 +6676,12 @@ void start_game(void)
  80031dc:	2200      	movs	r2, #0
  80031de:	771a      	strb	r2, [r3, #28]
 
-	//Dezaktywacja pocisków gracza
+	//Deactivation of player shots
 	for (i = 0; i < num_shots; ++i)
  80031e0:	2300      	movs	r3, #0
  80031e2:	71fb      	strb	r3, [r7, #7]
  80031e4:	e00b      	b.n	80031fe <start_game+0x4e>
-		shoots[i].active = false;
+		shots[i].active = false;
  80031e6:	79fa      	ldrb	r2, [r7, #7]
  80031e8:	4938      	ldr	r1, [pc, #224]	; (80032cc <start_game+0x11c>)
  80031ea:	4613      	mov	r3, r2
@@ -6710,7 +6699,7 @@ void start_game(void)
  8003200:	2b22      	cmp	r3, #34	; 0x22
  8003202:	d9f0      	bls.n	80031e6 <start_game+0x36>
 
-	//Dezaktywacja pocisków bosa
+	//Deactivation of boss shots
 	for (i = 0; i < num_boss_shots; ++i)
  8003204:	2300      	movs	r3, #0
  8003206:	71fb      	strb	r3, [r7, #7]
@@ -6733,7 +6722,7 @@ void start_game(void)
  8003224:	2b04      	cmp	r3, #4
  8003226:	d9f0      	bls.n	800320a <start_game+0x5a>
 
-	//Dezaktywacja przeciwników
+	//Deactivation enemies
 	for (i = 0; i < num_enemies; i++)
  8003228:	2300      	movs	r3, #0
  800322a:	71fb      	strb	r3, [r7, #7]
@@ -6780,7 +6769,7 @@ void start_game(void)
  8003272:	d9dc      	bls.n	800322e <start_game+0x7e>
 	}
 
-	//Dezaktywacja bonusów
+	//Deactivation bonuses
 	for (i = 0; i < num_bonus; i++)
  8003274:	2300      	movs	r3, #0
  8003276:	71fb      	strb	r3, [r7, #7]
@@ -6803,7 +6792,7 @@ void start_game(void)
  8003294:	2b02      	cmp	r3, #2
  8003296:	d9f0      	bls.n	800327a <start_game+0xca>
 
-	//Dezaktywacja bossa
+	//Deactivation boss
 	boss.active = false;
  8003298:	4b10      	ldr	r3, [pc, #64]	; (80032dc <start_game+0x12c>)
  800329a:	2200      	movs	r2, #0
@@ -6849,7 +6838,7 @@ void add_enemy(void)
  80032e0:	b580      	push	{r7, lr}
  80032e2:	b082      	sub	sp, #8
  80032e4:	af00      	add	r7, sp, #0
-	 * grafika, typ.
+	 * Setting its initial parameters, i.e. position, refreshment, graphics, type.
 	 */
 	uint8_t i;
 	uint8_t enemy_type;
@@ -6883,7 +6872,7 @@ void add_enemy(void)
  8003314:	440b      	add	r3, r1
  8003316:	2201      	movs	r2, #1
  8003318:	701a      	strb	r2, [r3, #0]
-			enemies[i].x = 140;			//pozycja startowa przeciwnika
+			enemies[i].x = 140;
  800331a:	79fa      	ldrb	r2, [r7, #7]
  800331c:	4972      	ldr	r1, [pc, #456]	; (80034e8 <add_enemy+0x208>)
  800331e:	4613      	mov	r3, r2
@@ -6952,7 +6941,7 @@ void add_enemy(void)
  80033a0:	4613      	mov	r3, r2
  80033a2:	71bb      	strb	r3, [r7, #6]
 
-			if((enemy_type > 50))				//rodzaj przeciwnika
+			if((enemy_type > 50))
  80033a4:	79bb      	ldrb	r3, [r7, #6]
  80033a6:	2b32      	cmp	r3, #50	; 0x32
  80033a8:	d928      	bls.n	80033fc <add_enemy+0x11c>
@@ -6969,7 +6958,7 @@ void add_enemy(void)
  80033b8:	330c      	adds	r3, #12
  80033ba:	2200      	movs	r2, #0
  80033bc:	701a      	strb	r2, [r3, #0]
-				enemies[i].update_delay = (rand()%3);	//ustawinie predkosci (mniej = szybciej)
+				enemies[i].update_delay = (rand()%3);	//Speed setting (less = faster)
  80033be:	f003 fef9 	bl	80071b4 <rand>
  80033c2:	4601      	mov	r1, r0
  80033c4:	79f8      	ldrb	r0, [r7, #7]
@@ -6989,7 +6978,7 @@ void add_enemy(void)
  80033e2:	440b      	add	r3, r1
  80033e4:	3318      	adds	r3, #24
  80033e6:	601a      	str	r2, [r3, #0]
-				enemies[i].bit_map = driver_map;		//grafika przeciwnika
+				enemies[i].bit_map = driver_map;
  80033e8:	79fa      	ldrb	r2, [r7, #7]
  80033ea:	493f      	ldr	r1, [pc, #252]	; (80034e8 <add_enemy+0x208>)
  80033ec:	4613      	mov	r3, r2
@@ -7319,14 +7308,14 @@ void update_bonus(void)
  8003622:	b082      	sub	sp, #8
  8003624:	af00      	add	r7, sp, #0
 	/*
-	 * Sprawdzanie czy gracz najechał na bonus.
-	 * Przesuwanie bonusa na mapie
+	 * Checking whether a player has hovered over a bonus.
+	 * Moving a bonus on the map
 	 * */
 	int i = 0;
  8003626:	2300      	movs	r3, #0
  8003628:	607b      	str	r3, [r7, #4]
 
-	//Sprawdzenie czasu trwania st_tracekr jeśli jest aktywny
+	//Check duration of st_tracekr if active
 
 	if(player.bonus_duration > 0)
  800362a:	4b9a      	ldr	r3, [pc, #616]	; (8003894 <update_bonus+0x274>)
@@ -7353,7 +7342,7 @@ void update_bonus(void)
  800364e:	2200      	movs	r2, #0
  8003650:	771a      	strb	r2, [r3, #28]
 
-	// Sprawdzanie czy gracz najechał na bonus
+	// Checking whether a player has hovered over a bonus
 	for (i = 0; i < num_bonus; i++)
  8003652:	2300      	movs	r3, #0
  8003654:	607b      	str	r3, [r7, #4]
@@ -7436,7 +7425,6 @@ void update_bonus(void)
  80036e2:	3314      	adds	r3, #20
  80036e4:	6019      	str	r1, [r3, #0]
 
-					//Sprawdzanie kolizji z graczem
 					if (colliding(bonuses[i].x,bonuses[i].y, player.x, player.y) 	||
  80036e6:	496c      	ldr	r1, [pc, #432]	; (8003898 <update_bonus+0x278>)
  80036e8:	687a      	ldr	r2, [r7, #4]
@@ -7688,9 +7676,8 @@ uint8_t button_pressed (void)
 {
  800389c:	b580      	push	{r7, lr}
  800389e:	af00      	add	r7, sp, #0
-	 * repetycje gdy klawisz jest dlaej wcisniety.
-	 * Jest to szczeg�lnie przydatane przy strzelaniu bo zapobiega
-	 * oddawaniu kilku strza��w naraz.
+	/*
+	 * Checking whether a button has been pressed. Prevention of repetition.
 	 */
 
 	if((HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_SET) && btn_prev == 0)
@@ -7714,7 +7701,7 @@ uint8_t button_pressed (void)
  80038c2:	e00c      	b.n	80038de <button_pressed+0x42>
 	}
 
-	if(HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_RESET) //oczekiwania na zwolnienie kalwisza
+	if(HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_RESET)
  80038c4:	f44f 7180 	mov.w	r1, #256	; 0x100
  80038c8:	f04f 4090 	mov.w	r0, #1207959552	; 0x48000000
  80038cc:	f001 ff2e 	bl	800572c <HAL_GPIO_ReadPin>

@@ -34,8 +34,10 @@
 #include <math.h>
 #include "graphics_map.h"
 #include "game_logic.h"
+#include "GFX_ssd1327.h"
 #include "ssd1327.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 /* USER CODE END Includes */
 
@@ -375,7 +377,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-void add_backgrand(void)
+void add_background(void)
 {
 	/*
 	 * Adds a single unit (structure) to the entire array.
@@ -388,9 +390,9 @@ void add_backgrand(void)
 	{
 		if(!background[i].active)
 		{
-			background[i].active = true;
+			background[i].active 	= true;
 			background[i].x 		= 128;
-			background[i].y		= (rand()%(screen_height-10)) +10;
+			background[i].y			= (rand()%(screen_height-10)) +10;
 			background[i].update_delay = (rand()%6)+2; // def. (rand()%4)+2;
 
 			break;
@@ -426,7 +428,7 @@ void update_backgrand(void)
 	}
 
 	if ((rand()%100) < num_background_freq) 		//Frequency of background additions
-		add_backgrand();
+		add_background();
 
 }
 
@@ -541,7 +543,7 @@ void shot(void)
 	 */
 	uint8_t i;
 
-	bool is_any_enemies_active;
+	bool is_any_enemies_active = false;
 
 	int closest_enemy_number;
 	double temp_distance;
@@ -586,10 +588,10 @@ void shot(void)
 				if(is_any_enemies_active)
 				{
 					random_tracking_number = rand();
-					enemies[closest_enemy_number].truck_number = random_tracking_number;
+					enemies[closest_enemy_number].track_number = random_tracking_number;
 					enemies[closest_enemy_number].tracked_by_missile = true;
 					shots[i].type = st_tracker;
-					shots[i].truck_number = random_tracking_number;
+					shots[i].track_number = random_tracking_number;
 				} else {
 					// If you haven't found a target act like a normal shot
 					shots[i].type = st_normal;
@@ -667,7 +669,7 @@ void update_scene(void)
 
 			for (int j = 0; j < num_enemies; j++)
 			{
-				if (shots[i].truck_number == enemies[j].truck_number)
+				if (shots[i].track_number == enemies[j].track_number)
 				{
 					if(shots[i].x > enemies[j].x) shots[i].x -= 2;
 					if(shots[i].x < enemies[j].x) shots[i].x += 2;
@@ -681,7 +683,7 @@ void update_scene(void)
 			if(!shoot_updated && shots[i].type == st_tracker)
 			{
 				shots[i].active = false;
-				shots[i].truck_number = 0;
+				shots[i].track_number = 0;
 				shoot_updated = false;
 			}
 
@@ -689,7 +691,7 @@ void update_scene(void)
 			if(shots[i].x > 128)
 			{
 				shots[i].active = false;
-				shots[i].truck_number = 0;
+				shots[i].track_number = 0;
 			}
 			break;
 		}
@@ -704,12 +706,12 @@ void update_scene(void)
 
 		for(j = 0; j < num_shots; j++)
 		{
-			if(enemies[i].truck_number == shots[j].truck_number)
+			if(enemies[i].track_number == shots[j].track_number)
 				is_there_a_missile = true;
 		}
 
 		if(!is_there_a_missile)
-			enemies[i].truck_number = 0;
+			enemies[i].track_number = 0;
 	}
 
 	// Updated enemies
@@ -736,7 +738,7 @@ void update_scene(void)
 							player.lives -= 1;;
 							enemies[i].active = false;
 							enemies[i].tracked_by_missile = false;
-							enemies[i].truck_number = 0;
+							enemies[i].track_number = 0;
 							GFX_DrowBitMap_P(enemies[i].x+2, enemies[i].y, explosion_map,10,10,1);
 							GFX_DrowBitMap_P(player.x + 8, player.y-2, player_shield_map,10 ,16,1);
 							GFX_DrowBitMap_P(player.x, player.y, player_map, 11, 11, 1);
@@ -781,7 +783,7 @@ void update_scene(void)
 						{
 							enemies[i].active = false;
 							enemies[i].tracked_by_missile = false;
-							enemies[i].truck_number = 0;
+							enemies[i].track_number = 0;
 						}
 					}
 				}
@@ -858,7 +860,7 @@ void update_scene(void)
 				{
 					boss.lives -= 1;
 					shots[i].active = false;
-					shots[i].truck_number = 0;
+					shots[i].track_number = 0;
 					GFX_DrowBitMap_P(shots[i].x, shots[i].y, explosion_map, 10,10,1);
 
 					if(boss.lives <= 0)
@@ -900,7 +902,7 @@ void update_scene(void)
 				{
 					enemies[j].active = false;
 					enemies[j].tracked_by_missile = false;
-					enemies[j].truck_number = 0;
+					enemies[j].track_number = 0;
 					shots[i].active = false;
 					player.score += 1;
 					GFX_DrowBitMap_P(enemies[j].x, enemies[j].y, explosion_map,10,10,1);
@@ -999,10 +1001,6 @@ void drow_game(void)
 			}
 		}
 	}
-
-	// DEBUG VALUE
-	//GFX_PutInt(0, 100, debug_value, 1, 1, 0);
-
 }
 
 void run_game (void)
@@ -1074,7 +1072,7 @@ void start_game(void)
 	for (i = 0; i < num_enemies; i++)
 	{
 		enemies[i].active = false;
-		enemies[i].truck_number = 0;
+		enemies[i].track_number = 0;
 		enemies[i].tracked_by_missile = false;
 	}
 
@@ -1109,7 +1107,7 @@ void add_enemy(void)
 			enemies[i].x = 140;
 			enemies[i].y = ((rand()%(screen_height - 10))+10);
 			enemies[i].tracked_by_missile = false;
-			enemies[i].truck_number = 0;
+			enemies[i].track_number = 0;
 
 			enemy_type = (rand()%100);
 

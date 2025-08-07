@@ -13,6 +13,7 @@
 
 #include "itoa.h"
 #include "GFX_ssd1327.h"
+#include "ssd1327.h"
 
 int cursor_x, cursor_y;
 

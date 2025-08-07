@@ -102,7 +102,7 @@ typedef struct				//Strzały gracza, strzały bosów
 	bool active;
 	int x, y;
 	shot_type type;
-	int truck_number;
+	int track_number;
 }T_shot;
 
 typedef struct				//Tło - "gwiazdy"
@@ -120,11 +120,11 @@ typedef struct				//Przeciwnicy
 	int x;
 	int y;
 	enemy_type type;
-	uint8_t* bit_map;
+	const uint8_t* bit_map;
 	int next_update;
 	int update_delay;
 	bool tracked_by_missile;
-	int truck_number;
+	int track_number;
 }T_enemy;
 
 typedef struct 				// Bosowie
@@ -143,7 +143,7 @@ typedef struct
 	int x;
 	int y;
 	bonus_type type;
-	uint8_t* bit_map;
+	const uint8_t* bit_map;
 	int next_update;
 	int update_delay;
 }T_bonus;
@@ -170,7 +170,7 @@ void play_dead_anim(void);						//Wyswietlenie animacji po śmierci - budowanie 
 void run_dead(void);							//Obsługa końca gry
 void update_lvl(void);							//Aktualizacja poziomu gracza
 void update_backgrand(void);					//Obsługa tła
-void add_backgrand(void);						//Dodanie jednostki tła
+void add_background(void);						//Dodanie jednostki tła
 bool colliding(int x0, int y0, int x1, int y1);	//Sprawdzanie kolizji obiektów
 void update_enemy (T_enemy* enemy);				//Dodanie przeciwnika
 void add_bonus(int x, int y);					//Dodanie bonusa na pozycji zestrzelonego wroga

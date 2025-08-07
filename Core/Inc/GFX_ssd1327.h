@@ -17,7 +17,7 @@
 #define SSD1327_HEIGHT 			128
 
 
-const uint8_t  font[];
+extern const uint8_t  font[];
 
 void GFX_DrowBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color);//rysoanie bitmapy
 

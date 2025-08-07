@@ -8,6 +8,8 @@
 #ifndef INC_SSD1327_H_
 #define INC_SSD1327_H_
 
+#include "stm32l4xx_hal.h"
+
 
 //#####################################################
 //				Konfiguracja pinów

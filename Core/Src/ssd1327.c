@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "ssd1327.h"
+#include <string.h>
 
 // Definicja buforu
 SPI_HandleTypeDef *ssd1337_spi;

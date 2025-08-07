@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "itoa.h"
 #include "GFX_ssd1327.h"

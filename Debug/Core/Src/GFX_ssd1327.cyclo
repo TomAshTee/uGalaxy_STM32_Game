@@ -1,0 +1,14 @@
+../Core/Src/GFX_ssd1327.c:19:6:GFX_DrowCircle	3
+../Core/Src/GFX_ssd1327.c:49:6:GFX_DrowLine	10
+../Core/Src/GFX_ssd1327.c:109:6:GFX_FillCircleHelper	5
+../Core/Src/GFX_ssd1327.c:144:6:GFX_DrowCircleHelper	7
+../Core/Src/GFX_ssd1327.c:187:6:GFX_FillCircle	3
+../Core/Src/GFX_ssd1327.c:229:6:GFX_DrowBitMap_P	5
+../Core/Src/GFX_ssd1327.c:281:6:GFX_DrowChar	12
+../Core/Src/GFX_ssd1327.c:317:6:GFX_FillRect	2
+../Core/Src/GFX_ssd1327.c:326:6:GFX_DrowFastVLine	1
+../Core/Src/GFX_ssd1327.c:331:6:GFX_DrowFastHLine	1
+../Core/Src/GFX_ssd1327.c:336:6:GFX_PutString	2
+../Core/Src/GFX_ssd1327.c:348:6:GFX_PutInt	1
+../Core/Src/GFX_ssd1327.c:357:6:GFX_DrowRoundRect	1
+../Core/Src/GFX_ssd1327.c:371:6:GFX_FillRoundRect	1

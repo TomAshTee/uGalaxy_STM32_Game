@@ -32,8 +32,9 @@ void ssd1327_SetContrast(uint8_t Contrast)
 void ssd1327_Reset(void){
 
 	HAL_GPIO_WritePin(RST_PORT, RST, GPIO_PIN_RESET);
-	HAL_Delay(5);
+	HAL_Delay(20);
 	HAL_GPIO_WritePin(RST_PORT, RST, GPIO_PIN_SET);
+	HAL_Delay(20);
 
 }
 

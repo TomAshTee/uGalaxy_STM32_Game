@@ -9,7 +9,7 @@
 #include "ssd1327.h"
 #include <string.h>
 
-// Definicja buforu
+// Definition of buffer
 SPI_HandleTypeDef *ssd1337_spi;
 
 static uint8_t buffer[BUF_SIZE];
@@ -50,106 +50,54 @@ void ssd1327_SpiInit(SPI_HandleTypeDef *spi){
 
 void ssd1327_Init (void){
 
-//	ssd1327_cmd(SSD1327_DISPLAYOFF);  // Display Off
-//
-//	ssd1327_cmd(SSD1327_SETMULTIPLEX);
-//	ssd1327_cmd(0x5F);
-//
-//	ssd1327_cmd(SSD1327_SETDISPLAYSTARTLINE);
-//	ssd1327_cmd(0x00);
-//
-//	ssd1327_cmd(SSD1327_SETDISPLAYOFFSET);
-//	ssd1327_cmd(0x20);
-//
-//	ssd1327_cmd(SSD1327_SEGREMAP);
-//	ssd1327_cmd(0x51);
-//
-//	ssd1327_SetContrast(0x7F);
-//
-//	ssd1327_cmd(SSD1327_SETPHASELENGTH);
-//	ssd1327_cmd(0x22);
-//
-//	ssd1327_cmd(SSD1327_SETFRONTCLOCKDIVIDER_OSCILLATORFREQUENCY);
-//	ssd1327_cmd(0x50);
-//
-//	ssd1327_cmd(SSD1327_SELECTDEFAULTLINEARGRAYSCALETABLE);
-//
-//	ssd1327_cmd(SSD1327_SETPRECHARGEVOLTAGE);
-//	ssd1327_cmd(0x10);
-//
-//	ssd1327_cmd(SSD1327_SETSETVCOMVOLTAGE);
-//	ssd1327_cmd(0x05);
-//
-//	ssd1327_cmd(SSD1327_SETSECONDPRECHARGEPERTIOD);
-//	ssd1327_cmd(0x0a);
-//
-//	ssd1327_cmd(SSD1327_FUNCTIONSELECTIONB);
-//	ssd1327_cmd(0x62);
-//
-//	ssd1327_cmd(SSD1327_SETCOLUMNADDRESS);
-//	ssd1327_cmd(0x00);
-//	//ssd1327_cmd(0x3F);
-//	ssd1327_cmd(0x7F);
-//
-//	ssd1327_cmd(SSD1327_SETROWADDRESS);
-//	ssd1327_cmd(0x00);
-//	//ssd1327_cmd(0x5F);
-//	ssd1327_cmd(0x7F);
-//
-//	ssd1327_cmd(SSD1327_NORMALDISPLAY);  // Set Normal Display
-//
-//	ssd1327_cmd(SSD1327_DISPLAYALLON_RESUME);  // Entire Display ON
+	ssd1327_cmd(0xae);	// Turn off oled panel
 
-//--------------------------------------------------------------------------
+	ssd1327_cmd(0x15);  // Set column addresses
+	ssd1327_cmd(0x00);  // Start column  0
+	ssd1327_cmd(0x7f);  // End column  127
 
-	ssd1327_cmd(0xae);//--turn off oled panel
+	ssd1327_cmd(0x75);  // Set row addresses
+	ssd1327_cmd(0x00);  // Start row  0
+	ssd1327_cmd(0x7f);  // End row  127
 
-	ssd1327_cmd(0x15);  //set column addresses
-	ssd1327_cmd(0x00);  //start column  0
-	ssd1327_cmd(0x7f);  //end column  127
+	ssd1327_cmd(0x81);  // Set contrast control
+	ssd1327_cmd(0x80);  // 50% (128/255) def.0x80
 
-	ssd1327_cmd(0x75);  //set row addresses
-	ssd1327_cmd(0x00);  //start row  0
-	ssd1327_cmd(0x7f);  //end row  127
+	ssd1327_cmd(0xa0);  // Gment remap
+	ssd1327_cmd(0x51);  // 51 (To my understanding, this is orientation
 
-	ssd1327_cmd(0x81);  //set contrast control
-	ssd1327_cmd(0x80);  //50% (128/255) def.0x80
-
-	ssd1327_cmd(0xa0);   //gment remap
-	ssd1327_cmd(0x51);  //51 (To my understanding, this is orientation
-
-	ssd1327_cmd(0xa1);  //start line
+	ssd1327_cmd(0xa1);  // Start line
 	ssd1327_cmd(0x00);
 
-	ssd1327_cmd(0xa2);  //display offset
+	ssd1327_cmd(0xa2);  // Display offset
 	ssd1327_cmd(0x00);
 
-	ssd1327_cmd(0xa4);  //rmal display
-	ssd1327_cmd(0xa8);  //set multiplex ratio
+	ssd1327_cmd(0xa4);  // rmal display
+	ssd1327_cmd(0xa8);  // Set multiplex ratio
 	ssd1327_cmd(0x7f);
 
-	ssd1327_cmd(0xb1);  //set phase leghth
+	ssd1327_cmd(0xb1);  // Set phase leghth
 	ssd1327_cmd(0xf1);
 
-	ssd1327_cmd(0xb3);  //set dclk
-	ssd1327_cmd(0x00);  //80Hz:0xc1 90Hz:0xe1  100Hz:0x00  110Hz:0x30 120Hz:0x50  130Hz:0x70   01
+	ssd1327_cmd(0xb3);  // Set dclk
+	ssd1327_cmd(0x00);  // 80Hz:0xc1 90Hz:0xe1  100Hz:0x00  110Hz:0x30 120Hz:0x50  130Hz:0x70   01
 
-	ssd1327_cmd(0xab);  //Enable vReg
+	ssd1327_cmd(0xab);  // Enable vReg
 	ssd1327_cmd(0x01);
 
-	ssd1327_cmd(0xb6);  //set phase leghth
+	ssd1327_cmd(0xb6);  // Set phase leghth
 	ssd1327_cmd(0x0f);
 
-	ssd1327_cmd(0xbe); //Set vcomh voltage
+	ssd1327_cmd(0xbe); 	// Set vcomh voltage
 	ssd1327_cmd(0x0f);
 
-	ssd1327_cmd(0xbc); //set pre-charge voltage
+	ssd1327_cmd(0xbc); 	// Set pre-charge voltage
 	ssd1327_cmd(0x08);
 
-	ssd1327_cmd(0xd5); //second precharge period
+	ssd1327_cmd(0xd5); 	// Second precharge period
 	ssd1327_cmd(0x62);
 
-	ssd1327_cmd(0xfd); //Unlock commands
+	ssd1327_cmd(0xfd); 	// Unlock commands
 	ssd1327_cmd(0x12);
 
 	ssd1327_cmd(0xA4);

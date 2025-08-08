@@ -109,7 +109,6 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
 
 void GFX_FillCircleHelper(int x0, int y0, int r, uint8_t cornername, int delta, uint8_t color )
 {
-	//delata- odlegoc miedzy ciwartami po��wki
 
 	int f 		= 1 - r;
 	int ddF_x 	= 1;

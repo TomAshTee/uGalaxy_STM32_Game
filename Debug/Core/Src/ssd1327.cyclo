@@ -3,6 +3,6 @@
 ../Core/Src/ssd1327.c:33:6:ssd1327_Reset	1
 ../Core/Src/ssd1327.c:42:6:ssd1327_SpiInit	1
 ../Core/Src/ssd1327.c:51:6:ssd1327_Init	1
-../Core/Src/ssd1327.c:160:6:ssd1327_display	1
-../Core/Src/ssd1327.c:178:6:ssd1327_CLR	1
-../Core/Src/ssd1327.c:182:6:ssd1327_setPixel	6
+../Core/Src/ssd1327.c:108:6:ssd1327_display	1
+../Core/Src/ssd1327.c:126:6:ssd1327_CLR	1
+../Core/Src/ssd1327.c:130:6:ssd1327_setPixel	6

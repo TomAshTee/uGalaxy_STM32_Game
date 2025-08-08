@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  000230f6  00000000  00000000  0001d711  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000111e2  00000000  00000000  00040807  2**0
+ 17 .debug_line   000111e0  00000000  00000000  00040807  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d21e5  00000000  00000000  000519e9  2**0
+ 18 .debug_str    000d21e5  00000000  00000000  000519e7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00123bce  2**0
+ 19 .comment      00000043  00000000  00000000  00123bcc  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000499c  00000000  00000000  00123c14  2**2
+ 20 .debug_frame  0000499c  00000000  00000000  00123c10  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000062  00000000  00000000  001285b0  2**0
+ 21 .debug_line_str 00000062  00000000  00000000  001285ac  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -7879,123 +7879,119 @@ void ssd1327_SpiInit(SPI_HandleTypeDef *spi){
 void ssd1327_Init (void){
  80039b8:	b580      	push	{r7, lr}
  80039ba:	af00      	add	r7, sp, #0
-//
-//	ssd1327_cmd(SSD1327_DISPLAYALLON_RESUME);  // Entire Display ON
 
-//--------------------------------------------------------------------------
-
-	ssd1327_cmd(0xae);//--turn off oled panel
+	ssd1327_cmd(0xae);	// Turn off oled panel
  80039bc:	20ae      	movs	r0, #174	@ 0xae
  80039be:	f7ff ffad 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0x15);  //set column addresses
+	ssd1327_cmd(0x15);  // Set column addresses
  80039c2:	2015      	movs	r0, #21
  80039c4:	f7ff ffaa 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0x00);  //start column  0
+	ssd1327_cmd(0x00);  // Start column  0
  80039c8:	2000      	movs	r0, #0
  80039ca:	f7ff ffa7 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0x7f);  //end column  127
+	ssd1327_cmd(0x7f);  // End column  127
  80039ce:	207f      	movs	r0, #127	@ 0x7f
  80039d0:	f7ff ffa4 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0x75);  //set row addresses
+	ssd1327_cmd(0x75);  // Set row addresses
  80039d4:	2075      	movs	r0, #117	@ 0x75
  80039d6:	f7ff ffa1 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0x00);  //start row  0
+	ssd1327_cmd(0x00);  // Start row  0
  80039da:	2000      	movs	r0, #0
  80039dc:	f7ff ff9e 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0x7f);  //end row  127
+	ssd1327_cmd(0x7f);  // End row  127
  80039e0:	207f      	movs	r0, #127	@ 0x7f
  80039e2:	f7ff ff9b 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0x81);  //set contrast control
+	ssd1327_cmd(0x81);  // Set contrast control
  80039e6:	2081      	movs	r0, #129	@ 0x81
  80039e8:	f7ff ff98 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0x80);  //50% (128/255) def.0x80
+	ssd1327_cmd(0x80);  // 50% (128/255) def.0x80
  80039ec:	2080      	movs	r0, #128	@ 0x80
  80039ee:	f7ff ff95 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xa0);   //gment remap
+	ssd1327_cmd(0xa0);  // Gment remap
  80039f2:	20a0      	movs	r0, #160	@ 0xa0
  80039f4:	f7ff ff92 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0x51);  //51 (To my understanding, this is orientation
+	ssd1327_cmd(0x51);  // 51 (To my understanding, this is orientation
  80039f8:	2051      	movs	r0, #81	@ 0x51
  80039fa:	f7ff ff8f 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xa1);  //start line
+	ssd1327_cmd(0xa1);  // Start line
  80039fe:	20a1      	movs	r0, #161	@ 0xa1
  8003a00:	f7ff ff8c 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x00);
  8003a04:	2000      	movs	r0, #0
  8003a06:	f7ff ff89 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xa2);  //display offset
+	ssd1327_cmd(0xa2);  // Display offset
  8003a0a:	20a2      	movs	r0, #162	@ 0xa2
  8003a0c:	f7ff ff86 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x00);
  8003a10:	2000      	movs	r0, #0
  8003a12:	f7ff ff83 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xa4);  //rmal display
+	ssd1327_cmd(0xa4);  // rmal display
  8003a16:	20a4      	movs	r0, #164	@ 0xa4
  8003a18:	f7ff ff80 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0xa8);  //set multiplex ratio
+	ssd1327_cmd(0xa8);  // Set multiplex ratio
  8003a1c:	20a8      	movs	r0, #168	@ 0xa8
  8003a1e:	f7ff ff7d 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x7f);
  8003a22:	207f      	movs	r0, #127	@ 0x7f
  8003a24:	f7ff ff7a 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xb1);  //set phase leghth
+	ssd1327_cmd(0xb1);  // Set phase leghth
  8003a28:	20b1      	movs	r0, #177	@ 0xb1
  8003a2a:	f7ff ff77 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0xf1);
  8003a2e:	20f1      	movs	r0, #241	@ 0xf1
  8003a30:	f7ff ff74 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xb3);  //set dclk
+	ssd1327_cmd(0xb3);  // Set dclk
  8003a34:	20b3      	movs	r0, #179	@ 0xb3
  8003a36:	f7ff ff71 	bl	800391c <ssd1327_cmd>
-	ssd1327_cmd(0x00);  //80Hz:0xc1 90Hz:0xe1  100Hz:0x00  110Hz:0x30 120Hz:0x50  130Hz:0x70   01
+	ssd1327_cmd(0x00);  // 80Hz:0xc1 90Hz:0xe1  100Hz:0x00  110Hz:0x30 120Hz:0x50  130Hz:0x70   01
  8003a3a:	2000      	movs	r0, #0
  8003a3c:	f7ff ff6e 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xab);  //Enable vReg
+	ssd1327_cmd(0xab);  // Enable vReg
  8003a40:	20ab      	movs	r0, #171	@ 0xab
  8003a42:	f7ff ff6b 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x01);
  8003a46:	2001      	movs	r0, #1
  8003a48:	f7ff ff68 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xb6);  //set phase leghth
+	ssd1327_cmd(0xb6);  // Set phase leghth
  8003a4c:	20b6      	movs	r0, #182	@ 0xb6
  8003a4e:	f7ff ff65 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x0f);
  8003a52:	200f      	movs	r0, #15
  8003a54:	f7ff ff62 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xbe); //Set vcomh voltage
+	ssd1327_cmd(0xbe); 	// Set vcomh voltage
  8003a58:	20be      	movs	r0, #190	@ 0xbe
  8003a5a:	f7ff ff5f 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x0f);
  8003a5e:	200f      	movs	r0, #15
  8003a60:	f7ff ff5c 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xbc); //set pre-charge voltage
+	ssd1327_cmd(0xbc); 	// Set pre-charge voltage
  8003a64:	20bc      	movs	r0, #188	@ 0xbc
  8003a66:	f7ff ff59 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x08);
  8003a6a:	2008      	movs	r0, #8
  8003a6c:	f7ff ff56 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xd5); //second precharge period
+	ssd1327_cmd(0xd5); 	// Second precharge period
  8003a70:	20d5      	movs	r0, #213	@ 0xd5
  8003a72:	f7ff ff53 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x62);
  8003a76:	2062      	movs	r0, #98	@ 0x62
  8003a78:	f7ff ff50 	bl	800391c <ssd1327_cmd>
 
-	ssd1327_cmd(0xfd); //Unlock commands
+	ssd1327_cmd(0xfd); 	// Unlock commands
  8003a7c:	20fd      	movs	r0, #253	@ 0xfd
  8003a7e:	f7ff ff4d 	bl	800391c <ssd1327_cmd>
 	ssd1327_cmd(0x12);

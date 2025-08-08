@@ -12,7 +12,7 @@
 
 
 //#####################################################
-//				Konfiguracja pinów
+//				Pin configuration
 //#####################################################
 
 
@@ -25,7 +25,7 @@
 #define CS_PORT		CS_GPIO_Port
 
 //#####################################################
-//				Parametry wyświetlacza
+//				Display parameters
 //#####################################################
 
 #define SSD1327_WIDTH			128
@@ -38,7 +38,7 @@
 #define WHITE 15
 
 //#####################################################
-//				Definicje komend
+//				Command definitions
 //#####################################################
 
 
@@ -69,7 +69,7 @@
 #define SSD1327_SETCOMMANDLOCK		0xFD
 
 //#####################################################
-//				Deklaracje zmiennych
+//				Variable declarations
 //#####################################################
 
 //uint8_t ssd1327_buf[BUF_SIZE] ;
@@ -79,18 +79,18 @@ extern int cursor_x, cursor_y;
 typedef enum {page0, page1, page2, page3, page4, page5, page6, page7} TPAGE ;
 
 //#####################################################
-//				Deklaracje funkcji
+//				Function declarations
 //#####################################################
 
-void ssd1327_Init (void); 										//inicjalizacja wyswietlacza
-void ssd1327_SpiInit(SPI_HandleTypeDef *spi);					//inicjalizacja za pomocą SPI
-void ssd1327_Reset(void);										//resetowanie ekranu
-void ssd1327_cmd (uint8_t cmd); 								//wysyłanie komend
-void ssd1327_SetContrast(uint8_t Contrast);						//Ustawienie kontrastu
-void ssd1327_data ( uint8_t dat );								//wysyłanie danych
-void ssd1327_display (void);									//wysłanie danych z bufora
-void ssd1327_setPixel( int x , int y , uint8_t bw); 			//ustawienie pixela
-void ssd1327_CLR(void);											//czyszczenie ekranu
+void ssd1327_Init (void); 										//Initialising the display
+void ssd1327_SpiInit(SPI_HandleTypeDef *spi);					//Initialisation via SPI
+void ssd1327_Reset(void);										//Screen reset
+void ssd1327_cmd (uint8_t cmd); 								//Sending commands
+void ssd1327_SetContrast(uint8_t Contrast);						//Contrast setting
+void ssd1327_data ( uint8_t dat );								//Sending data
+void ssd1327_display (void);									//Sending data from the buffer
+void ssd1327_setPixel( int x , int y , uint8_t bw); 			//Pixel setting
+void ssd1327_CLR(void);											//Cleaning the screen
 
 
 

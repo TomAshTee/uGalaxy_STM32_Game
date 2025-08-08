@@ -154,7 +154,7 @@ void update_lvl(void);							// Player level update
 void update_backgrand(void);					// Background handling
 void add_background(void);						// Addition of a background unit
 bool colliding(int x0, int y0, int x1, int y1);	// Checking for collisions between objects
-void update_enemy (T_enemy* enemy);				// Adding an opponent
+//void update_enemy (T_enemy* enemy);			// Adding an opponent
 void add_bonus(int x, int y);					// Adding a bonus on the position of a downed enemy
 void update_bonus(void);						// Bonus handling
 uint8_t button_pressed (void); 					// Checking whether push-button no.1 is pressed

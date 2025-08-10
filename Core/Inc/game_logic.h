@@ -17,17 +17,21 @@
 //						Constants
 //#####################################################
 
-#define num_shots  			35		// Maximum number of shots def.8
-#define num_boss_shots 		5		// Number of boss shots !!!! NOT SURE WHY THE GAME CRASHES WITH A DIFFERENT AMOUNT !!! def.5
+#define num_shots  			25		// Maximum number of shots def.8
 #define num_enemies  		10		// Maximum number of opponents
-#define num_background		250		// Max. background objects (stars) (high RAM consumption) def.40
+#define num_background		80		// Max. background objects (stars) (high RAM consumption) def.40
 #define num_background_freq 12		// Background adding frequency (0-100) def.20
 #define num_bonus			3		// Max. number of bonuses on the map
+
+#define num_boss_shots 		5		// Number of boss shots !!!! NOT SURE WHY THE GAME CRASHES WITH A DIFFERENT AMOUNT !!! def.5
+#define initial_boss_x		(SSD1327_WIDTH + 12)	// Initial position of the boss - off screen + size of the graphic
+#define initial_boss_y		(SSD1327_HEIGHT / 2)	// Initial boss position in the middle of the screen
+#define initial_boss_update_delay	3	// Initial boss speed
 
 #define frequ_bonus		15			// Frequency of bonuses (1-99)
 #define duration_bonus	150			// Duration of bonus
 
-#define initial_lives 	10			// Initial number of lives
+#define initial_lives 	3			// Initial number of lives
 #define initial_score 	0			// Initial result of the game
 #define initial_x		2			// Initial position X of player
 #define initial_y		64			// Initial position Y of player
@@ -154,21 +158,10 @@ typedef struct {			// Context of the current game
 
 extern GameCtx g_singleton;						// Game context
 
-void start_game(void);
-void add_enemy(void);
-void run_menu (void);							// Menu operation
-void run_game (void);							// The main skeleton of the game sequence
-void drow_game(void);
-void update_scene(void);
-void shot(void);
-void boss_shoot(void);
-void play_dead_anim(void);						// Display of animation after death - climate building ;)
-void run_dead(void);							// End of game support
-void update_lvl(void);
-void update_backgrand(void);
-void add_background(void);
-void add_bonus(int x, int y);
-void update_bonus(void);
+void Run_Menu (void);							// Menu operation
+void Run_Game (void);							// The main skeleton of the game sequence
+void Play_Dead_Anim(void);						// Display of animation after death - climate building ;)
+void Run_Dead(void);							// End of game support
 uint8_t button_pressed (void); 					// Checking whether push-button no.1 is pressed
 int joystick_value_y (void);					// Entering the Y axis value of the joystick
 

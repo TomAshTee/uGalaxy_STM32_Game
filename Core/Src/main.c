@@ -20,7 +20,7 @@
  * ToDo:
  * - Uporządkowanie main.c po rozdzieleniu logiki
  * - Uporządkowanie game_logic.h ze zbednych deklaracji
- *
+ * - Wykoanie interfejsu do obsługi joistica i przycisków
  *
  *
  * - Dodanie może wprowadzenia fabularnego ?
@@ -171,11 +171,11 @@ int main(void)
 		switch (Game_Get_State(&g_singleton))
 		{
 		case st_menu:
-			run_menu(); break;
+			Run_Menu(); break;
 		case st_playing:
-			run_game(); break;
+			Run_Game(); break;
 		case st_dead:
-			run_dead();	break;
+			Run_Dead();	break;
 		}
     /* USER CODE END WHILE */
 
@@ -384,25 +384,7 @@ static void MX_GPIO_Init(void)
 
 }
 
-/* USER CODE BEGIN 4 */
-
-void add_background(void)
-{
-	Game_Add_Background(&g_singleton);
-}
-
-void update_backgrand(void)
-{
-
-	Game_Update_Backgrand(&g_singleton);
-}
-
-void update_lvl(void)
-{
-	Game_Level_Update(&g_singleton);
-}
-
-void run_dead(void)
+void Run_Dead(void)
 {
 
 	/*
@@ -422,12 +404,12 @@ void run_dead(void)
 
 	if(button_pressed())
 	{
-		play_dead_anim();
+		Play_Dead_Anim();
 		Game_Set_State(&g_singleton, st_menu);//state = st_menu;
 	}
 }
 
-void play_dead_anim(void)
+void Play_Dead_Anim(void)
 {
 	/*
 	 * Animation between separate screens. Gives the illusion of an old game.
@@ -446,38 +428,27 @@ void play_dead_anim(void)
 	}
 }
 
-void shot(void)
-{
-	Game_Shot(&g_singleton);
-}
-
-void boss_shoot(void)
-{
-	Game_Shot_Boss(&g_singleton);
-}
-
-void update_scene(void)
-{
-	Game_Tick(&g_singleton);
-}
-
-void run_game (void)
+void Run_Game (void)
 {
 	/*
 	 * The main loop of the game, executing the relevant functions one by one
 	 */
-	drow_game();
+	//drow_game();
+	Game_Draw(&g_singleton);
 	ssd1327_display();
 	ssd1327_CLR();
 
-	update_lvl();
-	update_scene();
-	update_backgrand();
-	update_bonus();
-
+	//update_lvl();
+	Game_Level_Update(&g_singleton);
+	//update_scene();
+	Game_Tick(&g_singleton);
+	//update_backgrand();
+	Game_Update_Backgrand(&g_singleton);
+	//update_bonus();
+	Game_Update_Bonus(&g_singleton);
 }
 
-void run_menu (void)
+void Run_Menu (void)
 {
 	/*
 	 * Start screen, basic information for the player at the beginning
@@ -493,34 +464,12 @@ void run_menu (void)
 
 	if(button_pressed())
 	{
-		start_game();
+		//start_game();
+		Game_Init(&g_singleton);
 		Game_Set_State(&g_singleton, st_playing);//state = st_playing;
 	}
 	ssd1327_display();
 
-}
-
-void start_game(void)
-{
-	Game_Init(&g_singleton);
-}
-
-void add_enemy(void)
-{
-	Game_Add_Enemy(&g_singleton);
-}
-
-void drow_game(void) {
-	Game_Draw(&g_singleton);
-}
-void add_bonus(int x, int y)
-{
-	Game_Add_Bonus(&g_singleton, x , y);
-}
-
-void update_bonus(void)
-{
-	Game_Update_Bonus(&g_singleton);
 }
 
 uint8_t button_pressed (void)

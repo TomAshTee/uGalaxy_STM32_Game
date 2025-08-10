@@ -51,11 +51,11 @@ void Game_Init(GameCtx *g) {
 
 	//Deactivation boss
 	g->boss.active = false;
-	g->boss.lives = 6;
-	g->boss.level = 1;
-	g->boss.x = 140;
-	g->boss.y = 32;
-	g->boss.update_delay = 3;
+	//g->boss.lives = 6;
+	//g->boss.level = 1;
+	g->boss.x = initial_boss_x;
+	g->boss.y = initial_boss_y;
+	g->boss.update_delay = initial_boss_update_delay;
 }
 
 void Game_Tick(GameCtx *g) {
@@ -87,7 +87,7 @@ void Game_Tick(GameCtx *g) {
 		case st_normal:
 			if (g->shots[i].active)
 				g->shots[i].x++;
-			if (g->shots[i].x > 128)
+			if (g->shots[i].x > screen_width)
 				g->shots[i].active = false;
 			break;
 		case st_tracker:
@@ -114,7 +114,7 @@ void Game_Tick(GameCtx *g) {
 			}
 
 			//Remove off-map shots
-			if (g->shots[i].x > 128) {
+			if (g->shots[i].x > screen_width) {
 				g->shots[i].active = false;
 				g->shots[i].track_number = 0;
 			}
@@ -170,7 +170,7 @@ void Game_Tick(GameCtx *g) {
 
 						ssd1327_display();
 						if (g->player.lives <= 0) {
-							play_dead_anim();
+							Play_Dead_Anim();
 							g->state = st_dead;
 						}
 					}
@@ -273,7 +273,7 @@ void Game_Tick(GameCtx *g) {
 
 					ssd1327_display();
 					if (g->player.lives <= 0) {
-						play_dead_anim();
+						Play_Dead_Anim();
 						g->state = st_dead;
 					}
 				}
@@ -528,7 +528,7 @@ void Game_Add_Background(GameCtx* g){
 		if(!g->background[i].active)
 		{
 			g->background[i].active 		= true;
-			g->background[i].x 				= 128;
+			g->background[i].x 				= screen_width;
 			g->background[i].y				= (rand()%(screen_height-10)) +10;
 			g->background[i].update_delay 	= (rand()%6)+2; // def. (rand()%4)+2;
 
@@ -736,7 +736,7 @@ void Game_Add_Enemy(GameCtx* g){
 			if(!g->enemies[i].active)
 			{
 				g->enemies[i].active = true;
-				g->enemies[i].x = 140;
+				g->enemies[i].x = screen_width + 12;
 				g->enemies[i].y = ((rand()%(screen_height - 10))+10);
 				g->enemies[i].tracked_by_missile = false;
 				g->enemies[i].track_number = 0;

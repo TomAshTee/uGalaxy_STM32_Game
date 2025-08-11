@@ -11,6 +11,7 @@
 #include "stdbool.h"
 #include "stdint.h"
 #include "ssd1327.h"
+#include "input.h"
 
 
 //#####################################################
@@ -158,16 +159,16 @@ typedef struct {			// Context of the current game
 
 extern GameCtx g_singleton;						// Game context
 
-void Run_Menu (void);							// Menu operation
-void Run_Game (void);							// The main skeleton of the game sequence
+void Run_Menu (InputSnapshot* in);							// Menu operation
+void Run_Game (InputSnapshot* in);							// The main skeleton of the game sequence
 void Play_Dead_Anim(void);						// Display of animation after death - climate building ;)
-void Run_Dead(void);							// End of game support
+void Run_Dead(InputSnapshot* in);							// End of game support
 uint8_t button_pressed (void); 					// Checking whether push-button no.1 is pressed
 int joystick_value_y (void);					// Entering the Y axis value of the joystick
 
 void Game_Init(GameCtx* g);						// Starting the game
-void Game_Tick(GameCtx* g);						// Handling of "core game" events
-void Game_Draw(GameCtx* g);						// "Drawing" the game
+void Game_Tick(GameCtx* g, InputSnapshot* in);						// Handling of "core game" events
+void Game_Draw(GameCtx* g, InputSnapshot* in);						// "Drawing" the game
 void Game_Level_Update(GameCtx* g);				// Player level update
 void Game_Update_Backgrand(GameCtx* g);			// Background handling
 void Game_Add_Background(GameCtx* g);			// Addition of a background unit

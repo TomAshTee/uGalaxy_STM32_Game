@@ -1,0 +1,2 @@
+../Core/Src/input.c:19:6:Input_Init	1
+../Core/Src/input.c:28:15:Input_Read	3

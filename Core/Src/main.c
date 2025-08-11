@@ -18,9 +18,9 @@
 
 /*
  * ToDo:
- * - Uporządkowanie main.c po rozdzieleniu logiki
- * - Uporządkowanie game_logic.h ze zbednych deklaracji
- * - Wykoanie interfejsu do obsługi joistica i przycisków
+ * - Bossy nie strzelają - do poprawienia
+ * - Ekran - SPI po DMA
+ * - ADC - Po DMA
  *
  *
  * - Dodanie może wprowadzenia fabularnego ?
@@ -42,6 +42,7 @@
 #include "game_logic.h"
 #include "GFX_ssd1327.h"
 #include "ssd1327.h"
+#include "input.h"
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -57,8 +58,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 extern void Game_Init(GameCtx* g);
-extern void Game_Tick(GameCtx* g);  // użyją się przez shim
-extern void Game_Draw(GameCtx* g);
+extern void Game_Tick(GameCtx* g, InputSnapshot* in);
+extern void Game_Draw(GameCtx* g, InputSnapshot* in);
 
 /* USER CODE END PD */
 
@@ -74,29 +75,8 @@ SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
 
-/*
- * ----------------------------------------------------------------------
- * 					Structures and structure arrays
- */
-//T_player player; 						//Player
-//T_shot shots[num_shots]; 				//Player shots
-//T_shot boss_shots [num_boss_shots];		//Boss shots
-//T_enemy enemies[num_enemies];			//Enemies
-//T_backgrand background[num_background];	//Back
-//T_boss boss;							//Boss in game
-//T_bonus bonuses[num_bonus];				//Bonuses in game
-//
-//gamestate state = st_menu;				//Initial game state
-
 uint8_t btn_prev = 0;					//Key operation prevent , repetition
-
-int debug_value;
-
-
-/*
- * ----------------------------------------------------------------------
- * ----------------------------------------------------------------------
- */
+InputSnapshot input_Snap;
 
 /* USER CODE END PV */
 
@@ -164,18 +144,21 @@ int main(void)
 
   //start_game();
   Game_Init(&g_singleton);
+  Input_Init(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
   //add_enemy();
 
   while (1)
   {
+	  input_Snap = Input_Read();
+
 		switch (Game_Get_State(&g_singleton))
 		{
 		case st_menu:
-			Run_Menu(); break;
+			Run_Menu(&input_Snap); break;
 		case st_playing:
-			Run_Game(); break;
+			Run_Game(&input_Snap); break;
 		case st_dead:
-			Run_Dead();	break;
+			Run_Dead(&input_Snap);	break;
 		}
     /* USER CODE END WHILE */
 
@@ -384,7 +367,7 @@ static void MX_GPIO_Init(void)
 
 }
 
-void Run_Dead(void)
+void Run_Dead(InputSnapshot* in)
 {
 
 	/*
@@ -402,7 +385,7 @@ void Run_Dead(void)
 	GFX_PutInt(73,(screen_height/2) + 27,Game_Get_Palyer_Score(&g_singleton),1,1,0);
 	ssd1327_display();
 
-	if(button_pressed())
+	if(in->btn1_is_pressed == GPIO_PIN_SET)
 	{
 		Play_Dead_Anim();
 		Game_Set_State(&g_singleton, st_menu);//state = st_menu;
@@ -428,27 +411,27 @@ void Play_Dead_Anim(void)
 	}
 }
 
-void Run_Game (void)
+void Run_Game (InputSnapshot* in)
 {
 	/*
 	 * The main loop of the game, executing the relevant functions one by one
 	 */
 	//drow_game();
-	Game_Draw(&g_singleton);
+	Game_Draw(&g_singleton, in);
 	ssd1327_display();
 	ssd1327_CLR();
 
 	//update_lvl();
 	Game_Level_Update(&g_singleton);
 	//update_scene();
-	Game_Tick(&g_singleton);
+	Game_Tick(&g_singleton, in);
 	//update_backgrand();
 	Game_Update_Backgrand(&g_singleton);
 	//update_bonus();
 	Game_Update_Bonus(&g_singleton);
 }
 
-void Run_Menu (void)
+void Run_Menu (InputSnapshot* in)
 {
 	/*
 	 * Start screen, basic information for the player at the beginning
@@ -462,7 +445,7 @@ void Run_Menu (void)
 	GFX_DrowRoundRect(15,(screen_height/2) + 34,93,20,8,1);
 	GFX_DrowBitMap_P(26, (screen_height/2)+ 37, PressToStart_map, 66,10,1);
 
-	if(button_pressed())
+	if(in->btn1_is_pressed == GPIO_PIN_SET)
 	{
 		//start_game();
 		Game_Init(&g_singleton);
@@ -472,28 +455,28 @@ void Run_Menu (void)
 
 }
 
-uint8_t button_pressed (void)
-{
-	/*
-	 * Checking whether a button has been pressed. Prevention of repetition.
-	 */
-
-	if((HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_SET) && btn_prev == 0)
-	{
-		btn_prev = 1;
-		return 1;
-	}
-
-	if(HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_RESET)
-	{
-		btn_prev = 0;
-	}
-	return 0;
-}
-
-int joystick_value_y (void){
-	return HAL_ADC_GetValue(&hadc1);
-}
+//uint8_t button_pressed (void)
+//{
+//	/*
+//	 * Checking whether a button has been pressed. Prevention of repetition.
+//	 */
+//
+//	if((HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_SET) && btn_prev == 0)
+//	{
+//		btn_prev = 1;
+//		return 1;
+//	}
+//
+//	if(HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_RESET)
+//	{
+//		btn_prev = 0;
+//	}
+//	return 0;
+//}
+//
+//int joystick_value_y (void){
+//	return HAL_ADC_GetValue(&hadc1);
+//}
 
 /* USER CODE END 4 */
 

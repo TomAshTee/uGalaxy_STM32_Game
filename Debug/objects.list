@@ -1,6 +1,7 @@
 "./Core/Src/GFX_ssd1327.o"
 "./Core/Src/game_logic.o"
 "./Core/Src/graphics_map.o"
+"./Core/Src/input.o"
 "./Core/Src/itoa.o"
 "./Core/Src/main.o"
 "./Core/Src/ssd1327.o"

@@ -58,7 +58,7 @@ void Game_Init(GameCtx *g) {
 	g->boss.update_delay = initial_boss_update_delay;
 }
 
-void Game_Tick(GameCtx *g) {
+void Game_Tick(GameCtx *g, InputSnapshot* in) {
 	/*
 	 * The logic of the whole game
 	 */
@@ -66,7 +66,7 @@ void Game_Tick(GameCtx *g) {
 
 	static uint8_t y = 0, dy = 1;
 	// Read analog stick
-	int stick = joystick_value_y();
+	int stick = in->joystick_y_value;
 
 	if (stick < 1000)
 		g->player.y -= 1;
@@ -317,7 +317,7 @@ void Game_Tick(GameCtx *g) {
 	}
 	//-------------------------------------------
 
-	if (button_pressed())
+	if (in->btn1_is_pressed == GPIO_PIN_SET)
 		Game_Shot(g);//shot();
 
 	// Checking the collision of a player's shots with opponents. Adding Bonuses
@@ -345,7 +345,7 @@ void Game_Tick(GameCtx *g) {
 		Game_Add_Enemy(g);//add_enemy();
 }
 
-void Game_Draw(GameCtx *g) {
+void Game_Draw(GameCtx *g, InputSnapshot* in) {
 	/*
 	 * Drawing all game graphics
 	 */

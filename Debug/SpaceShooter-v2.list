@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0000b074  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000f633  00000000  00000000  0000b0a4  2**0
+ 12 .debug_info   0000f62a  00000000  00000000  0000b0a4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002b1c  00000000  00000000  0001a6d7  2**0
+ 13 .debug_abbrev 00002aed  00000000  00000000  0001a6ce  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000f08  00000000  00000000  0001d1f8  2**3
+ 14 .debug_aranges 00000f08  00000000  00000000  0001d1c0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000b36  00000000  00000000  0001e100  2**0
+ 15 .debug_rnglists 00000b36  00000000  00000000  0001e0c8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0002361e  00000000  00000000  0001ec36  2**0
+ 16 .debug_macro  0002361e  00000000  00000000  0001ebfe  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00012262  00000000  00000000  00042254  2**0
+ 17 .debug_line   00012264  00000000  00000000  0004221c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d2341  00000000  00000000  000544b6  2**0
+ 18 .debug_str    000d234d  00000000  00000000  00054480  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  001267f7  2**0
+ 19 .comment      00000043  00000000  00000000  001267cd  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004a68  00000000  00000000  0012683c  2**2
+ 20 .debug_frame  00004a68  00000000  00000000  00126810  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000062  00000000  00000000  0012b2a4  2**0
+ 21 .debug_line_str 00000062  00000000  00000000  0012b278  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1984,7 +1984,7 @@ void GameInit(GameCtx *g) {
  800125a:	2300      	movs	r3, #0
  800125c:	73fb      	strb	r3, [r7, #15]
  800125e:	e00d      	b.n	800127c <GameInit+0x7a>
-		g->boss_shots[i].active = false;
+		g->bossShots[i].active = false;
  8001260:	7bfa      	ldrb	r2, [r7, #15]
  8001262:	6879      	ldr	r1, [r7, #4]
  8001264:	4613      	mov	r3, r2
@@ -2112,7 +2112,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 	static uint8_t y = 0, dy = 1;
 	// Read analog stick
-	int stick = in->joystick_y_value;
+	int stick = in->joystickYValue;
  8001336:	683b      	ldr	r3, [r7, #0]
  8001338:	681b      	ldr	r3, [r3, #0]
  800133a:	60bb      	str	r3, [r7, #8]
@@ -2680,7 +2680,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001726:	2b00      	cmp	r3, #0
  8001728:	f000 8263 	beq.w	8001bf2 <GameTick+0x8c6>
 
-					g->enemies[i].next_update = g->enemies[i].update_delay;
+					g->enemies[i].next_update = g->enemies[i].updateDelay;
  800172c:	7df9      	ldrb	r1, [r7, #23]
  800172e:	7dfa      	ldrb	r2, [r7, #23]
  8001730:	6878      	ldr	r0, [r7, #4]
@@ -3429,7 +3429,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001cdc:	2300      	movs	r3, #0
  8001cde:	75fb      	strb	r3, [r7, #23]
  8001ce0:	e03a      	b.n	8001d58 <GameTick+0xa2c>
-			if (g->boss_shots[i].active)
+			if (g->bossShots[i].active)
  8001ce2:	7dfa      	ldrb	r2, [r7, #23]
  8001ce4:	6879      	ldr	r1, [r7, #4]
  8001ce6:	4613      	mov	r3, r2
@@ -3441,7 +3441,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001cf4:	781b      	ldrb	r3, [r3, #0]
  8001cf6:	2b00      	cmp	r3, #0
  8001cf8:	d013      	beq.n	8001d22 <GameTick+0x9f6>
-				g->boss_shots[i].x--;
+				g->bossShots[i].x--;
  8001cfa:	7dfa      	ldrb	r2, [r7, #23]
  8001cfc:	6879      	ldr	r1, [r7, #4]
  8001cfe:	4613      	mov	r3, r2
@@ -3460,7 +3460,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001d1a:	4403      	add	r3, r0
  8001d1c:	f503 7307 	add.w	r3, r3, #540	@ 0x21c
  8001d20:	6019      	str	r1, [r3, #0]
-			if (g->boss_shots[i].x < -4)
+			if (g->bossShots[i].x < -4)
  8001d22:	7dfa      	ldrb	r2, [r7, #23]
  8001d24:	6879      	ldr	r1, [r7, #4]
  8001d26:	4613      	mov	r3, r2
@@ -3472,7 +3472,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001d34:	681b      	ldr	r3, [r3, #0]
  8001d36:	f113 0f04 	cmn.w	r3, #4
  8001d3a:	da0a      	bge.n	8001d52 <GameTick+0xa26>
-				g->boss_shots[i].active = false;
+				g->bossShots[i].active = false;
  8001d3c:	7dfa      	ldrb	r2, [r7, #23]
  8001d3e:	6879      	ldr	r1, [r7, #4]
  8001d40:	4613      	mov	r3, r2
@@ -3499,7 +3499,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001d64:	20000b30 	.word	0x20000b30
  8001d68:	20000000 	.word	0x20000000
  8001d6c:	51eb851f 	.word	0x51eb851f
-			if (g->boss_shots[i].active) {
+			if (g->bossShots[i].active) {
  8001d70:	7dfa      	ldrb	r2, [r7, #23]
  8001d72:	6879      	ldr	r1, [r7, #4]
  8001d74:	4613      	mov	r3, r2
@@ -3511,7 +3511,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001d82:	781b      	ldrb	r3, [r3, #0]
  8001d84:	2b00      	cmp	r3, #0
  8001d86:	f000 80cc 	beq.w	8001f22 <GameTick+0xbf6>
-				if (Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+				if (Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001d8a:	7dfa      	ldrb	r2, [r7, #23]
  8001d8c:	6879      	ldr	r1, [r7, #4]
  8001d8e:	4613      	mov	r3, r2
@@ -3539,7 +3539,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001dc0:	2b00      	cmp	r3, #0
  8001dc2:	d15a      	bne.n	8001e7a <GameTick+0xb4e>
 						g->player.x, g->player.y)
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001dc4:	7dfa      	ldrb	r2, [r7, #23]
  8001dc6:	6879      	ldr	r1, [r7, #4]
  8001dc8:	4613      	mov	r3, r2
@@ -3563,13 +3563,13 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 								g->player.x, g->player.y + 5)
  8001df0:	687b      	ldr	r3, [r7, #4]
  8001df2:	685b      	ldr	r3, [r3, #4]
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001df4:	3305      	adds	r3, #5
  8001df6:	f001 fa01 	bl	80031fc <Colliding>
  8001dfa:	4603      	mov	r3, r0
  8001dfc:	2b00      	cmp	r3, #0
  8001dfe:	d13c      	bne.n	8001e7a <GameTick+0xb4e>
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001e00:	7dfa      	ldrb	r2, [r7, #23]
  8001e02:	6879      	ldr	r1, [r7, #4]
  8001e04:	4613      	mov	r3, r2
@@ -3591,7 +3591,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 								g->player.x + 7, g->player.y)
  8001e28:	687b      	ldr	r3, [r7, #4]
  8001e2a:	681b      	ldr	r3, [r3, #0]
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001e2c:	1dda      	adds	r2, r3, #7
  8001e2e:	687b      	ldr	r3, [r7, #4]
  8001e30:	685b      	ldr	r3, [r3, #4]
@@ -3599,7 +3599,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001e36:	4603      	mov	r3, r0
  8001e38:	2b00      	cmp	r3, #0
  8001e3a:	d11e      	bne.n	8001e7a <GameTick+0xb4e>
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001e3c:	7dfa      	ldrb	r2, [r7, #23]
  8001e3e:	6879      	ldr	r1, [r7, #4]
  8001e40:	4613      	mov	r3, r2
@@ -3621,12 +3621,12 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 								g->player.x + 7, g->player.y + 5)) {
  8001e64:	687b      	ldr	r3, [r7, #4]
  8001e66:	681b      	ldr	r3, [r3, #0]
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001e68:	1dda      	adds	r2, r3, #7
 								g->player.x + 7, g->player.y + 5)) {
  8001e6a:	687b      	ldr	r3, [r7, #4]
  8001e6c:	685b      	ldr	r3, [r3, #4]
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
  8001e6e:	3305      	adds	r3, #5
  8001e70:	f001 f9c4 	bl	80031fc <Colliding>
  8001e74:	4603      	mov	r3, r0
@@ -3639,7 +3639,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001e80:	687b      	ldr	r3, [r7, #4]
  8001e82:	611a      	str	r2, [r3, #16]
 					;
-					g->boss_shots[i].active = false;
+					g->bossShots[i].active = false;
  8001e84:	7dfa      	ldrb	r2, [r7, #23]
  8001e86:	6879      	ldr	r1, [r7, #4]
  8001e88:	4613      	mov	r3, r2
@@ -3650,7 +3650,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001e92:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  8001e96:	2200      	movs	r2, #0
  8001e98:	701a      	strb	r2, [r3, #0]
-					GFX_DrowBitMap_P(g->boss_shots[i].x + 2, g->boss_shots[i].y,
+					GFX_DrowBitMap_P(g->bossShots[i].x + 2, g->bossShots[i].y,
  8001e9a:	7dfa      	ldrb	r2, [r7, #23]
  8001e9c:	6879      	ldr	r1, [r7, #4]
  8001e9e:	4613      	mov	r3, r2
@@ -3934,7 +3934,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80020b2:	2300      	movs	r3, #0
  80020b4:	75fb      	strb	r3, [r7, #23]
  80020b6:	e035      	b.n	8002124 <GameTick+0xdf8>
-			if (g->boss_shots[i].active) {
+			if (g->bossShots[i].active) {
  80020b8:	7dfa      	ldrb	r2, [r7, #23]
  80020ba:	6879      	ldr	r1, [r7, #4]
  80020bc:	4613      	mov	r3, r2
@@ -3946,7 +3946,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80020ca:	781b      	ldrb	r3, [r3, #0]
  80020cc:	2b00      	cmp	r3, #0
  80020ce:	d026      	beq.n	800211e <GameTick+0xdf2>
-				g->boss_shots[i].active = false;
+				g->bossShots[i].active = false;
  80020d0:	7dfa      	ldrb	r2, [r7, #23]
  80020d2:	6879      	ldr	r1, [r7, #4]
  80020d4:	4613      	mov	r3, r2
@@ -3957,7 +3957,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80020de:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  80020e2:	2200      	movs	r2, #0
  80020e4:	701a      	strb	r2, [r3, #0]
-				GFX_DrowBitMap_P(g->boss_shots[i].x, g->boss_shots[i].y,
+				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
  80020e6:	7dfa      	ldrb	r2, [r7, #23]
  80020e8:	6879      	ldr	r1, [r7, #4]
  80020ea:	4613      	mov	r3, r2
@@ -3995,7 +3995,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	}
 	//-------------------------------------------
 
-	if (in->btn1_is_pressed == GPIO_PIN_SET)
+	if (in->btn1State == GPIO_PIN_SET)
  800212a:	683b      	ldr	r3, [r7, #0]
  800212c:	791b      	ldrb	r3, [r3, #4]
  800212e:	2b01      	cmp	r3, #1
@@ -4381,7 +4381,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  800240a:	2300      	movs	r3, #0
  800240c:	73fb      	strb	r3, [r7, #15]
  800240e:	e02a      	b.n	8002466 <GameDraw+0x136>
-			if (g->boss_shots[i].active) {
+			if (g->bossShots[i].active) {
  8002410:	7bfa      	ldrb	r2, [r7, #15]
  8002412:	6879      	ldr	r1, [r7, #4]
  8002414:	4613      	mov	r3, r2
@@ -4393,7 +4393,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002422:	781b      	ldrb	r3, [r3, #0]
  8002424:	2b00      	cmp	r3, #0
  8002426:	d01b      	beq.n	8002460 <GameDraw+0x130>
-				GFX_DrowBitMap_P(g->boss_shots[i].x, g->boss_shots[i].y,
+				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
  8002428:	7bfa      	ldrb	r2, [r7, #15]
  800242a:	6879      	ldr	r1, [r7, #4]
  800242c:	4613      	mov	r3, r2
@@ -6238,7 +6238,7 @@ void GameShotBoss(GameCtx* g){
  8003176:	73fb      	strb	r3, [r7, #15]
  8003178:	e038      	b.n	80031ec <GameShotBoss+0x80>
 		{
-			if (!g->boss_shots[i].active)
+			if (!g->bossShots[i].active)
  800317a:	7bfa      	ldrb	r2, [r7, #15]
  800317c:	6879      	ldr	r1, [r7, #4]
  800317e:	4613      	mov	r3, r2
@@ -6253,7 +6253,7 @@ void GameShotBoss(GameCtx* g){
  8003194:	2b00      	cmp	r3, #0
  8003196:	d026      	beq.n	80031e6 <GameShotBoss+0x7a>
 			{
-				g->boss_shots[i].active = true;
+				g->bossShots[i].active = true;
  8003198:	7bfa      	ldrb	r2, [r7, #15]
  800319a:	6879      	ldr	r1, [r7, #4]
  800319c:	4613      	mov	r3, r2
@@ -6264,7 +6264,7 @@ void GameShotBoss(GameCtx* g){
  80031a6:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  80031aa:	2201      	movs	r2, #1
  80031ac:	701a      	strb	r2, [r3, #0]
-				g->boss_shots[i].x = g->boss.x;
+				g->bossShots[i].x = g->boss.x;
  80031ae:	7bfa      	ldrb	r2, [r7, #15]
  80031b0:	687b      	ldr	r3, [r7, #4]
  80031b2:	f8d3 1a28 	ldr.w	r1, [r3, #2600]	@ 0xa28
@@ -6276,7 +6276,7 @@ void GameShotBoss(GameCtx* g){
  80031c0:	4403      	add	r3, r0
  80031c2:	f503 7307 	add.w	r3, r3, #540	@ 0x21c
  80031c6:	6019      	str	r1, [r3, #0]
-				g->boss_shots[i].y = g->boss.y + 5;
+				g->bossShots[i].y = g->boss.y + 5;
  80031c8:	687b      	ldr	r3, [r7, #4]
  80031ca:	f8d3 3a2c 	ldr.w	r3, [r3, #2604]	@ 0xa2c
  80031ce:	7bfa      	ldrb	r2, [r7, #15]
@@ -6484,7 +6484,7 @@ void GameAddEnemy(GameCtx* g){
  8003336:	f503 7322 	add.w	r3, r3, #648	@ 0x288
  800333a:	2200      	movs	r2, #0
  800333c:	701a      	strb	r2, [r3, #0]
-					g->enemies[i].update_delay = (rand()%3);	//Speed setting (less = faster)
+					g->enemies[i].updateDelay = (rand()%3);	//Speed setting (less = faster)
  800333e:	f004 f87d 	bl	800743c <rand>
  8003342:	4601      	mov	r1, r0
  8003344:	7bf8      	ldrb	r0, [r7, #15]
@@ -6539,7 +6539,7 @@ void GameAddEnemy(GameCtx* g){
  80033a2:	f503 7322 	add.w	r3, r3, #648	@ 0x288
  80033a6:	2201      	movs	r2, #1
  80033a8:	701a      	strb	r2, [r3, #0]
-					g->enemies[i].update_delay = ((rand()%3)+1);
+					g->enemies[i].updateDelay = ((rand()%3)+1);
  80033aa:	f004 f847 	bl	800743c <rand>
  80033ae:	4601      	mov	r1, r0
  80033b0:	4b33      	ldr	r3, [pc, #204]	@ (8003480 <GameAddEnemy+0x234>)
@@ -6592,7 +6592,7 @@ void GameAddEnemy(GameCtx* g){
  800340a:	f503 7322 	add.w	r3, r3, #648	@ 0x288
  800340e:	2202      	movs	r2, #2
  8003410:	701a      	strb	r2, [r3, #0]
-					g->enemies[i].update_delay = ((rand()%3)+2);
+					g->enemies[i].updateDelay = ((rand()%3)+2);
  8003412:	f004 f813 	bl	800743c <rand>
  8003416:	4601      	mov	r1, r0
  8003418:	4b19      	ldr	r3, [pc, #100]	@ (8003480 <GameAddEnemy+0x234>)
@@ -6722,13 +6722,13 @@ int GameGetPalyerScore(GameCtx* g){
  80034e0:	4770      	bx	lr
 	...
 
-080034e4 <Input_Init>:
+080034e4 <InputInit>:
 
-static GPIO_PinState last_Btn_State = GPIO_PIN_SET;
-static GPIO_PinState curent_Btn_State;
+static GPIO_PinState _lastBtnState = GPIO_PIN_SET;
+static GPIO_PinState _curentBtnState;
 
 
-void Input_Init(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btn_Port, uint16_t btn_Pin){
+void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin){
  80034e4:	b480      	push	{r7}
  80034e6:	b085      	sub	sp, #20
  80034e8:	af00      	add	r7, sp, #0
@@ -6739,16 +6739,16 @@ void Input_Init(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btn_Port, uint16_t btn_Pi
 	/*
 	 * Assignment of input data
 	 */
-	s_hadc = hadc;
- 80034f2:	4a07      	ldr	r2, [pc, #28]	@ (8003510 <Input_Init+0x2c>)
+	_hadc = hadc;
+ 80034f2:	4a07      	ldr	r2, [pc, #28]	@ (8003510 <InputInit+0x2c>)
  80034f4:	68fb      	ldr	r3, [r7, #12]
  80034f6:	6013      	str	r3, [r2, #0]
-	s_btn_Port = btn_Port;
- 80034f8:	4a06      	ldr	r2, [pc, #24]	@ (8003514 <Input_Init+0x30>)
+	_btnPort = btnPort;
+ 80034f8:	4a06      	ldr	r2, [pc, #24]	@ (8003514 <InputInit+0x30>)
  80034fa:	68bb      	ldr	r3, [r7, #8]
  80034fc:	6013      	str	r3, [r2, #0]
-	s_btn_Pin = btn_Pin;
- 80034fe:	4a06      	ldr	r2, [pc, #24]	@ (8003518 <Input_Init+0x34>)
+	_btnPin = btnPin;
+ 80034fe:	4a06      	ldr	r2, [pc, #24]	@ (8003518 <InputInit+0x34>)
  8003500:	88fb      	ldrh	r3, [r7, #6]
  8003502:	8013      	strh	r3, [r2, #0]
 }
@@ -6761,9 +6761,9 @@ void Input_Init(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btn_Port, uint16_t btn_Pi
  8003514:	20000b38 	.word	0x20000b38
  8003518:	20000b3c 	.word	0x20000b3c
 
-0800351c <Input_Read>:
+0800351c <InputRead>:
 
-InputSnapshot Input_Read (void){
+InputSnapshot InputRead (void){
  800351c:	b580      	push	{r7, lr}
  800351e:	b084      	sub	sp, #16
  8003520:	af00      	add	r7, sp, #0
@@ -6772,8 +6772,8 @@ InputSnapshot Input_Read (void){
 	 * Reading and returning current states
 	 */
 	InputSnapshot snap;
-	snap.joystick_y_value = HAL_ADC_GetValue(s_hadc);
- 8003524:	4b17      	ldr	r3, [pc, #92]	@ (8003584 <Input_Read+0x68>)
+	snap.joystickYValue = HAL_ADC_GetValue(_hadc);
+ 8003524:	4b17      	ldr	r3, [pc, #92]	@ (8003584 <InputRead+0x68>)
  8003526:	681b      	ldr	r3, [r3, #0]
  8003528:	4618      	mov	r0, r3
  800352a:	f001 fac6 	bl	8004aba <HAL_ADC_GetValue>
@@ -6781,41 +6781,41 @@ InputSnapshot Input_Read (void){
  8003530:	60bb      	str	r3, [r7, #8]
 
 	// Removal of button repetition
-	curent_Btn_State = HAL_GPIO_ReadPin(s_btn_Port, s_btn_Pin);
- 8003532:	4b15      	ldr	r3, [pc, #84]	@ (8003588 <Input_Read+0x6c>)
+	_curentBtnState = HAL_GPIO_ReadPin(_btnPort, _btnPin);
+ 8003532:	4b15      	ldr	r3, [pc, #84]	@ (8003588 <InputRead+0x6c>)
  8003534:	681b      	ldr	r3, [r3, #0]
- 8003536:	4a15      	ldr	r2, [pc, #84]	@ (800358c <Input_Read+0x70>)
+ 8003536:	4a15      	ldr	r2, [pc, #84]	@ (800358c <InputRead+0x70>)
  8003538:	8812      	ldrh	r2, [r2, #0]
  800353a:	4611      	mov	r1, r2
  800353c:	4618      	mov	r0, r3
  800353e:	f002 fa6b 	bl	8005a18 <HAL_GPIO_ReadPin>
  8003542:	4603      	mov	r3, r0
  8003544:	461a      	mov	r2, r3
- 8003546:	4b12      	ldr	r3, [pc, #72]	@ (8003590 <Input_Read+0x74>)
+ 8003546:	4b12      	ldr	r3, [pc, #72]	@ (8003590 <InputRead+0x74>)
  8003548:	701a      	strb	r2, [r3, #0]
 
-	if(curent_Btn_State && !last_Btn_State){
- 800354a:	4b11      	ldr	r3, [pc, #68]	@ (8003590 <Input_Read+0x74>)
+	if(_curentBtnState && !_lastBtnState){
+ 800354a:	4b11      	ldr	r3, [pc, #68]	@ (8003590 <InputRead+0x74>)
  800354c:	781b      	ldrb	r3, [r3, #0]
  800354e:	2b00      	cmp	r3, #0
- 8003550:	d006      	beq.n	8003560 <Input_Read+0x44>
- 8003552:	4b10      	ldr	r3, [pc, #64]	@ (8003594 <Input_Read+0x78>)
+ 8003550:	d006      	beq.n	8003560 <InputRead+0x44>
+ 8003552:	4b10      	ldr	r3, [pc, #64]	@ (8003594 <InputRead+0x78>)
  8003554:	781b      	ldrb	r3, [r3, #0]
  8003556:	2b00      	cmp	r3, #0
- 8003558:	d102      	bne.n	8003560 <Input_Read+0x44>
-		snap.btn1_is_pressed = GPIO_PIN_SET;
+ 8003558:	d102      	bne.n	8003560 <InputRead+0x44>
+		snap.btn1State = GPIO_PIN_SET;
  800355a:	2301      	movs	r3, #1
  800355c:	733b      	strb	r3, [r7, #12]
- 800355e:	e001      	b.n	8003564 <Input_Read+0x48>
+ 800355e:	e001      	b.n	8003564 <InputRead+0x48>
 	} else {
-		snap.btn1_is_pressed = GPIO_PIN_RESET;
+		snap.btn1State = GPIO_PIN_RESET;
  8003560:	2300      	movs	r3, #0
  8003562:	733b      	strb	r3, [r7, #12]
 	}
-	last_Btn_State = curent_Btn_State;
- 8003564:	4b0a      	ldr	r3, [pc, #40]	@ (8003590 <Input_Read+0x74>)
+	_lastBtnState = _curentBtnState;
+ 8003564:	4b0a      	ldr	r3, [pc, #40]	@ (8003590 <InputRead+0x74>)
  8003566:	781a      	ldrb	r2, [r3, #0]
- 8003568:	4b0a      	ldr	r3, [pc, #40]	@ (8003594 <Input_Read+0x78>)
+ 8003568:	4b0a      	ldr	r3, [pc, #40]	@ (8003594 <InputRead+0x78>)
  800356a:	701a      	strb	r2, [r3, #0]
 
 	return snap;
@@ -7056,20 +7056,20 @@ int main(void)
   GameInit(&g_singleton);
  80036aa:	4819      	ldr	r0, [pc, #100]	@ (8003710 <main+0x9c>)
  80036ac:	f7fd fda9 	bl	8001202 <GameInit>
-  Input_Init(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
+  InputInit(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
  80036b0:	f44f 7280 	mov.w	r2, #256	@ 0x100
  80036b4:	f04f 4190 	mov.w	r1, #1207959552	@ 0x48000000
  80036b8:	4813      	ldr	r0, [pc, #76]	@ (8003708 <main+0x94>)
- 80036ba:	f7ff ff13 	bl	80034e4 <Input_Init>
+ 80036ba:	f7ff ff13 	bl	80034e4 <InputInit>
   //add_enemy();
 
   while (1)
   {
-	  input_Snap = Input_Read();
+	  input_Snap = InputRead();
  80036be:	4c15      	ldr	r4, [pc, #84]	@ (8003714 <main+0xa0>)
  80036c0:	463b      	mov	r3, r7
  80036c2:	4618      	mov	r0, r3
- 80036c4:	f7ff ff2a 	bl	800351c <Input_Read>
+ 80036c4:	f7ff ff2a 	bl	800351c <InputRead>
  80036c8:	4622      	mov	r2, r4
  80036ca:	463b      	mov	r3, r7
  80036cc:	e893 0003 	ldmia.w	r3, {r0, r1}
@@ -7104,7 +7104,7 @@ int main(void)
  80036fe:	4805      	ldr	r0, [pc, #20]	@ (8003714 <main+0xa0>)
  8003700:	f000 f97e 	bl	8003a00 <RunDead>
  8003704:	bf00      	nop
-	  input_Snap = Input_Read();
+	  input_Snap = InputRead();
  8003706:	e7da      	b.n	80036be <main+0x4a>
  8003708:	20000b40 	.word	0x20000b40
  800370c:	20000ba4 	.word	0x20000ba4
@@ -7694,7 +7694,7 @@ void RunDead(InputSnapshot* in)
 	ssd1327_display();
  8003a78:	f000 f972 	bl	8003d60 <ssd1327_display>
 
-	if(in->btn1_is_pressed == GPIO_PIN_SET)
+	if(in->btn1State == GPIO_PIN_SET)
  8003a7c:	687b      	ldr	r3, [r7, #4]
  8003a7e:	791b      	ldrb	r3, [r3, #4]
  8003a80:	2b01      	cmp	r3, #1
@@ -7884,7 +7884,7 @@ void RunMenu (InputSnapshot* in)
  8003b9c:	201a      	movs	r0, #26
  8003b9e:	f7fd f905 	bl	8000dac <GFX_DrowBitMap_P>
 
-	if(in->btn1_is_pressed == GPIO_PIN_SET)
+	if(in->btn1State == GPIO_PIN_SET)
  8003ba2:	687b      	ldr	r3, [r7, #4]
  8003ba4:	791b      	ldrb	r3, [r3, #4]
  8003ba6:	2b01      	cmp	r3, #1

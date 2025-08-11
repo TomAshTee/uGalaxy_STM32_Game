@@ -115,7 +115,7 @@ typedef struct				// Opponents
 	enemy_type type;
 	const uint8_t* bit_map;
 	int next_update;
-	int update_delay;
+	int updateDelay;
 	bool tracked_by_missile;
 	int track_number;
 }T_enemy;
@@ -144,13 +144,13 @@ typedef struct
 typedef struct {			// Context of the current game
 	T_player 	player;
 	T_shot 		shots[num_shots];
-	T_shot 		boss_shots[num_boss_shots];
+	T_shot 		bossShots[num_boss_shots];
 	T_enemy 	enemies[num_enemies];
 	T_backgrand background[num_background];
 	T_boss		boss;
 	T_bonus 	bonuses[num_bonus];
 	gamestate	state;
-	uint8_t		btn_prev;
+	uint8_t		btnPrevious;
 }GameCtx;
 
 //#####################################################

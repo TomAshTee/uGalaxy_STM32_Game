@@ -14,10 +14,11 @@
 
 // Structure containing the current status of inputs from sanpa
 typedef struct {
-	uint32_t joystick_y_value;
-	GPIO_PinState btn1_is_pressed;
+	uint32_t joystickYValue;
+	GPIO_PinState btn1State;
 }InputSnapshot;
 
-InputSnapshot Input_Read (void);
+void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin);
+InputSnapshot InputRead (void);
 
 #endif /* INC_INPUT_H_ */

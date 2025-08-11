@@ -36,7 +36,7 @@ void GameInit(GameCtx *g) {
 
 	//Deactivation of boss shots
 	for (i = 0; i < num_boss_shots; ++i)
-		g->boss_shots[i].active = false;
+		g->bossShots[i].active = false;
 
 	//Deactivation enemies
 	for (i = 0; i < num_enemies; i++) {
@@ -64,7 +64,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 	static uint8_t y = 0, dy = 1;
 	// Read analog stick
-	int stick = in->joystick_y_value;
+	int stick = in->joystickYValue;
 
 	if (stick < 1000)
 		g->player.y -= 1;
@@ -143,7 +143,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 			if (g->enemies[i].next_update <= 0) {
 				if (g->enemies[i].active) {
 
-					g->enemies[i].next_update = g->enemies[i].update_delay;
+					g->enemies[i].next_update = g->enemies[i].updateDelay;
 
 					//Checking for collisions between opponents and the player
 					if (Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
@@ -244,26 +244,26 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 
 		for (i = 0; i < num_boss_shots; ++i) {
-			if (g->boss_shots[i].active)
-				g->boss_shots[i].x--;
-			if (g->boss_shots[i].x < -4)
-				g->boss_shots[i].active = false;
+			if (g->bossShots[i].active)
+				g->bossShots[i].x--;
+			if (g->bossShots[i].x < -4)
+				g->bossShots[i].active = false;
 		}
 
 		for (i = 0; i < num_boss_shots; i++) {
-			if (g->boss_shots[i].active) {
-				if (Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+			if (g->bossShots[i].active) {
+				if (Colliding(g->bossShots[i].x, g->bossShots[i].y,
 						g->player.x, g->player.y)
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
 								g->player.x, g->player.y + 5)
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
 								g->player.x + 7, g->player.y)
-						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
 								g->player.x + 7, g->player.y + 5)) {
 					g->player.lives -= 1;
 					;
-					g->boss_shots[i].active = false;
-					GFX_DrowBitMap_P(g->boss_shots[i].x + 2, g->boss_shots[i].y,
+					g->bossShots[i].active = false;
+					GFX_DrowBitMap_P(g->bossShots[i].x + 2, g->bossShots[i].y,
 							explosion_map, 10, 10, 1);
 					GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
 							player_shield_map, 10, 16, 1);
@@ -307,16 +307,16 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	//Painting over and deactivating shots left over from the boss
 	if (!g->boss.active) {
 		for (i = 0; i < num_boss_shots; i++) {
-			if (g->boss_shots[i].active) {
-				g->boss_shots[i].active = false;
-				GFX_DrowBitMap_P(g->boss_shots[i].x, g->boss_shots[i].y,
+			if (g->bossShots[i].active) {
+				g->bossShots[i].active = false;
+				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
 						player_shot_map, 4, 1, 0);
 			}
 		}
 	}
 	//-------------------------------------------
 
-	if (in->btn1_is_pressed == GPIO_PIN_SET)
+	if (in->btn1State == GPIO_PIN_SET)
 		GameShot(g);//shot();
 
 	// Checking the collision of a player's shots with opponents. Adding Bonuses
@@ -367,8 +367,8 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	//Drawing graphics of a boss shot
 	if (g->boss.active) {
 		for (i = 0; i < num_boss_shots; i++) {
-			if (g->boss_shots[i].active) {
-				GFX_DrowBitMap_P(g->boss_shots[i].x, g->boss_shots[i].y,
+			if (g->bossShots[i].active) {
+				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
 						player_shot_map, 4, 1, 1);
 			}
 		}
@@ -705,11 +705,11 @@ void GameShotBoss(GameCtx* g){
 
 		for (i = 0; i < num_boss_shots; ++i)
 		{
-			if (!g->boss_shots[i].active)
+			if (!g->bossShots[i].active)
 			{
-				g->boss_shots[i].active = true;
-				g->boss_shots[i].x = g->boss.x;
-				g->boss_shots[i].y = g->boss.y + 5;
+				g->bossShots[i].active = true;
+				g->bossShots[i].x = g->boss.x;
+				g->bossShots[i].y = g->boss.y + 5;
 				return;
 			}
 		}
@@ -748,19 +748,19 @@ void GameAddEnemy(GameCtx* g){
 				{
 
 					g->enemies[i].type = et_diver;
-					g->enemies[i].update_delay = (rand()%3);	//Speed setting (less = faster)
+					g->enemies[i].updateDelay = (rand()%3);	//Speed setting (less = faster)
 					g->enemies[i].bit_map = driver_map;
 				}
 				if((enemy_type > 20 && enemy_type < 50) && (g->player.level > 4))
 				{
 					g->enemies[i].type = et_tracker;
-					g->enemies[i].update_delay = ((rand()%3)+1);
+					g->enemies[i].updateDelay = ((rand()%3)+1);
 					g->enemies[i].bit_map = tracker_map;
 				}
 				if((enemy_type < 20) && (g->player.level > 7))
 				{
 					g->enemies[i].type = et_bobber;
-					g->enemies[i].update_delay = ((rand()%3)+2);
+					g->enemies[i].updateDelay = ((rand()%3)+2);
 					g->enemies[i].bit_map = bobber_map;
 				}
 				break;

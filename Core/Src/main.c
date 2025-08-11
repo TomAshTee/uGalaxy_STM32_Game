@@ -18,7 +18,6 @@
 
 /*
  * ToDo:
- * - Bossy nie strzelają - do poprawienia
  * - Ekran - SPI po DMA
  * - ADC - Po DMA
  *
@@ -144,12 +143,12 @@ int main(void)
 
   //start_game();
   GameInit(&g_singleton);
-  Input_Init(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
+  InputInit(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
   //add_enemy();
 
   while (1)
   {
-	  input_Snap = Input_Read();
+	  input_Snap = InputRead();
 
 		switch (GameGetState(&g_singleton))
 		{
@@ -385,7 +384,7 @@ void RunDead(InputSnapshot* in)
 	GFX_PutInt(73,(screen_height/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
 	ssd1327_display();
 
-	if(in->btn1_is_pressed == GPIO_PIN_SET)
+	if(in->btn1State == GPIO_PIN_SET)
 	{
 		PlayDeadAnim();
 		GameSetState(&g_singleton, st_menu);//state = st_menu;
@@ -445,7 +444,7 @@ void RunMenu (InputSnapshot* in)
 	GFX_DrowRoundRect(15,(screen_height/2) + 34,93,20,8,1);
 	GFX_DrowBitMap_P(26, (screen_height/2)+ 37, PressToStart_map, 66,10,1);
 
-	if(in->btn1_is_pressed == GPIO_PIN_SET)
+	if(in->btn1State == GPIO_PIN_SET)
 	{
 		//start_game();
 		GameInit(&g_singleton);

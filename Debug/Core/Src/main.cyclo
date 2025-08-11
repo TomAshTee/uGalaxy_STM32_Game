@@ -3,8 +3,8 @@
 ../Core/Src/main.c:235:13:MX_ADC1_Init	3
 ../Core/Src/main.c:293:13:MX_SPI1_Init	2
 ../Core/Src/main.c:333:13:MX_GPIO_Init	1
-../Core/Src/main.c:370:6:Run_Dead	4
-../Core/Src/main.c:395:6:Play_Dead_Anim	2
-../Core/Src/main.c:414:6:Run_Game	1
-../Core/Src/main.c:434:6:Run_Menu	4
+../Core/Src/main.c:370:6:RunDead	4
+../Core/Src/main.c:395:6:PlayDeadAnim	2
+../Core/Src/main.c:414:6:RunGame	1
+../Core/Src/main.c:434:6:RunMenu	4
 ../Core/Src/main.c:464:6:Error_Handler	1

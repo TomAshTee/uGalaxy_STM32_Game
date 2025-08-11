@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00012262  00000000  00000000  00042254  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d235f  00000000  00000000  000544b6  2**0
+ 18 .debug_str    000d2341  00000000  00000000  000544b6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00126815  2**0
+ 19 .comment      00000043  00000000  00000000  001267f7  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004a68  00000000  00000000  00126858  2**2
+ 20 .debug_frame  00004a68  00000000  00000000  0012683c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000062  00000000  00000000  0012b2c0  2**0
+ 21 .debug_line_str 00000062  00000000  00000000  0012b2a4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1910,13 +1910,13 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  80011fe:	46bd      	mov	sp, r7
  8001200:	bd80      	pop	{r7, pc}
 
-08001202 <Game_Init>:
+08001202 <GameInit>:
 #include <stdlib.h>
 #include <math.h>
 
 GameCtx g_singleton;
 
-void Game_Init(GameCtx *g) {
+void GameInit(GameCtx *g) {
  8001202:	b480      	push	{r7}
  8001204:	b085      	sub	sp, #20
  8001206:	af00      	add	r7, sp, #0
@@ -1959,7 +1959,7 @@ void Game_Init(GameCtx *g) {
 	for (i = 0; i < num_shots; ++i)
  8001234:	2300      	movs	r3, #0
  8001236:	73fb      	strb	r3, [r7, #15]
- 8001238:	e00c      	b.n	8001254 <Game_Init+0x52>
+ 8001238:	e00c      	b.n	8001254 <GameInit+0x52>
 		g->shots[i].active = false;
  800123a:	7bfa      	ldrb	r2, [r7, #15]
  800123c:	6879      	ldr	r1, [r7, #4]
@@ -1977,13 +1977,13 @@ void Game_Init(GameCtx *g) {
  8001252:	73fb      	strb	r3, [r7, #15]
  8001254:	7bfb      	ldrb	r3, [r7, #15]
  8001256:	2b18      	cmp	r3, #24
- 8001258:	d9ef      	bls.n	800123a <Game_Init+0x38>
+ 8001258:	d9ef      	bls.n	800123a <GameInit+0x38>
 
 	//Deactivation of boss shots
 	for (i = 0; i < num_boss_shots; ++i)
  800125a:	2300      	movs	r3, #0
  800125c:	73fb      	strb	r3, [r7, #15]
- 800125e:	e00d      	b.n	800127c <Game_Init+0x7a>
+ 800125e:	e00d      	b.n	800127c <GameInit+0x7a>
 		g->boss_shots[i].active = false;
  8001260:	7bfa      	ldrb	r2, [r7, #15]
  8001262:	6879      	ldr	r1, [r7, #4]
@@ -2001,13 +2001,13 @@ void Game_Init(GameCtx *g) {
  800127a:	73fb      	strb	r3, [r7, #15]
  800127c:	7bfb      	ldrb	r3, [r7, #15]
  800127e:	2b04      	cmp	r3, #4
- 8001280:	d9ee      	bls.n	8001260 <Game_Init+0x5e>
+ 8001280:	d9ee      	bls.n	8001260 <GameInit+0x5e>
 
 	//Deactivation enemies
 	for (i = 0; i < num_enemies; i++) {
  8001282:	2300      	movs	r3, #0
  8001284:	73fb      	strb	r3, [r7, #15]
- 8001286:	e023      	b.n	80012d0 <Game_Init+0xce>
+ 8001286:	e023      	b.n	80012d0 <GameInit+0xce>
 		g->enemies[i].active = false;
  8001288:	7bfa      	ldrb	r2, [r7, #15]
  800128a:	6879      	ldr	r1, [r7, #4]
@@ -2047,14 +2047,14 @@ void Game_Init(GameCtx *g) {
  80012ce:	73fb      	strb	r3, [r7, #15]
  80012d0:	7bfb      	ldrb	r3, [r7, #15]
  80012d2:	2b09      	cmp	r3, #9
- 80012d4:	d9d8      	bls.n	8001288 <Game_Init+0x86>
+ 80012d4:	d9d8      	bls.n	8001288 <GameInit+0x86>
 	}
 
 	//Deactivation bonuses
 	for (i = 0; i < num_bonus; i++)
  80012d6:	2300      	movs	r3, #0
  80012d8:	73fb      	strb	r3, [r7, #15]
- 80012da:	e00d      	b.n	80012f8 <Game_Init+0xf6>
+ 80012da:	e00d      	b.n	80012f8 <GameInit+0xf6>
 		g->bonuses[i].active = false;
  80012dc:	7bfa      	ldrb	r2, [r7, #15]
  80012de:	6879      	ldr	r1, [r7, #4]
@@ -2072,7 +2072,7 @@ void Game_Init(GameCtx *g) {
  80012f6:	73fb      	strb	r3, [r7, #15]
  80012f8:	7bfb      	ldrb	r3, [r7, #15]
  80012fa:	2b02      	cmp	r3, #2
- 80012fc:	d9ee      	bls.n	80012dc <Game_Init+0xda>
+ 80012fc:	d9ee      	bls.n	80012dc <GameInit+0xda>
 
 	//Deactivation boss
 	g->boss.active = false;
@@ -2099,9 +2099,9 @@ void Game_Init(GameCtx *g) {
  8001328:	4770      	bx	lr
 	...
 
-0800132c <Game_Tick>:
+0800132c <GameTick>:
 
-void Game_Tick(GameCtx *g, InputSnapshot* in) {
+void GameTick(GameCtx *g, InputSnapshot* in) {
  800132c:	b5b0      	push	{r4, r5, r7, lr}
  800132e:	b088      	sub	sp, #32
  8001330:	af02      	add	r7, sp, #8
@@ -2120,19 +2120,19 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 	if (stick < 1000)
  800133c:	68bb      	ldr	r3, [r7, #8]
  800133e:	f5b3 7f7a 	cmp.w	r3, #1000	@ 0x3e8
- 8001342:	da05      	bge.n	8001350 <Game_Tick+0x24>
+ 8001342:	da05      	bge.n	8001350 <GameTick+0x24>
 		g->player.y -= 1;
  8001344:	687b      	ldr	r3, [r7, #4]
  8001346:	685b      	ldr	r3, [r3, #4]
  8001348:	1e5a      	subs	r2, r3, #1
  800134a:	687b      	ldr	r3, [r7, #4]
  800134c:	605a      	str	r2, [r3, #4]
- 800134e:	e009      	b.n	8001364 <Game_Tick+0x38>
+ 800134e:	e009      	b.n	8001364 <GameTick+0x38>
 	else if (stick > 3500)
  8001350:	68bb      	ldr	r3, [r7, #8]
  8001352:	f640 52ac 	movw	r2, #3500	@ 0xdac
  8001356:	4293      	cmp	r3, r2
- 8001358:	dd04      	ble.n	8001364 <Game_Tick+0x38>
+ 8001358:	dd04      	ble.n	8001364 <GameTick+0x38>
 		g->player.y += 1;
  800135a:	687b      	ldr	r3, [r7, #4]
  800135c:	685b      	ldr	r3, [r3, #4]
@@ -2145,7 +2145,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001364:	687b      	ldr	r3, [r7, #4]
  8001366:	685b      	ldr	r3, [r3, #4]
  8001368:	2b09      	cmp	r3, #9
- 800136a:	dc02      	bgt.n	8001372 <Game_Tick+0x46>
+ 800136a:	dc02      	bgt.n	8001372 <GameTick+0x46>
 		g->player.y = 10;
  800136c:	687b      	ldr	r3, [r7, #4]
  800136e:	220a      	movs	r2, #10
@@ -2154,7 +2154,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001372:	687b      	ldr	r3, [r7, #4]
  8001374:	685b      	ldr	r3, [r3, #4]
  8001376:	2b72      	cmp	r3, #114	@ 0x72
- 8001378:	dd02      	ble.n	8001380 <Game_Tick+0x54>
+ 8001378:	dd02      	ble.n	8001380 <GameTick+0x54>
 		g->player.y = (screen_height - 14);
  800137a:	687b      	ldr	r3, [r7, #4]
  800137c:	2272      	movs	r2, #114	@ 0x72
@@ -2168,7 +2168,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 	for (i = 0; i < num_shots; ++i) {
  8001384:	2300      	movs	r3, #0
  8001386:	75fb      	strb	r3, [r7, #23]
- 8001388:	e151      	b.n	800162e <Game_Tick+0x302>
+ 8001388:	e151      	b.n	800162e <GameTick+0x302>
 		switch (g->shots[i].type) {
  800138a:	7dfa      	ldrb	r2, [r7, #23]
  800138c:	6879      	ldr	r1, [r7, #4]
@@ -2180,10 +2180,10 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001398:	3330      	adds	r3, #48	@ 0x30
  800139a:	781b      	ldrb	r3, [r3, #0]
  800139c:	2b00      	cmp	r3, #0
- 800139e:	d002      	beq.n	80013a6 <Game_Tick+0x7a>
+ 800139e:	d002      	beq.n	80013a6 <GameTick+0x7a>
  80013a0:	2b01      	cmp	r3, #1
- 80013a2:	d034      	beq.n	800140e <Game_Tick+0xe2>
- 80013a4:	e140      	b.n	8001628 <Game_Tick+0x2fc>
+ 80013a2:	d034      	beq.n	800140e <GameTick+0xe2>
+ 80013a4:	e140      	b.n	8001628 <GameTick+0x2fc>
 		case st_normal:
 			if (g->shots[i].active)
  80013a6:	7dfa      	ldrb	r2, [r7, #23]
@@ -2196,7 +2196,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80013b4:	3324      	adds	r3, #36	@ 0x24
  80013b6:	781b      	ldrb	r3, [r3, #0]
  80013b8:	2b00      	cmp	r3, #0
- 80013ba:	d011      	beq.n	80013e0 <Game_Tick+0xb4>
+ 80013ba:	d011      	beq.n	80013e0 <GameTick+0xb4>
 				g->shots[i].x++;
  80013bc:	7dfa      	ldrb	r2, [r7, #23]
  80013be:	6879      	ldr	r1, [r7, #4]
@@ -2227,7 +2227,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80013ee:	3328      	adds	r3, #40	@ 0x28
  80013f0:	681b      	ldr	r3, [r3, #0]
  80013f2:	2b80      	cmp	r3, #128	@ 0x80
- 80013f4:	f340 8115 	ble.w	8001622 <Game_Tick+0x2f6>
+ 80013f4:	f340 8115 	ble.w	8001622 <GameTick+0x2f6>
 				g->shots[i].active = false;
  80013f8:	7dfa      	ldrb	r2, [r7, #23]
  80013fa:	6879      	ldr	r1, [r7, #4]
@@ -2240,13 +2240,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001408:	2200      	movs	r2, #0
  800140a:	701a      	strb	r2, [r3, #0]
 			break;
- 800140c:	e109      	b.n	8001622 <Game_Tick+0x2f6>
+ 800140c:	e109      	b.n	8001622 <GameTick+0x2f6>
 		case st_tracker:
 
 			for (int j = 0; j < num_enemies; j++) {
  800140e:	2300      	movs	r3, #0
  8001410:	613b      	str	r3, [r7, #16]
- 8001412:	e0bb      	b.n	800158c <Game_Tick+0x260>
+ 8001412:	e0bb      	b.n	800158c <GameTick+0x260>
 				if (g->shots[i].track_number == g->enemies[j].track_number) {
  8001414:	7dfa      	ldrb	r2, [r7, #23]
  8001416:	6879      	ldr	r1, [r7, #4]
@@ -2267,7 +2267,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001434:	f503 7327 	add.w	r3, r3, #668	@ 0x29c
  8001438:	681b      	ldr	r3, [r3, #0]
  800143a:	4299      	cmp	r1, r3
- 800143c:	f040 80a3 	bne.w	8001586 <Game_Tick+0x25a>
+ 800143c:	f040 80a3 	bne.w	8001586 <GameTick+0x25a>
 					if (g->shots[i].x > g->enemies[j].x)
  8001440:	7dfa      	ldrb	r2, [r7, #23]
  8001442:	6879      	ldr	r1, [r7, #4]
@@ -2288,7 +2288,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001460:	f503 7320 	add.w	r3, r3, #640	@ 0x280
  8001464:	681b      	ldr	r3, [r3, #0]
  8001466:	4299      	cmp	r1, r3
- 8001468:	dd12      	ble.n	8001490 <Game_Tick+0x164>
+ 8001468:	dd12      	ble.n	8001490 <GameTick+0x164>
 						g->shots[i].x -= 2;
  800146a:	7dfa      	ldrb	r2, [r7, #23]
  800146c:	6879      	ldr	r1, [r7, #4]
@@ -2329,7 +2329,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80014b0:	f503 7320 	add.w	r3, r3, #640	@ 0x280
  80014b4:	681b      	ldr	r3, [r3, #0]
  80014b6:	4299      	cmp	r1, r3
- 80014b8:	da12      	bge.n	80014e0 <Game_Tick+0x1b4>
+ 80014b8:	da12      	bge.n	80014e0 <GameTick+0x1b4>
 						g->shots[i].x += 2;
  80014ba:	7dfa      	ldrb	r2, [r7, #23]
  80014bc:	6879      	ldr	r1, [r7, #4]
@@ -2370,7 +2370,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001500:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  8001504:	681b      	ldr	r3, [r3, #0]
  8001506:	4299      	cmp	r1, r3
- 8001508:	dd12      	ble.n	8001530 <Game_Tick+0x204>
+ 8001508:	dd12      	ble.n	8001530 <GameTick+0x204>
 						g->shots[i].y -= 2;
  800150a:	7dfa      	ldrb	r2, [r7, #23]
  800150c:	6879      	ldr	r1, [r7, #4]
@@ -2411,7 +2411,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001550:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  8001554:	681b      	ldr	r3, [r3, #0]
  8001556:	4299      	cmp	r1, r3
- 8001558:	da12      	bge.n	8001580 <Game_Tick+0x254>
+ 8001558:	da12      	bge.n	8001580 <GameTick+0x254>
 						g->shots[i].y += 2;
  800155a:	7dfa      	ldrb	r2, [r7, #23]
  800155c:	6879      	ldr	r1, [r7, #4]
@@ -2436,14 +2436,14 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001580:	2301      	movs	r3, #1
  8001582:	757b      	strb	r3, [r7, #21]
 					break;
- 8001584:	e006      	b.n	8001594 <Game_Tick+0x268>
+ 8001584:	e006      	b.n	8001594 <GameTick+0x268>
 			for (int j = 0; j < num_enemies; j++) {
  8001586:	693b      	ldr	r3, [r7, #16]
  8001588:	3301      	adds	r3, #1
  800158a:	613b      	str	r3, [r7, #16]
  800158c:	693b      	ldr	r3, [r7, #16]
  800158e:	2b09      	cmp	r3, #9
- 8001590:	f77f af40 	ble.w	8001414 <Game_Tick+0xe8>
+ 8001590:	f77f af40 	ble.w	8001414 <GameTick+0xe8>
 				}
 			}
 			//Remove tracking missiles that have no target
@@ -2452,7 +2452,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001596:	f083 0301 	eor.w	r3, r3, #1
  800159a:	b2db      	uxtb	r3, r3
  800159c:	2b00      	cmp	r3, #0
- 800159e:	d020      	beq.n	80015e2 <Game_Tick+0x2b6>
+ 800159e:	d020      	beq.n	80015e2 <GameTick+0x2b6>
  80015a0:	7dfa      	ldrb	r2, [r7, #23]
  80015a2:	6879      	ldr	r1, [r7, #4]
  80015a4:	4613      	mov	r3, r2
@@ -2463,7 +2463,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80015ae:	3330      	adds	r3, #48	@ 0x30
  80015b0:	781b      	ldrb	r3, [r3, #0]
  80015b2:	2b01      	cmp	r3, #1
- 80015b4:	d115      	bne.n	80015e2 <Game_Tick+0x2b6>
+ 80015b4:	d115      	bne.n	80015e2 <GameTick+0x2b6>
 				g->shots[i].active = false;
  80015b6:	7dfa      	ldrb	r2, [r7, #23]
  80015b8:	6879      	ldr	r1, [r7, #4]
@@ -2503,7 +2503,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80015f0:	3328      	adds	r3, #40	@ 0x28
  80015f2:	681b      	ldr	r3, [r3, #0]
  80015f4:	2b80      	cmp	r3, #128	@ 0x80
- 80015f6:	dd16      	ble.n	8001626 <Game_Tick+0x2fa>
+ 80015f6:	dd16      	ble.n	8001626 <GameTick+0x2fa>
 				g->shots[i].active = false;
  80015f8:	7dfa      	ldrb	r2, [r7, #23]
  80015fa:	6879      	ldr	r1, [r7, #4]
@@ -2528,10 +2528,10 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800161e:	601a      	str	r2, [r3, #0]
 			}
 			break;
- 8001620:	e001      	b.n	8001626 <Game_Tick+0x2fa>
+ 8001620:	e001      	b.n	8001626 <GameTick+0x2fa>
 			break;
  8001622:	bf00      	nop
- 8001624:	e000      	b.n	8001628 <Game_Tick+0x2fc>
+ 8001624:	e000      	b.n	8001628 <GameTick+0x2fc>
 			break;
  8001626:	bf00      	nop
 	for (i = 0; i < num_shots; ++i) {
@@ -2540,7 +2540,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800162c:	75fb      	strb	r3, [r7, #23]
  800162e:	7dfb      	ldrb	r3, [r7, #23]
  8001630:	2b18      	cmp	r3, #24
- 8001632:	f67f aeaa 	bls.w	800138a <Game_Tick+0x5e>
+ 8001632:	f67f aeaa 	bls.w	800138a <GameTick+0x5e>
 
 	}
 
@@ -2549,7 +2549,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 	for (i = 0; i < num_enemies; i++) {
  8001636:	2300      	movs	r3, #0
  8001638:	75fb      	strb	r3, [r7, #23]
- 800163a:	e035      	b.n	80016a8 <Game_Tick+0x37c>
+ 800163a:	e035      	b.n	80016a8 <GameTick+0x37c>
 		is_there_a_missile = false;
  800163c:	2300      	movs	r3, #0
  800163e:	73fb      	strb	r3, [r7, #15]
@@ -2557,7 +2557,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 		for (j = 0; j < num_shots; j++) {
  8001640:	2300      	movs	r3, #0
  8001642:	75bb      	strb	r3, [r7, #22]
- 8001644:	e019      	b.n	800167a <Game_Tick+0x34e>
+ 8001644:	e019      	b.n	800167a <GameTick+0x34e>
 			if (g->enemies[i].track_number == g->shots[j].track_number)
  8001646:	7dfa      	ldrb	r2, [r7, #23]
  8001648:	6879      	ldr	r1, [r7, #4]
@@ -2578,7 +2578,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001668:	3334      	adds	r3, #52	@ 0x34
  800166a:	681b      	ldr	r3, [r3, #0]
  800166c:	4299      	cmp	r1, r3
- 800166e:	d101      	bne.n	8001674 <Game_Tick+0x348>
+ 800166e:	d101      	bne.n	8001674 <GameTick+0x348>
 				is_there_a_missile = true;
  8001670:	2301      	movs	r3, #1
  8001672:	73fb      	strb	r3, [r7, #15]
@@ -2588,7 +2588,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001678:	75bb      	strb	r3, [r7, #22]
  800167a:	7dbb      	ldrb	r3, [r7, #22]
  800167c:	2b18      	cmp	r3, #24
- 800167e:	d9e2      	bls.n	8001646 <Game_Tick+0x31a>
+ 800167e:	d9e2      	bls.n	8001646 <GameTick+0x31a>
 		}
 
 		if (!is_there_a_missile)
@@ -2596,7 +2596,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001682:	f083 0301 	eor.w	r3, r3, #1
  8001686:	b2db      	uxtb	r3, r3
  8001688:	2b00      	cmp	r3, #0
- 800168a:	d00a      	beq.n	80016a2 <Game_Tick+0x376>
+ 800168a:	d00a      	beq.n	80016a2 <GameTick+0x376>
 			g->enemies[i].track_number = 0;
  800168c:	7dfa      	ldrb	r2, [r7, #23]
  800168e:	6879      	ldr	r1, [r7, #4]
@@ -2614,14 +2614,14 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80016a6:	75fb      	strb	r3, [r7, #23]
  80016a8:	7dfb      	ldrb	r3, [r7, #23]
  80016aa:	2b09      	cmp	r3, #9
- 80016ac:	d9c6      	bls.n	800163c <Game_Tick+0x310>
+ 80016ac:	d9c6      	bls.n	800163c <GameTick+0x310>
 	}
 
 	// Updated enemies
 	for (i = 0; i < num_enemies; ++i) {
  80016ae:	2300      	movs	r3, #0
  80016b0:	75fb      	strb	r3, [r7, #23]
- 80016b2:	e2a1      	b.n	8001bf8 <Game_Tick+0x8cc>
+ 80016b2:	e2a1      	b.n	8001bf8 <GameTick+0x8cc>
 
 		if (g->enemies[i].active) {
  80016b4:	7dfa      	ldrb	r2, [r7, #23]
@@ -2634,7 +2634,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80016c2:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  80016c6:	781b      	ldrb	r3, [r3, #0]
  80016c8:	2b00      	cmp	r3, #0
- 80016ca:	f000 8292 	beq.w	8001bf2 <Game_Tick+0x8c6>
+ 80016ca:	f000 8292 	beq.w	8001bf2 <GameTick+0x8c6>
 			g->enemies[i].next_update -= 1;
  80016ce:	7dfa      	ldrb	r2, [r7, #23]
  80016d0:	6879      	ldr	r1, [r7, #4]
@@ -2666,7 +2666,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001706:	f503 7324 	add.w	r3, r3, #656	@ 0x290
  800170a:	681b      	ldr	r3, [r3, #0]
  800170c:	2b00      	cmp	r3, #0
- 800170e:	f300 8270 	bgt.w	8001bf2 <Game_Tick+0x8c6>
+ 800170e:	f300 8270 	bgt.w	8001bf2 <GameTick+0x8c6>
 				if (g->enemies[i].active) {
  8001712:	7dfa      	ldrb	r2, [r7, #23]
  8001714:	6879      	ldr	r1, [r7, #4]
@@ -2678,7 +2678,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001720:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  8001724:	781b      	ldrb	r3, [r3, #0]
  8001726:	2b00      	cmp	r3, #0
- 8001728:	f000 8263 	beq.w	8001bf2 <Game_Tick+0x8c6>
+ 8001728:	f000 8263 	beq.w	8001bf2 <GameTick+0x8c6>
 
 					g->enemies[i].next_update = g->enemies[i].update_delay;
  800172c:	7df9      	ldrb	r1, [r7, #23]
@@ -2701,7 +2701,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001752:	6019      	str	r1, [r3, #0]
 
 					//Checking for collisions between opponents and the player
-					if (colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
+					if (Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
  8001754:	7dfa      	ldrb	r2, [r7, #23]
  8001756:	6879      	ldr	r1, [r7, #4]
  8001758:	4613      	mov	r3, r2
@@ -2724,12 +2724,12 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800177e:	681a      	ldr	r2, [r3, #0]
  8001780:	687b      	ldr	r3, [r7, #4]
  8001782:	685b      	ldr	r3, [r3, #4]
- 8001784:	f001 fd3a 	bl	80031fc <colliding>
+ 8001784:	f001 fd3a 	bl	80031fc <Colliding>
  8001788:	4603      	mov	r3, r0
  800178a:	2b00      	cmp	r3, #0
- 800178c:	d15a      	bne.n	8001844 <Game_Tick+0x518>
+ 800178c:	d15a      	bne.n	8001844 <GameTick+0x518>
 							g->player.y)
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
  800178e:	7dfa      	ldrb	r2, [r7, #23]
  8001790:	6879      	ldr	r1, [r7, #4]
  8001792:	4613      	mov	r3, r2
@@ -2753,13 +2753,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 									g->player.x, g->player.y + 5)
  80017ba:	687b      	ldr	r3, [r7, #4]
  80017bc:	685b      	ldr	r3, [r3, #4]
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
  80017be:	3305      	adds	r3, #5
- 80017c0:	f001 fd1c 	bl	80031fc <colliding>
+ 80017c0:	f001 fd1c 	bl	80031fc <Colliding>
  80017c4:	4603      	mov	r3, r0
  80017c6:	2b00      	cmp	r3, #0
- 80017c8:	d13c      	bne.n	8001844 <Game_Tick+0x518>
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+ 80017c8:	d13c      	bne.n	8001844 <GameTick+0x518>
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
  80017ca:	7dfa      	ldrb	r2, [r7, #23]
  80017cc:	6879      	ldr	r1, [r7, #4]
  80017ce:	4613      	mov	r3, r2
@@ -2781,15 +2781,15 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 									g->player.x + 7, g->player.y)
  80017f2:	687b      	ldr	r3, [r7, #4]
  80017f4:	681b      	ldr	r3, [r3, #0]
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
  80017f6:	1dda      	adds	r2, r3, #7
  80017f8:	687b      	ldr	r3, [r7, #4]
  80017fa:	685b      	ldr	r3, [r3, #4]
- 80017fc:	f001 fcfe 	bl	80031fc <colliding>
+ 80017fc:	f001 fcfe 	bl	80031fc <Colliding>
  8001800:	4603      	mov	r3, r0
  8001802:	2b00      	cmp	r3, #0
- 8001804:	d11e      	bne.n	8001844 <Game_Tick+0x518>
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+ 8001804:	d11e      	bne.n	8001844 <GameTick+0x518>
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
  8001806:	7dfa      	ldrb	r2, [r7, #23]
  8001808:	6879      	ldr	r1, [r7, #4]
  800180a:	4613      	mov	r3, r2
@@ -2811,17 +2811,17 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 									g->player.x + 7, g->player.y + 5)) {
  800182e:	687b      	ldr	r3, [r7, #4]
  8001830:	681b      	ldr	r3, [r3, #0]
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
  8001832:	1dda      	adds	r2, r3, #7
 									g->player.x + 7, g->player.y + 5)) {
  8001834:	687b      	ldr	r3, [r7, #4]
  8001836:	685b      	ldr	r3, [r3, #4]
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
  8001838:	3305      	adds	r3, #5
- 800183a:	f001 fcdf 	bl	80031fc <colliding>
+ 800183a:	f001 fcdf 	bl	80031fc <Colliding>
  800183e:	4603      	mov	r3, r0
  8001840:	2b00      	cmp	r3, #0
- 8001842:	d069      	beq.n	8001918 <Game_Tick+0x5ec>
+ 8001842:	d069      	beq.n	8001918 <GameTick+0x5ec>
 						g->player.lives -= 1;
  8001844:	687b      	ldr	r3, [r7, #4]
  8001846:	691b      	ldr	r3, [r3, #16]
@@ -2887,7 +2887,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80018be:	230a      	movs	r3, #10
  80018c0:	9300      	str	r3, [sp, #0]
  80018c2:	230a      	movs	r3, #10
- 80018c4:	4ab0      	ldr	r2, [pc, #704]	@ (8001b88 <Game_Tick+0x85c>)
+ 80018c4:	4ab0      	ldr	r2, [pc, #704]	@ (8001b88 <GameTick+0x85c>)
  80018c6:	f7ff fa71 	bl	8000dac <GFX_DrowBitMap_P>
 								explosion_map, 10, 10, 1);
 						GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
@@ -2902,7 +2902,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80018dc:	2310      	movs	r3, #16
  80018de:	9300      	str	r3, [sp, #0]
  80018e0:	230a      	movs	r3, #10
- 80018e2:	4aaa      	ldr	r2, [pc, #680]	@ (8001b8c <Game_Tick+0x860>)
+ 80018e2:	4aaa      	ldr	r2, [pc, #680]	@ (8001b8c <GameTick+0x860>)
  80018e4:	f7ff fa62 	bl	8000dac <GFX_DrowBitMap_P>
 								player_shield_map, 10, 16, 1);
 						GFX_DrowBitMap_P(g->player.x, g->player.y, player_map,
@@ -2915,7 +2915,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80018f4:	230b      	movs	r3, #11
  80018f6:	9300      	str	r3, [sp, #0]
  80018f8:	230b      	movs	r3, #11
- 80018fa:	4aa5      	ldr	r2, [pc, #660]	@ (8001b90 <Game_Tick+0x864>)
+ 80018fa:	4aa5      	ldr	r2, [pc, #660]	@ (8001b90 <GameTick+0x864>)
  80018fc:	f7ff fa56 	bl	8000dac <GFX_DrowBitMap_P>
 								11, 11, 1);
 
@@ -2925,9 +2925,9 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001904:	687b      	ldr	r3, [r7, #4]
  8001906:	691b      	ldr	r3, [r3, #16]
  8001908:	2b00      	cmp	r3, #0
- 800190a:	dc05      	bgt.n	8001918 <Game_Tick+0x5ec>
-							Play_Dead_Anim();
- 800190c:	f002 f8ce 	bl	8003aac <Play_Dead_Anim>
+ 800190a:	dc05      	bgt.n	8001918 <GameTick+0x5ec>
+							PlayDeadAnim();
+ 800190c:	f002 f8ce 	bl	8003aac <PlayDeadAnim>
 							g->state = st_dead;
  8001910:	687b      	ldr	r3, [r7, #4]
  8001912:	2202      	movs	r2, #2
@@ -2968,13 +2968,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001950:	f503 7322 	add.w	r3, r3, #648	@ 0x288
  8001954:	781b      	ldrb	r3, [r3, #0]
  8001956:	2b02      	cmp	r3, #2
- 8001958:	d05d      	beq.n	8001a16 <Game_Tick+0x6ea>
+ 8001958:	d05d      	beq.n	8001a16 <GameTick+0x6ea>
  800195a:	2b02      	cmp	r3, #2
- 800195c:	f300 811b 	bgt.w	8001b96 <Game_Tick+0x86a>
+ 800195c:	f300 811b 	bgt.w	8001b96 <GameTick+0x86a>
  8001960:	2b00      	cmp	r3, #0
- 8001962:	f000 810d 	beq.w	8001b80 <Game_Tick+0x854>
+ 8001962:	f000 810d 	beq.w	8001b80 <GameTick+0x854>
  8001966:	2b01      	cmp	r3, #1
- 8001968:	f040 8115 	bne.w	8001b96 <Game_Tick+0x86a>
+ 8001968:	f040 8115 	bne.w	8001b96 <GameTick+0x86a>
 					case et_tracker:
 						if (g->enemies[i].x < 70) {
  800196c:	7dfa      	ldrb	r2, [r7, #23]
@@ -2987,7 +2987,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800197a:	f503 7320 	add.w	r3, r3, #640	@ 0x280
  800197e:	681b      	ldr	r3, [r3, #0]
  8001980:	2b45      	cmp	r3, #69	@ 0x45
- 8001982:	f300 80ff 	bgt.w	8001b84 <Game_Tick+0x858>
+ 8001982:	f300 80ff 	bgt.w	8001b84 <GameTick+0x858>
 							if (g->player.y > g->enemies[i].y)
  8001986:	687b      	ldr	r3, [r7, #4]
  8001988:	6859      	ldr	r1, [r3, #4]
@@ -3001,7 +3001,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001998:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  800199c:	681b      	ldr	r3, [r3, #0]
  800199e:	4299      	cmp	r1, r3
- 80019a0:	dd14      	ble.n	80019cc <Game_Tick+0x6a0>
+ 80019a0:	dd14      	ble.n	80019cc <GameTick+0x6a0>
 								g->enemies[i].y += 1;
  80019a2:	7dfa      	ldrb	r2, [r7, #23]
  80019a4:	6879      	ldr	r1, [r7, #4]
@@ -3035,7 +3035,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80019de:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  80019e2:	681b      	ldr	r3, [r3, #0]
  80019e4:	4299      	cmp	r1, r3
- 80019e6:	f280 80cd 	bge.w	8001b84 <Game_Tick+0x858>
+ 80019e6:	f280 80cd 	bge.w	8001b84 <GameTick+0x858>
 								g->enemies[i].y -= 1;
  80019ea:	7dfa      	ldrb	r2, [r7, #23]
  80019ec:	6879      	ldr	r1, [r7, #4]
@@ -3058,7 +3058,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001a12:	6019      	str	r1, [r3, #0]
 						}
 						break;
- 8001a14:	e0b6      	b.n	8001b84 <Game_Tick+0x858>
+ 8001a14:	e0b6      	b.n	8001b84 <GameTick+0x858>
 					case et_diver:
 						break;
 					case et_bobber:
@@ -3074,7 +3074,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001a28:	681b      	ldr	r3, [r3, #0]
  8001a2a:	f003 0303 	and.w	r3, r3, #3
  8001a2e:	2b00      	cmp	r3, #0
- 8001a30:	d122      	bne.n	8001a78 <Game_Tick+0x74c>
+ 8001a30:	d122      	bne.n	8001a78 <GameTick+0x74c>
 								&& (g->enemies[i].x % 8 == 0))
  8001a32:	7dfa      	ldrb	r2, [r7, #23]
  8001a34:	6879      	ldr	r1, [r7, #4]
@@ -3087,7 +3087,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001a44:	681b      	ldr	r3, [r3, #0]
  8001a46:	f003 0307 	and.w	r3, r3, #7
  8001a4a:	2b00      	cmp	r3, #0
- 8001a4c:	d114      	bne.n	8001a78 <Game_Tick+0x74c>
+ 8001a4c:	d114      	bne.n	8001a78 <GameTick+0x74c>
 							g->enemies[i].y += 4;
  8001a4e:	7dfa      	ldrb	r2, [r7, #23]
  8001a50:	6879      	ldr	r1, [r7, #4]
@@ -3120,7 +3120,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001a8a:	681b      	ldr	r3, [r3, #0]
  8001a8c:	f003 0303 	and.w	r3, r3, #3
  8001a90:	2b00      	cmp	r3, #0
- 8001a92:	d122      	bne.n	8001ada <Game_Tick+0x7ae>
+ 8001a92:	d122      	bne.n	8001ada <GameTick+0x7ae>
 								&& !(g->enemies[i].x % 8 == 0))
  8001a94:	7dfa      	ldrb	r2, [r7, #23]
  8001a96:	6879      	ldr	r1, [r7, #4]
@@ -3133,7 +3133,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001aa6:	681b      	ldr	r3, [r3, #0]
  8001aa8:	f003 0307 	and.w	r3, r3, #7
  8001aac:	2b00      	cmp	r3, #0
- 8001aae:	d014      	beq.n	8001ada <Game_Tick+0x7ae>
+ 8001aae:	d014      	beq.n	8001ada <GameTick+0x7ae>
 							g->enemies[i].y -= 4;
  8001ab0:	7dfa      	ldrb	r2, [r7, #23]
  8001ab2:	6879      	ldr	r1, [r7, #4]
@@ -3165,7 +3165,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001ae8:	f503 7320 	add.w	r3, r3, #640	@ 0x280
  8001aec:	681b      	ldr	r3, [r3, #0]
  8001aee:	2b45      	cmp	r3, #69	@ 0x45
- 8001af0:	dc50      	bgt.n	8001b94 <Game_Tick+0x868>
+ 8001af0:	dc50      	bgt.n	8001b94 <GameTick+0x868>
 							if (g->player.y > g->enemies[i].y)
  8001af2:	687b      	ldr	r3, [r7, #4]
  8001af4:	6859      	ldr	r1, [r3, #4]
@@ -3179,7 +3179,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001b04:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  8001b08:	681b      	ldr	r3, [r3, #0]
  8001b0a:	4299      	cmp	r1, r3
- 8001b0c:	dd14      	ble.n	8001b38 <Game_Tick+0x80c>
+ 8001b0c:	dd14      	ble.n	8001b38 <GameTick+0x80c>
 								g->enemies[i].y += 1;
  8001b0e:	7dfa      	ldrb	r2, [r7, #23]
  8001b10:	6879      	ldr	r1, [r7, #4]
@@ -3213,7 +3213,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001b4a:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  8001b4e:	681b      	ldr	r3, [r3, #0]
  8001b50:	4299      	cmp	r1, r3
- 8001b52:	da1f      	bge.n	8001b94 <Game_Tick+0x868>
+ 8001b52:	da1f      	bge.n	8001b94 <GameTick+0x868>
 								g->enemies[i].y -= 1;
  8001b54:	7dfa      	ldrb	r2, [r7, #23]
  8001b56:	6879      	ldr	r1, [r7, #4]
@@ -3236,13 +3236,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001b7c:	6019      	str	r1, [r3, #0]
 						}
 						break;
- 8001b7e:	e009      	b.n	8001b94 <Game_Tick+0x868>
+ 8001b7e:	e009      	b.n	8001b94 <GameTick+0x868>
 						break;
  8001b80:	bf00      	nop
- 8001b82:	e008      	b.n	8001b96 <Game_Tick+0x86a>
+ 8001b82:	e008      	b.n	8001b96 <GameTick+0x86a>
 						break;
  8001b84:	bf00      	nop
- 8001b86:	e006      	b.n	8001b96 <Game_Tick+0x86a>
+ 8001b86:	e006      	b.n	8001b96 <GameTick+0x86a>
  8001b88:	08009a20 	.word	0x08009a20
  8001b8c:	080099e8 	.word	0x080099e8
  8001b90:	08009820 	.word	0x08009820
@@ -3262,7 +3262,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001ba4:	f503 7320 	add.w	r3, r3, #640	@ 0x280
  8001ba8:	681b      	ldr	r3, [r3, #0]
  8001baa:	f113 0f04 	cmn.w	r3, #4
- 8001bae:	da20      	bge.n	8001bf2 <Game_Tick+0x8c6>
+ 8001bae:	da20      	bge.n	8001bf2 <GameTick+0x8c6>
 						g->enemies[i].active = false;
  8001bb0:	7dfa      	ldrb	r2, [r7, #23]
  8001bb2:	6879      	ldr	r1, [r7, #4]
@@ -3302,7 +3302,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001bf6:	75fb      	strb	r3, [r7, #23]
  8001bf8:	7dfb      	ldrb	r3, [r7, #23]
  8001bfa:	2b09      	cmp	r3, #9
- 8001bfc:	f67f ad5a 	bls.w	80016b4 <Game_Tick+0x388>
+ 8001bfc:	f67f ad5a 	bls.w	80016b4 <GameTick+0x388>
 			}
 		}
 	}
@@ -3312,7 +3312,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001c00:	687b      	ldr	r3, [r7, #4]
  8001c02:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  8001c06:	2b00      	cmp	r3, #0
- 8001c08:	f000 824b 	beq.w	80020a2 <Game_Tick+0xd76>
+ 8001c08:	f000 824b 	beq.w	80020a2 <GameTick+0xd76>
 		g->boss.next_update -= 1;
  8001c0c:	687b      	ldr	r3, [r7, #4]
  8001c0e:	f8d3 3a30 	ldr.w	r3, [r3, #2608]	@ 0xa30
@@ -3325,7 +3325,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001c1a:	687b      	ldr	r3, [r7, #4]
  8001c1c:	f8d3 3a30 	ldr.w	r3, [r3, #2608]	@ 0xa30
  8001c20:	2b00      	cmp	r3, #0
- 8001c22:	dc43      	bgt.n	8001cac <Game_Tick+0x980>
+ 8001c22:	dc43      	bgt.n	8001cac <GameTick+0x980>
 			g->boss.next_update = g->boss.update_delay;
  8001c24:	687b      	ldr	r3, [r7, #4]
  8001c26:	f8d3 2a34 	ldr.w	r2, [r3, #2612]	@ 0xa34
@@ -3333,33 +3333,33 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001c2c:	f8c3 2a30 	str.w	r2, [r3, #2608]	@ 0xa30
 
 			y += dy;
- 8001c30:	4b4c      	ldr	r3, [pc, #304]	@ (8001d64 <Game_Tick+0xa38>)
+ 8001c30:	4b4c      	ldr	r3, [pc, #304]	@ (8001d64 <GameTick+0xa38>)
  8001c32:	781a      	ldrb	r2, [r3, #0]
- 8001c34:	4b4c      	ldr	r3, [pc, #304]	@ (8001d68 <Game_Tick+0xa3c>)
+ 8001c34:	4b4c      	ldr	r3, [pc, #304]	@ (8001d68 <GameTick+0xa3c>)
  8001c36:	781b      	ldrb	r3, [r3, #0]
  8001c38:	4413      	add	r3, r2
  8001c3a:	b2da      	uxtb	r2, r3
- 8001c3c:	4b49      	ldr	r3, [pc, #292]	@ (8001d64 <Game_Tick+0xa38>)
+ 8001c3c:	4b49      	ldr	r3, [pc, #292]	@ (8001d64 <GameTick+0xa38>)
  8001c3e:	701a      	strb	r2, [r3, #0]
 			if (y < 1 || y > (screen_height - 24))
- 8001c40:	4b48      	ldr	r3, [pc, #288]	@ (8001d64 <Game_Tick+0xa38>)
+ 8001c40:	4b48      	ldr	r3, [pc, #288]	@ (8001d64 <GameTick+0xa38>)
  8001c42:	781b      	ldrb	r3, [r3, #0]
  8001c44:	2b00      	cmp	r3, #0
- 8001c46:	d003      	beq.n	8001c50 <Game_Tick+0x924>
- 8001c48:	4b46      	ldr	r3, [pc, #280]	@ (8001d64 <Game_Tick+0xa38>)
+ 8001c46:	d003      	beq.n	8001c50 <GameTick+0x924>
+ 8001c48:	4b46      	ldr	r3, [pc, #280]	@ (8001d64 <GameTick+0xa38>)
  8001c4a:	781b      	ldrb	r3, [r3, #0]
  8001c4c:	2b68      	cmp	r3, #104	@ 0x68
- 8001c4e:	d905      	bls.n	8001c5c <Game_Tick+0x930>
+ 8001c4e:	d905      	bls.n	8001c5c <GameTick+0x930>
 				dy = -dy;
- 8001c50:	4b45      	ldr	r3, [pc, #276]	@ (8001d68 <Game_Tick+0xa3c>)
+ 8001c50:	4b45      	ldr	r3, [pc, #276]	@ (8001d68 <GameTick+0xa3c>)
  8001c52:	781b      	ldrb	r3, [r3, #0]
  8001c54:	425b      	negs	r3, r3
  8001c56:	b2da      	uxtb	r2, r3
- 8001c58:	4b43      	ldr	r3, [pc, #268]	@ (8001d68 <Game_Tick+0xa3c>)
+ 8001c58:	4b43      	ldr	r3, [pc, #268]	@ (8001d68 <GameTick+0xa3c>)
  8001c5a:	701a      	strb	r2, [r3, #0]
 
 			g->boss.y = y;
- 8001c5c:	4b41      	ldr	r3, [pc, #260]	@ (8001d64 <Game_Tick+0xa38>)
+ 8001c5c:	4b41      	ldr	r3, [pc, #260]	@ (8001d64 <GameTick+0xa38>)
  8001c5e:	781b      	ldrb	r3, [r3, #0]
  8001c60:	461a      	mov	r2, r3
  8001c62:	687b      	ldr	r3, [r7, #4]
@@ -3369,7 +3369,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001c68:	687b      	ldr	r3, [r7, #4]
  8001c6a:	f8d3 3a2c 	ldr.w	r3, [r3, #2604]	@ 0xa2c
  8001c6e:	2b09      	cmp	r3, #9
- 8001c70:	dc03      	bgt.n	8001c7a <Game_Tick+0x94e>
+ 8001c70:	dc03      	bgt.n	8001c7a <GameTick+0x94e>
 				g->boss.y = 10;
  8001c72:	687b      	ldr	r3, [r7, #4]
  8001c74:	220a      	movs	r2, #10
@@ -3378,7 +3378,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001c7a:	687b      	ldr	r3, [r7, #4]
  8001c7c:	f8d3 3a2c 	ldr.w	r3, [r3, #2604]	@ 0xa2c
  8001c80:	2b68      	cmp	r3, #104	@ 0x68
- 8001c82:	dd03      	ble.n	8001c8c <Game_Tick+0x960>
+ 8001c82:	dd03      	ble.n	8001c8c <GameTick+0x960>
 				g->boss.y = (screen_height - 24);
  8001c84:	687b      	ldr	r3, [r7, #4]
  8001c86:	2268      	movs	r2, #104	@ 0x68
@@ -3394,7 +3394,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001c9a:	687b      	ldr	r3, [r7, #4]
  8001c9c:	f8d3 3a28 	ldr.w	r3, [r3, #2600]	@ 0xa28
  8001ca0:	2b63      	cmp	r3, #99	@ 0x63
- 8001ca2:	dc03      	bgt.n	8001cac <Game_Tick+0x980>
+ 8001ca2:	dc03      	bgt.n	8001cac <GameTick+0x980>
 				g->boss.x = 100;
  8001ca4:	687b      	ldr	r3, [r7, #4]
  8001ca6:	2264      	movs	r2, #100	@ 0x64
@@ -3405,7 +3405,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 		if ((rand() % 100) < (g->boss.level * 5))
  8001cac:	f005 fbc6 	bl	800743c <rand>
  8001cb0:	4602      	mov	r2, r0
- 8001cb2:	4b2e      	ldr	r3, [pc, #184]	@ (8001d6c <Game_Tick+0xa40>)
+ 8001cb2:	4b2e      	ldr	r3, [pc, #184]	@ (8001d6c <GameTick+0xa40>)
  8001cb4:	fb83 1302 	smull	r1, r3, r3, r2
  8001cb8:	1159      	asrs	r1, r3, #5
  8001cba:	17d3      	asrs	r3, r2, #31
@@ -3419,16 +3419,16 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001cce:	0092      	lsls	r2, r2, #2
  8001cd0:	440a      	add	r2, r1
  8001cd2:	4293      	cmp	r3, r2
- 8001cd4:	da02      	bge.n	8001cdc <Game_Tick+0x9b0>
-			Game_Shot_Boss(g);
+ 8001cd4:	da02      	bge.n	8001cdc <GameTick+0x9b0>
+			GameShotBoss(g);
  8001cd6:	6878      	ldr	r0, [r7, #4]
- 8001cd8:	f001 fa48 	bl	800316c <Game_Shot_Boss>
+ 8001cd8:	f001 fa48 	bl	800316c <GameShotBoss>
 
 
 		for (i = 0; i < num_boss_shots; ++i) {
  8001cdc:	2300      	movs	r3, #0
  8001cde:	75fb      	strb	r3, [r7, #23]
- 8001ce0:	e03a      	b.n	8001d58 <Game_Tick+0xa2c>
+ 8001ce0:	e03a      	b.n	8001d58 <GameTick+0xa2c>
 			if (g->boss_shots[i].active)
  8001ce2:	7dfa      	ldrb	r2, [r7, #23]
  8001ce4:	6879      	ldr	r1, [r7, #4]
@@ -3440,7 +3440,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001cf0:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  8001cf4:	781b      	ldrb	r3, [r3, #0]
  8001cf6:	2b00      	cmp	r3, #0
- 8001cf8:	d013      	beq.n	8001d22 <Game_Tick+0x9f6>
+ 8001cf8:	d013      	beq.n	8001d22 <GameTick+0x9f6>
 				g->boss_shots[i].x--;
  8001cfa:	7dfa      	ldrb	r2, [r7, #23]
  8001cfc:	6879      	ldr	r1, [r7, #4]
@@ -3471,7 +3471,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001d30:	f503 7307 	add.w	r3, r3, #540	@ 0x21c
  8001d34:	681b      	ldr	r3, [r3, #0]
  8001d36:	f113 0f04 	cmn.w	r3, #4
- 8001d3a:	da0a      	bge.n	8001d52 <Game_Tick+0xa26>
+ 8001d3a:	da0a      	bge.n	8001d52 <GameTick+0xa26>
 				g->boss_shots[i].active = false;
  8001d3c:	7dfa      	ldrb	r2, [r7, #23]
  8001d3e:	6879      	ldr	r1, [r7, #4]
@@ -3489,13 +3489,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001d56:	75fb      	strb	r3, [r7, #23]
  8001d58:	7dfb      	ldrb	r3, [r7, #23]
  8001d5a:	2b04      	cmp	r3, #4
- 8001d5c:	d9c1      	bls.n	8001ce2 <Game_Tick+0x9b6>
+ 8001d5c:	d9c1      	bls.n	8001ce2 <GameTick+0x9b6>
 		}
 
 		for (i = 0; i < num_boss_shots; i++) {
  8001d5e:	2300      	movs	r3, #0
  8001d60:	75fb      	strb	r3, [r7, #23]
- 8001d62:	e0e1      	b.n	8001f28 <Game_Tick+0xbfc>
+ 8001d62:	e0e1      	b.n	8001f28 <GameTick+0xbfc>
  8001d64:	20000b30 	.word	0x20000b30
  8001d68:	20000000 	.word	0x20000000
  8001d6c:	51eb851f 	.word	0x51eb851f
@@ -3510,8 +3510,8 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001d7e:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  8001d82:	781b      	ldrb	r3, [r3, #0]
  8001d84:	2b00      	cmp	r3, #0
- 8001d86:	f000 80cc 	beq.w	8001f22 <Game_Tick+0xbf6>
-				if (colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+ 8001d86:	f000 80cc 	beq.w	8001f22 <GameTick+0xbf6>
+				if (Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001d8a:	7dfa      	ldrb	r2, [r7, #23]
  8001d8c:	6879      	ldr	r1, [r7, #4]
  8001d8e:	4613      	mov	r3, r2
@@ -3534,12 +3534,12 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001db4:	681a      	ldr	r2, [r3, #0]
  8001db6:	687b      	ldr	r3, [r7, #4]
  8001db8:	685b      	ldr	r3, [r3, #4]
- 8001dba:	f001 fa1f 	bl	80031fc <colliding>
+ 8001dba:	f001 fa1f 	bl	80031fc <Colliding>
  8001dbe:	4603      	mov	r3, r0
  8001dc0:	2b00      	cmp	r3, #0
- 8001dc2:	d15a      	bne.n	8001e7a <Game_Tick+0xb4e>
+ 8001dc2:	d15a      	bne.n	8001e7a <GameTick+0xb4e>
 						g->player.x, g->player.y)
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001dc4:	7dfa      	ldrb	r2, [r7, #23]
  8001dc6:	6879      	ldr	r1, [r7, #4]
  8001dc8:	4613      	mov	r3, r2
@@ -3563,13 +3563,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 								g->player.x, g->player.y + 5)
  8001df0:	687b      	ldr	r3, [r7, #4]
  8001df2:	685b      	ldr	r3, [r3, #4]
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001df4:	3305      	adds	r3, #5
- 8001df6:	f001 fa01 	bl	80031fc <colliding>
+ 8001df6:	f001 fa01 	bl	80031fc <Colliding>
  8001dfa:	4603      	mov	r3, r0
  8001dfc:	2b00      	cmp	r3, #0
- 8001dfe:	d13c      	bne.n	8001e7a <Game_Tick+0xb4e>
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+ 8001dfe:	d13c      	bne.n	8001e7a <GameTick+0xb4e>
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001e00:	7dfa      	ldrb	r2, [r7, #23]
  8001e02:	6879      	ldr	r1, [r7, #4]
  8001e04:	4613      	mov	r3, r2
@@ -3591,15 +3591,15 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 								g->player.x + 7, g->player.y)
  8001e28:	687b      	ldr	r3, [r7, #4]
  8001e2a:	681b      	ldr	r3, [r3, #0]
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001e2c:	1dda      	adds	r2, r3, #7
  8001e2e:	687b      	ldr	r3, [r7, #4]
  8001e30:	685b      	ldr	r3, [r3, #4]
- 8001e32:	f001 f9e3 	bl	80031fc <colliding>
+ 8001e32:	f001 f9e3 	bl	80031fc <Colliding>
  8001e36:	4603      	mov	r3, r0
  8001e38:	2b00      	cmp	r3, #0
- 8001e3a:	d11e      	bne.n	8001e7a <Game_Tick+0xb4e>
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+ 8001e3a:	d11e      	bne.n	8001e7a <GameTick+0xb4e>
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001e3c:	7dfa      	ldrb	r2, [r7, #23]
  8001e3e:	6879      	ldr	r1, [r7, #4]
  8001e40:	4613      	mov	r3, r2
@@ -3621,17 +3621,17 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 								g->player.x + 7, g->player.y + 5)) {
  8001e64:	687b      	ldr	r3, [r7, #4]
  8001e66:	681b      	ldr	r3, [r3, #0]
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001e68:	1dda      	adds	r2, r3, #7
 								g->player.x + 7, g->player.y + 5)) {
  8001e6a:	687b      	ldr	r3, [r7, #4]
  8001e6c:	685b      	ldr	r3, [r3, #4]
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
  8001e6e:	3305      	adds	r3, #5
- 8001e70:	f001 f9c4 	bl	80031fc <colliding>
+ 8001e70:	f001 f9c4 	bl	80031fc <Colliding>
  8001e74:	4603      	mov	r3, r0
  8001e76:	2b00      	cmp	r3, #0
- 8001e78:	d053      	beq.n	8001f22 <Game_Tick+0xbf6>
+ 8001e78:	d053      	beq.n	8001f22 <GameTick+0xbf6>
 					g->player.lives -= 1;
  8001e7a:	687b      	ldr	r3, [r7, #4]
  8001e7c:	691b      	ldr	r3, [r3, #16]
@@ -3675,7 +3675,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001ec8:	230a      	movs	r3, #10
  8001eca:	9300      	str	r3, [sp, #0]
  8001ecc:	230a      	movs	r3, #10
- 8001ece:	4a9d      	ldr	r2, [pc, #628]	@ (8002144 <Game_Tick+0xe18>)
+ 8001ece:	4a9d      	ldr	r2, [pc, #628]	@ (8002144 <GameTick+0xe18>)
  8001ed0:	f7fe ff6c 	bl	8000dac <GFX_DrowBitMap_P>
 							explosion_map, 10, 10, 1);
 					GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
@@ -3690,7 +3690,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001ee6:	2310      	movs	r3, #16
  8001ee8:	9300      	str	r3, [sp, #0]
  8001eea:	230a      	movs	r3, #10
- 8001eec:	4a96      	ldr	r2, [pc, #600]	@ (8002148 <Game_Tick+0xe1c>)
+ 8001eec:	4a96      	ldr	r2, [pc, #600]	@ (8002148 <GameTick+0xe1c>)
  8001eee:	f7fe ff5d 	bl	8000dac <GFX_DrowBitMap_P>
 							player_shield_map, 10, 16, 1);
 					GFX_DrowBitMap_P(g->player.x, g->player.y, player_map, 11,
@@ -3703,7 +3703,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001efe:	230b      	movs	r3, #11
  8001f00:	9300      	str	r3, [sp, #0]
  8001f02:	230b      	movs	r3, #11
- 8001f04:	4a91      	ldr	r2, [pc, #580]	@ (800214c <Game_Tick+0xe20>)
+ 8001f04:	4a91      	ldr	r2, [pc, #580]	@ (800214c <GameTick+0xe20>)
  8001f06:	f7fe ff51 	bl	8000dac <GFX_DrowBitMap_P>
 							11, 1);
 
@@ -3713,9 +3713,9 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001f0e:	687b      	ldr	r3, [r7, #4]
  8001f10:	691b      	ldr	r3, [r3, #16]
  8001f12:	2b00      	cmp	r3, #0
- 8001f14:	dc05      	bgt.n	8001f22 <Game_Tick+0xbf6>
-						Play_Dead_Anim();
- 8001f16:	f001 fdc9 	bl	8003aac <Play_Dead_Anim>
+ 8001f14:	dc05      	bgt.n	8001f22 <GameTick+0xbf6>
+						PlayDeadAnim();
+ 8001f16:	f001 fdc9 	bl	8003aac <PlayDeadAnim>
 						g->state = st_dead;
  8001f1a:	687b      	ldr	r3, [r7, #4]
  8001f1c:	2202      	movs	r2, #2
@@ -3726,7 +3726,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001f26:	75fb      	strb	r3, [r7, #23]
  8001f28:	7dfb      	ldrb	r3, [r7, #23]
  8001f2a:	2b04      	cmp	r3, #4
- 8001f2c:	f67f af20 	bls.w	8001d70 <Game_Tick+0xa44>
+ 8001f2c:	f67f af20 	bls.w	8001d70 <GameTick+0xa44>
 				}
 			}
 		}
@@ -3735,7 +3735,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 		for (i = 0; i < num_shots; i++) {
  8001f30:	2300      	movs	r3, #0
  8001f32:	75fb      	strb	r3, [r7, #23]
- 8001f34:	e0b1      	b.n	800209a <Game_Tick+0xd6e>
+ 8001f34:	e0b1      	b.n	800209a <GameTick+0xd6e>
 			if (g->shots[i].active) {
  8001f36:	7dfa      	ldrb	r2, [r7, #23]
  8001f38:	6879      	ldr	r1, [r7, #4]
@@ -3747,8 +3747,8 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001f44:	3324      	adds	r3, #36	@ 0x24
  8001f46:	781b      	ldrb	r3, [r3, #0]
  8001f48:	2b00      	cmp	r3, #0
- 8001f4a:	f000 80a3 	beq.w	8002094 <Game_Tick+0xd68>
-				if (colliding(g->boss.x, g->boss.y, g->shots[i].x,
+ 8001f4a:	f000 80a3 	beq.w	8002094 <GameTick+0xd68>
+				if (Colliding(g->boss.x, g->boss.y, g->shots[i].x,
  8001f4e:	687b      	ldr	r3, [r7, #4]
  8001f50:	f8d3 0a28 	ldr.w	r0, [r3, #2600]	@ 0xa28
  8001f54:	687b      	ldr	r3, [r7, #4]
@@ -3773,12 +3773,12 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001f7c:	681b      	ldr	r3, [r3, #0]
  8001f7e:	462a      	mov	r2, r5
  8001f80:	4621      	mov	r1, r4
- 8001f82:	f001 f93b 	bl	80031fc <colliding>
+ 8001f82:	f001 f93b 	bl	80031fc <Colliding>
  8001f86:	4603      	mov	r3, r0
  8001f88:	2b00      	cmp	r3, #0
- 8001f8a:	d140      	bne.n	800200e <Game_Tick+0xce2>
+ 8001f8a:	d140      	bne.n	800200e <GameTick+0xce2>
 						g->shots[i].y)
-						|| colliding(g->boss.x, g->boss.y + 6, g->shots[i].x,
+						|| Colliding(g->boss.x, g->boss.y + 6, g->shots[i].x,
  8001f8c:	687b      	ldr	r3, [r7, #4]
  8001f8e:	f8d3 0a28 	ldr.w	r0, [r3, #2600]	@ 0xa28
  8001f92:	687b      	ldr	r3, [r7, #4]
@@ -3804,12 +3804,12 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001fbc:	681b      	ldr	r3, [r3, #0]
  8001fbe:	462a      	mov	r2, r5
  8001fc0:	4621      	mov	r1, r4
- 8001fc2:	f001 f91b 	bl	80031fc <colliding>
+ 8001fc2:	f001 f91b 	bl	80031fc <Colliding>
  8001fc6:	4603      	mov	r3, r0
  8001fc8:	2b00      	cmp	r3, #0
- 8001fca:	d120      	bne.n	800200e <Game_Tick+0xce2>
+ 8001fca:	d120      	bne.n	800200e <GameTick+0xce2>
 								g->shots[i].y)
-						|| colliding(g->boss.x, g->boss.y + 12, g->shots[i].x,
+						|| Colliding(g->boss.x, g->boss.y + 12, g->shots[i].x,
  8001fcc:	687b      	ldr	r3, [r7, #4]
  8001fce:	f8d3 0a28 	ldr.w	r0, [r3, #2600]	@ 0xa28
  8001fd2:	687b      	ldr	r3, [r7, #4]
@@ -3835,10 +3835,10 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8001ffe:	681b      	ldr	r3, [r3, #0]
  8002000:	462a      	mov	r2, r5
  8002002:	4621      	mov	r1, r4
- 8002004:	f001 f8fa 	bl	80031fc <colliding>
+ 8002004:	f001 f8fa 	bl	80031fc <Colliding>
  8002008:	4603      	mov	r3, r0
  800200a:	2b00      	cmp	r3, #0
- 800200c:	d042      	beq.n	8002094 <Game_Tick+0xd68>
+ 800200c:	d042      	beq.n	8002094 <GameTick+0xd68>
 								g->shots[i].y)) {
 					g->boss.lives -= 1;
  800200e:	687b      	ldr	r3, [r7, #4]
@@ -3892,7 +3892,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800206c:	230a      	movs	r3, #10
  800206e:	9300      	str	r3, [sp, #0]
  8002070:	230a      	movs	r3, #10
- 8002072:	4a34      	ldr	r2, [pc, #208]	@ (8002144 <Game_Tick+0xe18>)
+ 8002072:	4a34      	ldr	r2, [pc, #208]	@ (8002144 <GameTick+0xe18>)
  8002074:	f7fe fe9a 	bl	8000dac <GFX_DrowBitMap_P>
 							explosion_map, 10, 10, 1);
 
@@ -3900,7 +3900,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8002078:	687b      	ldr	r3, [r7, #4]
  800207a:	f8d3 3a38 	ldr.w	r3, [r3, #2616]	@ 0xa38
  800207e:	2b00      	cmp	r3, #0
- 8002080:	dc08      	bgt.n	8002094 <Game_Tick+0xd68>
+ 8002080:	dc08      	bgt.n	8002094 <GameTick+0xd68>
 						g->boss.active = false;
  8002082:	687b      	ldr	r3, [r7, #4]
  8002084:	2200      	movs	r2, #0
@@ -3910,14 +3910,14 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800208c:	2200      	movs	r2, #0
  800208e:	f8c3 2a38 	str.w	r2, [r3, #2616]	@ 0xa38
 						break;
- 8002092:	e006      	b.n	80020a2 <Game_Tick+0xd76>
+ 8002092:	e006      	b.n	80020a2 <GameTick+0xd76>
 		for (i = 0; i < num_shots; i++) {
  8002094:	7dfb      	ldrb	r3, [r7, #23]
  8002096:	3301      	adds	r3, #1
  8002098:	75fb      	strb	r3, [r7, #23]
  800209a:	7dfb      	ldrb	r3, [r7, #23]
  800209c:	2b18      	cmp	r3, #24
- 800209e:	f67f af4a 	bls.w	8001f36 <Game_Tick+0xc0a>
+ 800209e:	f67f af4a 	bls.w	8001f36 <GameTick+0xc0a>
 			}
 		}
 	}
@@ -3929,11 +3929,11 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80020a8:	f083 0301 	eor.w	r3, r3, #1
  80020ac:	b2db      	uxtb	r3, r3
  80020ae:	2b00      	cmp	r3, #0
- 80020b0:	d03b      	beq.n	800212a <Game_Tick+0xdfe>
+ 80020b0:	d03b      	beq.n	800212a <GameTick+0xdfe>
 		for (i = 0; i < num_boss_shots; i++) {
  80020b2:	2300      	movs	r3, #0
  80020b4:	75fb      	strb	r3, [r7, #23]
- 80020b6:	e035      	b.n	8002124 <Game_Tick+0xdf8>
+ 80020b6:	e035      	b.n	8002124 <GameTick+0xdf8>
 			if (g->boss_shots[i].active) {
  80020b8:	7dfa      	ldrb	r2, [r7, #23]
  80020ba:	6879      	ldr	r1, [r7, #4]
@@ -3945,7 +3945,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80020c6:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  80020ca:	781b      	ldrb	r3, [r3, #0]
  80020cc:	2b00      	cmp	r3, #0
- 80020ce:	d026      	beq.n	800211e <Game_Tick+0xdf2>
+ 80020ce:	d026      	beq.n	800211e <GameTick+0xdf2>
 				g->boss_shots[i].active = false;
  80020d0:	7dfa      	ldrb	r2, [r7, #23]
  80020d2:	6879      	ldr	r1, [r7, #4]
@@ -3981,7 +3981,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8002112:	2301      	movs	r3, #1
  8002114:	9300      	str	r3, [sp, #0]
  8002116:	2304      	movs	r3, #4
- 8002118:	4a0d      	ldr	r2, [pc, #52]	@ (8002150 <Game_Tick+0xe24>)
+ 8002118:	4a0d      	ldr	r2, [pc, #52]	@ (8002150 <GameTick+0xe24>)
  800211a:	f7fe fe47 	bl	8000dac <GFX_DrowBitMap_P>
 		for (i = 0; i < num_boss_shots; i++) {
  800211e:	7dfb      	ldrb	r3, [r7, #23]
@@ -3989,7 +3989,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8002122:	75fb      	strb	r3, [r7, #23]
  8002124:	7dfb      	ldrb	r3, [r7, #23]
  8002126:	2b04      	cmp	r3, #4
- 8002128:	d9c6      	bls.n	80020b8 <Game_Tick+0xd8c>
+ 8002128:	d9c6      	bls.n	80020b8 <GameTick+0xd8c>
 			}
 		}
 	}
@@ -3999,20 +3999,20 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800212a:	683b      	ldr	r3, [r7, #0]
  800212c:	791b      	ldrb	r3, [r3, #4]
  800212e:	2b01      	cmp	r3, #1
- 8002130:	d102      	bne.n	8002138 <Game_Tick+0xe0c>
-		Game_Shot(g);//shot();
+ 8002130:	d102      	bne.n	8002138 <GameTick+0xe0c>
+		GameShot(g);//shot();
  8002132:	6878      	ldr	r0, [r7, #4]
- 8002134:	f000 fef4 	bl	8002f20 <Game_Shot>
+ 8002134:	f000 fef4 	bl	8002f20 <GameShot>
 
 	// Checking the collision of a player's shots with opponents. Adding Bonuses
 	for (i = 0; i < num_shots; ++i) {
  8002138:	2300      	movs	r3, #0
  800213a:	75fb      	strb	r3, [r7, #23]
- 800213c:	e0ce      	b.n	80022dc <Game_Tick+0xfb0>
+ 800213c:	e0ce      	b.n	80022dc <GameTick+0xfb0>
 		for (j = 0; j < num_enemies; ++j) {
  800213e:	2300      	movs	r3, #0
  8002140:	75bb      	strb	r3, [r7, #22]
- 8002142:	e0c4      	b.n	80022ce <Game_Tick+0xfa2>
+ 8002142:	e0c4      	b.n	80022ce <GameTick+0xfa2>
  8002144:	08009a20 	.word	0x08009a20
  8002148:	080099e8 	.word	0x080099e8
  800214c:	08009820 	.word	0x08009820
@@ -4028,7 +4028,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8002162:	3324      	adds	r3, #36	@ 0x24
  8002164:	781b      	ldrb	r3, [r3, #0]
  8002166:	2b00      	cmp	r3, #0
- 8002168:	f000 80ae 	beq.w	80022c8 <Game_Tick+0xf9c>
+ 8002168:	f000 80ae 	beq.w	80022c8 <GameTick+0xf9c>
  800216c:	7dba      	ldrb	r2, [r7, #22]
  800216e:	6879      	ldr	r1, [r7, #4]
  8002170:	4613      	mov	r3, r2
@@ -4039,8 +4039,8 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800217a:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  800217e:	781b      	ldrb	r3, [r3, #0]
  8002180:	2b00      	cmp	r3, #0
- 8002182:	f000 80a1 	beq.w	80022c8 <Game_Tick+0xf9c>
-				if (colliding(g->enemies[j].x, g->enemies[j].y, g->shots[i].x,
+ 8002182:	f000 80a1 	beq.w	80022c8 <GameTick+0xf9c>
+				if (Colliding(g->enemies[j].x, g->enemies[j].y, g->shots[i].x,
  8002186:	7dba      	ldrb	r2, [r7, #22]
  8002188:	6879      	ldr	r1, [r7, #4]
  800218a:	4613      	mov	r3, r2
@@ -4079,10 +4079,10 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80021d0:	681b      	ldr	r3, [r3, #0]
  80021d2:	462a      	mov	r2, r5
  80021d4:	4621      	mov	r1, r4
- 80021d6:	f001 f811 	bl	80031fc <colliding>
+ 80021d6:	f001 f811 	bl	80031fc <Colliding>
  80021da:	4603      	mov	r3, r0
  80021dc:	2b00      	cmp	r3, #0
- 80021de:	d073      	beq.n	80022c8 <Game_Tick+0xf9c>
+ 80021de:	d073      	beq.n	80022c8 <GameTick+0xf9c>
 						g->shots[i].y)) {
 					g->enemies[j].active = false;
  80021e0:	7dba      	ldrb	r2, [r7, #22]
@@ -4158,7 +4158,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800226c:	230a      	movs	r3, #10
  800226e:	9300      	str	r3, [sp, #0]
  8002270:	230a      	movs	r3, #10
- 8002272:	4a2d      	ldr	r2, [pc, #180]	@ (8002328 <Game_Tick+0xffc>)
+ 8002272:	4a2d      	ldr	r2, [pc, #180]	@ (8002328 <GameTick+0xffc>)
  8002274:	f7fe fd9a 	bl	8000dac <GFX_DrowBitMap_P>
 							explosion_map, 10, 10, 1);
 
@@ -4166,7 +4166,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 					if ((rand() % 100) < frequ_bonus)
  8002278:	f005 f8e0 	bl	800743c <rand>
  800227c:	4602      	mov	r2, r0
- 800227e:	4b2b      	ldr	r3, [pc, #172]	@ (800232c <Game_Tick+0x1000>)
+ 800227e:	4b2b      	ldr	r3, [pc, #172]	@ (800232c <GameTick+0x1000>)
  8002280:	fb83 1302 	smull	r1, r3, r3, r2
  8002284:	1159      	asrs	r1, r3, #5
  8002286:	17d3      	asrs	r3, r2, #31
@@ -4175,8 +4175,8 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  800228c:	fb01 f303 	mul.w	r3, r1, r3
  8002290:	1ad3      	subs	r3, r2, r3
  8002292:	2b0e      	cmp	r3, #14
- 8002294:	dc18      	bgt.n	80022c8 <Game_Tick+0xf9c>
-						Game_Add_Bonus(g, g->enemies[j].x, g->enemies[j].y);//add_bonus(g->enemies[j].x, g->enemies[j].y);
+ 8002294:	dc18      	bgt.n	80022c8 <GameTick+0xf9c>
+						GameAddBonus(g, g->enemies[j].x, g->enemies[j].y);//add_bonus(g->enemies[j].x, g->enemies[j].y);
  8002296:	7dba      	ldrb	r2, [r7, #22]
  8002298:	6879      	ldr	r1, [r7, #4]
  800229a:	4613      	mov	r3, r2
@@ -4198,21 +4198,21 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  80022be:	461a      	mov	r2, r3
  80022c0:	4601      	mov	r1, r0
  80022c2:	6878      	ldr	r0, [r7, #4]
- 80022c4:	f000 fc3c 	bl	8002b40 <Game_Add_Bonus>
+ 80022c4:	f000 fc3c 	bl	8002b40 <GameAddBonus>
 		for (j = 0; j < num_enemies; ++j) {
  80022c8:	7dbb      	ldrb	r3, [r7, #22]
  80022ca:	3301      	adds	r3, #1
  80022cc:	75bb      	strb	r3, [r7, #22]
  80022ce:	7dbb      	ldrb	r3, [r7, #22]
  80022d0:	2b09      	cmp	r3, #9
- 80022d2:	f67f af3f 	bls.w	8002154 <Game_Tick+0xe28>
+ 80022d2:	f67f af3f 	bls.w	8002154 <GameTick+0xe28>
 	for (i = 0; i < num_shots; ++i) {
  80022d6:	7dfb      	ldrb	r3, [r7, #23]
  80022d8:	3301      	adds	r3, #1
  80022da:	75fb      	strb	r3, [r7, #23]
  80022dc:	7dfb      	ldrb	r3, [r7, #23]
  80022de:	2b18      	cmp	r3, #24
- 80022e0:	f67f af2d 	bls.w	800213e <Game_Tick+0xe12>
+ 80022e0:	f67f af2d 	bls.w	800213e <GameTick+0xe12>
 				}
 			}
 		}
@@ -4220,7 +4220,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 	if ((rand() % 100) < (g->player.level * 2) && !(g->boss.active)) //Frequency of adding opponents according to level
  80022e4:	f005 f8aa 	bl	800743c <rand>
  80022e8:	4602      	mov	r2, r0
- 80022ea:	4b10      	ldr	r3, [pc, #64]	@ (800232c <Game_Tick+0x1000>)
+ 80022ea:	4b10      	ldr	r3, [pc, #64]	@ (800232c <GameTick+0x1000>)
  80022ec:	fb83 1302 	smull	r1, r3, r3, r2
  80022f0:	1159      	asrs	r1, r3, #5
  80022f2:	17d3      	asrs	r3, r2, #31
@@ -4232,16 +4232,16 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8002300:	6952      	ldr	r2, [r2, #20]
  8002302:	0052      	lsls	r2, r2, #1
  8002304:	4293      	cmp	r3, r2
- 8002306:	da0a      	bge.n	800231e <Game_Tick+0xff2>
+ 8002306:	da0a      	bge.n	800231e <GameTick+0xff2>
  8002308:	687b      	ldr	r3, [r7, #4]
  800230a:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  800230e:	f083 0301 	eor.w	r3, r3, #1
  8002312:	b2db      	uxtb	r3, r3
  8002314:	2b00      	cmp	r3, #0
- 8002316:	d002      	beq.n	800231e <Game_Tick+0xff2>
-		Game_Add_Enemy(g);//add_enemy();
+ 8002316:	d002      	beq.n	800231e <GameTick+0xff2>
+		GameAddEnemy(g);//add_enemy();
  8002318:	6878      	ldr	r0, [r7, #4]
- 800231a:	f000 ff97 	bl	800324c <Game_Add_Enemy>
+ 800231a:	f000 ff97 	bl	800324c <GameAddEnemy>
 }
  800231e:	bf00      	nop
  8002320:	3718      	adds	r7, #24
@@ -4251,9 +4251,9 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
  8002328:	08009a20 	.word	0x08009a20
  800232c:	51eb851f 	.word	0x51eb851f
 
-08002330 <Game_Draw>:
+08002330 <GameDraw>:
 
-void Game_Draw(GameCtx *g, InputSnapshot* in) {
+void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002330:	b5b0      	push	{r4, r5, r7, lr}
  8002332:	b086      	sub	sp, #24
  8002334:	af02      	add	r7, sp, #8
@@ -4281,7 +4281,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002354:	2306      	movs	r3, #6
  8002356:	9300      	str	r3, [sp, #0]
  8002358:	2308      	movs	r3, #8
- 800235a:	4aa2      	ldr	r2, [pc, #648]	@ (80025e4 <Game_Draw+0x2b4>)
+ 800235a:	4aa2      	ldr	r2, [pc, #648]	@ (80025e4 <GameDraw+0x2b4>)
  800235c:	2100      	movs	r1, #0
  800235e:	2066      	movs	r0, #102	@ 0x66
  8002360:	f7fe fd24 	bl	8000dac <GFX_DrowBitMap_P>
@@ -4302,7 +4302,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  800237e:	2307      	movs	r3, #7
  8002380:	9300      	str	r3, [sp, #0]
  8002382:	2314      	movs	r3, #20
- 8002384:	4a98      	ldr	r2, [pc, #608]	@ (80025e8 <Game_Draw+0x2b8>)
+ 8002384:	4a98      	ldr	r2, [pc, #608]	@ (80025e8 <GameDraw+0x2b8>)
  8002386:	2100      	movs	r1, #0
  8002388:	2032      	movs	r0, #50	@ 0x32
  800238a:	f7fe fd0f 	bl	8000dac <GFX_DrowBitMap_P>
@@ -4322,7 +4322,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
 	for (i = 0; i < num_shots; i++) {
  80023a4:	2300      	movs	r3, #0
  80023a6:	73fb      	strb	r3, [r7, #15]
- 80023a8:	e027      	b.n	80023fa <Game_Draw+0xca>
+ 80023a8:	e027      	b.n	80023fa <GameDraw+0xca>
 		if (g->shots[i].active) {
  80023aa:	7bfa      	ldrb	r2, [r7, #15]
  80023ac:	6879      	ldr	r1, [r7, #4]
@@ -4334,7 +4334,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80023b8:	3324      	adds	r3, #36	@ 0x24
  80023ba:	781b      	ldrb	r3, [r3, #0]
  80023bc:	2b00      	cmp	r3, #0
- 80023be:	d019      	beq.n	80023f4 <Game_Draw+0xc4>
+ 80023be:	d019      	beq.n	80023f4 <GameDraw+0xc4>
 			GFX_DrowBitMap_P(g->shots[i].x, g->shots[i].y, player_shot_map, 4, 1, 1);
  80023c0:	7bfa      	ldrb	r2, [r7, #15]
  80023c2:	6879      	ldr	r1, [r7, #4]
@@ -4359,7 +4359,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80023e8:	2301      	movs	r3, #1
  80023ea:	9300      	str	r3, [sp, #0]
  80023ec:	2304      	movs	r3, #4
- 80023ee:	4a7f      	ldr	r2, [pc, #508]	@ (80025ec <Game_Draw+0x2bc>)
+ 80023ee:	4a7f      	ldr	r2, [pc, #508]	@ (80025ec <GameDraw+0x2bc>)
  80023f0:	f7fe fcdc 	bl	8000dac <GFX_DrowBitMap_P>
 	for (i = 0; i < num_shots; i++) {
  80023f4:	7bfb      	ldrb	r3, [r7, #15]
@@ -4367,7 +4367,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80023f8:	73fb      	strb	r3, [r7, #15]
  80023fa:	7bfb      	ldrb	r3, [r7, #15]
  80023fc:	2b18      	cmp	r3, #24
- 80023fe:	d9d4      	bls.n	80023aa <Game_Draw+0x7a>
+ 80023fe:	d9d4      	bls.n	80023aa <GameDraw+0x7a>
 		}
 	}
 
@@ -4376,11 +4376,11 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002400:	687b      	ldr	r3, [r7, #4]
  8002402:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  8002406:	2b00      	cmp	r3, #0
- 8002408:	d030      	beq.n	800246c <Game_Draw+0x13c>
+ 8002408:	d030      	beq.n	800246c <GameDraw+0x13c>
 		for (i = 0; i < num_boss_shots; i++) {
  800240a:	2300      	movs	r3, #0
  800240c:	73fb      	strb	r3, [r7, #15]
- 800240e:	e02a      	b.n	8002466 <Game_Draw+0x136>
+ 800240e:	e02a      	b.n	8002466 <GameDraw+0x136>
 			if (g->boss_shots[i].active) {
  8002410:	7bfa      	ldrb	r2, [r7, #15]
  8002412:	6879      	ldr	r1, [r7, #4]
@@ -4392,7 +4392,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  800241e:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  8002422:	781b      	ldrb	r3, [r3, #0]
  8002424:	2b00      	cmp	r3, #0
- 8002426:	d01b      	beq.n	8002460 <Game_Draw+0x130>
+ 8002426:	d01b      	beq.n	8002460 <GameDraw+0x130>
 				GFX_DrowBitMap_P(g->boss_shots[i].x, g->boss_shots[i].y,
  8002428:	7bfa      	ldrb	r2, [r7, #15]
  800242a:	6879      	ldr	r1, [r7, #4]
@@ -4417,7 +4417,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002454:	2301      	movs	r3, #1
  8002456:	9300      	str	r3, [sp, #0]
  8002458:	2304      	movs	r3, #4
- 800245a:	4a64      	ldr	r2, [pc, #400]	@ (80025ec <Game_Draw+0x2bc>)
+ 800245a:	4a64      	ldr	r2, [pc, #400]	@ (80025ec <GameDraw+0x2bc>)
  800245c:	f7fe fca6 	bl	8000dac <GFX_DrowBitMap_P>
 		for (i = 0; i < num_boss_shots; i++) {
  8002460:	7bfb      	ldrb	r3, [r7, #15]
@@ -4425,7 +4425,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002464:	73fb      	strb	r3, [r7, #15]
  8002466:	7bfb      	ldrb	r3, [r7, #15]
  8002468:	2b04      	cmp	r3, #4
- 800246a:	d9d1      	bls.n	8002410 <Game_Draw+0xe0>
+ 800246a:	d9d1      	bls.n	8002410 <GameDraw+0xe0>
 			}
 		}
 	}
@@ -4434,7 +4434,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
 	for (i = 0; i < num_enemies; i++) {
  800246c:	2300      	movs	r3, #0
  800246e:	73fb      	strb	r3, [r7, #15]
- 8002470:	e0a5      	b.n	80025be <Game_Draw+0x28e>
+ 8002470:	e0a5      	b.n	80025be <GameDraw+0x28e>
 		if (g->enemies[i].active) {
  8002472:	7bfa      	ldrb	r2, [r7, #15]
  8002474:	6879      	ldr	r1, [r7, #4]
@@ -4446,7 +4446,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002480:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  8002484:	781b      	ldrb	r3, [r3, #0]
  8002486:	2b00      	cmp	r3, #0
- 8002488:	f000 8096 	beq.w	80025b8 <Game_Draw+0x288>
+ 8002488:	f000 8096 	beq.w	80025b8 <GameDraw+0x288>
 			if (g->enemies[i].type == et_tracker)
  800248c:	7bfa      	ldrb	r2, [r7, #15]
  800248e:	6879      	ldr	r1, [r7, #4]
@@ -4458,7 +4458,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  800249a:	f503 7322 	add.w	r3, r3, #648	@ 0x288
  800249e:	781b      	ldrb	r3, [r3, #0]
  80024a0:	2b01      	cmp	r3, #1
- 80024a2:	d125      	bne.n	80024f0 <Game_Draw+0x1c0>
+ 80024a2:	d125      	bne.n	80024f0 <GameDraw+0x1c0>
 				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
  80024a4:	7bfa      	ldrb	r2, [r7, #15]
  80024a6:	6879      	ldr	r1, [r7, #4]
@@ -4506,7 +4506,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80024fe:	f503 7322 	add.w	r3, r3, #648	@ 0x288
  8002502:	781b      	ldrb	r3, [r3, #0]
  8002504:	2b00      	cmp	r3, #0
- 8002506:	d125      	bne.n	8002554 <Game_Draw+0x224>
+ 8002506:	d125      	bne.n	8002554 <GameDraw+0x224>
 				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
  8002508:	7bfa      	ldrb	r2, [r7, #15]
  800250a:	6879      	ldr	r1, [r7, #4]
@@ -4554,7 +4554,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002562:	f503 7322 	add.w	r3, r3, #648	@ 0x288
  8002566:	781b      	ldrb	r3, [r3, #0]
  8002568:	2b02      	cmp	r3, #2
- 800256a:	d125      	bne.n	80025b8 <Game_Draw+0x288>
+ 800256a:	d125      	bne.n	80025b8 <GameDraw+0x288>
 				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
  800256c:	7bfa      	ldrb	r2, [r7, #15]
  800256e:	6879      	ldr	r1, [r7, #4]
@@ -4596,7 +4596,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80025bc:	73fb      	strb	r3, [r7, #15]
  80025be:	7bfb      	ldrb	r3, [r7, #15]
  80025c0:	2b09      	cmp	r3, #9
- 80025c2:	f67f af56 	bls.w	8002472 <Game_Draw+0x142>
+ 80025c2:	f67f af56 	bls.w	8002472 <GameDraw+0x142>
 						5, 5, 1);
 		}
 	}
@@ -4612,14 +4612,14 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80025d2:	230b      	movs	r3, #11
  80025d4:	9300      	str	r3, [sp, #0]
  80025d6:	230b      	movs	r3, #11
- 80025d8:	4a05      	ldr	r2, [pc, #20]	@ (80025f0 <Game_Draw+0x2c0>)
+ 80025d8:	4a05      	ldr	r2, [pc, #20]	@ (80025f0 <GameDraw+0x2c0>)
  80025da:	f7fe fbe7 	bl	8000dac <GFX_DrowBitMap_P>
 
 	//Drawing a background
 	for (i = 0; i < num_background; i++) {
  80025de:	2300      	movs	r3, #0
  80025e0:	73fb      	strb	r3, [r7, #15]
- 80025e2:	e03e      	b.n	8002662 <Game_Draw+0x332>
+ 80025e2:	e03e      	b.n	8002662 <GameDraw+0x332>
  80025e4:	08009850 	.word	0x08009850
  80025e8:	08009838 	.word	0x08009838
  80025ec:	0800981c 	.word	0x0800981c
@@ -4635,7 +4635,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002602:	f503 7379 	add.w	r3, r3, #996	@ 0x3e4
  8002606:	781b      	ldrb	r3, [r3, #0]
  8002608:	2b00      	cmp	r3, #0
- 800260a:	d027      	beq.n	800265c <Game_Draw+0x32c>
+ 800260a:	d027      	beq.n	800265c <GameDraw+0x32c>
 			ssd1327_setPixel(g->background[i].x, g->background[i].y, (rand() % 15));
  800260c:	7bfa      	ldrb	r2, [r7, #15]
  800260e:	6879      	ldr	r1, [r7, #4]
@@ -4657,7 +4657,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002632:	681d      	ldr	r5, [r3, #0]
  8002634:	f004 ff02 	bl	800743c <rand>
  8002638:	4602      	mov	r2, r0
- 800263a:	4b54      	ldr	r3, [pc, #336]	@ (800278c <Game_Draw+0x45c>)
+ 800263a:	4b54      	ldr	r3, [pc, #336]	@ (800278c <GameDraw+0x45c>)
  800263c:	fb83 1302 	smull	r1, r3, r3, r2
  8002640:	4413      	add	r3, r2
  8002642:	10d9      	asrs	r1, r3, #3
@@ -4678,7 +4678,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002660:	73fb      	strb	r3, [r7, #15]
  8002662:	7bfb      	ldrb	r3, [r7, #15]
  8002664:	2b4f      	cmp	r3, #79	@ 0x4f
- 8002666:	d9c5      	bls.n	80025f4 <Game_Draw+0x2c4>
+ 8002666:	d9c5      	bls.n	80025f4 <GameDraw+0x2c4>
 		}
 	}
 
@@ -4687,11 +4687,11 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002668:	687b      	ldr	r3, [r7, #4]
  800266a:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  800266e:	2b00      	cmp	r3, #0
- 8002670:	d011      	beq.n	8002696 <Game_Draw+0x366>
+ 8002670:	d011      	beq.n	8002696 <GameDraw+0x366>
  8002672:	687b      	ldr	r3, [r7, #4]
  8002674:	699b      	ldr	r3, [r3, #24]
  8002676:	2b1e      	cmp	r3, #30
- 8002678:	d10d      	bne.n	8002696 <Game_Draw+0x366>
+ 8002678:	d10d      	bne.n	8002696 <GameDraw+0x366>
 		GFX_DrowBitMap_P(g->boss.x, g->boss.y, boss_map_1, 10, 18, 1);
  800267a:	687b      	ldr	r3, [r7, #4]
  800267c:	f8d3 0a28 	ldr.w	r0, [r3, #2600]	@ 0xa28
@@ -4702,17 +4702,17 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  800268a:	2312      	movs	r3, #18
  800268c:	9300      	str	r3, [sp, #0]
  800268e:	230a      	movs	r3, #10
- 8002690:	4a3f      	ldr	r2, [pc, #252]	@ (8002790 <Game_Draw+0x460>)
+ 8002690:	4a3f      	ldr	r2, [pc, #252]	@ (8002790 <GameDraw+0x460>)
  8002692:	f7fe fb8b 	bl	8000dac <GFX_DrowBitMap_P>
 	if (g->boss.active && g->player.game_progres == 60)
  8002696:	687b      	ldr	r3, [r7, #4]
  8002698:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  800269c:	2b00      	cmp	r3, #0
- 800269e:	d011      	beq.n	80026c4 <Game_Draw+0x394>
+ 800269e:	d011      	beq.n	80026c4 <GameDraw+0x394>
  80026a0:	687b      	ldr	r3, [r7, #4]
  80026a2:	699b      	ldr	r3, [r3, #24]
  80026a4:	2b3c      	cmp	r3, #60	@ 0x3c
- 80026a6:	d10d      	bne.n	80026c4 <Game_Draw+0x394>
+ 80026a6:	d10d      	bne.n	80026c4 <GameDraw+0x394>
 		GFX_DrowBitMap_P(g->boss.x, g->boss.y, boss_map_2, 10, 18, 1);
  80026a8:	687b      	ldr	r3, [r7, #4]
  80026aa:	f8d3 0a28 	ldr.w	r0, [r3, #2600]	@ 0xa28
@@ -4723,14 +4723,14 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80026b8:	2312      	movs	r3, #18
  80026ba:	9300      	str	r3, [sp, #0]
  80026bc:	230a      	movs	r3, #10
- 80026be:	4a35      	ldr	r2, [pc, #212]	@ (8002794 <Game_Draw+0x464>)
+ 80026be:	4a35      	ldr	r2, [pc, #212]	@ (8002794 <GameDraw+0x464>)
  80026c0:	f7fe fb74 	bl	8000dac <GFX_DrowBitMap_P>
 
 	//Drawing bonuses
 	for (i = 0; i < num_bonus; i++) {
  80026c4:	2300      	movs	r3, #0
  80026c6:	73fb      	strb	r3, [r7, #15]
- 80026c8:	e057      	b.n	800277a <Game_Draw+0x44a>
+ 80026c8:	e057      	b.n	800277a <GameDraw+0x44a>
 		if (g->bonuses[i].active) {
  80026ca:	7bfa      	ldrb	r2, [r7, #15]
  80026cc:	6879      	ldr	r1, [r7, #4]
@@ -4742,7 +4742,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80026d8:	f503 6324 	add.w	r3, r3, #2624	@ 0xa40
  80026dc:	781b      	ldrb	r3, [r3, #0]
  80026de:	2b00      	cmp	r3, #0
- 80026e0:	d048      	beq.n	8002774 <Game_Draw+0x444>
+ 80026e0:	d048      	beq.n	8002774 <GameDraw+0x444>
 			switch (g->bonuses[i].type) {
  80026e2:	7bfa      	ldrb	r2, [r7, #15]
  80026e4:	6879      	ldr	r1, [r7, #4]
@@ -4754,10 +4754,10 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  80026f0:	f603 234c 	addw	r3, r3, #2636	@ 0xa4c
  80026f4:	781b      	ldrb	r3, [r3, #0]
  80026f6:	2b00      	cmp	r3, #0
- 80026f8:	d002      	beq.n	8002700 <Game_Draw+0x3d0>
+ 80026f8:	d002      	beq.n	8002700 <GameDraw+0x3d0>
  80026fa:	2b01      	cmp	r3, #1
- 80026fc:	d01d      	beq.n	800273a <Game_Draw+0x40a>
- 80026fe:	e039      	b.n	8002774 <Game_Draw+0x444>
+ 80026fc:	d01d      	beq.n	800273a <GameDraw+0x40a>
+ 80026fe:	e039      	b.n	8002774 <GameDraw+0x444>
 			case bt_live:
 				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y, bonus_live_map, 7,
  8002700:	7bfa      	ldrb	r2, [r7, #15]
@@ -4783,11 +4783,11 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  800272c:	2307      	movs	r3, #7
  800272e:	9300      	str	r3, [sp, #0]
  8002730:	2307      	movs	r3, #7
- 8002732:	4a19      	ldr	r2, [pc, #100]	@ (8002798 <Game_Draw+0x468>)
+ 8002732:	4a19      	ldr	r2, [pc, #100]	@ (8002798 <GameDraw+0x468>)
  8002734:	f7fe fb3a 	bl	8000dac <GFX_DrowBitMap_P>
 						7, 1);
 				break;
- 8002738:	e01c      	b.n	8002774 <Game_Draw+0x444>
+ 8002738:	e01c      	b.n	8002774 <GameDraw+0x444>
 			case bt_tracker_shoot:
 				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y,
  800273a:	7bfa      	ldrb	r2, [r7, #15]
@@ -4813,7 +4813,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002766:	2307      	movs	r3, #7
  8002768:	9300      	str	r3, [sp, #0]
  800276a:	2307      	movs	r3, #7
- 800276c:	4a0b      	ldr	r2, [pc, #44]	@ (800279c <Game_Draw+0x46c>)
+ 800276c:	4a0b      	ldr	r2, [pc, #44]	@ (800279c <GameDraw+0x46c>)
  800276e:	f7fe fb1d 	bl	8000dac <GFX_DrowBitMap_P>
 						bonus_tracker_shoot_map, 7, 7, 1);
 				break;
@@ -4824,7 +4824,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002778:	73fb      	strb	r3, [r7, #15]
  800277a:	7bfb      	ldrb	r3, [r7, #15]
  800277c:	2b02      	cmp	r3, #2
- 800277e:	d9a4      	bls.n	80026ca <Game_Draw+0x39a>
+ 800277e:	d9a4      	bls.n	80026ca <GameDraw+0x39a>
 			}
 		}
 	}
@@ -4842,9 +4842,9 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
  8002798:	08009a7c 	.word	0x08009a7c
  800279c:	08009a84 	.word	0x08009a84
 
-080027a0 <Game_Level_Update>:
+080027a0 <GameLevelUpdate>:
 
-void Game_Level_Update(GameCtx* g) {
+void GameLevelUpdate(GameCtx* g) {
  80027a0:	b480      	push	{r7}
  80027a2:	b083      	sub	sp, #12
  80027a4:	af00      	add	r7, sp, #0
@@ -4855,10 +4855,10 @@ void Game_Level_Update(GameCtx* g) {
 
 		//Calculation of game progress
 		if(i > 70)
- 80027a8:	4b5d      	ldr	r3, [pc, #372]	@ (8002920 <Game_Level_Update+0x180>)
+ 80027a8:	4b5d      	ldr	r3, [pc, #372]	@ (8002920 <GameLevelUpdate+0x180>)
  80027aa:	781b      	ldrb	r3, [r3, #0]
  80027ac:	2b46      	cmp	r3, #70	@ 0x46
- 80027ae:	d907      	bls.n	80027c0 <Game_Level_Update+0x20>
+ 80027ae:	d907      	bls.n	80027c0 <GameLevelUpdate+0x20>
 		{
 			g->player.game_progres += 1;
  80027b0:	687b      	ldr	r3, [r7, #4]
@@ -4867,7 +4867,7 @@ void Game_Level_Update(GameCtx* g) {
  80027b6:	687b      	ldr	r3, [r7, #4]
  80027b8:	619a      	str	r2, [r3, #24]
 			i = 0;
- 80027ba:	4b59      	ldr	r3, [pc, #356]	@ (8002920 <Game_Level_Update+0x180>)
+ 80027ba:	4b59      	ldr	r3, [pc, #356]	@ (8002920 <GameLevelUpdate+0x180>)
  80027bc:	2200      	movs	r2, #0
  80027be:	701a      	strb	r2, [r3, #0]
 		}
@@ -4879,12 +4879,12 @@ void Game_Level_Update(GameCtx* g) {
  80027c6:	f083 0301 	eor.w	r3, r3, #1
  80027ca:	b2db      	uxtb	r3, r3
  80027cc:	2b00      	cmp	r3, #0
- 80027ce:	d005      	beq.n	80027dc <Game_Level_Update+0x3c>
- 80027d0:	4b53      	ldr	r3, [pc, #332]	@ (8002920 <Game_Level_Update+0x180>)
+ 80027ce:	d005      	beq.n	80027dc <GameLevelUpdate+0x3c>
+ 80027d0:	4b53      	ldr	r3, [pc, #332]	@ (8002920 <GameLevelUpdate+0x180>)
  80027d2:	781b      	ldrb	r3, [r3, #0]
  80027d4:	3301      	adds	r3, #1
  80027d6:	b2da      	uxtb	r2, r3
- 80027d8:	4b51      	ldr	r3, [pc, #324]	@ (8002920 <Game_Level_Update+0x180>)
+ 80027d8:	4b51      	ldr	r3, [pc, #324]	@ (8002920 <GameLevelUpdate+0x180>)
  80027da:	701a      	strb	r2, [r3, #0]
 
 		//---- Moments of boss appearance -----
@@ -4892,7 +4892,7 @@ void Game_Level_Update(GameCtx* g) {
  80027dc:	687b      	ldr	r3, [r7, #4]
  80027de:	699b      	ldr	r3, [r3, #24]
  80027e0:	2b1d      	cmp	r3, #29
- 80027e2:	d114      	bne.n	800280e <Game_Level_Update+0x6e>
+ 80027e2:	d114      	bne.n	800280e <GameLevelUpdate+0x6e>
 		{
 			g->boss.active = true;
  80027e4:	687b      	ldr	r3, [r7, #4]
@@ -4922,7 +4922,7 @@ void Game_Level_Update(GameCtx* g) {
  800280e:	687b      	ldr	r3, [r7, #4]
  8002810:	699b      	ldr	r3, [r3, #24]
  8002812:	2b3b      	cmp	r3, #59	@ 0x3b
- 8002814:	d114      	bne.n	8002840 <Game_Level_Update+0xa0>
+ 8002814:	d114      	bne.n	8002840 <GameLevelUpdate+0xa0>
 		{
 			g->boss.active = true;
  8002816:	687b      	ldr	r3, [r7, #4]
@@ -4954,11 +4954,11 @@ void Game_Level_Update(GameCtx* g) {
  8002840:	687b      	ldr	r3, [r7, #4]
  8002842:	699b      	ldr	r3, [r3, #24]
  8002844:	2b09      	cmp	r3, #9
- 8002846:	dd06      	ble.n	8002856 <Game_Level_Update+0xb6>
+ 8002846:	dd06      	ble.n	8002856 <GameLevelUpdate+0xb6>
  8002848:	687b      	ldr	r3, [r7, #4]
  800284a:	699b      	ldr	r3, [r3, #24]
  800284c:	2b09      	cmp	r3, #9
- 800284e:	dc02      	bgt.n	8002856 <Game_Level_Update+0xb6>
+ 800284e:	dc02      	bgt.n	8002856 <GameLevelUpdate+0xb6>
 			g->player.level = 1;
  8002850:	687b      	ldr	r3, [r7, #4]
  8002852:	2201      	movs	r2, #1
@@ -4967,11 +4967,11 @@ void Game_Level_Update(GameCtx* g) {
  8002856:	687b      	ldr	r3, [r7, #4]
  8002858:	699b      	ldr	r3, [r3, #24]
  800285a:	2b0a      	cmp	r3, #10
- 800285c:	dd06      	ble.n	800286c <Game_Level_Update+0xcc>
+ 800285c:	dd06      	ble.n	800286c <GameLevelUpdate+0xcc>
  800285e:	687b      	ldr	r3, [r7, #4]
  8002860:	699b      	ldr	r3, [r3, #24]
  8002862:	2b12      	cmp	r3, #18
- 8002864:	dc02      	bgt.n	800286c <Game_Level_Update+0xcc>
+ 8002864:	dc02      	bgt.n	800286c <GameLevelUpdate+0xcc>
 			g->player.level = 2;
  8002866:	687b      	ldr	r3, [r7, #4]
  8002868:	2202      	movs	r2, #2
@@ -4980,11 +4980,11 @@ void Game_Level_Update(GameCtx* g) {
  800286c:	687b      	ldr	r3, [r7, #4]
  800286e:	699b      	ldr	r3, [r3, #24]
  8002870:	2b14      	cmp	r3, #20
- 8002872:	dd06      	ble.n	8002882 <Game_Level_Update+0xe2>
+ 8002872:	dd06      	ble.n	8002882 <GameLevelUpdate+0xe2>
  8002874:	687b      	ldr	r3, [r7, #4]
  8002876:	699b      	ldr	r3, [r3, #24]
  8002878:	2b1c      	cmp	r3, #28
- 800287a:	dc02      	bgt.n	8002882 <Game_Level_Update+0xe2>
+ 800287a:	dc02      	bgt.n	8002882 <GameLevelUpdate+0xe2>
 			g->player.level = 3;
  800287c:	687b      	ldr	r3, [r7, #4]
  800287e:	2203      	movs	r2, #3
@@ -4993,11 +4993,11 @@ void Game_Level_Update(GameCtx* g) {
  8002882:	687b      	ldr	r3, [r7, #4]
  8002884:	699b      	ldr	r3, [r3, #24]
  8002886:	2b1e      	cmp	r3, #30
- 8002888:	dd06      	ble.n	8002898 <Game_Level_Update+0xf8>
+ 8002888:	dd06      	ble.n	8002898 <GameLevelUpdate+0xf8>
  800288a:	687b      	ldr	r3, [r7, #4]
  800288c:	699b      	ldr	r3, [r3, #24]
  800288e:	2b26      	cmp	r3, #38	@ 0x26
- 8002890:	dc02      	bgt.n	8002898 <Game_Level_Update+0xf8>
+ 8002890:	dc02      	bgt.n	8002898 <GameLevelUpdate+0xf8>
 			g->player.level = 4;
  8002892:	687b      	ldr	r3, [r7, #4]
  8002894:	2204      	movs	r2, #4
@@ -5006,11 +5006,11 @@ void Game_Level_Update(GameCtx* g) {
  8002898:	687b      	ldr	r3, [r7, #4]
  800289a:	699b      	ldr	r3, [r3, #24]
  800289c:	2b28      	cmp	r3, #40	@ 0x28
- 800289e:	dd06      	ble.n	80028ae <Game_Level_Update+0x10e>
+ 800289e:	dd06      	ble.n	80028ae <GameLevelUpdate+0x10e>
  80028a0:	687b      	ldr	r3, [r7, #4]
  80028a2:	699b      	ldr	r3, [r3, #24]
  80028a4:	2b30      	cmp	r3, #48	@ 0x30
- 80028a6:	dc02      	bgt.n	80028ae <Game_Level_Update+0x10e>
+ 80028a6:	dc02      	bgt.n	80028ae <GameLevelUpdate+0x10e>
 			g->player.level = 5;
  80028a8:	687b      	ldr	r3, [r7, #4]
  80028aa:	2205      	movs	r2, #5
@@ -5019,11 +5019,11 @@ void Game_Level_Update(GameCtx* g) {
  80028ae:	687b      	ldr	r3, [r7, #4]
  80028b0:	699b      	ldr	r3, [r3, #24]
  80028b2:	2b32      	cmp	r3, #50	@ 0x32
- 80028b4:	dd06      	ble.n	80028c4 <Game_Level_Update+0x124>
+ 80028b4:	dd06      	ble.n	80028c4 <GameLevelUpdate+0x124>
  80028b6:	687b      	ldr	r3, [r7, #4]
  80028b8:	699b      	ldr	r3, [r3, #24]
  80028ba:	2b3a      	cmp	r3, #58	@ 0x3a
- 80028bc:	dc02      	bgt.n	80028c4 <Game_Level_Update+0x124>
+ 80028bc:	dc02      	bgt.n	80028c4 <GameLevelUpdate+0x124>
 			g->player.level = 6;
  80028be:	687b      	ldr	r3, [r7, #4]
  80028c0:	2206      	movs	r2, #6
@@ -5032,11 +5032,11 @@ void Game_Level_Update(GameCtx* g) {
  80028c4:	687b      	ldr	r3, [r7, #4]
  80028c6:	699b      	ldr	r3, [r3, #24]
  80028c8:	2b3c      	cmp	r3, #60	@ 0x3c
- 80028ca:	dd06      	ble.n	80028da <Game_Level_Update+0x13a>
+ 80028ca:	dd06      	ble.n	80028da <GameLevelUpdate+0x13a>
  80028cc:	687b      	ldr	r3, [r7, #4]
  80028ce:	699b      	ldr	r3, [r3, #24]
  80028d0:	2b44      	cmp	r3, #68	@ 0x44
- 80028d2:	dc02      	bgt.n	80028da <Game_Level_Update+0x13a>
+ 80028d2:	dc02      	bgt.n	80028da <GameLevelUpdate+0x13a>
 			g->player.level = 7;
  80028d4:	687b      	ldr	r3, [r7, #4]
  80028d6:	2207      	movs	r2, #7
@@ -5045,11 +5045,11 @@ void Game_Level_Update(GameCtx* g) {
  80028da:	687b      	ldr	r3, [r7, #4]
  80028dc:	699b      	ldr	r3, [r3, #24]
  80028de:	2b46      	cmp	r3, #70	@ 0x46
- 80028e0:	dd06      	ble.n	80028f0 <Game_Level_Update+0x150>
+ 80028e0:	dd06      	ble.n	80028f0 <GameLevelUpdate+0x150>
  80028e2:	687b      	ldr	r3, [r7, #4]
  80028e4:	699b      	ldr	r3, [r3, #24]
  80028e6:	2b4e      	cmp	r3, #78	@ 0x4e
- 80028e8:	dc02      	bgt.n	80028f0 <Game_Level_Update+0x150>
+ 80028e8:	dc02      	bgt.n	80028f0 <GameLevelUpdate+0x150>
 			g->player.level = 8;
  80028ea:	687b      	ldr	r3, [r7, #4]
  80028ec:	2208      	movs	r2, #8
@@ -5058,11 +5058,11 @@ void Game_Level_Update(GameCtx* g) {
  80028f0:	687b      	ldr	r3, [r7, #4]
  80028f2:	699b      	ldr	r3, [r3, #24]
  80028f4:	2b50      	cmp	r3, #80	@ 0x50
- 80028f6:	dd06      	ble.n	8002906 <Game_Level_Update+0x166>
+ 80028f6:	dd06      	ble.n	8002906 <GameLevelUpdate+0x166>
  80028f8:	687b      	ldr	r3, [r7, #4]
  80028fa:	699b      	ldr	r3, [r3, #24]
  80028fc:	2b58      	cmp	r3, #88	@ 0x58
- 80028fe:	dc02      	bgt.n	8002906 <Game_Level_Update+0x166>
+ 80028fe:	dc02      	bgt.n	8002906 <GameLevelUpdate+0x166>
 			g->player.level = 9;
  8002900:	687b      	ldr	r3, [r7, #4]
  8002902:	2209      	movs	r2, #9
@@ -5071,7 +5071,7 @@ void Game_Level_Update(GameCtx* g) {
  8002906:	687b      	ldr	r3, [r7, #4]
  8002908:	699b      	ldr	r3, [r3, #24]
  800290a:	2b5a      	cmp	r3, #90	@ 0x5a
- 800290c:	dd02      	ble.n	8002914 <Game_Level_Update+0x174>
+ 800290c:	dd02      	ble.n	8002914 <GameLevelUpdate+0x174>
 			g->player.level = 10;
  800290e:	687b      	ldr	r3, [r7, #4]
  8002910:	220a      	movs	r2, #10
@@ -5085,9 +5085,9 @@ void Game_Level_Update(GameCtx* g) {
  800291e:	4770      	bx	lr
  8002920:	20000b31 	.word	0x20000b31
 
-08002924 <Game_Update_Backgrand>:
+08002924 <GameUpdateBackgrand>:
 
-void Game_Update_Backgrand(GameCtx* g) {
+void GameUpdateBackgrand(GameCtx* g) {
  8002924:	b580      	push	{r7, lr}
  8002926:	b084      	sub	sp, #16
  8002928:	af00      	add	r7, sp, #0
@@ -5100,7 +5100,7 @@ void Game_Update_Backgrand(GameCtx* g) {
 	for(i = 0; i < num_background; i++)
  800292c:	2300      	movs	r3, #0
  800292e:	73fb      	strb	r3, [r7, #15]
- 8002930:	e07c      	b.n	8002a2c <Game_Update_Backgrand+0x108>
+ 8002930:	e07c      	b.n	8002a2c <GameUpdateBackgrand+0x108>
 	{
 		if(g->background[i].active)
  8002932:	7bfa      	ldrb	r2, [r7, #15]
@@ -5113,7 +5113,7 @@ void Game_Update_Backgrand(GameCtx* g) {
  8002940:	f503 7379 	add.w	r3, r3, #996	@ 0x3e4
  8002944:	781b      	ldrb	r3, [r3, #0]
  8002946:	2b00      	cmp	r3, #0
- 8002948:	d06d      	beq.n	8002a26 <Game_Update_Backgrand+0x102>
+ 8002948:	d06d      	beq.n	8002a26 <GameUpdateBackgrand+0x102>
 		{
 			g->background[i].next_update -= 1;
  800294a:	7bfa      	ldrb	r2, [r7, #15]
@@ -5146,7 +5146,7 @@ void Game_Update_Backgrand(GameCtx* g) {
  8002982:	f503 737c 	add.w	r3, r3, #1008	@ 0x3f0
  8002986:	681b      	ldr	r3, [r3, #0]
  8002988:	2b00      	cmp	r3, #0
- 800298a:	dc4c      	bgt.n	8002a26 <Game_Update_Backgrand+0x102>
+ 800298a:	dc4c      	bgt.n	8002a26 <GameUpdateBackgrand+0x102>
 			{
 				g->background[i].next_update = g->background[i].update_delay;
  800298c:	7bf9      	ldrb	r1, [r7, #15]
@@ -5178,7 +5178,7 @@ void Game_Update_Backgrand(GameCtx* g) {
  80029c2:	f503 7379 	add.w	r3, r3, #996	@ 0x3e4
  80029c6:	781b      	ldrb	r3, [r3, #0]
  80029c8:	2b00      	cmp	r3, #0
- 80029ca:	d02c      	beq.n	8002a26 <Game_Update_Backgrand+0x102>
+ 80029ca:	d02c      	beq.n	8002a26 <GameUpdateBackgrand+0x102>
 				{
 					g->background[i].x -= 1;
  80029cc:	7bfa      	ldrb	r2, [r7, #15]
@@ -5212,7 +5212,7 @@ void Game_Update_Backgrand(GameCtx* g) {
  8002a04:	f503 737a 	add.w	r3, r3, #1000	@ 0x3e8
  8002a08:	681b      	ldr	r3, [r3, #0]
  8002a0a:	f1b3 3fff 	cmp.w	r3, #4294967295
- 8002a0e:	da0a      	bge.n	8002a26 <Game_Update_Backgrand+0x102>
+ 8002a0e:	da0a      	bge.n	8002a26 <GameUpdateBackgrand+0x102>
 						g->background[i].active = false;
  8002a10:	7bfa      	ldrb	r2, [r7, #15]
  8002a12:	6879      	ldr	r1, [r7, #4]
@@ -5230,7 +5230,7 @@ void Game_Update_Backgrand(GameCtx* g) {
  8002a2a:	73fb      	strb	r3, [r7, #15]
  8002a2c:	7bfb      	ldrb	r3, [r7, #15]
  8002a2e:	2b4f      	cmp	r3, #79	@ 0x4f
- 8002a30:	f67f af7f 	bls.w	8002932 <Game_Update_Backgrand+0xe>
+ 8002a30:	f67f af7f 	bls.w	8002932 <GameUpdateBackgrand+0xe>
 				}
 			}
 		}
@@ -5239,7 +5239,7 @@ void Game_Update_Backgrand(GameCtx* g) {
 	if ((rand()%100) < num_background_freq) 		//Frequency of background additions
  8002a34:	f004 fd02 	bl	800743c <rand>
  8002a38:	4602      	mov	r2, r0
- 8002a3a:	4b09      	ldr	r3, [pc, #36]	@ (8002a60 <Game_Update_Backgrand+0x13c>)
+ 8002a3a:	4b09      	ldr	r3, [pc, #36]	@ (8002a60 <GameUpdateBackgrand+0x13c>)
  8002a3c:	fb83 1302 	smull	r1, r3, r3, r2
  8002a40:	1159      	asrs	r1, r3, #5
  8002a42:	17d3      	asrs	r3, r2, #31
@@ -5248,10 +5248,10 @@ void Game_Update_Backgrand(GameCtx* g) {
  8002a48:	fb01 f303 	mul.w	r3, r1, r3
  8002a4c:	1ad3      	subs	r3, r2, r3
  8002a4e:	2b0b      	cmp	r3, #11
- 8002a50:	dc02      	bgt.n	8002a58 <Game_Update_Backgrand+0x134>
-		Game_Add_Background(g);//add_background();
+ 8002a50:	dc02      	bgt.n	8002a58 <GameUpdateBackgrand+0x134>
+		GameAddBackground(g);//add_background();
  8002a52:	6878      	ldr	r0, [r7, #4]
- 8002a54:	f000 f806 	bl	8002a64 <Game_Add_Background>
+ 8002a54:	f000 f806 	bl	8002a64 <GameAddBackground>
 
 }
  8002a58:	bf00      	nop
@@ -5260,9 +5260,9 @@ void Game_Update_Backgrand(GameCtx* g) {
  8002a5e:	bd80      	pop	{r7, pc}
  8002a60:	51eb851f 	.word	0x51eb851f
 
-08002a64 <Game_Add_Background>:
+08002a64 <GameAddBackground>:
 
-void Game_Add_Background(GameCtx* g){
+void GameAddBackground(GameCtx* g){
  8002a64:	b580      	push	{r7, lr}
  8002a66:	b084      	sub	sp, #16
  8002a68:	af00      	add	r7, sp, #0
@@ -5275,7 +5275,7 @@ void Game_Add_Background(GameCtx* g){
 	for(i = 0; i < num_background; i++)
  8002a6c:	2300      	movs	r3, #0
  8002a6e:	73fb      	strb	r3, [r7, #15]
- 8002a70:	e059      	b.n	8002b26 <Game_Add_Background+0xc2>
+ 8002a70:	e059      	b.n	8002b26 <GameAddBackground+0xc2>
 	{
 		if(!g->background[i].active)
  8002a72:	7bfa      	ldrb	r2, [r7, #15]
@@ -5290,7 +5290,7 @@ void Game_Add_Background(GameCtx* g){
  8002a86:	f083 0301 	eor.w	r3, r3, #1
  8002a8a:	b2db      	uxtb	r3, r3
  8002a8c:	2b00      	cmp	r3, #0
- 8002a8e:	d047      	beq.n	8002b20 <Game_Add_Background+0xbc>
+ 8002a8e:	d047      	beq.n	8002b20 <GameAddBackground+0xbc>
 		{
 			g->background[i].active 		= true;
  8002a90:	7bfa      	ldrb	r2, [r7, #15]
@@ -5317,7 +5317,7 @@ void Game_Add_Background(GameCtx* g){
 			g->background[i].y				= (rand()%(screen_height-10)) +10;
  8002abc:	f004 fcbe 	bl	800743c <rand>
  8002ac0:	4602      	mov	r2, r0
- 8002ac2:	4b1d      	ldr	r3, [pc, #116]	@ (8002b38 <Game_Add_Background+0xd4>)
+ 8002ac2:	4b1d      	ldr	r3, [pc, #116]	@ (8002b38 <GameAddBackground+0xd4>)
  8002ac4:	fb83 1302 	smull	r1, r3, r3, r2
  8002ac8:	1119      	asrs	r1, r3, #4
  8002aca:	17d3      	asrs	r3, r2, #31
@@ -5338,7 +5338,7 @@ void Game_Add_Background(GameCtx* g){
 			g->background[i].update_delay 	= (rand()%6)+2; // def. (rand()%4)+2;
  8002aee:	f004 fca5 	bl	800743c <rand>
  8002af2:	4601      	mov	r1, r0
- 8002af4:	4b11      	ldr	r3, [pc, #68]	@ (8002b3c <Game_Add_Background+0xd8>)
+ 8002af4:	4b11      	ldr	r3, [pc, #68]	@ (8002b3c <GameAddBackground+0xd8>)
  8002af6:	fb83 3201 	smull	r3, r2, r3, r1
  8002afa:	17cb      	asrs	r3, r1, #31
  8002afc:	1ad2      	subs	r2, r2, r3
@@ -5359,14 +5359,14 @@ void Game_Add_Background(GameCtx* g){
  8002b1c:	601a      	str	r2, [r3, #0]
 
 			break;
- 8002b1e:	e006      	b.n	8002b2e <Game_Add_Background+0xca>
+ 8002b1e:	e006      	b.n	8002b2e <GameAddBackground+0xca>
 	for(i = 0; i < num_background; i++)
  8002b20:	7bfb      	ldrb	r3, [r7, #15]
  8002b22:	3301      	adds	r3, #1
  8002b24:	73fb      	strb	r3, [r7, #15]
  8002b26:	7bfb      	ldrb	r3, [r7, #15]
  8002b28:	2b4f      	cmp	r3, #79	@ 0x4f
- 8002b2a:	d9a2      	bls.n	8002a72 <Game_Add_Background+0xe>
+ 8002b2a:	d9a2      	bls.n	8002a72 <GameAddBackground+0xe>
 		}
 	}
 }
@@ -5379,9 +5379,9 @@ void Game_Add_Background(GameCtx* g){
  8002b38:	22b63cbf 	.word	0x22b63cbf
  8002b3c:	2aaaaaab 	.word	0x2aaaaaab
 
-08002b40 <Game_Add_Bonus>:
+08002b40 <GameAddBonus>:
 
-void Game_Add_Bonus(GameCtx* g, int x, int y){
+void GameAddBonus(GameCtx* g, int x, int y){
  8002b40:	b580      	push	{r7, lr}
  8002b42:	b086      	sub	sp, #24
  8002b44:	af00      	add	r7, sp, #0
@@ -5396,7 +5396,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
 	for (i = 0; i < num_bonus; i++)
  8002b4c:	2300      	movs	r3, #0
  8002b4e:	75fb      	strb	r3, [r7, #23]
- 8002b50:	e07e      	b.n	8002c50 <Game_Add_Bonus+0x110>
+ 8002b50:	e07e      	b.n	8002c50 <GameAddBonus+0x110>
 	{
 		if (!g->bonuses[i].active)
  8002b52:	7dfa      	ldrb	r2, [r7, #23]
@@ -5411,7 +5411,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
  8002b66:	f083 0301 	eor.w	r3, r3, #1
  8002b6a:	b2db      	uxtb	r3, r3
  8002b6c:	2b00      	cmp	r3, #0
- 8002b6e:	d06c      	beq.n	8002c4a <Game_Add_Bonus+0x10a>
+ 8002b6e:	d06c      	beq.n	8002c4a <GameAddBonus+0x10a>
 		{
 			g->bonuses[i].active = true;
  8002b70:	7dfa      	ldrb	r2, [r7, #23]
@@ -5461,7 +5461,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
 			bonus_type = rand()%100;
  8002bc8:	f004 fc38 	bl	800743c <rand>
  8002bcc:	4603      	mov	r3, r0
- 8002bce:	4a25      	ldr	r2, [pc, #148]	@ (8002c64 <Game_Add_Bonus+0x124>)
+ 8002bce:	4a25      	ldr	r2, [pc, #148]	@ (8002c64 <GameAddBonus+0x124>)
  8002bd0:	fb82 1203 	smull	r1, r2, r2, r3
  8002bd4:	1151      	asrs	r1, r2, #5
  8002bd6:	17da      	asrs	r2, r3, #31
@@ -5474,7 +5474,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
 			if(bonus_type > 30)
  8002be4:	693b      	ldr	r3, [r7, #16]
  8002be6:	2b1e      	cmp	r3, #30
- 8002be8:	dd15      	ble.n	8002c16 <Game_Add_Bonus+0xd6>
+ 8002be8:	dd15      	ble.n	8002c16 <GameAddBonus+0xd6>
 			{
 				g->bonuses[i].bit_map = bonus_live_map;
  8002bea:	7dfa      	ldrb	r2, [r7, #23]
@@ -5485,7 +5485,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
  8002bf4:	009b      	lsls	r3, r3, #2
  8002bf6:	440b      	add	r3, r1
  8002bf8:	f503 6325 	add.w	r3, r3, #2640	@ 0xa50
- 8002bfc:	4a1a      	ldr	r2, [pc, #104]	@ (8002c68 <Game_Add_Bonus+0x128>)
+ 8002bfc:	4a1a      	ldr	r2, [pc, #104]	@ (8002c68 <GameAddBonus+0x128>)
  8002bfe:	601a      	str	r2, [r3, #0]
 				g->bonuses[i].type = st_normal;
  8002c00:	7dfa      	ldrb	r2, [r7, #23]
@@ -5502,7 +5502,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
 			if(bonus_type < 30)
  8002c16:	693b      	ldr	r3, [r7, #16]
  8002c18:	2b1d      	cmp	r3, #29
- 8002c1a:	dc1e      	bgt.n	8002c5a <Game_Add_Bonus+0x11a>
+ 8002c1a:	dc1e      	bgt.n	8002c5a <GameAddBonus+0x11a>
 			{
 				g->bonuses[i].bit_map = bonus_tracker_shoot_map;
  8002c1c:	7dfa      	ldrb	r2, [r7, #23]
@@ -5513,7 +5513,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
  8002c26:	009b      	lsls	r3, r3, #2
  8002c28:	440b      	add	r3, r1
  8002c2a:	f503 6325 	add.w	r3, r3, #2640	@ 0xa50
- 8002c2e:	4a0f      	ldr	r2, [pc, #60]	@ (8002c6c <Game_Add_Bonus+0x12c>)
+ 8002c2e:	4a0f      	ldr	r2, [pc, #60]	@ (8002c6c <GameAddBonus+0x12c>)
  8002c30:	601a      	str	r2, [r3, #0]
 				g->bonuses[i].type = st_tracker;
  8002c32:	7dfa      	ldrb	r2, [r7, #23]
@@ -5528,15 +5528,15 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
  8002c46:	701a      	strb	r2, [r3, #0]
 			}
 			return;
- 8002c48:	e007      	b.n	8002c5a <Game_Add_Bonus+0x11a>
+ 8002c48:	e007      	b.n	8002c5a <GameAddBonus+0x11a>
 	for (i = 0; i < num_bonus; i++)
  8002c4a:	7dfb      	ldrb	r3, [r7, #23]
  8002c4c:	3301      	adds	r3, #1
  8002c4e:	75fb      	strb	r3, [r7, #23]
  8002c50:	7dfb      	ldrb	r3, [r7, #23]
  8002c52:	2b02      	cmp	r3, #2
- 8002c54:	f67f af7d 	bls.w	8002b52 <Game_Add_Bonus+0x12>
- 8002c58:	e000      	b.n	8002c5c <Game_Add_Bonus+0x11c>
+ 8002c54:	f67f af7d 	bls.w	8002b52 <GameAddBonus+0x12>
+ 8002c58:	e000      	b.n	8002c5c <GameAddBonus+0x11c>
 			return;
  8002c5a:	bf00      	nop
 		}
@@ -5550,9 +5550,9 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
  8002c68:	08009a7c 	.word	0x08009a7c
  8002c6c:	08009a84 	.word	0x08009a84
 
-08002c70 <Game_Update_Bonus>:
+08002c70 <GameUpdateBonus>:
 
-void Game_Update_Bonus(GameCtx* g){
+void GameUpdateBonus(GameCtx* g){
  8002c70:	b580      	push	{r7, lr}
  8002c72:	b084      	sub	sp, #16
  8002c74:	af00      	add	r7, sp, #0
@@ -5571,7 +5571,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002c7c:	687b      	ldr	r3, [r7, #4]
  8002c7e:	6a1b      	ldr	r3, [r3, #32]
  8002c80:	2b00      	cmp	r3, #0
- 8002c82:	dd04      	ble.n	8002c8e <Game_Update_Bonus+0x1e>
+ 8002c82:	dd04      	ble.n	8002c8e <GameUpdateBonus+0x1e>
 			g->player.bonus_duration -= 1;
  8002c84:	687b      	ldr	r3, [r7, #4]
  8002c86:	6a1b      	ldr	r3, [r3, #32]
@@ -5582,11 +5582,11 @@ void Game_Update_Bonus(GameCtx* g){
  8002c8e:	687b      	ldr	r3, [r7, #4]
  8002c90:	6a1b      	ldr	r3, [r3, #32]
  8002c92:	2b00      	cmp	r3, #0
- 8002c94:	d106      	bne.n	8002ca4 <Game_Update_Bonus+0x34>
+ 8002c94:	d106      	bne.n	8002ca4 <GameUpdateBonus+0x34>
  8002c96:	687b      	ldr	r3, [r7, #4]
  8002c98:	7f1b      	ldrb	r3, [r3, #28]
  8002c9a:	2b01      	cmp	r3, #1
- 8002c9c:	d102      	bne.n	8002ca4 <Game_Update_Bonus+0x34>
+ 8002c9c:	d102      	bne.n	8002ca4 <GameUpdateBonus+0x34>
 			g->player.shoot_type = st_normal;
  8002c9e:	687b      	ldr	r3, [r7, #4]
  8002ca0:	2200      	movs	r2, #0
@@ -5596,7 +5596,7 @@ void Game_Update_Bonus(GameCtx* g){
 		for (i = 0; i < num_bonus; i++)
  8002ca4:	2300      	movs	r3, #0
  8002ca6:	60fb      	str	r3, [r7, #12]
- 8002ca8:	e12f      	b.n	8002f0a <Game_Update_Bonus+0x29a>
+ 8002ca8:	e12f      	b.n	8002f0a <GameUpdateBonus+0x29a>
 		{
 			if(g->bonuses[i].active)
  8002caa:	6879      	ldr	r1, [r7, #4]
@@ -5609,7 +5609,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002cb8:	f503 6324 	add.w	r3, r3, #2624	@ 0xa40
  8002cbc:	781b      	ldrb	r3, [r3, #0]
  8002cbe:	2b00      	cmp	r3, #0
- 8002cc0:	f000 8120 	beq.w	8002f04 <Game_Update_Bonus+0x294>
+ 8002cc0:	f000 8120 	beq.w	8002f04 <GameUpdateBonus+0x294>
 			{
 				g->bonuses[i].next_update -= 1;
  8002cc4:	6879      	ldr	r1, [r7, #4]
@@ -5642,7 +5642,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002cfc:	f603 2354 	addw	r3, r3, #2644	@ 0xa54
  8002d00:	681b      	ldr	r3, [r3, #0]
  8002d02:	2b00      	cmp	r3, #0
- 8002d04:	f300 80fe 	bgt.w	8002f04 <Game_Update_Bonus+0x294>
+ 8002d04:	f300 80fe 	bgt.w	8002f04 <GameUpdateBonus+0x294>
 				{
 					if(g->bonuses[i].active)
  8002d08:	6879      	ldr	r1, [r7, #4]
@@ -5655,7 +5655,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002d16:	f503 6324 	add.w	r3, r3, #2624	@ 0xa40
  8002d1a:	781b      	ldrb	r3, [r3, #0]
  8002d1c:	2b00      	cmp	r3, #0
- 8002d1e:	f000 80f1 	beq.w	8002f04 <Game_Update_Bonus+0x294>
+ 8002d1e:	f000 80f1 	beq.w	8002f04 <GameUpdateBonus+0x294>
 					{
 						g->bonuses[i].next_update = g->bonuses[i].update_delay;
  8002d22:	6879      	ldr	r1, [r7, #4]
@@ -5677,7 +5677,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002d44:	f603 2354 	addw	r3, r3, #2644	@ 0xa54
  8002d48:	6019      	str	r1, [r3, #0]
 
-						if (colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y) 	||
+						if (Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y) 	||
  8002d4a:	6879      	ldr	r1, [r7, #4]
  8002d4c:	68fa      	ldr	r2, [r7, #12]
  8002d4e:	4613      	mov	r3, r2
@@ -5700,11 +5700,11 @@ void Game_Update_Bonus(GameCtx* g){
  8002d74:	681a      	ldr	r2, [r3, #0]
  8002d76:	687b      	ldr	r3, [r7, #4]
  8002d78:	685b      	ldr	r3, [r3, #4]
- 8002d7a:	f000 fa3f 	bl	80031fc <colliding>
+ 8002d7a:	f000 fa3f 	bl	80031fc <Colliding>
  8002d7e:	4603      	mov	r3, r0
  8002d80:	2b00      	cmp	r3, #0
- 8002d82:	d15a      	bne.n	8002e3a <Game_Update_Bonus+0x1ca>
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y+5) 	||
+ 8002d82:	d15a      	bne.n	8002e3a <GameUpdateBonus+0x1ca>
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y+5) 	||
  8002d84:	6879      	ldr	r1, [r7, #4]
  8002d86:	68fa      	ldr	r2, [r7, #12]
  8002d88:	4613      	mov	r3, r2
@@ -5728,12 +5728,12 @@ void Game_Update_Bonus(GameCtx* g){
  8002db0:	687b      	ldr	r3, [r7, #4]
  8002db2:	685b      	ldr	r3, [r3, #4]
  8002db4:	3305      	adds	r3, #5
- 8002db6:	f000 fa21 	bl	80031fc <colliding>
+ 8002db6:	f000 fa21 	bl	80031fc <Colliding>
  8002dba:	4603      	mov	r3, r0
-						if (colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y) 	||
+						if (Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y) 	||
  8002dbc:	2b00      	cmp	r3, #0
- 8002dbe:	d13c      	bne.n	8002e3a <Game_Update_Bonus+0x1ca>
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y)	||
+ 8002dbe:	d13c      	bne.n	8002e3a <GameUpdateBonus+0x1ca>
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y)	||
  8002dc0:	6879      	ldr	r1, [r7, #4]
  8002dc2:	68fa      	ldr	r2, [r7, #12]
  8002dc4:	4613      	mov	r3, r2
@@ -5757,12 +5757,12 @@ void Game_Update_Bonus(GameCtx* g){
  8002dec:	1dda      	adds	r2, r3, #7
  8002dee:	687b      	ldr	r3, [r7, #4]
  8002df0:	685b      	ldr	r3, [r3, #4]
- 8002df2:	f000 fa03 	bl	80031fc <colliding>
+ 8002df2:	f000 fa03 	bl	80031fc <Colliding>
  8002df6:	4603      	mov	r3, r0
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y+5) 	||
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y+5) 	||
  8002df8:	2b00      	cmp	r3, #0
- 8002dfa:	d11e      	bne.n	8002e3a <Game_Update_Bonus+0x1ca>
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y+5)
+ 8002dfa:	d11e      	bne.n	8002e3a <GameUpdateBonus+0x1ca>
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y+5)
  8002dfc:	6879      	ldr	r1, [r7, #4]
  8002dfe:	68fa      	ldr	r2, [r7, #12]
  8002e00:	4613      	mov	r3, r2
@@ -5787,11 +5787,11 @@ void Game_Update_Bonus(GameCtx* g){
  8002e2a:	687b      	ldr	r3, [r7, #4]
  8002e2c:	685b      	ldr	r3, [r3, #4]
  8002e2e:	3305      	adds	r3, #5
- 8002e30:	f000 f9e4 	bl	80031fc <colliding>
+ 8002e30:	f000 f9e4 	bl	80031fc <Colliding>
  8002e34:	4603      	mov	r3, r0
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y)	||
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y)	||
  8002e36:	2b00      	cmp	r3, #0
- 8002e38:	d037      	beq.n	8002eaa <Game_Update_Bonus+0x23a>
+ 8002e38:	d037      	beq.n	8002eaa <GameUpdateBonus+0x23a>
 							)
 						{
 							switch(g->bonuses[i].type)
@@ -5805,10 +5805,10 @@ void Game_Update_Bonus(GameCtx* g){
  8002e48:	f603 234c 	addw	r3, r3, #2636	@ 0xa4c
  8002e4c:	781b      	ldrb	r3, [r3, #0]
  8002e4e:	2b00      	cmp	r3, #0
- 8002e50:	d002      	beq.n	8002e58 <Game_Update_Bonus+0x1e8>
+ 8002e50:	d002      	beq.n	8002e58 <GameUpdateBonus+0x1e8>
  8002e52:	2b01      	cmp	r3, #1
- 8002e54:	d011      	beq.n	8002e7a <Game_Update_Bonus+0x20a>
- 8002e56:	e028      	b.n	8002eaa <Game_Update_Bonus+0x23a>
+ 8002e54:	d011      	beq.n	8002e7a <GameUpdateBonus+0x20a>
+ 8002e56:	e028      	b.n	8002eaa <GameUpdateBonus+0x23a>
 							{
 							case bt_live:
 								g->player.lives += 1;
@@ -5829,7 +5829,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002e74:	2200      	movs	r2, #0
  8002e76:	701a      	strb	r2, [r3, #0]
 								break;
- 8002e78:	e017      	b.n	8002eaa <Game_Update_Bonus+0x23a>
+ 8002e78:	e017      	b.n	8002eaa <GameUpdateBonus+0x23a>
 							case bt_tracker_shoot:
 								g->player.shoot_type = st_tracker;
  8002e7a:	687b      	ldr	r3, [r7, #4]
@@ -5891,7 +5891,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002ee2:	f603 2344 	addw	r3, r3, #2628	@ 0xa44
  8002ee6:	681b      	ldr	r3, [r3, #0]
  8002ee8:	f1b3 3fff 	cmp.w	r3, #4294967295
- 8002eec:	da0a      	bge.n	8002f04 <Game_Update_Bonus+0x294>
+ 8002eec:	da0a      	bge.n	8002f04 <GameUpdateBonus+0x294>
 							g->bonuses[i].active = false;
  8002eee:	6879      	ldr	r1, [r7, #4]
  8002ef0:	68fa      	ldr	r2, [r7, #12]
@@ -5909,7 +5909,7 @@ void Game_Update_Bonus(GameCtx* g){
  8002f08:	60fb      	str	r3, [r7, #12]
  8002f0a:	68fb      	ldr	r3, [r7, #12]
  8002f0c:	2b02      	cmp	r3, #2
- 8002f0e:	f77f aecc 	ble.w	8002caa <Game_Update_Bonus+0x3a>
+ 8002f0e:	f77f aecc 	ble.w	8002caa <GameUpdateBonus+0x3a>
 						}
 					}
 				}
@@ -5924,9 +5924,9 @@ void Game_Update_Bonus(GameCtx* g){
  8002f1c:	0000      	movs	r0, r0
 	...
 
-08002f20 <Game_Shot>:
+08002f20 <GameShot>:
 
-void Game_Shot(GameCtx* g){
+void GameShot(GameCtx* g){
  8002f20:	b5b0      	push	{r4, r5, r7, lr}
  8002f22:	b08a      	sub	sp, #40	@ 0x28
  8002f24:	af00      	add	r7, sp, #0
@@ -5944,14 +5944,14 @@ void Game_Shot(GameCtx* g){
 		double temp_distance;
 		double smolest_distance = 500;
  8002f2e:	f04f 0200 	mov.w	r2, #0
- 8002f32:	4b8d      	ldr	r3, [pc, #564]	@ (8003168 <Game_Shot+0x248>)
+ 8002f32:	4b8d      	ldr	r3, [pc, #564]	@ (8003168 <GameShot+0x248>)
  8002f34:	e9c7 2306 	strd	r2, r3, [r7, #24]
 		int random_tracking_number;
 
 		for (i = 0; i < num_shots; ++i)
  8002f38:	2300      	movs	r3, #0
  8002f3a:	f887 3027 	strb.w	r3, [r7, #39]	@ 0x27
- 8002f3e:	e105      	b.n	800314c <Game_Shot+0x22c>
+ 8002f3e:	e105      	b.n	800314c <GameShot+0x22c>
 		{
 			if (!g->shots[i].active)
  8002f40:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
@@ -5966,7 +5966,7 @@ void Game_Shot(GameCtx* g){
  8002f54:	f083 0301 	eor.w	r3, r3, #1
  8002f58:	b2db      	uxtb	r3, r3
  8002f5a:	2b00      	cmp	r3, #0
- 8002f5c:	f000 80f1 	beq.w	8003142 <Game_Shot+0x222>
+ 8002f5c:	f000 80f1 	beq.w	8003142 <GameShot+0x222>
 			{
 				g->shots[i].active = true;
  8002f60:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
@@ -6009,16 +6009,16 @@ void Game_Shot(GameCtx* g){
  8002fa6:	687b      	ldr	r3, [r7, #4]
  8002fa8:	7f1b      	ldrb	r3, [r3, #28]
  8002faa:	2b00      	cmp	r3, #0
- 8002fac:	d002      	beq.n	8002fb4 <Game_Shot+0x94>
+ 8002fac:	d002      	beq.n	8002fb4 <GameShot+0x94>
  8002fae:	2b01      	cmp	r3, #1
- 8002fb0:	d00c      	beq.n	8002fcc <Game_Shot+0xac>
+ 8002fb0:	d00c      	beq.n	8002fcc <GameShot+0xac>
 						// If you haven't found a target act like a normal shot
 						g->shots[i].type = st_normal;
 					}
 					break;
 				}
 				return;
- 8002fb2:	e0d0      	b.n	8003156 <Game_Shot+0x236>
+ 8002fb2:	e0d0      	b.n	8003156 <GameShot+0x236>
 					g->shots[i].type = st_normal;
  8002fb4:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
  8002fb8:	6879      	ldr	r1, [r7, #4]
@@ -6031,11 +6031,11 @@ void Game_Shot(GameCtx* g){
  8002fc6:	2200      	movs	r2, #0
  8002fc8:	701a      	strb	r2, [r3, #0]
 					break;
- 8002fca:	e0b9      	b.n	8003140 <Game_Shot+0x220>
+ 8002fca:	e0b9      	b.n	8003140 <GameShot+0x220>
 					for(int j = 0; j < num_enemies; j++)
  8002fcc:	2300      	movs	r3, #0
  8002fce:	617b      	str	r3, [r7, #20]
- 8002fd0:	e073      	b.n	80030ba <Game_Shot+0x19a>
+ 8002fd0:	e073      	b.n	80030ba <GameShot+0x19a>
 						if(g->enemies[j].active && !g->enemies[j].tracked_by_missile)
  8002fd2:	6879      	ldr	r1, [r7, #4]
  8002fd4:	697a      	ldr	r2, [r7, #20]
@@ -6047,7 +6047,7 @@ void Game_Shot(GameCtx* g){
  8002fe0:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  8002fe4:	781b      	ldrb	r3, [r3, #0]
  8002fe6:	2b00      	cmp	r3, #0
- 8002fe8:	d064      	beq.n	80030b4 <Game_Shot+0x194>
+ 8002fe8:	d064      	beq.n	80030b4 <GameShot+0x194>
  8002fea:	6879      	ldr	r1, [r7, #4]
  8002fec:	697a      	ldr	r2, [r7, #20]
  8002fee:	4613      	mov	r3, r2
@@ -6060,7 +6060,7 @@ void Game_Shot(GameCtx* g){
  8002ffe:	f083 0301 	eor.w	r3, r3, #1
  8003002:	b2db      	uxtb	r3, r3
  8003004:	2b00      	cmp	r3, #0
- 8003006:	d055      	beq.n	80030b4 <Game_Shot+0x194>
+ 8003006:	d055      	beq.n	80030b4 <GameShot+0x194>
 							is_any_enemies_active = true;
  8003008:	2301      	movs	r3, #1
  800300a:	f887 3026 	strb.w	r3, [r7, #38]	@ 0x26
@@ -6081,7 +6081,7 @@ void Game_Shot(GameCtx* g){
  800302a:	f7fd fa73 	bl	8000514 <__aeabi_i2d>
  800302e:	4602      	mov	r2, r0
  8003030:	460b      	mov	r3, r1
- 8003032:	ed9f 1b4b 	vldr	d1, [pc, #300]	@ 8003160 <Game_Shot+0x240>
+ 8003032:	ed9f 1b4b 	vldr	d1, [pc, #300]	@ 8003160 <GameShot+0x240>
  8003036:	ec43 2b10 	vmov	d0, r2, r3
  800303a:	f005 f9db 	bl	80083f4 <pow>
  800303e:	ec55 4b10 	vmov	r4, r5, d0
@@ -6101,7 +6101,7 @@ void Game_Shot(GameCtx* g){
  800305e:	f7fd fa59 	bl	8000514 <__aeabi_i2d>
  8003062:	4602      	mov	r2, r0
  8003064:	460b      	mov	r3, r1
- 8003066:	ed9f 1b3e 	vldr	d1, [pc, #248]	@ 8003160 <Game_Shot+0x240>
+ 8003066:	ed9f 1b3e 	vldr	d1, [pc, #248]	@ 8003160 <GameShot+0x240>
  800306a:	ec43 2b10 	vmov	d0, r2, r3
  800306e:	f005 f9c1 	bl	80083f4 <pow>
  8003072:	ec53 2b10 	vmov	r2, r3, d0
@@ -6121,7 +6121,7 @@ void Game_Shot(GameCtx* g){
  800309e:	f7fd fd15 	bl	8000acc <__aeabi_dcmplt>
  80030a2:	4603      	mov	r3, r0
  80030a4:	2b00      	cmp	r3, #0
- 80030a6:	d005      	beq.n	80030b4 <Game_Shot+0x194>
+ 80030a6:	d005      	beq.n	80030b4 <GameShot+0x194>
 								smolest_distance = temp_distance;
  80030a8:	e9d7 2302 	ldrd	r2, r3, [r7, #8]
  80030ac:	e9c7 2306 	strd	r2, r3, [r7, #24]
@@ -6134,11 +6134,11 @@ void Game_Shot(GameCtx* g){
  80030b8:	617b      	str	r3, [r7, #20]
  80030ba:	697b      	ldr	r3, [r7, #20]
  80030bc:	2b09      	cmp	r3, #9
- 80030be:	dd88      	ble.n	8002fd2 <Game_Shot+0xb2>
+ 80030be:	dd88      	ble.n	8002fd2 <GameShot+0xb2>
 					if(is_any_enemies_active)
  80030c0:	f897 3026 	ldrb.w	r3, [r7, #38]	@ 0x26
  80030c4:	2b00      	cmp	r3, #0
- 80030c6:	d02f      	beq.n	8003128 <Game_Shot+0x208>
+ 80030c6:	d02f      	beq.n	8003128 <GameShot+0x208>
 						random_tracking_number = rand();
  80030c8:	f004 f9b8 	bl	800743c <rand>
  80030cc:	6138      	str	r0, [r7, #16]
@@ -6187,7 +6187,7 @@ void Game_Shot(GameCtx* g){
  8003122:	693a      	ldr	r2, [r7, #16]
  8003124:	601a      	str	r2, [r3, #0]
 					break;
- 8003126:	e00a      	b.n	800313e <Game_Shot+0x21e>
+ 8003126:	e00a      	b.n	800313e <GameShot+0x21e>
 						g->shots[i].type = st_normal;
  8003128:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
  800312c:	6879      	ldr	r1, [r7, #4]
@@ -6202,14 +6202,14 @@ void Game_Shot(GameCtx* g){
 					break;
  800313e:	bf00      	nop
 				return;
- 8003140:	e009      	b.n	8003156 <Game_Shot+0x236>
+ 8003140:	e009      	b.n	8003156 <GameShot+0x236>
 		for (i = 0; i < num_shots; ++i)
  8003142:	f897 3027 	ldrb.w	r3, [r7, #39]	@ 0x27
  8003146:	3301      	adds	r3, #1
  8003148:	f887 3027 	strb.w	r3, [r7, #39]	@ 0x27
  800314c:	f897 3027 	ldrb.w	r3, [r7, #39]	@ 0x27
  8003150:	2b18      	cmp	r3, #24
- 8003152:	f67f aef5 	bls.w	8002f40 <Game_Shot+0x20>
+ 8003152:	f67f aef5 	bls.w	8002f40 <GameShot+0x20>
 			}
 		}
 }
@@ -6221,9 +6221,9 @@ void Game_Shot(GameCtx* g){
  8003164:	40000000 	.word	0x40000000
  8003168:	407f4000 	.word	0x407f4000
 
-0800316c <Game_Shot_Boss>:
+0800316c <GameShotBoss>:
 
-void Game_Shot_Boss(GameCtx* g){
+void GameShotBoss(GameCtx* g){
  800316c:	b480      	push	{r7}
  800316e:	b085      	sub	sp, #20
  8003170:	af00      	add	r7, sp, #0
@@ -6236,7 +6236,7 @@ void Game_Shot_Boss(GameCtx* g){
 		for (i = 0; i < num_boss_shots; ++i)
  8003174:	2300      	movs	r3, #0
  8003176:	73fb      	strb	r3, [r7, #15]
- 8003178:	e038      	b.n	80031ec <Game_Shot_Boss+0x80>
+ 8003178:	e038      	b.n	80031ec <GameShotBoss+0x80>
 		{
 			if (!g->boss_shots[i].active)
  800317a:	7bfa      	ldrb	r2, [r7, #15]
@@ -6251,7 +6251,7 @@ void Game_Shot_Boss(GameCtx* g){
  800318e:	f083 0301 	eor.w	r3, r3, #1
  8003192:	b2db      	uxtb	r3, r3
  8003194:	2b00      	cmp	r3, #0
- 8003196:	d026      	beq.n	80031e6 <Game_Shot_Boss+0x7a>
+ 8003196:	d026      	beq.n	80031e6 <GameShotBoss+0x7a>
 			{
 				g->boss_shots[i].active = true;
  8003198:	7bfa      	ldrb	r2, [r7, #15]
@@ -6290,14 +6290,14 @@ void Game_Shot_Boss(GameCtx* g){
  80031de:	f503 7308 	add.w	r3, r3, #544	@ 0x220
  80031e2:	6019      	str	r1, [r3, #0]
 				return;
- 80031e4:	e005      	b.n	80031f2 <Game_Shot_Boss+0x86>
+ 80031e4:	e005      	b.n	80031f2 <GameShotBoss+0x86>
 		for (i = 0; i < num_boss_shots; ++i)
  80031e6:	7bfb      	ldrb	r3, [r7, #15]
  80031e8:	3301      	adds	r3, #1
  80031ea:	73fb      	strb	r3, [r7, #15]
  80031ec:	7bfb      	ldrb	r3, [r7, #15]
  80031ee:	2b04      	cmp	r3, #4
- 80031f0:	d9c3      	bls.n	800317a <Game_Shot_Boss+0xe>
+ 80031f0:	d9c3      	bls.n	800317a <GameShotBoss+0xe>
 			}
 		}
 }
@@ -6306,9 +6306,9 @@ void Game_Shot_Boss(GameCtx* g){
  80031f6:	f85d 7b04 	ldr.w	r7, [sp], #4
  80031fa:	4770      	bx	lr
 
-080031fc <colliding>:
+080031fc <Colliding>:
 
-bool colliding(int x0, int y0, int x1, int y1){
+bool Colliding(int x0, int y0, int x1, int y1){
  80031fc:	b480      	push	{r7}
  80031fe:	b087      	sub	sp, #28
  8003200:	af00      	add	r7, sp, #0
@@ -6338,12 +6338,12 @@ bool colliding(int x0, int y0, int x1, int y1){
 		return dx < 6 && dy < 9;
  8003226:	697b      	ldr	r3, [r7, #20]
  8003228:	2b05      	cmp	r3, #5
- 800322a:	dc04      	bgt.n	8003236 <colliding+0x3a>
+ 800322a:	dc04      	bgt.n	8003236 <Colliding+0x3a>
  800322c:	693b      	ldr	r3, [r7, #16]
  800322e:	2b08      	cmp	r3, #8
- 8003230:	dc01      	bgt.n	8003236 <colliding+0x3a>
+ 8003230:	dc01      	bgt.n	8003236 <Colliding+0x3a>
  8003232:	2301      	movs	r3, #1
- 8003234:	e000      	b.n	8003238 <colliding+0x3c>
+ 8003234:	e000      	b.n	8003238 <Colliding+0x3c>
  8003236:	2300      	movs	r3, #0
  8003238:	f003 0301 	and.w	r3, r3, #1
  800323c:	b2db      	uxtb	r3, r3
@@ -6355,9 +6355,9 @@ bool colliding(int x0, int y0, int x1, int y1){
  8003248:	4770      	bx	lr
 	...
 
-0800324c <Game_Add_Enemy>:
+0800324c <GameAddEnemy>:
 
-void Game_Add_Enemy(GameCtx* g){
+void GameAddEnemy(GameCtx* g){
  800324c:	b580      	push	{r7, lr}
  800324e:	b084      	sub	sp, #16
  8003250:	af00      	add	r7, sp, #0
@@ -6370,7 +6370,7 @@ void Game_Add_Enemy(GameCtx* g){
 		for(i = 0; i < g->player.level; i++)
  8003254:	2300      	movs	r3, #0
  8003256:	73fb      	strb	r3, [r7, #15]
- 8003258:	e101      	b.n	800345e <Game_Add_Enemy+0x212>
+ 8003258:	e101      	b.n	800345e <GameAddEnemy+0x212>
 		{
 			if(!g->enemies[i].active)
  800325a:	7bfa      	ldrb	r2, [r7, #15]
@@ -6385,7 +6385,7 @@ void Game_Add_Enemy(GameCtx* g){
  800326e:	f083 0301 	eor.w	r3, r3, #1
  8003272:	b2db      	uxtb	r3, r3
  8003274:	2b00      	cmp	r3, #0
- 8003276:	f000 80ef 	beq.w	8003458 <Game_Add_Enemy+0x20c>
+ 8003276:	f000 80ef 	beq.w	8003458 <GameAddEnemy+0x20c>
 			{
 				g->enemies[i].active = true;
  800327a:	7bfa      	ldrb	r2, [r7, #15]
@@ -6412,7 +6412,7 @@ void Game_Add_Enemy(GameCtx* g){
 				g->enemies[i].y = ((rand()%(screen_height - 10))+10);
  80032a6:	f004 f8c9 	bl	800743c <rand>
  80032aa:	4602      	mov	r2, r0
- 80032ac:	4b72      	ldr	r3, [pc, #456]	@ (8003478 <Game_Add_Enemy+0x22c>)
+ 80032ac:	4b72      	ldr	r3, [pc, #456]	@ (8003478 <GameAddEnemy+0x22c>)
  80032ae:	fb83 1302 	smull	r1, r3, r3, r2
  80032b2:	1119      	asrs	r1, r3, #4
  80032b4:	17d3      	asrs	r3, r2, #31
@@ -6456,7 +6456,7 @@ void Game_Add_Enemy(GameCtx* g){
 				enemy_type = (rand()%100);
  8003304:	f004 f89a 	bl	800743c <rand>
  8003308:	4603      	mov	r3, r0
- 800330a:	4a5c      	ldr	r2, [pc, #368]	@ (800347c <Game_Add_Enemy+0x230>)
+ 800330a:	4a5c      	ldr	r2, [pc, #368]	@ (800347c <GameAddEnemy+0x230>)
  800330c:	fb82 1203 	smull	r1, r2, r2, r3
  8003310:	1151      	asrs	r1, r2, #5
  8003312:	17da      	asrs	r2, r3, #31
@@ -6470,7 +6470,7 @@ void Game_Add_Enemy(GameCtx* g){
 				if((enemy_type > 50))
  8003322:	7bbb      	ldrb	r3, [r7, #14]
  8003324:	2b32      	cmp	r3, #50	@ 0x32
- 8003326:	d92b      	bls.n	8003380 <Game_Add_Enemy+0x134>
+ 8003326:	d92b      	bls.n	8003380 <GameAddEnemy+0x134>
 				{
 
 					g->enemies[i].type = et_diver;
@@ -6488,7 +6488,7 @@ void Game_Add_Enemy(GameCtx* g){
  800333e:	f004 f87d 	bl	800743c <rand>
  8003342:	4601      	mov	r1, r0
  8003344:	7bf8      	ldrb	r0, [r7, #15]
- 8003346:	4b4e      	ldr	r3, [pc, #312]	@ (8003480 <Game_Add_Enemy+0x234>)
+ 8003346:	4b4e      	ldr	r3, [pc, #312]	@ (8003480 <GameAddEnemy+0x234>)
  8003348:	fb83 3201 	smull	r3, r2, r3, r1
  800334c:	17cb      	asrs	r3, r1, #31
  800334e:	1ad2      	subs	r2, r2, r3
@@ -6513,20 +6513,20 @@ void Game_Add_Enemy(GameCtx* g){
  8003374:	009b      	lsls	r3, r3, #2
  8003376:	440b      	add	r3, r1
  8003378:	f503 7323 	add.w	r3, r3, #652	@ 0x28c
- 800337c:	4a41      	ldr	r2, [pc, #260]	@ (8003484 <Game_Add_Enemy+0x238>)
+ 800337c:	4a41      	ldr	r2, [pc, #260]	@ (8003484 <GameAddEnemy+0x238>)
  800337e:	601a      	str	r2, [r3, #0]
 				}
 				if((enemy_type > 20 && enemy_type < 50) && (g->player.level > 4))
  8003380:	7bbb      	ldrb	r3, [r7, #14]
  8003382:	2b14      	cmp	r3, #20
- 8003384:	d933      	bls.n	80033ee <Game_Add_Enemy+0x1a2>
+ 8003384:	d933      	bls.n	80033ee <GameAddEnemy+0x1a2>
  8003386:	7bbb      	ldrb	r3, [r7, #14]
  8003388:	2b31      	cmp	r3, #49	@ 0x31
- 800338a:	d830      	bhi.n	80033ee <Game_Add_Enemy+0x1a2>
+ 800338a:	d830      	bhi.n	80033ee <GameAddEnemy+0x1a2>
  800338c:	687b      	ldr	r3, [r7, #4]
  800338e:	695b      	ldr	r3, [r3, #20]
  8003390:	2b04      	cmp	r3, #4
- 8003392:	dd2c      	ble.n	80033ee <Game_Add_Enemy+0x1a2>
+ 8003392:	dd2c      	ble.n	80033ee <GameAddEnemy+0x1a2>
 				{
 					g->enemies[i].type = et_tracker;
  8003394:	7bfa      	ldrb	r2, [r7, #15]
@@ -6542,7 +6542,7 @@ void Game_Add_Enemy(GameCtx* g){
 					g->enemies[i].update_delay = ((rand()%3)+1);
  80033aa:	f004 f847 	bl	800743c <rand>
  80033ae:	4601      	mov	r1, r0
- 80033b0:	4b33      	ldr	r3, [pc, #204]	@ (8003480 <Game_Add_Enemy+0x234>)
+ 80033b0:	4b33      	ldr	r3, [pc, #204]	@ (8003480 <GameAddEnemy+0x234>)
  80033b2:	fb83 3201 	smull	r3, r2, r3, r1
  80033b6:	17cb      	asrs	r3, r1, #31
  80033b8:	1ad2      	subs	r2, r2, r3
@@ -6569,17 +6569,17 @@ void Game_Add_Enemy(GameCtx* g){
  80033e2:	009b      	lsls	r3, r3, #2
  80033e4:	440b      	add	r3, r1
  80033e6:	f503 7323 	add.w	r3, r3, #652	@ 0x28c
- 80033ea:	4a27      	ldr	r2, [pc, #156]	@ (8003488 <Game_Add_Enemy+0x23c>)
+ 80033ea:	4a27      	ldr	r2, [pc, #156]	@ (8003488 <GameAddEnemy+0x23c>)
  80033ec:	601a      	str	r2, [r3, #0]
 				}
 				if((enemy_type < 20) && (g->player.level > 7))
  80033ee:	7bbb      	ldrb	r3, [r7, #14]
  80033f0:	2b13      	cmp	r3, #19
- 80033f2:	d83b      	bhi.n	800346c <Game_Add_Enemy+0x220>
+ 80033f2:	d83b      	bhi.n	800346c <GameAddEnemy+0x220>
  80033f4:	687b      	ldr	r3, [r7, #4]
  80033f6:	695b      	ldr	r3, [r3, #20]
  80033f8:	2b07      	cmp	r3, #7
- 80033fa:	dd37      	ble.n	800346c <Game_Add_Enemy+0x220>
+ 80033fa:	dd37      	ble.n	800346c <GameAddEnemy+0x220>
 				{
 					g->enemies[i].type = et_bobber;
  80033fc:	7bfa      	ldrb	r2, [r7, #15]
@@ -6595,7 +6595,7 @@ void Game_Add_Enemy(GameCtx* g){
 					g->enemies[i].update_delay = ((rand()%3)+2);
  8003412:	f004 f813 	bl	800743c <rand>
  8003416:	4601      	mov	r1, r0
- 8003418:	4b19      	ldr	r3, [pc, #100]	@ (8003480 <Game_Add_Enemy+0x234>)
+ 8003418:	4b19      	ldr	r3, [pc, #100]	@ (8003480 <GameAddEnemy+0x234>)
  800341a:	fb83 3201 	smull	r3, r2, r3, r1
  800341e:	17cb      	asrs	r3, r1, #31
  8003420:	1ad2      	subs	r2, r2, r3
@@ -6622,11 +6622,11 @@ void Game_Add_Enemy(GameCtx* g){
  800344a:	009b      	lsls	r3, r3, #2
  800344c:	440b      	add	r3, r1
  800344e:	f503 7323 	add.w	r3, r3, #652	@ 0x28c
- 8003452:	4a0e      	ldr	r2, [pc, #56]	@ (800348c <Game_Add_Enemy+0x240>)
+ 8003452:	4a0e      	ldr	r2, [pc, #56]	@ (800348c <GameAddEnemy+0x240>)
  8003454:	601a      	str	r2, [r3, #0]
 				}
 				break;
- 8003456:	e009      	b.n	800346c <Game_Add_Enemy+0x220>
+ 8003456:	e009      	b.n	800346c <GameAddEnemy+0x220>
 		for(i = 0; i < g->player.level; i++)
  8003458:	7bfb      	ldrb	r3, [r7, #15]
  800345a:	3301      	adds	r3, #1
@@ -6635,11 +6635,11 @@ void Game_Add_Enemy(GameCtx* g){
  8003460:	687b      	ldr	r3, [r7, #4]
  8003462:	695b      	ldr	r3, [r3, #20]
  8003464:	429a      	cmp	r2, r3
- 8003466:	f6ff aef8 	blt.w	800325a <Game_Add_Enemy+0xe>
+ 8003466:	f6ff aef8 	blt.w	800325a <GameAddEnemy+0xe>
 			}
 		}
 }
- 800346a:	e000      	b.n	800346e <Game_Add_Enemy+0x222>
+ 800346a:	e000      	b.n	800346e <GameAddEnemy+0x222>
 				break;
  800346c:	bf00      	nop
 }
@@ -6655,9 +6655,9 @@ void Game_Add_Enemy(GameCtx* g){
  8003488:	08009a08 	.word	0x08009a08
  800348c:	08009a18 	.word	0x08009a18
 
-08003490 <Game_Set_State>:
+08003490 <GameSetState>:
 
-void Game_Set_State(GameCtx* g, gamestate state){
+void GameSetState(GameCtx* g, gamestate state){
  8003490:	b480      	push	{r7}
  8003492:	b083      	sub	sp, #12
  8003494:	af00      	add	r7, sp, #0
@@ -6679,9 +6679,9 @@ void Game_Set_State(GameCtx* g, gamestate state){
  80034aa:	f85d 7b04 	ldr.w	r7, [sp], #4
  80034ae:	4770      	bx	lr
 
-080034b0 <Game_Get_State>:
+080034b0 <GameGetState>:
 
-gamestate Game_Get_State(GameCtx* g){
+gamestate GameGetState(GameCtx* g){
  80034b0:	b480      	push	{r7}
  80034b2:	b083      	sub	sp, #12
  80034b4:	af00      	add	r7, sp, #0
@@ -6700,9 +6700,9 @@ gamestate Game_Get_State(GameCtx* g){
  80034c4:	f85d 7b04 	ldr.w	r7, [sp], #4
  80034c8:	4770      	bx	lr
 
-080034ca <Game_Get_Palyer_Score>:
+080034ca <GameGetPalyerScore>:
 
-int Game_Get_Palyer_Score(GameCtx* g){
+int GameGetPalyerScore(GameCtx* g){
  80034ca:	b480      	push	{r7}
  80034cc:	b083      	sub	sp, #12
  80034ce:	af00      	add	r7, sp, #0
@@ -7053,9 +7053,9 @@ int main(void)
  80036a6:	f000 fb5b 	bl	8003d60 <ssd1327_display>
 
   //start_game();
-  Game_Init(&g_singleton);
+  GameInit(&g_singleton);
  80036aa:	4819      	ldr	r0, [pc, #100]	@ (8003710 <main+0x9c>)
- 80036ac:	f7fd fda9 	bl	8001202 <Game_Init>
+ 80036ac:	f7fd fda9 	bl	8001202 <GameInit>
   Input_Init(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
  80036b0:	f44f 7280 	mov.w	r2, #256	@ 0x100
  80036b4:	f04f 4190 	mov.w	r1, #1207959552	@ 0x48000000
@@ -7075,9 +7075,9 @@ int main(void)
  80036cc:	e893 0003 	ldmia.w	r3, {r0, r1}
  80036d0:	e882 0003 	stmia.w	r2, {r0, r1}
 
-		switch (Game_Get_State(&g_singleton))
+		switch (GameGetState(&g_singleton))
  80036d4:	480e      	ldr	r0, [pc, #56]	@ (8003710 <main+0x9c>)
- 80036d6:	f7ff feeb 	bl	80034b0 <Game_Get_State>
+ 80036d6:	f7ff feeb 	bl	80034b0 <GameGetState>
  80036da:	4603      	mov	r3, r0
  80036dc:	2b02      	cmp	r3, #2
  80036de:	d00e      	beq.n	80036fe <main+0x8a>
@@ -7090,19 +7090,19 @@ int main(void)
  80036ec:	e00b      	b.n	8003706 <main+0x92>
 		{
 		case st_menu:
-			Run_Menu(&input_Snap); break;
+			RunMenu(&input_Snap); break;
  80036ee:	4809      	ldr	r0, [pc, #36]	@ (8003714 <main+0xa0>)
- 80036f0:	f000 fa1e 	bl	8003b30 <Run_Menu>
+ 80036f0:	f000 fa1e 	bl	8003b30 <RunMenu>
  80036f4:	e007      	b.n	8003706 <main+0x92>
 		case st_playing:
-			Run_Game(&input_Snap); break;
+			RunGame(&input_Snap); break;
  80036f6:	4807      	ldr	r0, [pc, #28]	@ (8003714 <main+0xa0>)
- 80036f8:	f000 f9fa 	bl	8003af0 <Run_Game>
+ 80036f8:	f000 f9fa 	bl	8003af0 <RunGame>
  80036fc:	e003      	b.n	8003706 <main+0x92>
 		case st_dead:
-			Run_Dead(&input_Snap);	break;
+			RunDead(&input_Snap);	break;
  80036fe:	4805      	ldr	r0, [pc, #20]	@ (8003714 <main+0xa0>)
- 8003700:	f000 f97e 	bl	8003a00 <Run_Dead>
+ 8003700:	f000 f97e 	bl	8003a00 <RunDead>
  8003704:	bf00      	nop
 	  input_Snap = Input_Read();
  8003706:	e7da      	b.n	80036be <main+0x4a>
@@ -7621,9 +7621,9 @@ static void MX_GPIO_Init(void)
  80039f8:	40021000 	.word	0x40021000
  80039fc:	48000400 	.word	0x48000400
 
-08003a00 <Run_Dead>:
+08003a00 <RunDead>:
 
-void Run_Dead(InputSnapshot* in)
+void RunDead(InputSnapshot* in)
 {
  8003a00:	b580      	push	{r7, lr}
  8003a02:	b084      	sub	sp, #16
@@ -7635,38 +7635,38 @@ void Run_Dead(InputSnapshot* in)
 
 
 	x += dx;
- 8003a08:	4b23      	ldr	r3, [pc, #140]	@ (8003a98 <Run_Dead+0x98>)
+ 8003a08:	4b23      	ldr	r3, [pc, #140]	@ (8003a98 <RunDead+0x98>)
  8003a0a:	681a      	ldr	r2, [r3, #0]
- 8003a0c:	4b23      	ldr	r3, [pc, #140]	@ (8003a9c <Run_Dead+0x9c>)
+ 8003a0c:	4b23      	ldr	r3, [pc, #140]	@ (8003a9c <RunDead+0x9c>)
  8003a0e:	681b      	ldr	r3, [r3, #0]
  8003a10:	4413      	add	r3, r2
- 8003a12:	4a21      	ldr	r2, [pc, #132]	@ (8003a98 <Run_Dead+0x98>)
+ 8003a12:	4a21      	ldr	r2, [pc, #132]	@ (8003a98 <RunDead+0x98>)
  8003a14:	6013      	str	r3, [r2, #0]
 	if (x < 1 || x > 55) dx = -dx;
- 8003a16:	4b20      	ldr	r3, [pc, #128]	@ (8003a98 <Run_Dead+0x98>)
+ 8003a16:	4b20      	ldr	r3, [pc, #128]	@ (8003a98 <RunDead+0x98>)
  8003a18:	681b      	ldr	r3, [r3, #0]
  8003a1a:	2b00      	cmp	r3, #0
- 8003a1c:	dd03      	ble.n	8003a26 <Run_Dead+0x26>
- 8003a1e:	4b1e      	ldr	r3, [pc, #120]	@ (8003a98 <Run_Dead+0x98>)
+ 8003a1c:	dd03      	ble.n	8003a26 <RunDead+0x26>
+ 8003a1e:	4b1e      	ldr	r3, [pc, #120]	@ (8003a98 <RunDead+0x98>)
  8003a20:	681b      	ldr	r3, [r3, #0]
  8003a22:	2b37      	cmp	r3, #55	@ 0x37
- 8003a24:	dd04      	ble.n	8003a30 <Run_Dead+0x30>
- 8003a26:	4b1d      	ldr	r3, [pc, #116]	@ (8003a9c <Run_Dead+0x9c>)
+ 8003a24:	dd04      	ble.n	8003a30 <RunDead+0x30>
+ 8003a26:	4b1d      	ldr	r3, [pc, #116]	@ (8003a9c <RunDead+0x9c>)
  8003a28:	681b      	ldr	r3, [r3, #0]
  8003a2a:	425b      	negs	r3, r3
- 8003a2c:	4a1b      	ldr	r2, [pc, #108]	@ (8003a9c <Run_Dead+0x9c>)
+ 8003a2c:	4a1b      	ldr	r2, [pc, #108]	@ (8003a9c <RunDead+0x9c>)
  8003a2e:	6013      	str	r3, [r2, #0]
 	ssd1327_CLR();
  8003a30:	f000 f9ce 	bl	8003dd0 <ssd1327_CLR>
 	GFX_DrowBitMap_P(x,(screen_height/2) - 4,Defeated_map,67,16,1);
- 8003a34:	4b18      	ldr	r3, [pc, #96]	@ (8003a98 <Run_Dead+0x98>)
+ 8003a34:	4b18      	ldr	r3, [pc, #96]	@ (8003a98 <RunDead+0x98>)
  8003a36:	6818      	ldr	r0, [r3, #0]
  8003a38:	2301      	movs	r3, #1
  8003a3a:	9301      	str	r3, [sp, #4]
  8003a3c:	2310      	movs	r3, #16
  8003a3e:	9300      	str	r3, [sp, #0]
  8003a40:	2343      	movs	r3, #67	@ 0x43
- 8003a42:	4a17      	ldr	r2, [pc, #92]	@ (8003aa0 <Run_Dead+0xa0>)
+ 8003a42:	4a17      	ldr	r2, [pc, #92]	@ (8003aa0 <RunDead+0xa0>)
  8003a44:	213c      	movs	r1, #60	@ 0x3c
  8003a46:	f7fd f9b1 	bl	8000dac <GFX_DrowBitMap_P>
 	GFX_DrowBitMap_P(35,(screen_height/2) + 24,Score_map,37,10,1);
@@ -7675,13 +7675,13 @@ void Run_Dead(InputSnapshot* in)
  8003a4e:	230a      	movs	r3, #10
  8003a50:	9300      	str	r3, [sp, #0]
  8003a52:	2325      	movs	r3, #37	@ 0x25
- 8003a54:	4a13      	ldr	r2, [pc, #76]	@ (8003aa4 <Run_Dead+0xa4>)
+ 8003a54:	4a13      	ldr	r2, [pc, #76]	@ (8003aa4 <RunDead+0xa4>)
  8003a56:	2158      	movs	r1, #88	@ 0x58
  8003a58:	2023      	movs	r0, #35	@ 0x23
  8003a5a:	f7fd f9a7 	bl	8000dac <GFX_DrowBitMap_P>
-	GFX_PutInt(73,(screen_height/2) + 27,Game_Get_Palyer_Score(&g_singleton),1,1,0);
- 8003a5e:	4812      	ldr	r0, [pc, #72]	@ (8003aa8 <Run_Dead+0xa8>)
- 8003a60:	f7ff fd33 	bl	80034ca <Game_Get_Palyer_Score>
+	GFX_PutInt(73,(screen_height/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
+ 8003a5e:	4812      	ldr	r0, [pc, #72]	@ (8003aa8 <RunDead+0xa8>)
+ 8003a60:	f7ff fd33 	bl	80034ca <GameGetPalyerScore>
  8003a64:	4602      	mov	r2, r0
  8003a66:	2300      	movs	r3, #0
  8003a68:	9301      	str	r3, [sp, #4]
@@ -7698,14 +7698,14 @@ void Run_Dead(InputSnapshot* in)
  8003a7c:	687b      	ldr	r3, [r7, #4]
  8003a7e:	791b      	ldrb	r3, [r3, #4]
  8003a80:	2b01      	cmp	r3, #1
- 8003a82:	d105      	bne.n	8003a90 <Run_Dead+0x90>
+ 8003a82:	d105      	bne.n	8003a90 <RunDead+0x90>
 	{
-		Play_Dead_Anim();
- 8003a84:	f000 f812 	bl	8003aac <Play_Dead_Anim>
-		Game_Set_State(&g_singleton, st_menu);//state = st_menu;
+		PlayDeadAnim();
+ 8003a84:	f000 f812 	bl	8003aac <PlayDeadAnim>
+		GameSetState(&g_singleton, st_menu);//state = st_menu;
  8003a88:	2100      	movs	r1, #0
- 8003a8a:	4807      	ldr	r0, [pc, #28]	@ (8003aa8 <Run_Dead+0xa8>)
- 8003a8c:	f7ff fd00 	bl	8003490 <Game_Set_State>
+ 8003a8a:	4807      	ldr	r0, [pc, #28]	@ (8003aa8 <RunDead+0xa8>)
+ 8003a8c:	f7ff fd00 	bl	8003490 <GameSetState>
 	}
 }
  8003a90:	bf00      	nop
@@ -7718,9 +7718,9 @@ void Run_Dead(InputSnapshot* in)
  8003aa4:	08009858 	.word	0x08009858
  8003aa8:	20000098 	.word	0x20000098
 
-08003aac <Play_Dead_Anim>:
+08003aac <PlayDeadAnim>:
 
-void Play_Dead_Anim(void)
+void PlayDeadAnim(void)
 {
  8003aac:	b580      	push	{r7, lr}
  8003aae:	b084      	sub	sp, #16
@@ -7733,7 +7733,7 @@ void Play_Dead_Anim(void)
 	for (i = 0; i < 10; ++i)
  8003ab2:	2300      	movs	r3, #0
  8003ab4:	71fb      	strb	r3, [r7, #7]
- 8003ab6:	e012      	b.n	8003ade <Play_Dead_Anim+0x32>
+ 8003ab6:	e012      	b.n	8003ade <PlayDeadAnim+0x32>
 	{
 		ssd1327_CLR();
  8003ab8:	f000 f98a 	bl	8003dd0 <ssd1327_CLR>
@@ -7758,7 +7758,7 @@ void Play_Dead_Anim(void)
  8003adc:	71fb      	strb	r3, [r7, #7]
  8003ade:	79fb      	ldrb	r3, [r7, #7]
  8003ae0:	2b09      	cmp	r3, #9
- 8003ae2:	d9e9      	bls.n	8003ab8 <Play_Dead_Anim+0xc>
+ 8003ae2:	d9e9      	bls.n	8003ab8 <PlayDeadAnim+0xc>
 
 	}
 }
@@ -7769,9 +7769,9 @@ void Play_Dead_Anim(void)
  8003aec:	bd80      	pop	{r7, pc}
 	...
 
-08003af0 <Run_Game>:
+08003af0 <RunGame>:
 
-void Run_Game (InputSnapshot* in)
+void RunGame (InputSnapshot* in)
 {
  8003af0:	b580      	push	{r7, lr}
  8003af2:	b082      	sub	sp, #8
@@ -7781,32 +7781,32 @@ void Run_Game (InputSnapshot* in)
 	 * The main loop of the game, executing the relevant functions one by one
 	 */
 	//drow_game();
-	Game_Draw(&g_singleton, in);
+	GameDraw(&g_singleton, in);
  8003af8:	6879      	ldr	r1, [r7, #4]
- 8003afa:	480c      	ldr	r0, [pc, #48]	@ (8003b2c <Run_Game+0x3c>)
- 8003afc:	f7fe fc18 	bl	8002330 <Game_Draw>
+ 8003afa:	480c      	ldr	r0, [pc, #48]	@ (8003b2c <RunGame+0x3c>)
+ 8003afc:	f7fe fc18 	bl	8002330 <GameDraw>
 	ssd1327_display();
  8003b00:	f000 f92e 	bl	8003d60 <ssd1327_display>
 	ssd1327_CLR();
  8003b04:	f000 f964 	bl	8003dd0 <ssd1327_CLR>
 
 	//update_lvl();
-	Game_Level_Update(&g_singleton);
- 8003b08:	4808      	ldr	r0, [pc, #32]	@ (8003b2c <Run_Game+0x3c>)
- 8003b0a:	f7fe fe49 	bl	80027a0 <Game_Level_Update>
+	GameLevelUpdate(&g_singleton);
+ 8003b08:	4808      	ldr	r0, [pc, #32]	@ (8003b2c <RunGame+0x3c>)
+ 8003b0a:	f7fe fe49 	bl	80027a0 <GameLevelUpdate>
 	//update_scene();
-	Game_Tick(&g_singleton, in);
+	GameTick(&g_singleton, in);
  8003b0e:	6879      	ldr	r1, [r7, #4]
- 8003b10:	4806      	ldr	r0, [pc, #24]	@ (8003b2c <Run_Game+0x3c>)
- 8003b12:	f7fd fc0b 	bl	800132c <Game_Tick>
+ 8003b10:	4806      	ldr	r0, [pc, #24]	@ (8003b2c <RunGame+0x3c>)
+ 8003b12:	f7fd fc0b 	bl	800132c <GameTick>
 	//update_backgrand();
-	Game_Update_Backgrand(&g_singleton);
- 8003b16:	4805      	ldr	r0, [pc, #20]	@ (8003b2c <Run_Game+0x3c>)
- 8003b18:	f7fe ff04 	bl	8002924 <Game_Update_Backgrand>
+	GameUpdateBackgrand(&g_singleton);
+ 8003b16:	4805      	ldr	r0, [pc, #20]	@ (8003b2c <RunGame+0x3c>)
+ 8003b18:	f7fe ff04 	bl	8002924 <GameUpdateBackgrand>
 	//update_bonus();
-	Game_Update_Bonus(&g_singleton);
- 8003b1c:	4803      	ldr	r0, [pc, #12]	@ (8003b2c <Run_Game+0x3c>)
- 8003b1e:	f7ff f8a7 	bl	8002c70 <Game_Update_Bonus>
+	GameUpdateBonus(&g_singleton);
+ 8003b1c:	4803      	ldr	r0, [pc, #12]	@ (8003b2c <RunGame+0x3c>)
+ 8003b1e:	f7ff f8a7 	bl	8002c70 <GameUpdateBonus>
 }
  8003b22:	bf00      	nop
  8003b24:	3708      	adds	r7, #8
@@ -7815,9 +7815,9 @@ void Run_Game (InputSnapshot* in)
  8003b2a:	bf00      	nop
  8003b2c:	20000098 	.word	0x20000098
 
-08003b30 <Run_Menu>:
+08003b30 <RunMenu>:
 
-void Run_Menu (InputSnapshot* in)
+void RunMenu (InputSnapshot* in)
 {
  8003b30:	b580      	push	{r7, lr}
  8003b32:	b084      	sub	sp, #16
@@ -7828,39 +7828,39 @@ void Run_Menu (InputSnapshot* in)
 	 */
 	static int x = 0, dx = 1;
 	x += dx;
- 8003b38:	4b22      	ldr	r3, [pc, #136]	@ (8003bc4 <Run_Menu+0x94>)
+ 8003b38:	4b22      	ldr	r3, [pc, #136]	@ (8003bc4 <RunMenu+0x94>)
  8003b3a:	681a      	ldr	r2, [r3, #0]
- 8003b3c:	4b22      	ldr	r3, [pc, #136]	@ (8003bc8 <Run_Menu+0x98>)
+ 8003b3c:	4b22      	ldr	r3, [pc, #136]	@ (8003bc8 <RunMenu+0x98>)
  8003b3e:	681b      	ldr	r3, [r3, #0]
  8003b40:	4413      	add	r3, r2
- 8003b42:	4a20      	ldr	r2, [pc, #128]	@ (8003bc4 <Run_Menu+0x94>)
+ 8003b42:	4a20      	ldr	r2, [pc, #128]	@ (8003bc4 <RunMenu+0x94>)
  8003b44:	6013      	str	r3, [r2, #0]
 	if (x < 1 || x > 65) dx = -dx;
- 8003b46:	4b1f      	ldr	r3, [pc, #124]	@ (8003bc4 <Run_Menu+0x94>)
+ 8003b46:	4b1f      	ldr	r3, [pc, #124]	@ (8003bc4 <RunMenu+0x94>)
  8003b48:	681b      	ldr	r3, [r3, #0]
  8003b4a:	2b00      	cmp	r3, #0
- 8003b4c:	dd03      	ble.n	8003b56 <Run_Menu+0x26>
- 8003b4e:	4b1d      	ldr	r3, [pc, #116]	@ (8003bc4 <Run_Menu+0x94>)
+ 8003b4c:	dd03      	ble.n	8003b56 <RunMenu+0x26>
+ 8003b4e:	4b1d      	ldr	r3, [pc, #116]	@ (8003bc4 <RunMenu+0x94>)
  8003b50:	681b      	ldr	r3, [r3, #0]
  8003b52:	2b41      	cmp	r3, #65	@ 0x41
- 8003b54:	dd04      	ble.n	8003b60 <Run_Menu+0x30>
- 8003b56:	4b1c      	ldr	r3, [pc, #112]	@ (8003bc8 <Run_Menu+0x98>)
+ 8003b54:	dd04      	ble.n	8003b60 <RunMenu+0x30>
+ 8003b56:	4b1c      	ldr	r3, [pc, #112]	@ (8003bc8 <RunMenu+0x98>)
  8003b58:	681b      	ldr	r3, [r3, #0]
  8003b5a:	425b      	negs	r3, r3
- 8003b5c:	4a1a      	ldr	r2, [pc, #104]	@ (8003bc8 <Run_Menu+0x98>)
+ 8003b5c:	4a1a      	ldr	r2, [pc, #104]	@ (8003bc8 <RunMenu+0x98>)
  8003b5e:	6013      	str	r3, [r2, #0]
 	ssd1327_CLR();
  8003b60:	f000 f936 	bl	8003dd0 <ssd1327_CLR>
 
 	GFX_DrowBitMap_P(x,(screen_height/2) - 10,uGalaxy_map,54,16,1);
- 8003b64:	4b17      	ldr	r3, [pc, #92]	@ (8003bc4 <Run_Menu+0x94>)
+ 8003b64:	4b17      	ldr	r3, [pc, #92]	@ (8003bc4 <RunMenu+0x94>)
  8003b66:	6818      	ldr	r0, [r3, #0]
  8003b68:	2301      	movs	r3, #1
  8003b6a:	9301      	str	r3, [sp, #4]
  8003b6c:	2310      	movs	r3, #16
  8003b6e:	9300      	str	r3, [sp, #0]
  8003b70:	2336      	movs	r3, #54	@ 0x36
- 8003b72:	4a16      	ldr	r2, [pc, #88]	@ (8003bcc <Run_Menu+0x9c>)
+ 8003b72:	4a16      	ldr	r2, [pc, #88]	@ (8003bcc <RunMenu+0x9c>)
  8003b74:	2136      	movs	r1, #54	@ 0x36
  8003b76:	f7fd f919 	bl	8000dac <GFX_DrowBitMap_P>
 	GFX_DrowRoundRect(15,(screen_height/2) + 34,93,20,8,1);
@@ -7879,7 +7879,7 @@ void Run_Menu (InputSnapshot* in)
  8003b92:	230a      	movs	r3, #10
  8003b94:	9300      	str	r3, [sp, #0]
  8003b96:	2342      	movs	r3, #66	@ 0x42
- 8003b98:	4a0d      	ldr	r2, [pc, #52]	@ (8003bd0 <Run_Menu+0xa0>)
+ 8003b98:	4a0d      	ldr	r2, [pc, #52]	@ (8003bd0 <RunMenu+0xa0>)
  8003b9a:	2165      	movs	r1, #101	@ 0x65
  8003b9c:	201a      	movs	r0, #26
  8003b9e:	f7fd f905 	bl	8000dac <GFX_DrowBitMap_P>
@@ -7888,16 +7888,16 @@ void Run_Menu (InputSnapshot* in)
  8003ba2:	687b      	ldr	r3, [r7, #4]
  8003ba4:	791b      	ldrb	r3, [r3, #4]
  8003ba6:	2b01      	cmp	r3, #1
- 8003ba8:	d106      	bne.n	8003bb8 <Run_Menu+0x88>
+ 8003ba8:	d106      	bne.n	8003bb8 <RunMenu+0x88>
 	{
 		//start_game();
-		Game_Init(&g_singleton);
- 8003baa:	480a      	ldr	r0, [pc, #40]	@ (8003bd4 <Run_Menu+0xa4>)
- 8003bac:	f7fd fb29 	bl	8001202 <Game_Init>
-		Game_Set_State(&g_singleton, st_playing);//state = st_playing;
+		GameInit(&g_singleton);
+ 8003baa:	480a      	ldr	r0, [pc, #40]	@ (8003bd4 <RunMenu+0xa4>)
+ 8003bac:	f7fd fb29 	bl	8001202 <GameInit>
+		GameSetState(&g_singleton, st_playing);//state = st_playing;
  8003bb0:	2101      	movs	r1, #1
- 8003bb2:	4808      	ldr	r0, [pc, #32]	@ (8003bd4 <Run_Menu+0xa4>)
- 8003bb4:	f7ff fc6c 	bl	8003490 <Game_Set_State>
+ 8003bb2:	4808      	ldr	r0, [pc, #32]	@ (8003bd4 <RunMenu+0xa4>)
+ 8003bb4:	f7ff fc6c 	bl	8003490 <GameSetState>
 	}
 	ssd1327_display();
  8003bb8:	f000 f8d2 	bl	8003d60 <ssd1327_display>

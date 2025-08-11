@@ -4148,54 +4148,54 @@ LOAD C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .text.GFX_DrowRoundRect
                 0x08001110       0xf2 ./Core/Src/GFX_ssd1327.o
                 0x08001110                GFX_DrowRoundRect
- .text.Game_Init
+ .text.GameInit
                 0x08001202      0x128 ./Core/Src/game_logic.o
-                0x08001202                Game_Init
+                0x08001202                GameInit
  *fill*         0x0800132a        0x2 
- .text.Game_Tick
+ .text.GameTick
                 0x0800132c     0x1004 ./Core/Src/game_logic.o
-                0x0800132c                Game_Tick
- .text.Game_Draw
+                0x0800132c                GameTick
+ .text.GameDraw
                 0x08002330      0x470 ./Core/Src/game_logic.o
-                0x08002330                Game_Draw
- .text.Game_Level_Update
+                0x08002330                GameDraw
+ .text.GameLevelUpdate
                 0x080027a0      0x184 ./Core/Src/game_logic.o
-                0x080027a0                Game_Level_Update
- .text.Game_Update_Backgrand
+                0x080027a0                GameLevelUpdate
+ .text.GameUpdateBackgrand
                 0x08002924      0x140 ./Core/Src/game_logic.o
-                0x08002924                Game_Update_Backgrand
- .text.Game_Add_Background
+                0x08002924                GameUpdateBackgrand
+ .text.GameAddBackground
                 0x08002a64       0xdc ./Core/Src/game_logic.o
-                0x08002a64                Game_Add_Background
- .text.Game_Add_Bonus
+                0x08002a64                GameAddBackground
+ .text.GameAddBonus
                 0x08002b40      0x130 ./Core/Src/game_logic.o
-                0x08002b40                Game_Add_Bonus
- .text.Game_Update_Bonus
+                0x08002b40                GameAddBonus
+ .text.GameUpdateBonus
                 0x08002c70      0x2ac ./Core/Src/game_logic.o
-                0x08002c70                Game_Update_Bonus
+                0x08002c70                GameUpdateBonus
  *fill*         0x08002f1c        0x4 
- .text.Game_Shot
+ .text.GameShot
                 0x08002f20      0x24c ./Core/Src/game_logic.o
-                0x08002f20                Game_Shot
- .text.Game_Shot_Boss
+                0x08002f20                GameShot
+ .text.GameShotBoss
                 0x0800316c       0x90 ./Core/Src/game_logic.o
-                0x0800316c                Game_Shot_Boss
- .text.colliding
+                0x0800316c                GameShotBoss
+ .text.Colliding
                 0x080031fc       0x4e ./Core/Src/game_logic.o
-                0x080031fc                colliding
+                0x080031fc                Colliding
  *fill*         0x0800324a        0x2 
- .text.Game_Add_Enemy
+ .text.GameAddEnemy
                 0x0800324c      0x244 ./Core/Src/game_logic.o
-                0x0800324c                Game_Add_Enemy
- .text.Game_Set_State
+                0x0800324c                GameAddEnemy
+ .text.GameSetState
                 0x08003490       0x20 ./Core/Src/game_logic.o
-                0x08003490                Game_Set_State
- .text.Game_Get_State
+                0x08003490                GameSetState
+ .text.GameGetState
                 0x080034b0       0x1a ./Core/Src/game_logic.o
-                0x080034b0                Game_Get_State
- .text.Game_Get_Palyer_Score
+                0x080034b0                GameGetState
+ .text.GameGetPalyerScore
                 0x080034ca       0x18 ./Core/Src/game_logic.o
-                0x080034ca                Game_Get_Palyer_Score
+                0x080034ca                GameGetPalyerScore
  *fill*         0x080034e2        0x2 
  .text.Input_Init
                 0x080034e4       0x38 ./Core/Src/input.o
@@ -4219,19 +4219,16 @@ LOAD C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                 0x080038a4       0x7c ./Core/Src/main.o
  .text.MX_GPIO_Init
                 0x08003920       0xe0 ./Core/Src/main.o
- .text.Run_Dead
-                0x08003a00       0xac ./Core/Src/main.o
-                0x08003a00                Run_Dead
- .text.Play_Dead_Anim
+ .text.RunDead  0x08003a00       0xac ./Core/Src/main.o
+                0x08003a00                RunDead
+ .text.PlayDeadAnim
                 0x08003aac       0x42 ./Core/Src/main.o
-                0x08003aac                Play_Dead_Anim
+                0x08003aac                PlayDeadAnim
  *fill*         0x08003aee        0x2 
- .text.Run_Game
-                0x08003af0       0x40 ./Core/Src/main.o
-                0x08003af0                Run_Game
- .text.Run_Menu
-                0x08003b30       0xa8 ./Core/Src/main.o
-                0x08003b30                Run_Menu
+ .text.RunGame  0x08003af0       0x40 ./Core/Src/main.o
+                0x08003af0                RunGame
+ .text.RunMenu  0x08003b30       0xa8 ./Core/Src/main.o
+                0x08003b30                RunMenu
  .text.Error_Handler
                 0x08003bd8        0xc ./Core/Src/main.o
                 0x08003bd8                Error_Handler
@@ -5419,31 +5416,31 @@ LOAD C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x0000edd5     0x13b6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
  .debug_line    0x0001018b     0x20d7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o
 
-.debug_str      0x00000000    0xd235f
- .debug_str     0x00000000    0xd235f ./Core/Src/GFX_ssd1327.o
+.debug_str      0x00000000    0xd2341
+ .debug_str     0x00000000    0xd2341 ./Core/Src/GFX_ssd1327.o
                               0xcb74d (size before relaxing)
- .debug_str     0x000d235f    0xcbd62 ./Core/Src/game_logic.o
- .debug_str     0x000d235f     0x424f ./Core/Src/graphics_map.o
- .debug_str     0x000d235f    0xc7e9b ./Core/Src/input.o
- .debug_str     0x000d235f     0x3df3 ./Core/Src/itoa.o
- .debug_str     0x000d235f    0xcc87c ./Core/Src/main.o
- .debug_str     0x000d235f    0xcb473 ./Core/Src/ssd1327.o
- .debug_str     0x000d235f    0xc83fa ./Core/Src/stm32l4xx_hal_msp.o
- .debug_str     0x000d235f    0xc79f9 ./Core/Src/stm32l4xx_it.o
- .debug_str     0x000d235f     0x99de ./Core/Src/syscalls.o
- .debug_str     0x000d235f     0x777c ./Core/Src/sysmem.o
- .debug_str     0x000d235f    0xc7abc ./Core/Src/system_stm32l4xx.o
- .debug_str     0x000d235f       0x7e ./Core/Startup/startup_stm32l432kcux.o
- .debug_str     0x000d235f    0xc8449 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
- .debug_str     0x000d235f    0xc88b7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o
- .debug_str     0x000d235f    0xc86c4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o
- .debug_str     0x000d235f    0xc81ea ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
- .debug_str     0x000d235f    0xc7c30 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o
- .debug_str     0x000d235f    0xc7e06 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o
- .debug_str     0x000d235f    0xc7f64 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
- .debug_str     0x000d235f    0xc80bc ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
- .debug_str     0x000d235f    0xc831c ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
- .debug_str     0x000d235f    0xc82da ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o
+ .debug_str     0x000d2341    0xcbd47 ./Core/Src/game_logic.o
+ .debug_str     0x000d2341     0x424f ./Core/Src/graphics_map.o
+ .debug_str     0x000d2341    0xc7e9b ./Core/Src/input.o
+ .debug_str     0x000d2341     0x3df3 ./Core/Src/itoa.o
+ .debug_str     0x000d2341    0xcc867 ./Core/Src/main.o
+ .debug_str     0x000d2341    0xcb473 ./Core/Src/ssd1327.o
+ .debug_str     0x000d2341    0xc83fa ./Core/Src/stm32l4xx_hal_msp.o
+ .debug_str     0x000d2341    0xc79f9 ./Core/Src/stm32l4xx_it.o
+ .debug_str     0x000d2341     0x99de ./Core/Src/syscalls.o
+ .debug_str     0x000d2341     0x777c ./Core/Src/sysmem.o
+ .debug_str     0x000d2341    0xc7abc ./Core/Src/system_stm32l4xx.o
+ .debug_str     0x000d2341       0x7e ./Core/Startup/startup_stm32l432kcux.o
+ .debug_str     0x000d2341    0xc8449 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o
+ .debug_str     0x000d2341    0xc88b7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o
+ .debug_str     0x000d2341    0xc86c4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o
+ .debug_str     0x000d2341    0xc81ea ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o
+ .debug_str     0x000d2341    0xc7c30 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o
+ .debug_str     0x000d2341    0xc7e06 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o
+ .debug_str     0x000d2341    0xc7f64 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o
+ .debug_str     0x000d2341    0xc80bc ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o
+ .debug_str     0x000d2341    0xc831c ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o
+ .debug_str     0x000d2341    0xc82da ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 ./Core/Src/GFX_ssd1327.o

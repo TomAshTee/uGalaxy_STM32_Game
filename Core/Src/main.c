@@ -57,9 +57,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-extern void Game_Init(GameCtx* g);
-extern void Game_Tick(GameCtx* g, InputSnapshot* in);
-extern void Game_Draw(GameCtx* g, InputSnapshot* in);
+extern void GameInit(GameCtx* g);
+extern void GameTick(GameCtx* g, InputSnapshot* in);
+extern void GameDraw(GameCtx* g, InputSnapshot* in);
 
 /* USER CODE END PD */
 
@@ -143,7 +143,7 @@ int main(void)
   ssd1327_display();
 
   //start_game();
-  Game_Init(&g_singleton);
+  GameInit(&g_singleton);
   Input_Init(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
   //add_enemy();
 
@@ -151,14 +151,14 @@ int main(void)
   {
 	  input_Snap = Input_Read();
 
-		switch (Game_Get_State(&g_singleton))
+		switch (GameGetState(&g_singleton))
 		{
 		case st_menu:
-			Run_Menu(&input_Snap); break;
+			RunMenu(&input_Snap); break;
 		case st_playing:
-			Run_Game(&input_Snap); break;
+			RunGame(&input_Snap); break;
 		case st_dead:
-			Run_Dead(&input_Snap);	break;
+			RunDead(&input_Snap);	break;
 		}
     /* USER CODE END WHILE */
 
@@ -367,7 +367,7 @@ static void MX_GPIO_Init(void)
 
 }
 
-void Run_Dead(InputSnapshot* in)
+void RunDead(InputSnapshot* in)
 {
 
 	/*
@@ -382,17 +382,17 @@ void Run_Dead(InputSnapshot* in)
 	ssd1327_CLR();
 	GFX_DrowBitMap_P(x,(screen_height/2) - 4,Defeated_map,67,16,1);
 	GFX_DrowBitMap_P(35,(screen_height/2) + 24,Score_map,37,10,1);
-	GFX_PutInt(73,(screen_height/2) + 27,Game_Get_Palyer_Score(&g_singleton),1,1,0);
+	GFX_PutInt(73,(screen_height/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
 	ssd1327_display();
 
 	if(in->btn1_is_pressed == GPIO_PIN_SET)
 	{
-		Play_Dead_Anim();
-		Game_Set_State(&g_singleton, st_menu);//state = st_menu;
+		PlayDeadAnim();
+		GameSetState(&g_singleton, st_menu);//state = st_menu;
 	}
 }
 
-void Play_Dead_Anim(void)
+void PlayDeadAnim(void)
 {
 	/*
 	 * Animation between separate screens. Gives the illusion of an old game.
@@ -411,27 +411,27 @@ void Play_Dead_Anim(void)
 	}
 }
 
-void Run_Game (InputSnapshot* in)
+void RunGame (InputSnapshot* in)
 {
 	/*
 	 * The main loop of the game, executing the relevant functions one by one
 	 */
 	//drow_game();
-	Game_Draw(&g_singleton, in);
+	GameDraw(&g_singleton, in);
 	ssd1327_display();
 	ssd1327_CLR();
 
 	//update_lvl();
-	Game_Level_Update(&g_singleton);
+	GameLevelUpdate(&g_singleton);
 	//update_scene();
-	Game_Tick(&g_singleton, in);
+	GameTick(&g_singleton, in);
 	//update_backgrand();
-	Game_Update_Backgrand(&g_singleton);
+	GameUpdateBackgrand(&g_singleton);
 	//update_bonus();
-	Game_Update_Bonus(&g_singleton);
+	GameUpdateBonus(&g_singleton);
 }
 
-void Run_Menu (InputSnapshot* in)
+void RunMenu (InputSnapshot* in)
 {
 	/*
 	 * Start screen, basic information for the player at the beginning
@@ -448,8 +448,8 @@ void Run_Menu (InputSnapshot* in)
 	if(in->btn1_is_pressed == GPIO_PIN_SET)
 	{
 		//start_game();
-		Game_Init(&g_singleton);
-		Game_Set_State(&g_singleton, st_playing);//state = st_playing;
+		GameInit(&g_singleton);
+		GameSetState(&g_singleton, st_playing);//state = st_playing;
 	}
 	ssd1327_display();
 

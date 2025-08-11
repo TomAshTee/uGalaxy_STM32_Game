@@ -159,28 +159,26 @@ typedef struct {			// Context of the current game
 
 extern GameCtx g_singleton;						// Game context
 
-void Run_Menu (InputSnapshot* in);							// Menu operation
-void Run_Game (InputSnapshot* in);							// The main skeleton of the game sequence
-void Play_Dead_Anim(void);						// Display of animation after death - climate building ;)
-void Run_Dead(InputSnapshot* in);							// End of game support
-uint8_t button_pressed (void); 					// Checking whether push-button no.1 is pressed
-int joystick_value_y (void);					// Entering the Y axis value of the joystick
+void RunMenu (InputSnapshot* in);							// Menu operation
+void RunGame (InputSnapshot* in);							// The main skeleton of the game sequence
+void PlayDeadAnim(void);						// Display of animation after death - climate building ;)
+void RunDead(InputSnapshot* in);							// End of game support
 
-void Game_Init(GameCtx* g);						// Starting the game
-void Game_Tick(GameCtx* g, InputSnapshot* in);						// Handling of "core game" events
-void Game_Draw(GameCtx* g, InputSnapshot* in);						// "Drawing" the game
-void Game_Level_Update(GameCtx* g);				// Player level update
-void Game_Update_Backgrand(GameCtx* g);			// Background handling
-void Game_Add_Background(GameCtx* g);			// Addition of a background unit
-void Game_Add_Bonus(GameCtx* g, int x, int y);	// Adding a bonus on the position of a downed enemy
-void Game_Update_Bonus(GameCtx* g);				// Bonus handling
-void Game_Shot(GameCtx* g);						// Adding a player shot
-void Game_Shot_Boss(GameCtx* g);				// Adding a boss shot
-bool colliding(int x0, int y0, int x1, int y1);	// Checking for collisions between objects
-void Game_Add_Enemy(GameCtx* g);				// Adding opponents
-void Game_Set_State(GameCtx* g, gamestate state);	// Setting the game state
-gamestate Game_Get_State(GameCtx* g);			// Returns the current status of the game
-int Game_Get_Palyer_Score(GameCtx* g);			// Returns the player's current score
+void GameInit(GameCtx* g);						// Starting the game
+void GameTick(GameCtx* g, InputSnapshot* in);						// Handling of "core game" events
+void GameDraw(GameCtx* g, InputSnapshot* in);						// "Drawing" the game
+void GameLevelUpdate(GameCtx* g);				// Player level update
+void GameUpdateBackgrand(GameCtx* g);			// Background handling
+void GameAddBackground(GameCtx* g);			// Addition of a background unit
+void GameAddBonus(GameCtx* g, int x, int y);	// Adding a bonus on the position of a downed enemy
+void GameUpdateBonus(GameCtx* g);				// Bonus handling
+void GameShot(GameCtx* g);						// Adding a player shot
+void GameShotBoss(GameCtx* g);				// Adding a boss shot
+bool Colliding(int x0, int y0, int x1, int y1);	// Checking for collisions between objects
+void GameAddEnemy(GameCtx* g);				// Adding opponents
+void GameSetState(GameCtx* g, gamestate state);	// Setting the game state
+gamestate GameGetState(GameCtx* g);			// Returns the current status of the game
+int GameGetPalyerScore(GameCtx* g);			// Returns the player's current score
 
 
 

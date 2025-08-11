@@ -3,8 +3,8 @@
 ../Core/Src/main.c:235:13:MX_ADC1_Init	32	static
 ../Core/Src/main.c:293:13:MX_SPI1_Init	8	static
 ../Core/Src/main.c:333:13:MX_GPIO_Init	40	static
-../Core/Src/main.c:370:6:Run_Dead	24	static
-../Core/Src/main.c:395:6:Play_Dead_Anim	24	static
-../Core/Src/main.c:414:6:Run_Game	16	static
-../Core/Src/main.c:434:6:Run_Menu	24	static
+../Core/Src/main.c:370:6:RunDead	24	static
+../Core/Src/main.c:395:6:PlayDeadAnim	24	static
+../Core/Src/main.c:414:6:RunGame	16	static
+../Core/Src/main.c:434:6:RunMenu	24	static
 ../Core/Src/main.c:464:6:Error_Handler	4	static,ignoring_inline_asm

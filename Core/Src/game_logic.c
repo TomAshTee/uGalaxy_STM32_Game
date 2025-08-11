@@ -13,7 +13,7 @@
 
 GameCtx g_singleton;
 
-void Game_Init(GameCtx *g) {
+void GameInit(GameCtx *g) {
 	/*
 	 * This function is only called once at the start of the game.
 	 * It has the task of setting the starting parameters for
@@ -56,7 +56,7 @@ void Game_Init(GameCtx *g) {
 	g->boss.update_delay = initial_boss_update_delay;
 }
 
-void Game_Tick(GameCtx *g, InputSnapshot* in) {
+void GameTick(GameCtx *g, InputSnapshot* in) {
 	/*
 	 * The logic of the whole game
 	 */
@@ -146,13 +146,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 					g->enemies[i].next_update = g->enemies[i].update_delay;
 
 					//Checking for collisions between opponents and the player
-					if (colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
+					if (Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
 							g->player.y)
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
 									g->player.x, g->player.y + 5)
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
 									g->player.x + 7, g->player.y)
-							|| colliding(g->enemies[i].x, g->enemies[i].y,
+							|| Colliding(g->enemies[i].x, g->enemies[i].y,
 									g->player.x + 7, g->player.y + 5)) {
 						g->player.lives -= 1;
 						;
@@ -168,7 +168,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 
 						ssd1327_display();
 						if (g->player.lives <= 0) {
-							Play_Dead_Anim();
+							PlayDeadAnim();
 							g->state = st_dead;
 						}
 					}
@@ -240,7 +240,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 
 		//Frequency of boss shots
 		if ((rand() % 100) < (g->boss.level * 5))
-			Game_Shot_Boss(g);
+			GameShotBoss(g);
 
 
 		for (i = 0; i < num_boss_shots; ++i) {
@@ -252,13 +252,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 
 		for (i = 0; i < num_boss_shots; i++) {
 			if (g->boss_shots[i].active) {
-				if (colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+				if (Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
 						g->player.x, g->player.y)
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
 								g->player.x, g->player.y + 5)
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
 								g->player.x + 7, g->player.y)
-						|| colliding(g->boss_shots[i].x, g->boss_shots[i].y,
+						|| Colliding(g->boss_shots[i].x, g->boss_shots[i].y,
 								g->player.x + 7, g->player.y + 5)) {
 					g->player.lives -= 1;
 					;
@@ -272,7 +272,7 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 
 					ssd1327_display();
 					if (g->player.lives <= 0) {
-						Play_Dead_Anim();
+						PlayDeadAnim();
 						g->state = st_dead;
 					}
 				}
@@ -282,11 +282,11 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 		// Player's shots to the boss
 		for (i = 0; i < num_shots; i++) {
 			if (g->shots[i].active) {
-				if (colliding(g->boss.x, g->boss.y, g->shots[i].x,
+				if (Colliding(g->boss.x, g->boss.y, g->shots[i].x,
 						g->shots[i].y)
-						|| colliding(g->boss.x, g->boss.y + 6, g->shots[i].x,
+						|| Colliding(g->boss.x, g->boss.y + 6, g->shots[i].x,
 								g->shots[i].y)
-						|| colliding(g->boss.x, g->boss.y + 12, g->shots[i].x,
+						|| Colliding(g->boss.x, g->boss.y + 12, g->shots[i].x,
 								g->shots[i].y)) {
 					g->boss.lives -= 1;
 					g->shots[i].active = false;
@@ -317,13 +317,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 	//-------------------------------------------
 
 	if (in->btn1_is_pressed == GPIO_PIN_SET)
-		Game_Shot(g);//shot();
+		GameShot(g);//shot();
 
 	// Checking the collision of a player's shots with opponents. Adding Bonuses
 	for (i = 0; i < num_shots; ++i) {
 		for (j = 0; j < num_enemies; ++j) {
 			if (g->shots[i].active && g->enemies[j].active) {
-				if (colliding(g->enemies[j].x, g->enemies[j].y, g->shots[i].x,
+				if (Colliding(g->enemies[j].x, g->enemies[j].y, g->shots[i].x,
 						g->shots[i].y)) {
 					g->enemies[j].active = false;
 					g->enemies[j].tracked_by_missile = false;
@@ -335,16 +335,16 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 
 					//Dodanie bonusa w miejscu zestrzelenia
 					if ((rand() % 100) < frequ_bonus)
-						Game_Add_Bonus(g, g->enemies[j].x, g->enemies[j].y);//add_bonus(g->enemies[j].x, g->enemies[j].y);
+						GameAddBonus(g, g->enemies[j].x, g->enemies[j].y);//add_bonus(g->enemies[j].x, g->enemies[j].y);
 				}
 			}
 		}
 	}
 	if ((rand() % 100) < (g->player.level * 2) && !(g->boss.active)) //Frequency of adding opponents according to level
-		Game_Add_Enemy(g);//add_enemy();
+		GameAddEnemy(g);//add_enemy();
 }
 
-void Game_Draw(GameCtx *g, InputSnapshot* in) {
+void GameDraw(GameCtx *g, InputSnapshot* in) {
 	/*
 	 * Drawing all game graphics
 	 */
@@ -423,7 +423,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
 
 }
 
-void Game_Level_Update(GameCtx* g) {
+void GameLevelUpdate(GameCtx* g) {
 	/*
 		 * It is responsible for the appropriate appearance of bosses,
 		 * their initial parameters and adjusts the level of play to its progress.
@@ -484,7 +484,7 @@ void Game_Level_Update(GameCtx* g) {
 
 }
 
-void Game_Update_Backgrand(GameCtx* g) {
+void GameUpdateBackgrand(GameCtx* g) {
 
 	/*
 	 * Refreshes the background effect, stars.
@@ -512,11 +512,11 @@ void Game_Update_Backgrand(GameCtx* g) {
 	}
 
 	if ((rand()%100) < num_background_freq) 		//Frequency of background additions
-		Game_Add_Background(g);//add_background();
+		GameAddBackground(g);//add_background();
 
 }
 
-void Game_Add_Background(GameCtx* g){
+void GameAddBackground(GameCtx* g){
 	/*
 	 * Adds a single unit (structure) to the entire array.
 	 * In addition, it sets the random parameters for its
@@ -538,7 +538,7 @@ void Game_Add_Background(GameCtx* g){
 	}
 }
 
-void Game_Add_Bonus(GameCtx* g, int x, int y){
+void GameAddBonus(GameCtx* g, int x, int y){
 
 	/*
 	 * Adding a bonus in the place after an opponent has been shot down.
@@ -574,7 +574,7 @@ void Game_Add_Bonus(GameCtx* g, int x, int y){
 	}
 }
 
-void Game_Update_Bonus(GameCtx* g){
+void GameUpdateBonus(GameCtx* g){
 	/*
 		 * Checking whether a player has hovered over a bonus.
 		 * Moving a bonus on the map
@@ -600,10 +600,10 @@ void Game_Update_Bonus(GameCtx* g){
 					{
 						g->bonuses[i].next_update = g->bonuses[i].update_delay;
 
-						if (colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y) 	||
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y+5) 	||
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y)	||
-							colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y+5)
+						if (Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y) 	||
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y+5) 	||
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y)	||
+							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x+7, g->player.y+5)
 							)
 						{
 							switch(g->bonuses[i].type)
@@ -631,7 +631,7 @@ void Game_Update_Bonus(GameCtx* g){
 		}
 }
 
-void Game_Shot(GameCtx* g){
+void GameShot(GameCtx* g){
 	/*
 		 * Activate the shot in the player's shot table and set the initial parameters.
 		 */
@@ -697,7 +697,7 @@ void Game_Shot(GameCtx* g){
 		}
 }
 
-void Game_Shot_Boss(GameCtx* g){
+void GameShotBoss(GameCtx* g){
 	/*
 		 * Handling boss shots.
 		 */
@@ -715,7 +715,7 @@ void Game_Shot_Boss(GameCtx* g){
 		}
 }
 
-bool colliding(int x0, int y0, int x1, int y1){
+bool Colliding(int x0, int y0, int x1, int y1){
 	/*
 		 * Checking whether objects collide with each other.
 		 */
@@ -724,7 +724,7 @@ bool colliding(int x0, int y0, int x1, int y1){
 		return dx < 6 && dy < 9;
 }
 
-void Game_Add_Enemy(GameCtx* g){
+void GameAddEnemy(GameCtx* g){
 	/*
 		 * Adding an opponent appropriate to the current progress of the game.
 		 * Setting its initial parameters, i.e. position, refreshment, graphics, type.
@@ -768,7 +768,7 @@ void Game_Add_Enemy(GameCtx* g){
 		}
 }
 
-void Game_Set_State(GameCtx* g, gamestate state){
+void GameSetState(GameCtx* g, gamestate state){
 	/*
 	 * Sets the game state in the passed context
 	 * */
@@ -776,7 +776,7 @@ void Game_Set_State(GameCtx* g, gamestate state){
 	g->state = state;
 }
 
-gamestate Game_Get_State(GameCtx* g){
+gamestate GameGetState(GameCtx* g){
 	/*
 	 * Returns the current play status of the passed context.
 	 * */
@@ -784,7 +784,7 @@ gamestate Game_Get_State(GameCtx* g){
 	return g->state;
 }
 
-int Game_Get_Palyer_Score(GameCtx* g){
+int GameGetPalyerScore(GameCtx* g){
 	/*
 	 * Returns the player's current score from the passed context.
 	 * */

@@ -455,29 +455,6 @@ void Run_Menu (InputSnapshot* in)
 
 }
 
-//uint8_t button_pressed (void)
-//{
-//	/*
-//	 * Checking whether a button has been pressed. Prevention of repetition.
-//	 */
-//
-//	if((HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_SET) && btn_prev == 0)
-//	{
-//		btn_prev = 1;
-//		return 1;
-//	}
-//
-//	if(HAL_GPIO_ReadPin(USER_BTN_1_GPIO_Port, USER_BTN_1_Pin) == GPIO_PIN_RESET)
-//	{
-//		btn_prev = 0;
-//	}
-//	return 0;
-//}
-//
-//int joystick_value_y (void){
-//	return HAL_ADC_GetValue(&hadc1);
-//}
-
 /* USER CODE END 4 */
 
 /**

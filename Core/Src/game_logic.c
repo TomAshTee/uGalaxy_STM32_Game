@@ -51,8 +51,6 @@ void Game_Init(GameCtx *g) {
 
 	//Deactivation boss
 	g->boss.active = false;
-	//g->boss.lives = 6;
-	//g->boss.level = 1;
 	g->boss.x = initial_boss_x;
 	g->boss.y = initial_boss_y;
 	g->boss.update_delay = initial_boss_update_delay;
@@ -241,12 +239,13 @@ void Game_Tick(GameCtx *g, InputSnapshot* in) {
 		}
 
 		//Frequency of boss shots
-		if ((rand() % 100) < (g->boss.level * 2))
-			Game_Shot_Boss(g);//boss_shoot();
+		if ((rand() % 100) < (g->boss.level * 5))
+			Game_Shot_Boss(g);
+
 
 		for (i = 0; i < num_boss_shots; ++i) {
 			if (g->boss_shots[i].active)
-				--g->boss_shots[i].x;
+				g->boss_shots[i].x--;
 			if (g->boss_shots[i].x < -4)
 				g->boss_shots[i].active = false;
 		}
@@ -351,7 +350,7 @@ void Game_Draw(GameCtx *g, InputSnapshot* in) {
 	 */
 	uint8_t i;
 
-	//Rsownanie informacji o grze
+	//Drowing the game information
 	GFX_PutInt(5, 0, g->player.score, 1, 1, 0);
 	GFX_DrowBitMap_P(102, 0, lives_map, 8, 6, 1);
 	GFX_PutInt(114, 0, g->player.lives, 1, 1, 0);
@@ -446,6 +445,7 @@ void Game_Level_Update(GameCtx* g) {
 		{
 			g->boss.active = true;
 			g->boss.lives = 3;
+			g->boss.level = 3;
 			g->boss.update_delay = 4;
 			g->player.game_progres += 1;
 
@@ -454,6 +454,7 @@ void Game_Level_Update(GameCtx* g) {
 		{
 			g->boss.active = true;
 			g->boss.lives = 6;
+			g->boss.level = 6;
 			g->boss.update_delay = 2;
 			g->player.game_progres += 1;
 		}
@@ -702,7 +703,7 @@ void Game_Shot_Boss(GameCtx* g){
 		 */
 		uint8_t i;
 
-		for (i = 0; i < num_shots; ++i)
+		for (i = 0; i < num_boss_shots; ++i)
 		{
 			if (!g->boss_shots[i].active)
 			{

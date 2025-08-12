@@ -166,7 +166,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 						GFX_DrowBitMap_P(g->player.x, g->player.y, player_map,
 								11, 11, 1);
 
-						SSD1327_Display();
+						//SSD1327_Display();
 						if (g->player.lives <= 0) {
 							PlayDeadAnim();
 							g->state = GS_Dead;
@@ -270,7 +270,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					GFX_DrowBitMap_P(g->player.x, g->player.y, player_map, 11,
 							11, 1);
 
-					SSD1327_Display();
+					//SSD1327_Display();
 					if (g->player.lives <= 0) {
 						PlayDeadAnim();
 						g->state = GS_Dead;

@@ -67,6 +67,7 @@ void Error_Handler(void);
 #define CS_GPIO_Port GPIOB
 #define DC_Pin GPIO_PIN_5
 #define DC_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

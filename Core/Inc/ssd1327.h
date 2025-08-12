@@ -23,6 +23,17 @@
 
 #include "stm32l4xx_hal.h"
 
+/** ##########################################################################
+ *  @name Using DMA for SIP transmission
+ *  @brief Changes the definition of the SSD1327_Display () function
+ *  @note Remember to support TXCpltCallback -> Change CS pin
+ *  @{
+ *  ##########################################################################
+ */
+
+#define SSD1327_USE_DMA
+
+/** @} */
 
 /** ##########################################################################
  *  @name Pin configuration

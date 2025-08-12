@@ -118,8 +118,16 @@ void SSD1327_Display (void){
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
+
+#ifdef SSD1327_USE_DMA
+	if(HAL_SPI_GetState(ssd1337_spi) == HAL_SPI_STATE_READY){
+		HAL_SPI_Transmit_DMA(ssd1337_spi, (uint8_t*)&buffer, BUF_SIZE);
+	}
+
+#else
 	HAL_SPI_Transmit(ssd1337_spi, (uint8_t*)&buffer, BUF_SIZE, 100);
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_SET);
+#endif
 
 }
 

@@ -1,8 +1,19 @@
-/*
- * input.h
+/**
+ * @file    input.h
+ * @author  Tomasz Jaeschke
+ * @date    2025-08-10
+ * @brief   Input handling interface for uGalaxy STM32 Game.
+ * @details
+ * This module provides an abstraction layer for reading user input
+ * from joystick and button(s) on the STM32 hardware.
  *
- *  Created on: Aug 10, 2025
- *      Author: Tomasz
+ * Features:
+ * - Joystick ADC reading
+ * - Button GPIO reading
+ * - Debouncing and input snapshot structure
+ *
+ * The API returns an `InputSnapshot` struct containing the current
+ * state of all inputs, which is used by the game logic.
  */
 
 #ifndef INC_INPUT_H_
@@ -12,13 +23,46 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// Structure containing the current status of inputs from sanpa
+/** ##########################################################################
+ *  @name Data Structures
+ *  @brief Input state containers.
+ *  @{
+ *  ##########################################################################
+ */
+
+/**
+ * @brief Snapshot of current input states.
+ *
+ * Holds the latest read values from joystick and buttons.
+ */
 typedef struct {
-	uint32_t joystickYValue;
-	GPIO_PinState btn1State;
+	uint32_t joystickYValue;	/**< Raw Y-axis ADC value from joystick. */
+	GPIO_PinState btn1State;	/**< State of button 1 (pressed/released). */
 }InputSnapshot;
 
+/** @} */
+
+/** ##########################################################################
+ *  @name Functions
+ *  @brief Public API for input initialization and reading.
+ *  @{
+ *  ##########################################################################
+ */
+
+/**
+ * @brief Initialize input system.
+ * @param hadc     Pointer to ADC handle for joystick input.
+ * @param btnPort  GPIO port for the button.
+ * @param btnPin   GPIO pin number for the button.
+ */
 void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin);
+
+/**
+ * @brief Read current input states.
+ * @return An `InputSnapshot` struct with current joystick and button values.
+ */
 InputSnapshot InputRead (void);
+
+/** @} */
 
 #endif /* INC_INPUT_H_ */

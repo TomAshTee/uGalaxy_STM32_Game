@@ -1,8 +1,21 @@
-/*
- * ssd1327.h
+/**
+ * @file    ssd1327.h
+ * @author  Tomasz Jaeschke
+ * @date    2022-07-05
+ * @brief   Low-level driver for SSD1327 OLED display.
+ * @details
+ * This module provides low-level control functions for the SSD1327 OLED display,
+ * including initialization, command and data transmission, contrast control,
+ * and direct pixel manipulation.
  *
- *  Created on: Jul 5, 2022
- *      Author: Tomasz Jaeschke
+ * It is intended to be used together with higher-level graphics functions from
+ * `GFX_ssd1327.h` for rendering shapes, text, and bitmaps.
+ *
+ * Features:
+ * - Initialization over SPI
+ * - Command set definitions
+ * - Pixel buffer control
+ * - Contrast and display settings
  */
 
 #ifndef INC_SSD1327_H_
@@ -11,22 +24,29 @@
 #include "stm32l4xx_hal.h"
 
 
-//#####################################################
-//				Pin configuration
-//#####################################################
+/** ##########################################################################
+ *  @name Pin configuration
+ *  @brief GPIO pins used to control SSD1327.
+ *  @{
+ *  ##########################################################################
+ */
 
-
-#define RST 		RST_Pin			// RST
-#define DC 			DC_Pin			// D/C
-#define CS 			CS_Pin			// CS
+#define RST 		RST_Pin			/**<  RST */
+#define DC 			DC_Pin			/**<  D/C */
+#define CS 			CS_Pin			/**<  CS */
 
 #define RST_PORT	RST_GPIO_Port
 #define DC_PORT		DC_GPIO_Port
 #define CS_PORT		CS_GPIO_Port
 
-//#####################################################
-//				Display parameters
-//#####################################################
+/** @} */
+
+/** ##########################################################################
+ *  @name Display parameters
+ *  @brief Resolution and buffer size.
+ *  @{
+ *  ##########################################################################
+ */
 
 #define SSD1327_WIDTH	128
 #define SSD1327_HEIGHT 	128
@@ -34,13 +54,16 @@
 #define BUF_SIZE 		(SSD1327_WIDTH*SSD1327_HEIGHT/2)
 
 #define BLACK 			0
-// Grays between
 #define WHITE 			15
 
-//#####################################################
-//				Command definitions
-//#####################################################
+/** @} */
 
+/** ##########################################################################
+ *  @name Command definitions
+ *  @brief SSD1327 instruction set.
+ *  @{
+ *  ##########################################################################
+ */
 
 #define SSD1327_SETCOLUMNADDRESS	0x15
 #define SSD1327_SETROWADDRESS		0x75
@@ -68,31 +91,39 @@
 #define SSD1327_FUNCTIONSELECTIONB	0xD5
 #define SSD1327_SETCOMMANDLOCK		0xFD
 
-//#####################################################
-//				Variable declarations
-//#####################################################
+/** @} */
 
-//uint8_t ssd1327_buf[BUF_SIZE] ;
+/** ##########################################################################
+ *  @name Variables
+ *  @brief External variables used by SSD1327 driver.
+ *  @{
+ *  ##########################################################################
+ */
+
 extern const uint8_t font[];
 extern int cursor_x, cursor_y;
 
 typedef enum {page0, page1, page2, page3, page4, page5, page6, page7} TPAGE ;
 
-//#####################################################
-//				Function declarations
-//#####################################################
+/** @} */
 
-void SSD1327_Init (void); 										//Initialising the display
-void SSD1327_SpiInit(SPI_HandleTypeDef *spi);					//Initialisation via SPI
-void SSD1327_Reset(void);										//Screen reset
-void SSD1327_CMD (uint8_t cmd); 								//Sending commands
-void SSD1327_SetContrast(uint8_t Contrast);						//Contrast setting
-void SSD1327_Data ( uint8_t dat );								//Sending data
-void SSD1327_Display (void);									//Sending data from the buffer
-void SSD1327_SetPixel( int x , int y , uint8_t bw); 			//Pixel setting
-void SSD1327_CLR(void);											//Cleaning the screen
+/** ##########################################################################
+ *  @name Functions
+ *  @brief Public API for SSD1327 control.
+ *  @{
+ *  ##########################################################################
+ */
 
+void SSD1327_Init (void); 										/**< Initialising the display */
+void SSD1327_SpiInit(SPI_HandleTypeDef *spi);					/**< Initialisation via SPI */
+void SSD1327_Reset(void);										/**< Screen reset */
+void SSD1327_CMD (uint8_t cmd); 								/**< Sending commands */
+void SSD1327_SetContrast(uint8_t Contrast);						/**< Contrast setting */
+void SSD1327_Data ( uint8_t dat );								/**< Sending data */
+void SSD1327_Display (void);									/**< Sending data from the buffer */
+void SSD1327_SetPixel( int x , int y , uint8_t bw); 			/**< Pixel setting */
+void SSD1327_CLR(void);											/**< Cleaning the screen */
 
-
+/** @} */
 
 #endif /* INC_SSD1327_H_ */

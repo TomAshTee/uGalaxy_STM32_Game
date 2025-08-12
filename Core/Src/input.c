@@ -16,19 +16,22 @@ static GPIO_PinState _lastBtnState = GPIO_PIN_SET;
 static GPIO_PinState _curentBtnState;
 
 
+/*
+ * @brief Assignment of input data
+ *
+ */
 void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin){
-	/*
-	 * Assignment of input data
-	 */
+
 	_hadc = hadc;
 	_btnPort = btnPort;
 	_btnPin = btnPin;
 }
 
+/*
+ * @brief Reading and returning current states
+ */
 InputSnapshot InputRead (void){
-	/*
-	 * Reading and returning current states
-	 */
+
 	InputSnapshot snap;
 	snap.joystickYValue = HAL_ADC_GetValue(_hadc);
 

@@ -16,9 +16,9 @@
 //#####################################################
 
 
-#define RST 	RST_Pin			// RST
-#define DC 		DC_Pin			// D/C
-#define CS 		CS_Pin			// CS
+#define RST 		RST_Pin			// RST
+#define DC 			DC_Pin			// D/C
+#define CS 			CS_Pin			// CS
 
 #define RST_PORT	RST_GPIO_Port
 #define DC_PORT		DC_GPIO_Port
@@ -28,14 +28,14 @@
 //				Display parameters
 //#####################################################
 
-#define SSD1327_WIDTH			128
-#define SSD1327_HEIGHT 			128
+#define SSD1327_WIDTH	128
+#define SSD1327_HEIGHT 	128
 
-#define BUF_SIZE (SSD1327_WIDTH*SSD1327_HEIGHT/2)
+#define BUF_SIZE 		(SSD1327_WIDTH*SSD1327_HEIGHT/2)
 
-#define BLACK 0
+#define BLACK 			0
 // Grays between
-#define WHITE 15
+#define WHITE 			15
 
 //#####################################################
 //				Command definitions
@@ -82,15 +82,15 @@ typedef enum {page0, page1, page2, page3, page4, page5, page6, page7} TPAGE ;
 //				Function declarations
 //#####################################################
 
-void ssd1327_Init (void); 										//Initialising the display
-void ssd1327_SpiInit(SPI_HandleTypeDef *spi);					//Initialisation via SPI
-void ssd1327_Reset(void);										//Screen reset
-void ssd1327_cmd (uint8_t cmd); 								//Sending commands
-void ssd1327_SetContrast(uint8_t Contrast);						//Contrast setting
-void ssd1327_data ( uint8_t dat );								//Sending data
-void ssd1327_display (void);									//Sending data from the buffer
-void ssd1327_setPixel( int x , int y , uint8_t bw); 			//Pixel setting
-void ssd1327_CLR(void);											//Cleaning the screen
+void SSD1327_Init (void); 										//Initialising the display
+void SSD1327_SpiInit(SPI_HandleTypeDef *spi);					//Initialisation via SPI
+void SSD1327_Reset(void);										//Screen reset
+void SSD1327_CMD (uint8_t cmd); 								//Sending commands
+void SSD1327_SetContrast(uint8_t Contrast);						//Contrast setting
+void SSD1327_Data ( uint8_t dat );								//Sending data
+void SSD1327_Display (void);									//Sending data from the buffer
+void SSD1327_SetPixel( int x , int y , uint8_t bw); 			//Pixel setting
+void SSD1327_CLR(void);											//Cleaning the screen
 
 
 

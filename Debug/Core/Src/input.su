@@ -1,2 +1,2 @@
-../Core/Src/input.c:19:6:InputInit	24	static
-../Core/Src/input.c:28:15:InputRead	24	static
+../Core/Src/input.c:23:6:InputInit	24	static
+../Core/Src/input.c:33:15:InputRead	24	static

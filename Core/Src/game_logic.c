@@ -22,38 +22,38 @@ void GameInit(GameCtx *g) {
 	 */
 	uint8_t i;
 	//Player initial settings
-	g->player.lives = initial_lives;
-	g->player.score = initial_score;
-	g->player.x = initial_x;
-	g->player.y = initial_y;
-	g->player.level = initial_level;
-	g->player.game_progres = initial_game_progres;
-	g->player.shoot_type = st_normal;
+	g->player.lives = INITIAL_LIVES;
+	g->player.score = INITIAL_SCORE;
+	g->player.x = INITIAL_X;
+	g->player.y = INITIAL_Y;
+	g->player.level = INITIAL_LEVEL;
+	g->player.gameProgres = INITIAL_GAME_PROGRES;
+	g->player.shootType = ST_Normal;
 
 	//Deactivation of player shots
-	for (i = 0; i < num_shots; ++i)
+	for (i = 0; i < NUMBER_SHOTS; ++i)
 		g->shots[i].active = false;
 
 	//Deactivation of boss shots
-	for (i = 0; i < num_boss_shots; ++i)
+	for (i = 0; i < NUMBER_BOSS_SHOTS; ++i)
 		g->bossShots[i].active = false;
 
 	//Deactivation enemies
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
 		g->enemies[i].active = false;
-		g->enemies[i].track_number = 0;
-		g->enemies[i].tracked_by_missile = false;
+		g->enemies[i].trackNumber = 0;
+		g->enemies[i].trackedByMissile = false;
 	}
 
 	//Deactivation bonuses
-	for (i = 0; i < num_bonus; i++)
+	for (i = 0; i < NUMBER_BONUS; i++)
 		g->bonuses[i].active = false;
 
 	//Deactivation boss
 	g->boss.active = false;
-	g->boss.x = initial_boss_x;
-	g->boss.y = initial_boss_y;
-	g->boss.update_delay = initial_boss_update_delay;
+	g->boss.x = INITIAL_BOSS_X;
+	g->boss.y = INITIAL_BOSS_Y;
+	g->boss.updateDelay = INITIAL_BOSS_UPDATE_DELAY;
 }
 
 void GameTick(GameCtx *g, InputSnapshot* in) {
@@ -74,24 +74,24 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	// Keeping the player within the screen
 	if (g->player.y < 10)
 		g->player.y = 10;
-	if (g->player.y > (screen_height - 14))
-		g->player.y = (screen_height - 14);
+	if (g->player.y > (SCREEN_HEIGHT - 14))
+		g->player.y = (SCREEN_HEIGHT - 14);
 
 	// Shifting shots forward
 	bool shoot_updated = false;
 
-	for (i = 0; i < num_shots; ++i) {
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
 		switch (g->shots[i].type) {
-		case st_normal:
+		case ST_Normal:
 			if (g->shots[i].active)
 				g->shots[i].x++;
-			if (g->shots[i].x > screen_width)
+			if (g->shots[i].x > SCREEN_WIDTH)
 				g->shots[i].active = false;
 			break;
-		case st_tracker:
+		case ST_Tracker:
 
-			for (int j = 0; j < num_enemies; j++) {
-				if (g->shots[i].track_number == g->enemies[j].track_number) {
+			for (int j = 0; j < NUMBER_ENEMIES; j++) {
+				if (g->shots[i].trackNumber == g->enemies[j].trackNumber) {
 					if (g->shots[i].x > g->enemies[j].x)
 						g->shots[i].x -= 2;
 					if (g->shots[i].x < g->enemies[j].x)
@@ -105,16 +105,16 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 				}
 			}
 			//Remove tracking missiles that have no target
-			if (!shoot_updated && g->shots[i].type == st_tracker) {
+			if (!shoot_updated && g->shots[i].type == ST_Tracker) {
 				g->shots[i].active = false;
-				g->shots[i].track_number = 0;
+				g->shots[i].trackNumber = 0;
 				shoot_updated = false;
 			}
 
 			//Remove off-map shots
-			if (g->shots[i].x > screen_width) {
+			if (g->shots[i].x > SCREEN_WIDTH) {
 				g->shots[i].active = false;
-				g->shots[i].track_number = 0;
+				g->shots[i].trackNumber = 0;
 			}
 			break;
 		}
@@ -123,27 +123,27 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 	//Remove the markers on enemies whose shots have been used on others
 	bool is_there_a_missile;
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
 		is_there_a_missile = false;
 
-		for (j = 0; j < num_shots; j++) {
-			if (g->enemies[i].track_number == g->shots[j].track_number)
+		for (j = 0; j < NUMBER_SHOTS; j++) {
+			if (g->enemies[i].trackNumber == g->shots[j].trackNumber)
 				is_there_a_missile = true;
 		}
 
 		if (!is_there_a_missile)
-			g->enemies[i].track_number = 0;
+			g->enemies[i].trackNumber = 0;
 	}
 
 	// Updated enemies
-	for (i = 0; i < num_enemies; ++i) {
+	for (i = 0; i < NUMBER_ENEMIES; ++i) {
 
 		if (g->enemies[i].active) {
-			g->enemies[i].next_update -= 1;
-			if (g->enemies[i].next_update <= 0) {
+			g->enemies[i].nextUpdate -= 1;
+			if (g->enemies[i].nextUpdate <= 0) {
 				if (g->enemies[i].active) {
 
-					g->enemies[i].next_update = g->enemies[i].updateDelay;
+					g->enemies[i].nextUpdate = g->enemies[i].updateDelay;
 
 					//Checking for collisions between opponents and the player
 					if (Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
@@ -157,8 +157,8 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 						g->player.lives -= 1;
 						;
 						g->enemies[i].active = false;
-						g->enemies[i].tracked_by_missile = false;
-						g->enemies[i].track_number = 0;
+						g->enemies[i].trackedByMissile = false;
+						g->enemies[i].trackNumber = 0;
 						GFX_DrowBitMap_P(g->enemies[i].x + 2, g->enemies[i].y,
 								explosion_map, 10, 10, 1);
 						GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
@@ -166,10 +166,10 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 						GFX_DrowBitMap_P(g->player.x, g->player.y, player_map,
 								11, 11, 1);
 
-						ssd1327_display();
+						SSD1327_Display();
 						if (g->player.lives <= 0) {
 							PlayDeadAnim();
-							g->state = st_dead;
+							g->state = GS_Dead;
 						}
 					}
 
@@ -177,7 +177,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					g->enemies[i].x -= 1;
 
 					switch (g->enemies[i].type) {
-					case et_tracker:
+					case ET_Tracker:
 						if (g->enemies[i].x < 70) {
 							if (g->player.y > g->enemies[i].y)
 								g->enemies[i].y += 1;
@@ -185,9 +185,9 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 								g->enemies[i].y -= 1;
 						}
 						break;
-					case et_diver:
+					case ET_Diver:
 						break;
-					case et_bobber:
+					case ET_Bobber:
 						if ((g->enemies[i].x % 4 == 0)
 								&& (g->enemies[i].x % 8 == 0))
 							g->enemies[i].y += 4;
@@ -206,8 +206,8 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					// If off-screen, deactivation
 					if (g->enemies[i].x < -4) {
 						g->enemies[i].active = false;
-						g->enemies[i].tracked_by_missile = false;
-						g->enemies[i].track_number = 0;
+						g->enemies[i].trackedByMissile = false;
+						g->enemies[i].trackNumber = 0;
 					}
 				}
 			}
@@ -216,22 +216,22 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 	//------------- Boss service ---------------
 	if (g->boss.active) {
-		g->boss.next_update -= 1;
+		g->boss.nextUpdate -= 1;
 
 		//Boss position
-		if (g->boss.next_update <= 0) {
-			g->boss.next_update = g->boss.update_delay;
+		if (g->boss.nextUpdate <= 0) {
+			g->boss.nextUpdate = g->boss.updateDelay;
 
 			y += dy;
-			if (y < 1 || y > (screen_height - 24))
+			if (y < 1 || y > (SCREEN_HEIGHT - 24))
 				dy = -dy;
 
 			g->boss.y = y;
 
 			if (g->boss.y < 10)
 				g->boss.y = 10;
-			if (g->boss.y > (screen_height - 24))
-				g->boss.y = (screen_height - 24);
+			if (g->boss.y > (SCREEN_HEIGHT - 24))
+				g->boss.y = (SCREEN_HEIGHT - 24);
 
 			g->boss.x -= 1;
 			if (g->boss.x < 100)
@@ -243,14 +243,14 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 			GameShotBoss(g);
 
 
-		for (i = 0; i < num_boss_shots; ++i) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i) {
 			if (g->bossShots[i].active)
 				g->bossShots[i].x--;
 			if (g->bossShots[i].x < -4)
 				g->bossShots[i].active = false;
 		}
 
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
 			if (g->bossShots[i].active) {
 				if (Colliding(g->bossShots[i].x, g->bossShots[i].y,
 						g->player.x, g->player.y)
@@ -270,17 +270,17 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					GFX_DrowBitMap_P(g->player.x, g->player.y, player_map, 11,
 							11, 1);
 
-					ssd1327_display();
+					SSD1327_Display();
 					if (g->player.lives <= 0) {
 						PlayDeadAnim();
-						g->state = st_dead;
+						g->state = GS_Dead;
 					}
 				}
 			}
 		}
 
 		// Player's shots to the boss
-		for (i = 0; i < num_shots; i++) {
+		for (i = 0; i < NUMBER_SHOTS; i++) {
 			if (g->shots[i].active) {
 				if (Colliding(g->boss.x, g->boss.y, g->shots[i].x,
 						g->shots[i].y)
@@ -290,7 +290,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 								g->shots[i].y)) {
 					g->boss.lives -= 1;
 					g->shots[i].active = false;
-					g->shots[i].track_number = 0;
+					g->shots[i].trackNumber = 0;
 					GFX_DrowBitMap_P(g->shots[i].x, g->shots[i].y,
 							explosion_map, 10, 10, 1);
 
@@ -306,7 +306,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 	//Painting over and deactivating shots left over from the boss
 	if (!g->boss.active) {
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
 			if (g->bossShots[i].active) {
 				g->bossShots[i].active = false;
 				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
@@ -320,21 +320,21 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 		GameShot(g);//shot();
 
 	// Checking the collision of a player's shots with opponents. Adding Bonuses
-	for (i = 0; i < num_shots; ++i) {
-		for (j = 0; j < num_enemies; ++j) {
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
+		for (j = 0; j < NUMBER_ENEMIES; ++j) {
 			if (g->shots[i].active && g->enemies[j].active) {
 				if (Colliding(g->enemies[j].x, g->enemies[j].y, g->shots[i].x,
 						g->shots[i].y)) {
 					g->enemies[j].active = false;
-					g->enemies[j].tracked_by_missile = false;
-					g->enemies[j].track_number = 0;
+					g->enemies[j].trackedByMissile = false;
+					g->enemies[j].trackNumber = 0;
 					g->shots[i].active = false;
 					g->player.score += 1;
 					GFX_DrowBitMap_P(g->enemies[j].x, g->enemies[j].y,
 							explosion_map, 10, 10, 1);
 
 					//Dodanie bonusa w miejscu zestrzelenia
-					if ((rand() % 100) < frequ_bonus)
+					if ((rand() % 100) < BONUS_FREQUENCY)
 						GameAddBonus(g, g->enemies[j].x, g->enemies[j].y);//add_bonus(g->enemies[j].x, g->enemies[j].y);
 				}
 			}
@@ -358,7 +358,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	GFX_PutInt(80, 0, g->player.level, 1, 1, 0);
 
 	//Drawing graphics of a player's shot
-	for (i = 0; i < num_shots; i++) {
+	for (i = 0; i < NUMBER_SHOTS; i++) {
 		if (g->shots[i].active) {
 			GFX_DrowBitMap_P(g->shots[i].x, g->shots[i].y, player_shot_map, 4, 1, 1);
 		}
@@ -366,7 +366,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 
 	//Drawing graphics of a boss shot
 	if (g->boss.active) {
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
 			if (g->bossShots[i].active) {
 				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
 						player_shot_map, 4, 1, 1);
@@ -375,16 +375,16 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	}
 
 	//Drawing graphics of enemies
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
 		if (g->enemies[i].active) {
-			if (g->enemies[i].type == et_tracker)
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
+			if (g->enemies[i].type == ET_Tracker)
+				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
 						5, 5, 1);
-			if (g->enemies[i].type == et_diver)
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
+			if (g->enemies[i].type == ET_Diver)
+				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
 						3, 7, 1);
-			if (g->enemies[i].type == et_bobber)
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
+			if (g->enemies[i].type == ET_Bobber)
+				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
 						5, 5, 1);
 		}
 	}
@@ -393,27 +393,27 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	GFX_DrowBitMap_P(g->player.x, g->player.y, player_map, 11, 11, 1);
 
 	//Drawing a background
-	for (i = 0; i < num_background; i++) {
+	for (i = 0; i < NUMBER_BACKGROUND; i++) {
 		if (g->background[i].active) {
-			ssd1327_setPixel(g->background[i].x, g->background[i].y, (rand() % 15));
+			SSD1327_SetPixel(g->background[i].x, g->background[i].y, (rand() % 15));
 		}
 	}
 
 	//Drawing Boss
-	if (g->boss.active && g->player.game_progres == 30)
+	if (g->boss.active && g->player.gameProgres == 30)
 		GFX_DrowBitMap_P(g->boss.x, g->boss.y, boss_map_1, 10, 18, 1);
-	if (g->boss.active && g->player.game_progres == 60)
+	if (g->boss.active && g->player.gameProgres == 60)
 		GFX_DrowBitMap_P(g->boss.x, g->boss.y, boss_map_2, 10, 18, 1);
 
 	//Drawing bonuses
-	for (i = 0; i < num_bonus; i++) {
+	for (i = 0; i < NUMBER_BONUS; i++) {
 		if (g->bonuses[i].active) {
 			switch (g->bonuses[i].type) {
-			case bt_live:
+			case BT_Live:
 				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y, bonus_live_map, 7,
 						7, 1);
 				break;
-			case bt_tracker_shoot:
+			case BT_TrackerShot:
 				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y,
 						bonus_tracker_shoot_map, 7, 7, 1);
 				break;
@@ -433,7 +433,7 @@ void GameLevelUpdate(GameCtx* g) {
 		//Calculation of game progress
 		if(i > 70)
 		{
-			g->player.game_progres += 1;
+			g->player.gameProgres += 1;
 			i = 0;
 		}
 
@@ -441,45 +441,45 @@ void GameLevelUpdate(GameCtx* g) {
 		if(!g->boss.active) i++;
 
 		//---- Moments of boss appearance -----
-		if(g->player.game_progres == 29)
+		if(g->player.gameProgres == 29)
 		{
 			g->boss.active = true;
 			g->boss.lives = 3;
 			g->boss.level = 3;
-			g->boss.update_delay = 4;
-			g->player.game_progres += 1;
+			g->boss.updateDelay = 4;
+			g->player.gameProgres += 1;
 
 		}
-		if(g->player.game_progres == 59)
+		if(g->player.gameProgres == 59)
 		{
 			g->boss.active = true;
 			g->boss.lives = 6;
 			g->boss.level = 6;
-			g->boss.update_delay = 2;
-			g->player.game_progres += 1;
+			g->boss.updateDelay = 2;
+			g->player.gameProgres += 1;
 		}
 		//--------------------------------------
 
 		//Next levels
-		if(g->player.game_progres > 9 && g->player.game_progres < 10 )
+		if(g->player.gameProgres > 9 && g->player.gameProgres < 10 )
 			g->player.level = 1;
-		if(g->player.game_progres > 10 && g->player.game_progres < 19)
+		if(g->player.gameProgres > 10 && g->player.gameProgres < 19)
 			g->player.level = 2;
-		if(g->player.game_progres > 20 && g->player.game_progres < 29)
+		if(g->player.gameProgres > 20 && g->player.gameProgres < 29)
 			g->player.level = 3;
-		if(g->player.game_progres > 30 && g->player.game_progres < 39)
+		if(g->player.gameProgres > 30 && g->player.gameProgres < 39)
 			g->player.level = 4;
-		if(g->player.game_progres > 40 && g->player.game_progres < 49)
+		if(g->player.gameProgres > 40 && g->player.gameProgres < 49)
 			g->player.level = 5;
-		if(g->player.game_progres > 50 && g->player.game_progres < 59)
+		if(g->player.gameProgres > 50 && g->player.gameProgres < 59)
 			g->player.level = 6;
-		if(g->player.game_progres > 60 && g->player.game_progres < 69)
+		if(g->player.gameProgres > 60 && g->player.gameProgres < 69)
 			g->player.level = 7;
-		if(g->player.game_progres > 70 && g->player.game_progres < 79)
+		if(g->player.gameProgres > 70 && g->player.gameProgres < 79)
 			g->player.level = 8;
-		if(g->player.game_progres > 80 && g->player.game_progres < 89)
+		if(g->player.gameProgres > 80 && g->player.gameProgres < 89)
 			g->player.level = 9;
-		if(g->player.game_progres > 90)
+		if(g->player.gameProgres > 90)
 			g->player.level = 10;
 
 }
@@ -492,14 +492,14 @@ void GameUpdateBackgrand(GameCtx* g) {
 	 */
 	uint8_t i;
 
-	for(i = 0; i < num_background; i++)
+	for(i = 0; i < NUMBER_BACKGROUND; i++)
 	{
 		if(g->background[i].active)
 		{
-			g->background[i].next_update -= 1;
-			if(g->background[i].next_update <= 0)
+			g->background[i].nextUpdate -= 1;
+			if(g->background[i].nextUpdate <= 0)
 			{
-				g->background[i].next_update = g->background[i].update_delay;
+				g->background[i].nextUpdate = g->background[i].updateDelay;
 				if(g->background[i].active)
 				{
 					g->background[i].x -= 1;
@@ -511,7 +511,7 @@ void GameUpdateBackgrand(GameCtx* g) {
 		}
 	}
 
-	if ((rand()%100) < num_background_freq) 		//Frequency of background additions
+	if ((rand()%100) < NUMBER_BACKGROUND_FREQ) 		//Frequency of background additions
 		GameAddBackground(g);//add_background();
 
 }
@@ -524,14 +524,14 @@ void GameAddBackground(GameCtx* g){
 	 */
 	uint8_t i;
 
-	for(i = 0; i < num_background; i++)
+	for(i = 0; i < NUMBER_BACKGROUND; i++)
 	{
 		if(!g->background[i].active)
 		{
 			g->background[i].active 		= true;
-			g->background[i].x 				= screen_width;
-			g->background[i].y				= (rand()%(screen_height-10)) +10;
-			g->background[i].update_delay 	= (rand()%6)+2; // def. (rand()%4)+2;
+			g->background[i].x 				= SCREEN_WIDTH;
+			g->background[i].y				= (rand()%(SCREEN_HEIGHT-10)) +10;
+			g->background[i].updateDelay 	= (rand()%6)+2; // def. (rand()%4)+2;
 
 			break;
 		}
@@ -548,26 +548,26 @@ void GameAddBonus(GameCtx* g, int x, int y){
 	uint8_t i;
 	int bonus_type;
 
-	for (i = 0; i < num_bonus; i++)
+	for (i = 0; i < NUMBER_BONUS; i++)
 	{
 		if (!g->bonuses[i].active)
 		{
 			g->bonuses[i].active = true;
 			g->bonuses[i].x = x;
 			g->bonuses[i].y = y;
-			g->bonuses[i].update_delay = 3;
+			g->bonuses[i].updateDelay = 3;
 
 			bonus_type = rand()%100;
 
 			if(bonus_type > 30)
 			{
-				g->bonuses[i].bit_map = bonus_live_map;
-				g->bonuses[i].type = st_normal;
+				g->bonuses[i].bitMap = bonus_live_map;
+				g->bonuses[i].type = ST_Normal;
 			}
 			if(bonus_type < 30)
 			{
-				g->bonuses[i].bit_map = bonus_tracker_shoot_map;
-				g->bonuses[i].type = st_tracker;
+				g->bonuses[i].bitMap = bonus_tracker_shoot_map;
+				g->bonuses[i].type = ST_Tracker;
 			}
 			return;
 		}
@@ -583,22 +583,22 @@ void GameUpdateBonus(GameCtx* g){
 
 		//Check duration of st_tracekr if active
 
-		if(g->player.bonus_duration > 0)
-			g->player.bonus_duration -= 1;
-		if(g->player.bonus_duration == 0 && g->player.shoot_type == st_tracker)
-			g->player.shoot_type = st_normal;
+		if(g->player.bonusDuration > 0)
+			g->player.bonusDuration -= 1;
+		if(g->player.bonusDuration == 0 && g->player.shootType == ST_Tracker)
+			g->player.shootType = ST_Normal;
 
 		// Checking whether a player has hovered over a bonus
-		for (i = 0; i < num_bonus; i++)
+		for (i = 0; i < NUMBER_BONUS; i++)
 		{
 			if(g->bonuses[i].active)
 			{
-				g->bonuses[i].next_update -= 1;
-				if(g->bonuses[i].next_update <= 0)
+				g->bonuses[i].nextUpdate -= 1;
+				if(g->bonuses[i].nextUpdate <= 0)
 				{
 					if(g->bonuses[i].active)
 					{
-						g->bonuses[i].next_update = g->bonuses[i].update_delay;
+						g->bonuses[i].nextUpdate = g->bonuses[i].updateDelay;
 
 						if (Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y) 	||
 							Colliding(g->bonuses[i].x,g->bonuses[i].y, g->player.x, g->player.y+5) 	||
@@ -608,13 +608,13 @@ void GameUpdateBonus(GameCtx* g){
 						{
 							switch(g->bonuses[i].type)
 							{
-							case bt_live:
+							case BT_Live:
 								g->player.lives += 1;
 								g->bonuses[i].active = false;
 								break;
-							case bt_tracker_shoot:
-								g->player.shoot_type = st_tracker;
-								g->player.bonus_duration = duration_bonus + (g->player.level * 50);
+							case BT_TrackerShot:
+								g->player.shootType = ST_Tracker;
+								g->player.bonusDuration = BONUS_DURATION + (g->player.level * 50);
 								g->bonuses[i].active = false;
 								break;
 							}
@@ -644,7 +644,7 @@ void GameShot(GameCtx* g){
 		double smolest_distance = 500;
 		int random_tracking_number;
 
-		for (i = 0; i < num_shots; ++i)
+		for (i = 0; i < NUMBER_SHOTS; ++i)
 		{
 			if (!g->shots[i].active)
 			{
@@ -653,20 +653,20 @@ void GameShot(GameCtx* g){
 				g->shots[i].y = g->player.y + 5;
 
 				//Setting the type of shot
-				switch(g->player.shoot_type)
+				switch(g->player.shootType)
 				{
-				case st_normal:
-					g->shots[i].type = st_normal;
+				case ST_Normal:
+					g->shots[i].type = ST_Normal;
 					break;
-				case st_tracker:
+				case ST_Tracker:
 
 					/*
 					 * Is there at least one active opponent who is untargeted.
 					 * If so start tracking him.
 					 * */
-					for(int j = 0; j < num_enemies; j++)
+					for(int j = 0; j < NUMBER_ENEMIES; j++)
 					{
-						if(g->enemies[j].active && !g->enemies[j].tracked_by_missile)
+						if(g->enemies[j].active && !g->enemies[j].trackedByMissile)
 						{
 							is_any_enemies_active = true;
 
@@ -682,13 +682,13 @@ void GameShot(GameCtx* g){
 					if(is_any_enemies_active)
 					{
 						random_tracking_number = rand();
-						g->enemies[closest_enemy_number].track_number = random_tracking_number;
-						g->enemies[closest_enemy_number].tracked_by_missile = true;
-						g->shots[i].type = st_tracker;
-						g->shots[i].track_number = random_tracking_number;
+						g->enemies[closest_enemy_number].trackNumber = random_tracking_number;
+						g->enemies[closest_enemy_number].trackedByMissile = true;
+						g->shots[i].type = ST_Tracker;
+						g->shots[i].trackNumber = random_tracking_number;
 					} else {
 						// If you haven't found a target act like a normal shot
-						g->shots[i].type = st_normal;
+						g->shots[i].type = ST_Normal;
 					}
 					break;
 				}
@@ -703,7 +703,7 @@ void GameShotBoss(GameCtx* g){
 		 */
 		uint8_t i;
 
-		for (i = 0; i < num_boss_shots; ++i)
+		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i)
 		{
 			if (!g->bossShots[i].active)
 			{
@@ -737,38 +737,38 @@ void GameAddEnemy(GameCtx* g){
 			if(!g->enemies[i].active)
 			{
 				g->enemies[i].active = true;
-				g->enemies[i].x = screen_width + 12;
-				g->enemies[i].y = ((rand()%(screen_height - 10))+10);
-				g->enemies[i].tracked_by_missile = false;
-				g->enemies[i].track_number = 0;
+				g->enemies[i].x = SCREEN_WIDTH + 12;
+				g->enemies[i].y = ((rand()%(SCREEN_HEIGHT - 10))+10);
+				g->enemies[i].trackedByMissile = false;
+				g->enemies[i].trackNumber = 0;
 
 				enemy_type = (rand()%100);
 
 				if((enemy_type > 50))
 				{
 
-					g->enemies[i].type = et_diver;
+					g->enemies[i].type = ET_Diver;
 					g->enemies[i].updateDelay = (rand()%3);	//Speed setting (less = faster)
-					g->enemies[i].bit_map = driver_map;
+					g->enemies[i].bitMap = driver_map;
 				}
 				if((enemy_type > 20 && enemy_type < 50) && (g->player.level > 4))
 				{
-					g->enemies[i].type = et_tracker;
+					g->enemies[i].type = ET_Tracker;
 					g->enemies[i].updateDelay = ((rand()%3)+1);
-					g->enemies[i].bit_map = tracker_map;
+					g->enemies[i].bitMap = tracker_map;
 				}
 				if((enemy_type < 20) && (g->player.level > 7))
 				{
-					g->enemies[i].type = et_bobber;
+					g->enemies[i].type = ET_Bobber;
 					g->enemies[i].updateDelay = ((rand()%3)+2);
-					g->enemies[i].bit_map = bobber_map;
+					g->enemies[i].bitMap = bobber_map;
 				}
 				break;
 			}
 		}
 }
 
-void GameSetState(GameCtx* g, gamestate state){
+void GameSetState(GameCtx* g, GameState state){
 	/*
 	 * Sets the game state in the passed context
 	 * */
@@ -776,7 +776,7 @@ void GameSetState(GameCtx* g, gamestate state){
 	g->state = state;
 }
 
-gamestate GameGetState(GameCtx* g){
+GameState GameGetState(GameCtx* g){
 	/*
 	 * Returns the current play status of the passed context.
 	 * */

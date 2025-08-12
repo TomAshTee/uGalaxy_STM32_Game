@@ -1,8 +1,8 @@
-../Core/Src/ssd1327.c:18:6:ssd1327_cmd	16	static
-../Core/Src/ssd1327.c:27:6:ssd1327_SetContrast	16	static
-../Core/Src/ssd1327.c:33:6:ssd1327_Reset	8	static
-../Core/Src/ssd1327.c:42:6:ssd1327_SpiInit	16	static
-../Core/Src/ssd1327.c:51:6:ssd1327_Init	8	static
-../Core/Src/ssd1327.c:108:6:ssd1327_display	8	static
-../Core/Src/ssd1327.c:126:6:ssd1327_CLR	8	static
-../Core/Src/ssd1327.c:130:6:ssd1327_setPixel	32	static
+../Core/Src/ssd1327.c:18:6:SSD1327_CMD	16	static
+../Core/Src/ssd1327.c:27:6:SSD1327_SetContrast	16	static
+../Core/Src/ssd1327.c:33:6:SSD1327_Reset	8	static
+../Core/Src/ssd1327.c:42:6:SSD1327_SpiInit	16	static
+../Core/Src/ssd1327.c:51:6:SSD1327_Init	8	static
+../Core/Src/ssd1327.c:108:6:SSD1327_Display	8	static
+../Core/Src/ssd1327.c:126:6:SSD1327_CLR	8	static
+../Core/Src/ssd1327.c:130:6:SSD1327_SetPixel	32	static

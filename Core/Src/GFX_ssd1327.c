@@ -26,14 +26,14 @@ void GFX_DrowCircle(int CX, int CY ,int R,int I_O) {
 	   YChange = 1;
 	   RadiusError = 0;
 	   while( X >= Y ) {
-		   ssd1327_setPixel(CX+X, CY+Y,I_O);
-		   ssd1327_setPixel(CX-X, CY+Y,I_O);
-		   ssd1327_setPixel(CX-X, CY-Y,I_O);
-		   ssd1327_setPixel(CX+X, CY-Y,I_O);
-		   ssd1327_setPixel(CX+Y, CY+X,I_O);
-		   ssd1327_setPixel(CX-Y, CY+X,I_O);
-		   ssd1327_setPixel(CX-Y, CY-X,I_O);
-		   ssd1327_setPixel(CX+Y, CY-X,I_O);
+		   SSD1327_SetPixel(CX+X, CY+Y,I_O);
+		   SSD1327_SetPixel(CX-X, CY+Y,I_O);
+		   SSD1327_SetPixel(CX-X, CY-Y,I_O);
+		   SSD1327_SetPixel(CX+X, CY-Y,I_O);
+		   SSD1327_SetPixel(CX+Y, CY+X,I_O);
+		   SSD1327_SetPixel(CX-Y, CY+X,I_O);
+		   SSD1327_SetPixel(CX-Y, CY-X,I_O);
+		   SSD1327_SetPixel(CX+Y, CY-X,I_O);
 
 	        Y++;
 	        RadiusError += YChange;
@@ -77,7 +77,7 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
 		TwoDy = -TwoDy;
 	}
 
-	ssd1327_setPixel(X1,Y1,I_O);
+	SSD1327_SetPixel(X1,Y1,I_O);
 
 	if ((Dx != 0) || (Dy != 0)) {
 
@@ -90,7 +90,7 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
 			        CurrentY += Yinc;
 			        TwoDxAccumulatedError -= TwoDx;
 			    }
-			    ssd1327_setPixel(CurrentX,CurrentY,I_O);
+			    SSD1327_SetPixel(CurrentX,CurrentY,I_O);
 			  } while (CurrentX != X2);
 		  } else {
 			  TwoDyAccumulatedError = 0;
@@ -101,7 +101,7 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
 				      CurrentX += Xinc;
 				      TwoDyAccumulatedError -= TwoDy;
 			      }
-			      ssd1327_setPixel(CurrentX,CurrentY,I_O);
+			      SSD1327_SetPixel(CurrentX,CurrentY,I_O);
 			  } while (CurrentY != Y2);
 		  }
 	}
@@ -163,23 +163,23 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
 
 		if(cornername & 0x4)
 		{
-			ssd1327_setPixel(x0 + x, y0 + y, color);
-			ssd1327_setPixel(x0 + y, y0 + x, color);
+			SSD1327_SetPixel(x0 + x, y0 + y, color);
+			SSD1327_SetPixel(x0 + y, y0 + x, color);
 		}
 		if(cornername & 0x2)
 		{
-			ssd1327_setPixel(x0 + x, y0 - y, color);
-			ssd1327_setPixel(x0 + y, y0 - x, color);
+			SSD1327_SetPixel(x0 + x, y0 - y, color);
+			SSD1327_SetPixel(x0 + y, y0 - x, color);
 		}
 		if(cornername & 0x8)
 		{
-			ssd1327_setPixel(x0 - x, y0 + y, color);
-			ssd1327_setPixel(x0 - y, y0 + x, color);
+			SSD1327_SetPixel(x0 - x, y0 + y, color);
+			SSD1327_SetPixel(x0 - y, y0 + x, color);
 		}
 		if(cornername & 0x1)
 		{
-			ssd1327_setPixel(x0 - x, y0 - y, color);
-			ssd1327_setPixel(x0 - y, y0 - x, color);
+			SSD1327_SetPixel(x0 - x, y0 - y, color);
+			SSD1327_SetPixel(x0 - y, y0 - x, color);
 		}
 	}
 }
@@ -272,7 +272,7 @@ void GFX_DrowBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h
 		for(i = 0; i < w; i++)
 		{
 			if(*(bitmap + j *byteWidth + i /8) & (128 >> (i&7)) )
-				ssd1327_setPixel(x+i, y+j, color);
+				SSD1327_SetPixel(x+i, y+j, color);
 		}
 	}
 
@@ -298,13 +298,13 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
 	    for (j = 0; j<8; j++) {
 	      if (line & 0x1) {
 	        if (size == 1) // default size
-	        	ssd1327_setPixel(x+i, y+j, color);
+	        	SSD1327_SetPixel(x+i, y+j, color);
 	        else {  // big size
 	        	GFX_FillRect(x+(i*size), y+(j*size), size, size, color);
 	        }
 	      } else if (bg != color) {
 	        if (size == 1) // default size
-	        	ssd1327_setPixel(x+i, y+j, bg);
+	        	SSD1327_SetPixel(x+i, y+j, bg);
 	        else {  // big size
 	        	GFX_FillRect(x+i*size, y+j*size, size, size, bg);
 	        }

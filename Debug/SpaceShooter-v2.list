@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00012264  00000000  00000000  0004221c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000d234d  00000000  00000000  00054480  2**0
+ 18 .debug_str    000d2364  00000000  00000000  00054480  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  001267cd  2**0
+ 19 .comment      00000043  00000000  00000000  001267e4  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004a68  00000000  00000000  00126810  2**2
+ 20 .debug_frame  00004a68  00000000  00000000  00126828  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000062  00000000  00000000  0012b278  2**0
+ 21 .debug_line_str 00000062  00000000  00000000  0012b290  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -984,13 +984,13 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000bb0:	61bb      	str	r3, [r7, #24]
 	}
 
-	ssd1327_setPixel(X1,Y1,I_O);
+	SSD1327_SetPixel(X1,Y1,I_O);
  8000bb2:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
  8000bb4:	b2db      	uxtb	r3, r3
  8000bb6:	461a      	mov	r2, r3
  8000bb8:	68b9      	ldr	r1, [r7, #8]
  8000bba:	68f8      	ldr	r0, [r7, #12]
- 8000bbc:	f003 f914 	bl	8003de8 <ssd1327_setPixel>
+ 8000bbc:	f003 f914 	bl	8003de8 <SSD1327_SetPixel>
 
 	if ((Dx != 0) || (Dy != 0)) {
  8000bc0:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
@@ -1035,20 +1035,20 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000bfc:	1ad3      	subs	r3, r2, r3
  8000bfe:	617b      	str	r3, [r7, #20]
 			    }
-			    ssd1327_setPixel(CurrentX,CurrentY,I_O);
+			    SSD1327_SetPixel(CurrentX,CurrentY,I_O);
  8000c00:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
  8000c02:	b2db      	uxtb	r3, r3
  8000c04:	461a      	mov	r2, r3
  8000c06:	6b39      	ldr	r1, [r7, #48]	@ 0x30
  8000c08:	6b78      	ldr	r0, [r7, #52]	@ 0x34
- 8000c0a:	f003 f8ed 	bl	8003de8 <ssd1327_setPixel>
+ 8000c0a:	f003 f8ed 	bl	8003de8 <SSD1327_SetPixel>
 			  } while (CurrentX != X2);
  8000c0e:	6b7a      	ldr	r2, [r7, #52]	@ 0x34
  8000c10:	687b      	ldr	r3, [r7, #4]
  8000c12:	429a      	cmp	r2, r3
  8000c14:	d1e0      	bne.n	8000bd8 <GFX_DrowLine+0x90>
 			      }
-			      ssd1327_setPixel(CurrentX,CurrentY,I_O);
+			      SSD1327_SetPixel(CurrentX,CurrentY,I_O);
 			  } while (CurrentY != Y2);
 		  }
 	}
@@ -1082,13 +1082,13 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000c3e:	69bb      	ldr	r3, [r7, #24]
  8000c40:	1ad3      	subs	r3, r2, r3
  8000c42:	613b      	str	r3, [r7, #16]
-			      ssd1327_setPixel(CurrentX,CurrentY,I_O);
+			      SSD1327_SetPixel(CurrentX,CurrentY,I_O);
  8000c44:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
  8000c46:	b2db      	uxtb	r3, r3
  8000c48:	461a      	mov	r2, r3
  8000c4a:	6b39      	ldr	r1, [r7, #48]	@ 0x30
  8000c4c:	6b78      	ldr	r0, [r7, #52]	@ 0x34
- 8000c4e:	f003 f8cb 	bl	8003de8 <ssd1327_setPixel>
+ 8000c4e:	f003 f8cb 	bl	8003de8 <SSD1327_SetPixel>
 			  } while (CurrentY != Y2);
  8000c52:	6b3a      	ldr	r2, [r7, #48]	@ 0x30
  8000c54:	683b      	ldr	r3, [r7, #0]
@@ -1177,7 +1177,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000cc6:	2b00      	cmp	r3, #0
  8000cc8:	d015      	beq.n	8000cf6 <GFX_DrowCircleHelper+0x94>
 		{
-			ssd1327_setPixel(x0 + x, y0 + y, color);
+			SSD1327_SetPixel(x0 + x, y0 + y, color);
  8000cca:	68fa      	ldr	r2, [r7, #12]
  8000ccc:	69bb      	ldr	r3, [r7, #24]
  8000cce:	18d0      	adds	r0, r2, r3
@@ -1186,8 +1186,8 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000cd4:	4413      	add	r3, r2
  8000cd6:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000cda:	4619      	mov	r1, r3
- 8000cdc:	f003 f884 	bl	8003de8 <ssd1327_setPixel>
-			ssd1327_setPixel(x0 + y, y0 + x, color);
+ 8000cdc:	f003 f884 	bl	8003de8 <SSD1327_SetPixel>
+			SSD1327_SetPixel(x0 + y, y0 + x, color);
  8000ce0:	68fa      	ldr	r2, [r7, #12]
  8000ce2:	697b      	ldr	r3, [r7, #20]
  8000ce4:	18d0      	adds	r0, r2, r3
@@ -1196,7 +1196,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000cea:	4413      	add	r3, r2
  8000cec:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000cf0:	4619      	mov	r1, r3
- 8000cf2:	f003 f879 	bl	8003de8 <ssd1327_setPixel>
+ 8000cf2:	f003 f879 	bl	8003de8 <SSD1327_SetPixel>
 		}
 		if(cornername & 0x2)
  8000cf6:	78fb      	ldrb	r3, [r7, #3]
@@ -1204,7 +1204,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000cfc:	2b00      	cmp	r3, #0
  8000cfe:	d015      	beq.n	8000d2c <GFX_DrowCircleHelper+0xca>
 		{
-			ssd1327_setPixel(x0 + x, y0 - y, color);
+			SSD1327_SetPixel(x0 + x, y0 - y, color);
  8000d00:	68fa      	ldr	r2, [r7, #12]
  8000d02:	69bb      	ldr	r3, [r7, #24]
  8000d04:	18d0      	adds	r0, r2, r3
@@ -1213,8 +1213,8 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d0a:	1ad3      	subs	r3, r2, r3
  8000d0c:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000d10:	4619      	mov	r1, r3
- 8000d12:	f003 f869 	bl	8003de8 <ssd1327_setPixel>
-			ssd1327_setPixel(x0 + y, y0 - x, color);
+ 8000d12:	f003 f869 	bl	8003de8 <SSD1327_SetPixel>
+			SSD1327_SetPixel(x0 + y, y0 - x, color);
  8000d16:	68fa      	ldr	r2, [r7, #12]
  8000d18:	697b      	ldr	r3, [r7, #20]
  8000d1a:	18d0      	adds	r0, r2, r3
@@ -1223,7 +1223,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d20:	1ad3      	subs	r3, r2, r3
  8000d22:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000d26:	4619      	mov	r1, r3
- 8000d28:	f003 f85e 	bl	8003de8 <ssd1327_setPixel>
+ 8000d28:	f003 f85e 	bl	8003de8 <SSD1327_SetPixel>
 		}
 		if(cornername & 0x8)
  8000d2c:	78fb      	ldrb	r3, [r7, #3]
@@ -1231,7 +1231,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d32:	2b00      	cmp	r3, #0
  8000d34:	d015      	beq.n	8000d62 <GFX_DrowCircleHelper+0x100>
 		{
-			ssd1327_setPixel(x0 - x, y0 + y, color);
+			SSD1327_SetPixel(x0 - x, y0 + y, color);
  8000d36:	68fa      	ldr	r2, [r7, #12]
  8000d38:	69bb      	ldr	r3, [r7, #24]
  8000d3a:	1ad0      	subs	r0, r2, r3
@@ -1240,8 +1240,8 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d40:	4413      	add	r3, r2
  8000d42:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000d46:	4619      	mov	r1, r3
- 8000d48:	f003 f84e 	bl	8003de8 <ssd1327_setPixel>
-			ssd1327_setPixel(x0 - y, y0 + x, color);
+ 8000d48:	f003 f84e 	bl	8003de8 <SSD1327_SetPixel>
+			SSD1327_SetPixel(x0 - y, y0 + x, color);
  8000d4c:	68fa      	ldr	r2, [r7, #12]
  8000d4e:	697b      	ldr	r3, [r7, #20]
  8000d50:	1ad0      	subs	r0, r2, r3
@@ -1250,7 +1250,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d56:	4413      	add	r3, r2
  8000d58:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000d5c:	4619      	mov	r1, r3
- 8000d5e:	f003 f843 	bl	8003de8 <ssd1327_setPixel>
+ 8000d5e:	f003 f843 	bl	8003de8 <SSD1327_SetPixel>
 		}
 		if(cornername & 0x1)
  8000d62:	78fb      	ldrb	r3, [r7, #3]
@@ -1258,7 +1258,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d68:	2b00      	cmp	r3, #0
  8000d6a:	d015      	beq.n	8000d98 <GFX_DrowCircleHelper+0x136>
 		{
-			ssd1327_setPixel(x0 - x, y0 - y, color);
+			SSD1327_SetPixel(x0 - x, y0 - y, color);
  8000d6c:	68fa      	ldr	r2, [r7, #12]
  8000d6e:	69bb      	ldr	r3, [r7, #24]
  8000d70:	1ad0      	subs	r0, r2, r3
@@ -1267,8 +1267,8 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d76:	1ad3      	subs	r3, r2, r3
  8000d78:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000d7c:	4619      	mov	r1, r3
- 8000d7e:	f003 f833 	bl	8003de8 <ssd1327_setPixel>
-			ssd1327_setPixel(x0 - y, y0 - x, color);
+ 8000d7e:	f003 f833 	bl	8003de8 <SSD1327_SetPixel>
+			SSD1327_SetPixel(x0 - y, y0 - x, color);
  8000d82:	68fa      	ldr	r2, [r7, #12]
  8000d84:	697b      	ldr	r3, [r7, #20]
  8000d86:	1ad0      	subs	r0, r2, r3
@@ -1277,7 +1277,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d8c:	1ad3      	subs	r3, r2, r3
  8000d8e:	f897 2030 	ldrb.w	r2, [r7, #48]	@ 0x30
  8000d92:	4619      	mov	r1, r3
- 8000d94:	f003 f828 	bl	8003de8 <ssd1327_setPixel>
+ 8000d94:	f003 f828 	bl	8003de8 <SSD1327_SetPixel>
 	while(x<y)
  8000d98:	69ba      	ldr	r2, [r7, #24]
  8000d9a:	697b      	ldr	r3, [r7, #20]
@@ -1350,7 +1350,7 @@ void GFX_DrowBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h
  8000dfa:	400b      	ands	r3, r1
  8000dfc:	2b00      	cmp	r3, #0
  8000dfe:	d00a      	beq.n	8000e16 <GFX_DrowBitMap_P+0x6a>
-				ssd1327_setPixel(x+i, y+j, color);
+				SSD1327_SetPixel(x+i, y+j, color);
  8000e00:	7dfa      	ldrb	r2, [r7, #23]
  8000e02:	68fb      	ldr	r3, [r7, #12]
  8000e04:	18d0      	adds	r0, r2, r3
@@ -1359,7 +1359,7 @@ void GFX_DrowBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h
  8000e0a:	4413      	add	r3, r2
  8000e0c:	f897 2024 	ldrb.w	r2, [r7, #36]	@ 0x24
  8000e10:	4619      	mov	r1, r3
- 8000e12:	f002 ffe9 	bl	8003de8 <ssd1327_setPixel>
+ 8000e12:	f002 ffe9 	bl	8003de8 <SSD1327_SetPixel>
 		for(i = 0; i < w; i++)
  8000e16:	7dfb      	ldrb	r3, [r7, #23]
  8000e18:	3301      	adds	r3, #1
@@ -1472,7 +1472,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000ec6:	f897 302c 	ldrb.w	r3, [r7, #44]	@ 0x2c
  8000eca:	2b01      	cmp	r3, #1
  8000ecc:	d10c      	bne.n	8000ee8 <GFX_DrowChar+0xa8>
-	        	ssd1327_setPixel(x+i, y+j, color);
+	        	SSD1327_SetPixel(x+i, y+j, color);
  8000ece:	f997 2016 	ldrsb.w	r2, [r7, #22]
  8000ed2:	68fb      	ldr	r3, [r7, #12]
  8000ed4:	18d0      	adds	r0, r2, r3
@@ -1481,7 +1481,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000edc:	4413      	add	r3, r2
  8000ede:	79ba      	ldrb	r2, [r7, #6]
  8000ee0:	4619      	mov	r1, r3
- 8000ee2:	f002 ff81 	bl	8003de8 <ssd1327_setPixel>
+ 8000ee2:	f002 ff81 	bl	8003de8 <SSD1327_SetPixel>
  8000ee6:	e04a      	b.n	8000f7e <GFX_DrowChar+0x13e>
 	        else {  // big size
 	        	GFX_FillRect(x+(i*size), y+(j*size), size, size, color);
@@ -1512,7 +1512,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000f26:	f897 302c 	ldrb.w	r3, [r7, #44]	@ 0x2c
  8000f2a:	2b01      	cmp	r3, #1
  8000f2c:	d10d      	bne.n	8000f4a <GFX_DrowChar+0x10a>
-	        	ssd1327_setPixel(x+i, y+j, bg);
+	        	SSD1327_SetPixel(x+i, y+j, bg);
  8000f2e:	f997 2016 	ldrsb.w	r2, [r7, #22]
  8000f32:	68fb      	ldr	r3, [r7, #12]
  8000f34:	18d0      	adds	r0, r2, r3
@@ -1521,7 +1521,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000f3c:	4413      	add	r3, r2
  8000f3e:	f897 2028 	ldrb.w	r2, [r7, #40]	@ 0x28
  8000f42:	4619      	mov	r1, r3
- 8000f44:	f002 ff50 	bl	8003de8 <ssd1327_setPixel>
+ 8000f44:	f002 ff50 	bl	8003de8 <SSD1327_SetPixel>
  8000f48:	e019      	b.n	8000f7e <GFX_DrowChar+0x13e>
 	        else {  // big size
 	        	GFX_FillRect(x+i*size, y+j*size, size, size, bg);
@@ -1926,37 +1926,37 @@ void GameInit(GameCtx *g) {
 	 */
 	uint8_t i;
 	//Player initial settings
-	g->player.lives = initial_lives;
+	g->player.lives = INITIAL_LIVES;
  800120a:	687b      	ldr	r3, [r7, #4]
  800120c:	2203      	movs	r2, #3
  800120e:	611a      	str	r2, [r3, #16]
-	g->player.score = initial_score;
+	g->player.score = INITIAL_SCORE;
  8001210:	687b      	ldr	r3, [r7, #4]
  8001212:	2200      	movs	r2, #0
  8001214:	609a      	str	r2, [r3, #8]
-	g->player.x = initial_x;
+	g->player.x = INITIAL_X;
  8001216:	687b      	ldr	r3, [r7, #4]
  8001218:	2202      	movs	r2, #2
  800121a:	601a      	str	r2, [r3, #0]
-	g->player.y = initial_y;
+	g->player.y = INITIAL_Y;
  800121c:	687b      	ldr	r3, [r7, #4]
  800121e:	2240      	movs	r2, #64	@ 0x40
  8001220:	605a      	str	r2, [r3, #4]
-	g->player.level = initial_level;
+	g->player.level = INITIAL_LEVEL;
  8001222:	687b      	ldr	r3, [r7, #4]
  8001224:	2201      	movs	r2, #1
  8001226:	615a      	str	r2, [r3, #20]
-	g->player.game_progres = initial_game_progres;
+	g->player.gameProgres = INITIAL_GAME_PROGRES;
  8001228:	687b      	ldr	r3, [r7, #4]
  800122a:	2200      	movs	r2, #0
  800122c:	619a      	str	r2, [r3, #24]
-	g->player.shoot_type = st_normal;
+	g->player.shootType = ST_Normal;
  800122e:	687b      	ldr	r3, [r7, #4]
  8001230:	2200      	movs	r2, #0
  8001232:	771a      	strb	r2, [r3, #28]
 
 	//Deactivation of player shots
-	for (i = 0; i < num_shots; ++i)
+	for (i = 0; i < NUMBER_SHOTS; ++i)
  8001234:	2300      	movs	r3, #0
  8001236:	73fb      	strb	r3, [r7, #15]
  8001238:	e00c      	b.n	8001254 <GameInit+0x52>
@@ -1971,7 +1971,7 @@ void GameInit(GameCtx *g) {
  8001248:	3324      	adds	r3, #36	@ 0x24
  800124a:	2200      	movs	r2, #0
  800124c:	701a      	strb	r2, [r3, #0]
-	for (i = 0; i < num_shots; ++i)
+	for (i = 0; i < NUMBER_SHOTS; ++i)
  800124e:	7bfb      	ldrb	r3, [r7, #15]
  8001250:	3301      	adds	r3, #1
  8001252:	73fb      	strb	r3, [r7, #15]
@@ -1980,7 +1980,7 @@ void GameInit(GameCtx *g) {
  8001258:	d9ef      	bls.n	800123a <GameInit+0x38>
 
 	//Deactivation of boss shots
-	for (i = 0; i < num_boss_shots; ++i)
+	for (i = 0; i < NUMBER_BOSS_SHOTS; ++i)
  800125a:	2300      	movs	r3, #0
  800125c:	73fb      	strb	r3, [r7, #15]
  800125e:	e00d      	b.n	800127c <GameInit+0x7a>
@@ -1995,7 +1995,7 @@ void GameInit(GameCtx *g) {
  800126e:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  8001272:	2200      	movs	r2, #0
  8001274:	701a      	strb	r2, [r3, #0]
-	for (i = 0; i < num_boss_shots; ++i)
+	for (i = 0; i < NUMBER_BOSS_SHOTS; ++i)
  8001276:	7bfb      	ldrb	r3, [r7, #15]
  8001278:	3301      	adds	r3, #1
  800127a:	73fb      	strb	r3, [r7, #15]
@@ -2004,7 +2004,7 @@ void GameInit(GameCtx *g) {
  8001280:	d9ee      	bls.n	8001260 <GameInit+0x5e>
 
 	//Deactivation enemies
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
  8001282:	2300      	movs	r3, #0
  8001284:	73fb      	strb	r3, [r7, #15]
  8001286:	e023      	b.n	80012d0 <GameInit+0xce>
@@ -2019,7 +2019,7 @@ void GameInit(GameCtx *g) {
  8001296:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  800129a:	2200      	movs	r2, #0
  800129c:	701a      	strb	r2, [r3, #0]
-		g->enemies[i].track_number = 0;
+		g->enemies[i].trackNumber = 0;
  800129e:	7bfa      	ldrb	r2, [r7, #15]
  80012a0:	6879      	ldr	r1, [r7, #4]
  80012a2:	4613      	mov	r3, r2
@@ -2030,7 +2030,7 @@ void GameInit(GameCtx *g) {
  80012ac:	f503 7327 	add.w	r3, r3, #668	@ 0x29c
  80012b0:	2200      	movs	r2, #0
  80012b2:	601a      	str	r2, [r3, #0]
-		g->enemies[i].tracked_by_missile = false;
+		g->enemies[i].trackedByMissile = false;
  80012b4:	7bfa      	ldrb	r2, [r7, #15]
  80012b6:	6879      	ldr	r1, [r7, #4]
  80012b8:	4613      	mov	r3, r2
@@ -2041,7 +2041,7 @@ void GameInit(GameCtx *g) {
  80012c2:	f503 7326 	add.w	r3, r3, #664	@ 0x298
  80012c6:	2200      	movs	r2, #0
  80012c8:	701a      	strb	r2, [r3, #0]
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
  80012ca:	7bfb      	ldrb	r3, [r7, #15]
  80012cc:	3301      	adds	r3, #1
  80012ce:	73fb      	strb	r3, [r7, #15]
@@ -2051,7 +2051,7 @@ void GameInit(GameCtx *g) {
 	}
 
 	//Deactivation bonuses
-	for (i = 0; i < num_bonus; i++)
+	for (i = 0; i < NUMBER_BONUS; i++)
  80012d6:	2300      	movs	r3, #0
  80012d8:	73fb      	strb	r3, [r7, #15]
  80012da:	e00d      	b.n	80012f8 <GameInit+0xf6>
@@ -2066,7 +2066,7 @@ void GameInit(GameCtx *g) {
  80012ea:	f503 6324 	add.w	r3, r3, #2624	@ 0xa40
  80012ee:	2200      	movs	r2, #0
  80012f0:	701a      	strb	r2, [r3, #0]
-	for (i = 0; i < num_bonus; i++)
+	for (i = 0; i < NUMBER_BONUS; i++)
  80012f2:	7bfb      	ldrb	r3, [r7, #15]
  80012f4:	3301      	adds	r3, #1
  80012f6:	73fb      	strb	r3, [r7, #15]
@@ -2079,15 +2079,15 @@ void GameInit(GameCtx *g) {
  80012fe:	687b      	ldr	r3, [r7, #4]
  8001300:	2200      	movs	r2, #0
  8001302:	f883 2a24 	strb.w	r2, [r3, #2596]	@ 0xa24
-	g->boss.x = initial_boss_x;
+	g->boss.x = INITIAL_BOSS_X;
  8001306:	687b      	ldr	r3, [r7, #4]
  8001308:	228c      	movs	r2, #140	@ 0x8c
  800130a:	f8c3 2a28 	str.w	r2, [r3, #2600]	@ 0xa28
-	g->boss.y = initial_boss_y;
+	g->boss.y = INITIAL_BOSS_Y;
  800130e:	687b      	ldr	r3, [r7, #4]
  8001310:	2240      	movs	r2, #64	@ 0x40
  8001312:	f8c3 2a2c 	str.w	r2, [r3, #2604]	@ 0xa2c
-	g->boss.update_delay = initial_boss_update_delay;
+	g->boss.updateDelay = INITIAL_BOSS_UPDATE_DELAY;
  8001316:	687b      	ldr	r3, [r7, #4]
  8001318:	2203      	movs	r2, #3
  800131a:	f8c3 2a34 	str.w	r2, [r3, #2612]	@ 0xa34
@@ -2150,12 +2150,12 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800136c:	687b      	ldr	r3, [r7, #4]
  800136e:	220a      	movs	r2, #10
  8001370:	605a      	str	r2, [r3, #4]
-	if (g->player.y > (screen_height - 14))
+	if (g->player.y > (SCREEN_HEIGHT - 14))
  8001372:	687b      	ldr	r3, [r7, #4]
  8001374:	685b      	ldr	r3, [r3, #4]
  8001376:	2b72      	cmp	r3, #114	@ 0x72
  8001378:	dd02      	ble.n	8001380 <GameTick+0x54>
-		g->player.y = (screen_height - 14);
+		g->player.y = (SCREEN_HEIGHT - 14);
  800137a:	687b      	ldr	r3, [r7, #4]
  800137c:	2272      	movs	r2, #114	@ 0x72
  800137e:	605a      	str	r2, [r3, #4]
@@ -2165,7 +2165,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001380:	2300      	movs	r3, #0
  8001382:	757b      	strb	r3, [r7, #21]
 
-	for (i = 0; i < num_shots; ++i) {
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
  8001384:	2300      	movs	r3, #0
  8001386:	75fb      	strb	r3, [r7, #23]
  8001388:	e151      	b.n	800162e <GameTick+0x302>
@@ -2184,7 +2184,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80013a0:	2b01      	cmp	r3, #1
  80013a2:	d034      	beq.n	800140e <GameTick+0xe2>
  80013a4:	e140      	b.n	8001628 <GameTick+0x2fc>
-		case st_normal:
+		case ST_Normal:
 			if (g->shots[i].active)
  80013a6:	7dfa      	ldrb	r2, [r7, #23]
  80013a8:	6879      	ldr	r1, [r7, #4]
@@ -2216,7 +2216,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80013da:	4403      	add	r3, r0
  80013dc:	3328      	adds	r3, #40	@ 0x28
  80013de:	6019      	str	r1, [r3, #0]
-			if (g->shots[i].x > screen_width)
+			if (g->shots[i].x > SCREEN_WIDTH)
  80013e0:	7dfa      	ldrb	r2, [r7, #23]
  80013e2:	6879      	ldr	r1, [r7, #4]
  80013e4:	4613      	mov	r3, r2
@@ -2241,13 +2241,13 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800140a:	701a      	strb	r2, [r3, #0]
 			break;
  800140c:	e109      	b.n	8001622 <GameTick+0x2f6>
-		case st_tracker:
+		case ST_Tracker:
 
-			for (int j = 0; j < num_enemies; j++) {
+			for (int j = 0; j < NUMBER_ENEMIES; j++) {
  800140e:	2300      	movs	r3, #0
  8001410:	613b      	str	r3, [r7, #16]
  8001412:	e0bb      	b.n	800158c <GameTick+0x260>
-				if (g->shots[i].track_number == g->enemies[j].track_number) {
+				if (g->shots[i].trackNumber == g->enemies[j].trackNumber) {
  8001414:	7dfa      	ldrb	r2, [r7, #23]
  8001416:	6879      	ldr	r1, [r7, #4]
  8001418:	4613      	mov	r3, r2
@@ -2437,7 +2437,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001582:	757b      	strb	r3, [r7, #21]
 					break;
  8001584:	e006      	b.n	8001594 <GameTick+0x268>
-			for (int j = 0; j < num_enemies; j++) {
+			for (int j = 0; j < NUMBER_ENEMIES; j++) {
  8001586:	693b      	ldr	r3, [r7, #16]
  8001588:	3301      	adds	r3, #1
  800158a:	613b      	str	r3, [r7, #16]
@@ -2447,7 +2447,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 				}
 			}
 			//Remove tracking missiles that have no target
-			if (!shoot_updated && g->shots[i].type == st_tracker) {
+			if (!shoot_updated && g->shots[i].type == ST_Tracker) {
  8001594:	7d7b      	ldrb	r3, [r7, #21]
  8001596:	f083 0301 	eor.w	r3, r3, #1
  800159a:	b2db      	uxtb	r3, r3
@@ -2475,7 +2475,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80015c4:	3324      	adds	r3, #36	@ 0x24
  80015c6:	2200      	movs	r2, #0
  80015c8:	701a      	strb	r2, [r3, #0]
-				g->shots[i].track_number = 0;
+				g->shots[i].trackNumber = 0;
  80015ca:	7dfa      	ldrb	r2, [r7, #23]
  80015cc:	6879      	ldr	r1, [r7, #4]
  80015ce:	4613      	mov	r3, r2
@@ -2492,7 +2492,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 			}
 
 			//Remove off-map shots
-			if (g->shots[i].x > screen_width) {
+			if (g->shots[i].x > SCREEN_WIDTH) {
  80015e2:	7dfa      	ldrb	r2, [r7, #23]
  80015e4:	6879      	ldr	r1, [r7, #4]
  80015e6:	4613      	mov	r3, r2
@@ -2515,7 +2515,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001606:	3324      	adds	r3, #36	@ 0x24
  8001608:	2200      	movs	r2, #0
  800160a:	701a      	strb	r2, [r3, #0]
-				g->shots[i].track_number = 0;
+				g->shots[i].trackNumber = 0;
  800160c:	7dfa      	ldrb	r2, [r7, #23]
  800160e:	6879      	ldr	r1, [r7, #4]
  8001610:	4613      	mov	r3, r2
@@ -2534,7 +2534,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001624:	e000      	b.n	8001628 <GameTick+0x2fc>
 			break;
  8001626:	bf00      	nop
-	for (i = 0; i < num_shots; ++i) {
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
  8001628:	7dfb      	ldrb	r3, [r7, #23]
  800162a:	3301      	adds	r3, #1
  800162c:	75fb      	strb	r3, [r7, #23]
@@ -2546,7 +2546,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 	//Remove the markers on enemies whose shots have been used on others
 	bool is_there_a_missile;
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
  8001636:	2300      	movs	r3, #0
  8001638:	75fb      	strb	r3, [r7, #23]
  800163a:	e035      	b.n	80016a8 <GameTick+0x37c>
@@ -2554,11 +2554,11 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800163c:	2300      	movs	r3, #0
  800163e:	73fb      	strb	r3, [r7, #15]
 
-		for (j = 0; j < num_shots; j++) {
+		for (j = 0; j < NUMBER_SHOTS; j++) {
  8001640:	2300      	movs	r3, #0
  8001642:	75bb      	strb	r3, [r7, #22]
  8001644:	e019      	b.n	800167a <GameTick+0x34e>
-			if (g->enemies[i].track_number == g->shots[j].track_number)
+			if (g->enemies[i].trackNumber == g->shots[j].trackNumber)
  8001646:	7dfa      	ldrb	r2, [r7, #23]
  8001648:	6879      	ldr	r1, [r7, #4]
  800164a:	4613      	mov	r3, r2
@@ -2582,7 +2582,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 				is_there_a_missile = true;
  8001670:	2301      	movs	r3, #1
  8001672:	73fb      	strb	r3, [r7, #15]
-		for (j = 0; j < num_shots; j++) {
+		for (j = 0; j < NUMBER_SHOTS; j++) {
  8001674:	7dbb      	ldrb	r3, [r7, #22]
  8001676:	3301      	adds	r3, #1
  8001678:	75bb      	strb	r3, [r7, #22]
@@ -2597,7 +2597,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001686:	b2db      	uxtb	r3, r3
  8001688:	2b00      	cmp	r3, #0
  800168a:	d00a      	beq.n	80016a2 <GameTick+0x376>
-			g->enemies[i].track_number = 0;
+			g->enemies[i].trackNumber = 0;
  800168c:	7dfa      	ldrb	r2, [r7, #23]
  800168e:	6879      	ldr	r1, [r7, #4]
  8001690:	4613      	mov	r3, r2
@@ -2608,7 +2608,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800169a:	f503 7327 	add.w	r3, r3, #668	@ 0x29c
  800169e:	2200      	movs	r2, #0
  80016a0:	601a      	str	r2, [r3, #0]
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
  80016a2:	7dfb      	ldrb	r3, [r7, #23]
  80016a4:	3301      	adds	r3, #1
  80016a6:	75fb      	strb	r3, [r7, #23]
@@ -2618,7 +2618,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	}
 
 	// Updated enemies
-	for (i = 0; i < num_enemies; ++i) {
+	for (i = 0; i < NUMBER_ENEMIES; ++i) {
  80016ae:	2300      	movs	r3, #0
  80016b0:	75fb      	strb	r3, [r7, #23]
  80016b2:	e2a1      	b.n	8001bf8 <GameTick+0x8cc>
@@ -2635,7 +2635,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80016c6:	781b      	ldrb	r3, [r3, #0]
  80016c8:	2b00      	cmp	r3, #0
  80016ca:	f000 8292 	beq.w	8001bf2 <GameTick+0x8c6>
-			g->enemies[i].next_update -= 1;
+			g->enemies[i].nextUpdate -= 1;
  80016ce:	7dfa      	ldrb	r2, [r7, #23]
  80016d0:	6879      	ldr	r1, [r7, #4]
  80016d2:	4613      	mov	r3, r2
@@ -2655,7 +2655,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80016f0:	4403      	add	r3, r0
  80016f2:	f503 7324 	add.w	r3, r3, #656	@ 0x290
  80016f6:	6019      	str	r1, [r3, #0]
-			if (g->enemies[i].next_update <= 0) {
+			if (g->enemies[i].nextUpdate <= 0) {
  80016f8:	7dfa      	ldrb	r2, [r7, #23]
  80016fa:	6879      	ldr	r1, [r7, #4]
  80016fc:	4613      	mov	r3, r2
@@ -2680,7 +2680,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001726:	2b00      	cmp	r3, #0
  8001728:	f000 8263 	beq.w	8001bf2 <GameTick+0x8c6>
 
-					g->enemies[i].next_update = g->enemies[i].updateDelay;
+					g->enemies[i].nextUpdate = g->enemies[i].updateDelay;
  800172c:	7df9      	ldrb	r1, [r7, #23]
  800172e:	7dfa      	ldrb	r2, [r7, #23]
  8001730:	6878      	ldr	r0, [r7, #4]
@@ -2840,7 +2840,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800185c:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  8001860:	2200      	movs	r2, #0
  8001862:	701a      	strb	r2, [r3, #0]
-						g->enemies[i].tracked_by_missile = false;
+						g->enemies[i].trackedByMissile = false;
  8001864:	7dfa      	ldrb	r2, [r7, #23]
  8001866:	6879      	ldr	r1, [r7, #4]
  8001868:	4613      	mov	r3, r2
@@ -2851,7 +2851,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001872:	f503 7326 	add.w	r3, r3, #664	@ 0x298
  8001876:	2200      	movs	r2, #0
  8001878:	701a      	strb	r2, [r3, #0]
-						g->enemies[i].track_number = 0;
+						g->enemies[i].trackNumber = 0;
  800187a:	7dfa      	ldrb	r2, [r7, #23]
  800187c:	6879      	ldr	r1, [r7, #4]
  800187e:	4613      	mov	r3, r2
@@ -2919,8 +2919,8 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80018fc:	f7ff fa56 	bl	8000dac <GFX_DrowBitMap_P>
 								11, 11, 1);
 
-						ssd1327_display();
- 8001900:	f002 fa2e 	bl	8003d60 <ssd1327_display>
+						SSD1327_Display();
+ 8001900:	f002 fa2e 	bl	8003d60 <SSD1327_Display>
 						if (g->player.lives <= 0) {
  8001904:	687b      	ldr	r3, [r7, #4]
  8001906:	691b      	ldr	r3, [r3, #16]
@@ -2928,7 +2928,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800190a:	dc05      	bgt.n	8001918 <GameTick+0x5ec>
 							PlayDeadAnim();
  800190c:	f002 f8ce 	bl	8003aac <PlayDeadAnim>
-							g->state = st_dead;
+							g->state = GS_Dead;
  8001910:	687b      	ldr	r3, [r7, #4]
  8001912:	2202      	movs	r2, #2
  8001914:	f883 2a94 	strb.w	r2, [r3, #2708]	@ 0xa94
@@ -2975,7 +2975,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001962:	f000 810d 	beq.w	8001b80 <GameTick+0x854>
  8001966:	2b01      	cmp	r3, #1
  8001968:	f040 8115 	bne.w	8001b96 <GameTick+0x86a>
-					case et_tracker:
+					case ET_Tracker:
 						if (g->enemies[i].x < 70) {
  800196c:	7dfa      	ldrb	r2, [r7, #23]
  800196e:	6879      	ldr	r1, [r7, #4]
@@ -3059,9 +3059,9 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 						}
 						break;
  8001a14:	e0b6      	b.n	8001b84 <GameTick+0x858>
-					case et_diver:
+					case ET_Diver:
 						break;
-					case et_bobber:
+					case ET_Bobber:
 						if ((g->enemies[i].x % 4 == 0)
  8001a16:	7dfa      	ldrb	r2, [r7, #23]
  8001a18:	6879      	ldr	r1, [r7, #4]
@@ -3274,7 +3274,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001bbe:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  8001bc2:	2200      	movs	r2, #0
  8001bc4:	701a      	strb	r2, [r3, #0]
-						g->enemies[i].tracked_by_missile = false;
+						g->enemies[i].trackedByMissile = false;
  8001bc6:	7dfa      	ldrb	r2, [r7, #23]
  8001bc8:	6879      	ldr	r1, [r7, #4]
  8001bca:	4613      	mov	r3, r2
@@ -3285,7 +3285,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001bd4:	f503 7326 	add.w	r3, r3, #664	@ 0x298
  8001bd8:	2200      	movs	r2, #0
  8001bda:	701a      	strb	r2, [r3, #0]
-						g->enemies[i].track_number = 0;
+						g->enemies[i].trackNumber = 0;
  8001bdc:	7dfa      	ldrb	r2, [r7, #23]
  8001bde:	6879      	ldr	r1, [r7, #4]
  8001be0:	4613      	mov	r3, r2
@@ -3296,7 +3296,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001bea:	f503 7327 	add.w	r3, r3, #668	@ 0x29c
  8001bee:	2200      	movs	r2, #0
  8001bf0:	601a      	str	r2, [r3, #0]
-	for (i = 0; i < num_enemies; ++i) {
+	for (i = 0; i < NUMBER_ENEMIES; ++i) {
  8001bf2:	7dfb      	ldrb	r3, [r7, #23]
  8001bf4:	3301      	adds	r3, #1
  8001bf6:	75fb      	strb	r3, [r7, #23]
@@ -3313,7 +3313,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001c02:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  8001c06:	2b00      	cmp	r3, #0
  8001c08:	f000 824b 	beq.w	80020a2 <GameTick+0xd76>
-		g->boss.next_update -= 1;
+		g->boss.nextUpdate -= 1;
  8001c0c:	687b      	ldr	r3, [r7, #4]
  8001c0e:	f8d3 3a30 	ldr.w	r3, [r3, #2608]	@ 0xa30
  8001c12:	1e5a      	subs	r2, r3, #1
@@ -3321,12 +3321,12 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001c16:	f8c3 2a30 	str.w	r2, [r3, #2608]	@ 0xa30
 
 		//Boss position
-		if (g->boss.next_update <= 0) {
+		if (g->boss.nextUpdate <= 0) {
  8001c1a:	687b      	ldr	r3, [r7, #4]
  8001c1c:	f8d3 3a30 	ldr.w	r3, [r3, #2608]	@ 0xa30
  8001c20:	2b00      	cmp	r3, #0
  8001c22:	dc43      	bgt.n	8001cac <GameTick+0x980>
-			g->boss.next_update = g->boss.update_delay;
+			g->boss.nextUpdate = g->boss.updateDelay;
  8001c24:	687b      	ldr	r3, [r7, #4]
  8001c26:	f8d3 2a34 	ldr.w	r2, [r3, #2612]	@ 0xa34
  8001c2a:	687b      	ldr	r3, [r7, #4]
@@ -3341,7 +3341,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001c3a:	b2da      	uxtb	r2, r3
  8001c3c:	4b49      	ldr	r3, [pc, #292]	@ (8001d64 <GameTick+0xa38>)
  8001c3e:	701a      	strb	r2, [r3, #0]
-			if (y < 1 || y > (screen_height - 24))
+			if (y < 1 || y > (SCREEN_HEIGHT - 24))
  8001c40:	4b48      	ldr	r3, [pc, #288]	@ (8001d64 <GameTick+0xa38>)
  8001c42:	781b      	ldrb	r3, [r3, #0]
  8001c44:	2b00      	cmp	r3, #0
@@ -3374,12 +3374,12 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001c72:	687b      	ldr	r3, [r7, #4]
  8001c74:	220a      	movs	r2, #10
  8001c76:	f8c3 2a2c 	str.w	r2, [r3, #2604]	@ 0xa2c
-			if (g->boss.y > (screen_height - 24))
+			if (g->boss.y > (SCREEN_HEIGHT - 24))
  8001c7a:	687b      	ldr	r3, [r7, #4]
  8001c7c:	f8d3 3a2c 	ldr.w	r3, [r3, #2604]	@ 0xa2c
  8001c80:	2b68      	cmp	r3, #104	@ 0x68
  8001c82:	dd03      	ble.n	8001c8c <GameTick+0x960>
-				g->boss.y = (screen_height - 24);
+				g->boss.y = (SCREEN_HEIGHT - 24);
  8001c84:	687b      	ldr	r3, [r7, #4]
  8001c86:	2268      	movs	r2, #104	@ 0x68
  8001c88:	f8c3 2a2c 	str.w	r2, [r3, #2604]	@ 0xa2c
@@ -3425,7 +3425,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001cd8:	f001 fa48 	bl	800316c <GameShotBoss>
 
 
-		for (i = 0; i < num_boss_shots; ++i) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i) {
  8001cdc:	2300      	movs	r3, #0
  8001cde:	75fb      	strb	r3, [r7, #23]
  8001ce0:	e03a      	b.n	8001d58 <GameTick+0xa2c>
@@ -3483,7 +3483,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001d4a:	f503 7306 	add.w	r3, r3, #536	@ 0x218
  8001d4e:	2200      	movs	r2, #0
  8001d50:	701a      	strb	r2, [r3, #0]
-		for (i = 0; i < num_boss_shots; ++i) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i) {
  8001d52:	7dfb      	ldrb	r3, [r7, #23]
  8001d54:	3301      	adds	r3, #1
  8001d56:	75fb      	strb	r3, [r7, #23]
@@ -3492,7 +3492,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001d5c:	d9c1      	bls.n	8001ce2 <GameTick+0x9b6>
 		}
 
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
  8001d5e:	2300      	movs	r3, #0
  8001d60:	75fb      	strb	r3, [r7, #23]
  8001d62:	e0e1      	b.n	8001f28 <GameTick+0xbfc>
@@ -3707,8 +3707,8 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001f06:	f7fe ff51 	bl	8000dac <GFX_DrowBitMap_P>
 							11, 1);
 
-					ssd1327_display();
- 8001f0a:	f001 ff29 	bl	8003d60 <ssd1327_display>
+					SSD1327_Display();
+ 8001f0a:	f001 ff29 	bl	8003d60 <SSD1327_Display>
 					if (g->player.lives <= 0) {
  8001f0e:	687b      	ldr	r3, [r7, #4]
  8001f10:	691b      	ldr	r3, [r3, #16]
@@ -3716,11 +3716,11 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001f14:	dc05      	bgt.n	8001f22 <GameTick+0xbf6>
 						PlayDeadAnim();
  8001f16:	f001 fdc9 	bl	8003aac <PlayDeadAnim>
-						g->state = st_dead;
+						g->state = GS_Dead;
  8001f1a:	687b      	ldr	r3, [r7, #4]
  8001f1c:	2202      	movs	r2, #2
  8001f1e:	f883 2a94 	strb.w	r2, [r3, #2708]	@ 0xa94
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
  8001f22:	7dfb      	ldrb	r3, [r7, #23]
  8001f24:	3301      	adds	r3, #1
  8001f26:	75fb      	strb	r3, [r7, #23]
@@ -3732,7 +3732,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 		}
 
 		// Player's shots to the boss
-		for (i = 0; i < num_shots; i++) {
+		for (i = 0; i < NUMBER_SHOTS; i++) {
  8001f30:	2300      	movs	r3, #0
  8001f32:	75fb      	strb	r3, [r7, #23]
  8001f34:	e0b1      	b.n	800209a <GameTick+0xd6e>
@@ -3857,7 +3857,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800202a:	3324      	adds	r3, #36	@ 0x24
  800202c:	2200      	movs	r2, #0
  800202e:	701a      	strb	r2, [r3, #0]
-					g->shots[i].track_number = 0;
+					g->shots[i].trackNumber = 0;
  8002030:	7dfa      	ldrb	r2, [r7, #23]
  8002032:	6879      	ldr	r1, [r7, #4]
  8002034:	4613      	mov	r3, r2
@@ -3911,7 +3911,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800208e:	f8c3 2a38 	str.w	r2, [r3, #2616]	@ 0xa38
 						break;
  8002092:	e006      	b.n	80020a2 <GameTick+0xd76>
-		for (i = 0; i < num_shots; i++) {
+		for (i = 0; i < NUMBER_SHOTS; i++) {
  8002094:	7dfb      	ldrb	r3, [r7, #23]
  8002096:	3301      	adds	r3, #1
  8002098:	75fb      	strb	r3, [r7, #23]
@@ -3930,7 +3930,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80020ac:	b2db      	uxtb	r3, r3
  80020ae:	2b00      	cmp	r3, #0
  80020b0:	d03b      	beq.n	800212a <GameTick+0xdfe>
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
  80020b2:	2300      	movs	r3, #0
  80020b4:	75fb      	strb	r3, [r7, #23]
  80020b6:	e035      	b.n	8002124 <GameTick+0xdf8>
@@ -3983,7 +3983,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8002116:	2304      	movs	r3, #4
  8002118:	4a0d      	ldr	r2, [pc, #52]	@ (8002150 <GameTick+0xe24>)
  800211a:	f7fe fe47 	bl	8000dac <GFX_DrowBitMap_P>
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
  800211e:	7dfb      	ldrb	r3, [r7, #23]
  8002120:	3301      	adds	r3, #1
  8002122:	75fb      	strb	r3, [r7, #23]
@@ -4005,11 +4005,11 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8002134:	f000 fef4 	bl	8002f20 <GameShot>
 
 	// Checking the collision of a player's shots with opponents. Adding Bonuses
-	for (i = 0; i < num_shots; ++i) {
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
  8002138:	2300      	movs	r3, #0
  800213a:	75fb      	strb	r3, [r7, #23]
  800213c:	e0ce      	b.n	80022dc <GameTick+0xfb0>
-		for (j = 0; j < num_enemies; ++j) {
+		for (j = 0; j < NUMBER_ENEMIES; ++j) {
  800213e:	2300      	movs	r3, #0
  8002140:	75bb      	strb	r3, [r7, #22]
  8002142:	e0c4      	b.n	80022ce <GameTick+0xfa2>
@@ -4095,7 +4095,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80021ee:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  80021f2:	2200      	movs	r2, #0
  80021f4:	701a      	strb	r2, [r3, #0]
-					g->enemies[j].tracked_by_missile = false;
+					g->enemies[j].trackedByMissile = false;
  80021f6:	7dba      	ldrb	r2, [r7, #22]
  80021f8:	6879      	ldr	r1, [r7, #4]
  80021fa:	4613      	mov	r3, r2
@@ -4106,7 +4106,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8002204:	f503 7326 	add.w	r3, r3, #664	@ 0x298
  8002208:	2200      	movs	r2, #0
  800220a:	701a      	strb	r2, [r3, #0]
-					g->enemies[j].track_number = 0;
+					g->enemies[j].trackNumber = 0;
  800220c:	7dba      	ldrb	r2, [r7, #22]
  800220e:	6879      	ldr	r1, [r7, #4]
  8002210:	4613      	mov	r3, r2
@@ -4163,7 +4163,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 							explosion_map, 10, 10, 1);
 
 					//Dodanie bonusa w miejscu zestrzelenia
-					if ((rand() % 100) < frequ_bonus)
+					if ((rand() % 100) < BONUS_FREQUENCY)
  8002278:	f005 f8e0 	bl	800743c <rand>
  800227c:	4602      	mov	r2, r0
  800227e:	4b2b      	ldr	r3, [pc, #172]	@ (800232c <GameTick+0x1000>)
@@ -4199,14 +4199,14 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80022c0:	4601      	mov	r1, r0
  80022c2:	6878      	ldr	r0, [r7, #4]
  80022c4:	f000 fc3c 	bl	8002b40 <GameAddBonus>
-		for (j = 0; j < num_enemies; ++j) {
+		for (j = 0; j < NUMBER_ENEMIES; ++j) {
  80022c8:	7dbb      	ldrb	r3, [r7, #22]
  80022ca:	3301      	adds	r3, #1
  80022cc:	75bb      	strb	r3, [r7, #22]
  80022ce:	7dbb      	ldrb	r3, [r7, #22]
  80022d0:	2b09      	cmp	r3, #9
  80022d2:	f67f af3f 	bls.w	8002154 <GameTick+0xe28>
-	for (i = 0; i < num_shots; ++i) {
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
  80022d6:	7dfb      	ldrb	r3, [r7, #23]
  80022d8:	3301      	adds	r3, #1
  80022da:	75fb      	strb	r3, [r7, #23]
@@ -4319,7 +4319,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  80023a0:	f7fe fe96 	bl	80010d0 <GFX_PutInt>
 
 	//Drawing graphics of a player's shot
-	for (i = 0; i < num_shots; i++) {
+	for (i = 0; i < NUMBER_SHOTS; i++) {
  80023a4:	2300      	movs	r3, #0
  80023a6:	73fb      	strb	r3, [r7, #15]
  80023a8:	e027      	b.n	80023fa <GameDraw+0xca>
@@ -4361,7 +4361,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  80023ec:	2304      	movs	r3, #4
  80023ee:	4a7f      	ldr	r2, [pc, #508]	@ (80025ec <GameDraw+0x2bc>)
  80023f0:	f7fe fcdc 	bl	8000dac <GFX_DrowBitMap_P>
-	for (i = 0; i < num_shots; i++) {
+	for (i = 0; i < NUMBER_SHOTS; i++) {
  80023f4:	7bfb      	ldrb	r3, [r7, #15]
  80023f6:	3301      	adds	r3, #1
  80023f8:	73fb      	strb	r3, [r7, #15]
@@ -4377,7 +4377,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002402:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  8002406:	2b00      	cmp	r3, #0
  8002408:	d030      	beq.n	800246c <GameDraw+0x13c>
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
  800240a:	2300      	movs	r3, #0
  800240c:	73fb      	strb	r3, [r7, #15]
  800240e:	e02a      	b.n	8002466 <GameDraw+0x136>
@@ -4419,7 +4419,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002458:	2304      	movs	r3, #4
  800245a:	4a64      	ldr	r2, [pc, #400]	@ (80025ec <GameDraw+0x2bc>)
  800245c:	f7fe fca6 	bl	8000dac <GFX_DrowBitMap_P>
-		for (i = 0; i < num_boss_shots; i++) {
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
  8002460:	7bfb      	ldrb	r3, [r7, #15]
  8002462:	3301      	adds	r3, #1
  8002464:	73fb      	strb	r3, [r7, #15]
@@ -4431,7 +4431,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	}
 
 	//Drawing graphics of enemies
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
  800246c:	2300      	movs	r3, #0
  800246e:	73fb      	strb	r3, [r7, #15]
  8002470:	e0a5      	b.n	80025be <GameDraw+0x28e>
@@ -4447,7 +4447,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002484:	781b      	ldrb	r3, [r3, #0]
  8002486:	2b00      	cmp	r3, #0
  8002488:	f000 8096 	beq.w	80025b8 <GameDraw+0x288>
-			if (g->enemies[i].type == et_tracker)
+			if (g->enemies[i].type == ET_Tracker)
  800248c:	7bfa      	ldrb	r2, [r7, #15]
  800248e:	6879      	ldr	r1, [r7, #4]
  8002490:	4613      	mov	r3, r2
@@ -4459,7 +4459,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  800249e:	781b      	ldrb	r3, [r3, #0]
  80024a0:	2b01      	cmp	r3, #1
  80024a2:	d125      	bne.n	80024f0 <GameDraw+0x1c0>
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
+				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
  80024a4:	7bfa      	ldrb	r2, [r7, #15]
  80024a6:	6879      	ldr	r1, [r7, #4]
  80024a8:	4613      	mov	r3, r2
@@ -4495,7 +4495,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  80024ea:	4621      	mov	r1, r4
  80024ec:	f7fe fc5e 	bl	8000dac <GFX_DrowBitMap_P>
 						5, 5, 1);
-			if (g->enemies[i].type == et_diver)
+			if (g->enemies[i].type == ET_Diver)
  80024f0:	7bfa      	ldrb	r2, [r7, #15]
  80024f2:	6879      	ldr	r1, [r7, #4]
  80024f4:	4613      	mov	r3, r2
@@ -4507,7 +4507,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002502:	781b      	ldrb	r3, [r3, #0]
  8002504:	2b00      	cmp	r3, #0
  8002506:	d125      	bne.n	8002554 <GameDraw+0x224>
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
+				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
  8002508:	7bfa      	ldrb	r2, [r7, #15]
  800250a:	6879      	ldr	r1, [r7, #4]
  800250c:	4613      	mov	r3, r2
@@ -4543,7 +4543,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  800254e:	4621      	mov	r1, r4
  8002550:	f7fe fc2c 	bl	8000dac <GFX_DrowBitMap_P>
 						3, 7, 1);
-			if (g->enemies[i].type == et_bobber)
+			if (g->enemies[i].type == ET_Bobber)
  8002554:	7bfa      	ldrb	r2, [r7, #15]
  8002556:	6879      	ldr	r1, [r7, #4]
  8002558:	4613      	mov	r3, r2
@@ -4555,7 +4555,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002566:	781b      	ldrb	r3, [r3, #0]
  8002568:	2b02      	cmp	r3, #2
  800256a:	d125      	bne.n	80025b8 <GameDraw+0x288>
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bit_map,
+				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
  800256c:	7bfa      	ldrb	r2, [r7, #15]
  800256e:	6879      	ldr	r1, [r7, #4]
  8002570:	4613      	mov	r3, r2
@@ -4590,7 +4590,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  80025b0:	2305      	movs	r3, #5
  80025b2:	4621      	mov	r1, r4
  80025b4:	f7fe fbfa 	bl	8000dac <GFX_DrowBitMap_P>
-	for (i = 0; i < num_enemies; i++) {
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
  80025b8:	7bfb      	ldrb	r3, [r7, #15]
  80025ba:	3301      	adds	r3, #1
  80025bc:	73fb      	strb	r3, [r7, #15]
@@ -4616,7 +4616,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  80025da:	f7fe fbe7 	bl	8000dac <GFX_DrowBitMap_P>
 
 	//Drawing a background
-	for (i = 0; i < num_background; i++) {
+	for (i = 0; i < NUMBER_BACKGROUND; i++) {
  80025de:	2300      	movs	r3, #0
  80025e0:	73fb      	strb	r3, [r7, #15]
  80025e2:	e03e      	b.n	8002662 <GameDraw+0x332>
@@ -4636,7 +4636,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002606:	781b      	ldrb	r3, [r3, #0]
  8002608:	2b00      	cmp	r3, #0
  800260a:	d027      	beq.n	800265c <GameDraw+0x32c>
-			ssd1327_setPixel(g->background[i].x, g->background[i].y, (rand() % 15));
+			SSD1327_SetPixel(g->background[i].x, g->background[i].y, (rand() % 15));
  800260c:	7bfa      	ldrb	r2, [r7, #15]
  800260e:	6879      	ldr	r1, [r7, #4]
  8002610:	4613      	mov	r3, r2
@@ -4671,8 +4671,8 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  8002652:	461a      	mov	r2, r3
  8002654:	4629      	mov	r1, r5
  8002656:	4620      	mov	r0, r4
- 8002658:	f001 fbc6 	bl	8003de8 <ssd1327_setPixel>
-	for (i = 0; i < num_background; i++) {
+ 8002658:	f001 fbc6 	bl	8003de8 <SSD1327_SetPixel>
+	for (i = 0; i < NUMBER_BACKGROUND; i++) {
  800265c:	7bfb      	ldrb	r3, [r7, #15]
  800265e:	3301      	adds	r3, #1
  8002660:	73fb      	strb	r3, [r7, #15]
@@ -4683,7 +4683,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	}
 
 	//Drawing Boss
-	if (g->boss.active && g->player.game_progres == 30)
+	if (g->boss.active && g->player.gameProgres == 30)
  8002668:	687b      	ldr	r3, [r7, #4]
  800266a:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  800266e:	2b00      	cmp	r3, #0
@@ -4704,7 +4704,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  800268e:	230a      	movs	r3, #10
  8002690:	4a3f      	ldr	r2, [pc, #252]	@ (8002790 <GameDraw+0x460>)
  8002692:	f7fe fb8b 	bl	8000dac <GFX_DrowBitMap_P>
-	if (g->boss.active && g->player.game_progres == 60)
+	if (g->boss.active && g->player.gameProgres == 60)
  8002696:	687b      	ldr	r3, [r7, #4]
  8002698:	f893 3a24 	ldrb.w	r3, [r3, #2596]	@ 0xa24
  800269c:	2b00      	cmp	r3, #0
@@ -4727,7 +4727,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  80026c0:	f7fe fb74 	bl	8000dac <GFX_DrowBitMap_P>
 
 	//Drawing bonuses
-	for (i = 0; i < num_bonus; i++) {
+	for (i = 0; i < NUMBER_BONUS; i++) {
  80026c4:	2300      	movs	r3, #0
  80026c6:	73fb      	strb	r3, [r7, #15]
  80026c8:	e057      	b.n	800277a <GameDraw+0x44a>
@@ -4758,7 +4758,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
  80026fa:	2b01      	cmp	r3, #1
  80026fc:	d01d      	beq.n	800273a <GameDraw+0x40a>
  80026fe:	e039      	b.n	8002774 <GameDraw+0x444>
-			case bt_live:
+			case BT_Live:
 				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y, bonus_live_map, 7,
  8002700:	7bfa      	ldrb	r2, [r7, #15]
  8002702:	6879      	ldr	r1, [r7, #4]
@@ -4788,7 +4788,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 						7, 1);
 				break;
  8002738:	e01c      	b.n	8002774 <GameDraw+0x444>
-			case bt_tracker_shoot:
+			case BT_TrackerShot:
 				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y,
  800273a:	7bfa      	ldrb	r2, [r7, #15]
  800273c:	6879      	ldr	r1, [r7, #4]
@@ -4818,7 +4818,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 						bonus_tracker_shoot_map, 7, 7, 1);
 				break;
  8002772:	bf00      	nop
-	for (i = 0; i < num_bonus; i++) {
+	for (i = 0; i < NUMBER_BONUS; i++) {
  8002774:	7bfb      	ldrb	r3, [r7, #15]
  8002776:	3301      	adds	r3, #1
  8002778:	73fb      	strb	r3, [r7, #15]
@@ -4860,7 +4860,7 @@ void GameLevelUpdate(GameCtx* g) {
  80027ac:	2b46      	cmp	r3, #70	@ 0x46
  80027ae:	d907      	bls.n	80027c0 <GameLevelUpdate+0x20>
 		{
-			g->player.game_progres += 1;
+			g->player.gameProgres += 1;
  80027b0:	687b      	ldr	r3, [r7, #4]
  80027b2:	699b      	ldr	r3, [r3, #24]
  80027b4:	1c5a      	adds	r2, r3, #1
@@ -4888,7 +4888,7 @@ void GameLevelUpdate(GameCtx* g) {
  80027da:	701a      	strb	r2, [r3, #0]
 
 		//---- Moments of boss appearance -----
-		if(g->player.game_progres == 29)
+		if(g->player.gameProgres == 29)
  80027dc:	687b      	ldr	r3, [r7, #4]
  80027de:	699b      	ldr	r3, [r3, #24]
  80027e0:	2b1d      	cmp	r3, #29
@@ -4906,11 +4906,11 @@ void GameLevelUpdate(GameCtx* g) {
  80027f4:	687b      	ldr	r3, [r7, #4]
  80027f6:	2203      	movs	r2, #3
  80027f8:	f8c3 2a3c 	str.w	r2, [r3, #2620]	@ 0xa3c
-			g->boss.update_delay = 4;
+			g->boss.updateDelay = 4;
  80027fc:	687b      	ldr	r3, [r7, #4]
  80027fe:	2204      	movs	r2, #4
  8002800:	f8c3 2a34 	str.w	r2, [r3, #2612]	@ 0xa34
-			g->player.game_progres += 1;
+			g->player.gameProgres += 1;
  8002804:	687b      	ldr	r3, [r7, #4]
  8002806:	699b      	ldr	r3, [r3, #24]
  8002808:	1c5a      	adds	r2, r3, #1
@@ -4918,7 +4918,7 @@ void GameLevelUpdate(GameCtx* g) {
  800280c:	619a      	str	r2, [r3, #24]
 
 		}
-		if(g->player.game_progres == 59)
+		if(g->player.gameProgres == 59)
  800280e:	687b      	ldr	r3, [r7, #4]
  8002810:	699b      	ldr	r3, [r3, #24]
  8002812:	2b3b      	cmp	r3, #59	@ 0x3b
@@ -4936,11 +4936,11 @@ void GameLevelUpdate(GameCtx* g) {
  8002826:	687b      	ldr	r3, [r7, #4]
  8002828:	2206      	movs	r2, #6
  800282a:	f8c3 2a3c 	str.w	r2, [r3, #2620]	@ 0xa3c
-			g->boss.update_delay = 2;
+			g->boss.updateDelay = 2;
  800282e:	687b      	ldr	r3, [r7, #4]
  8002830:	2202      	movs	r2, #2
  8002832:	f8c3 2a34 	str.w	r2, [r3, #2612]	@ 0xa34
-			g->player.game_progres += 1;
+			g->player.gameProgres += 1;
  8002836:	687b      	ldr	r3, [r7, #4]
  8002838:	699b      	ldr	r3, [r3, #24]
  800283a:	1c5a      	adds	r2, r3, #1
@@ -4950,7 +4950,7 @@ void GameLevelUpdate(GameCtx* g) {
 		//--------------------------------------
 
 		//Next levels
-		if(g->player.game_progres > 9 && g->player.game_progres < 10 )
+		if(g->player.gameProgres > 9 && g->player.gameProgres < 10 )
  8002840:	687b      	ldr	r3, [r7, #4]
  8002842:	699b      	ldr	r3, [r3, #24]
  8002844:	2b09      	cmp	r3, #9
@@ -4963,7 +4963,7 @@ void GameLevelUpdate(GameCtx* g) {
  8002850:	687b      	ldr	r3, [r7, #4]
  8002852:	2201      	movs	r2, #1
  8002854:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 10 && g->player.game_progres < 19)
+		if(g->player.gameProgres > 10 && g->player.gameProgres < 19)
  8002856:	687b      	ldr	r3, [r7, #4]
  8002858:	699b      	ldr	r3, [r3, #24]
  800285a:	2b0a      	cmp	r3, #10
@@ -4976,7 +4976,7 @@ void GameLevelUpdate(GameCtx* g) {
  8002866:	687b      	ldr	r3, [r7, #4]
  8002868:	2202      	movs	r2, #2
  800286a:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 20 && g->player.game_progres < 29)
+		if(g->player.gameProgres > 20 && g->player.gameProgres < 29)
  800286c:	687b      	ldr	r3, [r7, #4]
  800286e:	699b      	ldr	r3, [r3, #24]
  8002870:	2b14      	cmp	r3, #20
@@ -4989,7 +4989,7 @@ void GameLevelUpdate(GameCtx* g) {
  800287c:	687b      	ldr	r3, [r7, #4]
  800287e:	2203      	movs	r2, #3
  8002880:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 30 && g->player.game_progres < 39)
+		if(g->player.gameProgres > 30 && g->player.gameProgres < 39)
  8002882:	687b      	ldr	r3, [r7, #4]
  8002884:	699b      	ldr	r3, [r3, #24]
  8002886:	2b1e      	cmp	r3, #30
@@ -5002,7 +5002,7 @@ void GameLevelUpdate(GameCtx* g) {
  8002892:	687b      	ldr	r3, [r7, #4]
  8002894:	2204      	movs	r2, #4
  8002896:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 40 && g->player.game_progres < 49)
+		if(g->player.gameProgres > 40 && g->player.gameProgres < 49)
  8002898:	687b      	ldr	r3, [r7, #4]
  800289a:	699b      	ldr	r3, [r3, #24]
  800289c:	2b28      	cmp	r3, #40	@ 0x28
@@ -5015,7 +5015,7 @@ void GameLevelUpdate(GameCtx* g) {
  80028a8:	687b      	ldr	r3, [r7, #4]
  80028aa:	2205      	movs	r2, #5
  80028ac:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 50 && g->player.game_progres < 59)
+		if(g->player.gameProgres > 50 && g->player.gameProgres < 59)
  80028ae:	687b      	ldr	r3, [r7, #4]
  80028b0:	699b      	ldr	r3, [r3, #24]
  80028b2:	2b32      	cmp	r3, #50	@ 0x32
@@ -5028,7 +5028,7 @@ void GameLevelUpdate(GameCtx* g) {
  80028be:	687b      	ldr	r3, [r7, #4]
  80028c0:	2206      	movs	r2, #6
  80028c2:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 60 && g->player.game_progres < 69)
+		if(g->player.gameProgres > 60 && g->player.gameProgres < 69)
  80028c4:	687b      	ldr	r3, [r7, #4]
  80028c6:	699b      	ldr	r3, [r3, #24]
  80028c8:	2b3c      	cmp	r3, #60	@ 0x3c
@@ -5041,7 +5041,7 @@ void GameLevelUpdate(GameCtx* g) {
  80028d4:	687b      	ldr	r3, [r7, #4]
  80028d6:	2207      	movs	r2, #7
  80028d8:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 70 && g->player.game_progres < 79)
+		if(g->player.gameProgres > 70 && g->player.gameProgres < 79)
  80028da:	687b      	ldr	r3, [r7, #4]
  80028dc:	699b      	ldr	r3, [r3, #24]
  80028de:	2b46      	cmp	r3, #70	@ 0x46
@@ -5054,7 +5054,7 @@ void GameLevelUpdate(GameCtx* g) {
  80028ea:	687b      	ldr	r3, [r7, #4]
  80028ec:	2208      	movs	r2, #8
  80028ee:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 80 && g->player.game_progres < 89)
+		if(g->player.gameProgres > 80 && g->player.gameProgres < 89)
  80028f0:	687b      	ldr	r3, [r7, #4]
  80028f2:	699b      	ldr	r3, [r3, #24]
  80028f4:	2b50      	cmp	r3, #80	@ 0x50
@@ -5067,7 +5067,7 @@ void GameLevelUpdate(GameCtx* g) {
  8002900:	687b      	ldr	r3, [r7, #4]
  8002902:	2209      	movs	r2, #9
  8002904:	615a      	str	r2, [r3, #20]
-		if(g->player.game_progres > 90)
+		if(g->player.gameProgres > 90)
  8002906:	687b      	ldr	r3, [r7, #4]
  8002908:	699b      	ldr	r3, [r3, #24]
  800290a:	2b5a      	cmp	r3, #90	@ 0x5a
@@ -5097,7 +5097,7 @@ void GameUpdateBackgrand(GameCtx* g) {
 	 */
 	uint8_t i;
 
-	for(i = 0; i < num_background; i++)
+	for(i = 0; i < NUMBER_BACKGROUND; i++)
  800292c:	2300      	movs	r3, #0
  800292e:	73fb      	strb	r3, [r7, #15]
  8002930:	e07c      	b.n	8002a2c <GameUpdateBackgrand+0x108>
@@ -5115,7 +5115,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002946:	2b00      	cmp	r3, #0
  8002948:	d06d      	beq.n	8002a26 <GameUpdateBackgrand+0x102>
 		{
-			g->background[i].next_update -= 1;
+			g->background[i].nextUpdate -= 1;
  800294a:	7bfa      	ldrb	r2, [r7, #15]
  800294c:	6879      	ldr	r1, [r7, #4]
  800294e:	4613      	mov	r3, r2
@@ -5135,7 +5135,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  800296c:	4403      	add	r3, r0
  800296e:	f503 737c 	add.w	r3, r3, #1008	@ 0x3f0
  8002972:	6019      	str	r1, [r3, #0]
-			if(g->background[i].next_update <= 0)
+			if(g->background[i].nextUpdate <= 0)
  8002974:	7bfa      	ldrb	r2, [r7, #15]
  8002976:	6879      	ldr	r1, [r7, #4]
  8002978:	4613      	mov	r3, r2
@@ -5148,7 +5148,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002988:	2b00      	cmp	r3, #0
  800298a:	dc4c      	bgt.n	8002a26 <GameUpdateBackgrand+0x102>
 			{
-				g->background[i].next_update = g->background[i].update_delay;
+				g->background[i].nextUpdate = g->background[i].updateDelay;
  800298c:	7bf9      	ldrb	r1, [r7, #15]
  800298e:	7bfa      	ldrb	r2, [r7, #15]
  8002990:	6878      	ldr	r0, [r7, #4]
@@ -5224,7 +5224,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002a1e:	f503 7379 	add.w	r3, r3, #996	@ 0x3e4
  8002a22:	2200      	movs	r2, #0
  8002a24:	701a      	strb	r2, [r3, #0]
-	for(i = 0; i < num_background; i++)
+	for(i = 0; i < NUMBER_BACKGROUND; i++)
  8002a26:	7bfb      	ldrb	r3, [r7, #15]
  8002a28:	3301      	adds	r3, #1
  8002a2a:	73fb      	strb	r3, [r7, #15]
@@ -5236,7 +5236,7 @@ void GameUpdateBackgrand(GameCtx* g) {
 		}
 	}
 
-	if ((rand()%100) < num_background_freq) 		//Frequency of background additions
+	if ((rand()%100) < NUMBER_BACKGROUND_FREQ) 		//Frequency of background additions
  8002a34:	f004 fd02 	bl	800743c <rand>
  8002a38:	4602      	mov	r2, r0
  8002a3a:	4b09      	ldr	r3, [pc, #36]	@ (8002a60 <GameUpdateBackgrand+0x13c>)
@@ -5272,7 +5272,7 @@ void GameAddBackground(GameCtx* g){
 	 */
 	uint8_t i;
 
-	for(i = 0; i < num_background; i++)
+	for(i = 0; i < NUMBER_BACKGROUND; i++)
  8002a6c:	2300      	movs	r3, #0
  8002a6e:	73fb      	strb	r3, [r7, #15]
  8002a70:	e059      	b.n	8002b26 <GameAddBackground+0xc2>
@@ -5303,7 +5303,7 @@ void GameAddBackground(GameCtx* g){
  8002a9e:	f503 7379 	add.w	r3, r3, #996	@ 0x3e4
  8002aa2:	2201      	movs	r2, #1
  8002aa4:	701a      	strb	r2, [r3, #0]
-			g->background[i].x 				= screen_width;
+			g->background[i].x 				= SCREEN_WIDTH;
  8002aa6:	7bfa      	ldrb	r2, [r7, #15]
  8002aa8:	6879      	ldr	r1, [r7, #4]
  8002aaa:	4613      	mov	r3, r2
@@ -5314,7 +5314,7 @@ void GameAddBackground(GameCtx* g){
  8002ab4:	f503 737a 	add.w	r3, r3, #1000	@ 0x3e8
  8002ab8:	2280      	movs	r2, #128	@ 0x80
  8002aba:	601a      	str	r2, [r3, #0]
-			g->background[i].y				= (rand()%(screen_height-10)) +10;
+			g->background[i].y				= (rand()%(SCREEN_HEIGHT-10)) +10;
  8002abc:	f004 fcbe 	bl	800743c <rand>
  8002ac0:	4602      	mov	r2, r0
  8002ac2:	4b1d      	ldr	r3, [pc, #116]	@ (8002b38 <GameAddBackground+0xd4>)
@@ -5335,7 +5335,7 @@ void GameAddBackground(GameCtx* g){
  8002ae6:	4403      	add	r3, r0
  8002ae8:	f503 737b 	add.w	r3, r3, #1004	@ 0x3ec
  8002aec:	6019      	str	r1, [r3, #0]
-			g->background[i].update_delay 	= (rand()%6)+2; // def. (rand()%4)+2;
+			g->background[i].updateDelay 	= (rand()%6)+2; // def. (rand()%4)+2;
  8002aee:	f004 fca5 	bl	800743c <rand>
  8002af2:	4601      	mov	r1, r0
  8002af4:	4b11      	ldr	r3, [pc, #68]	@ (8002b3c <GameAddBackground+0xd8>)
@@ -5360,7 +5360,7 @@ void GameAddBackground(GameCtx* g){
 
 			break;
  8002b1e:	e006      	b.n	8002b2e <GameAddBackground+0xca>
-	for(i = 0; i < num_background; i++)
+	for(i = 0; i < NUMBER_BACKGROUND; i++)
  8002b20:	7bfb      	ldrb	r3, [r7, #15]
  8002b22:	3301      	adds	r3, #1
  8002b24:	73fb      	strb	r3, [r7, #15]
@@ -5393,7 +5393,7 @@ void GameAddBonus(GameCtx* g, int x, int y){
 	uint8_t i;
 	int bonus_type;
 
-	for (i = 0; i < num_bonus; i++)
+	for (i = 0; i < NUMBER_BONUS; i++)
  8002b4c:	2300      	movs	r3, #0
  8002b4e:	75fb      	strb	r3, [r7, #23]
  8002b50:	e07e      	b.n	8002c50 <GameAddBonus+0x110>
@@ -5446,7 +5446,7 @@ void GameAddBonus(GameCtx* g, int x, int y){
  8002baa:	f603 2348 	addw	r3, r3, #2632	@ 0xa48
  8002bae:	687a      	ldr	r2, [r7, #4]
  8002bb0:	601a      	str	r2, [r3, #0]
-			g->bonuses[i].update_delay = 3;
+			g->bonuses[i].updateDelay = 3;
  8002bb2:	7dfa      	ldrb	r2, [r7, #23]
  8002bb4:	68f9      	ldr	r1, [r7, #12]
  8002bb6:	4613      	mov	r3, r2
@@ -5476,7 +5476,7 @@ void GameAddBonus(GameCtx* g, int x, int y){
  8002be6:	2b1e      	cmp	r3, #30
  8002be8:	dd15      	ble.n	8002c16 <GameAddBonus+0xd6>
 			{
-				g->bonuses[i].bit_map = bonus_live_map;
+				g->bonuses[i].bitMap = bonus_live_map;
  8002bea:	7dfa      	ldrb	r2, [r7, #23]
  8002bec:	68f9      	ldr	r1, [r7, #12]
  8002bee:	4613      	mov	r3, r2
@@ -5487,7 +5487,7 @@ void GameAddBonus(GameCtx* g, int x, int y){
  8002bf8:	f503 6325 	add.w	r3, r3, #2640	@ 0xa50
  8002bfc:	4a1a      	ldr	r2, [pc, #104]	@ (8002c68 <GameAddBonus+0x128>)
  8002bfe:	601a      	str	r2, [r3, #0]
-				g->bonuses[i].type = st_normal;
+				g->bonuses[i].type = ST_Normal;
  8002c00:	7dfa      	ldrb	r2, [r7, #23]
  8002c02:	68f9      	ldr	r1, [r7, #12]
  8002c04:	4613      	mov	r3, r2
@@ -5504,7 +5504,7 @@ void GameAddBonus(GameCtx* g, int x, int y){
  8002c18:	2b1d      	cmp	r3, #29
  8002c1a:	dc1e      	bgt.n	8002c5a <GameAddBonus+0x11a>
 			{
-				g->bonuses[i].bit_map = bonus_tracker_shoot_map;
+				g->bonuses[i].bitMap = bonus_tracker_shoot_map;
  8002c1c:	7dfa      	ldrb	r2, [r7, #23]
  8002c1e:	68f9      	ldr	r1, [r7, #12]
  8002c20:	4613      	mov	r3, r2
@@ -5515,7 +5515,7 @@ void GameAddBonus(GameCtx* g, int x, int y){
  8002c2a:	f503 6325 	add.w	r3, r3, #2640	@ 0xa50
  8002c2e:	4a0f      	ldr	r2, [pc, #60]	@ (8002c6c <GameAddBonus+0x12c>)
  8002c30:	601a      	str	r2, [r3, #0]
-				g->bonuses[i].type = st_tracker;
+				g->bonuses[i].type = ST_Tracker;
  8002c32:	7dfa      	ldrb	r2, [r7, #23]
  8002c34:	68f9      	ldr	r1, [r7, #12]
  8002c36:	4613      	mov	r3, r2
@@ -5529,7 +5529,7 @@ void GameAddBonus(GameCtx* g, int x, int y){
 			}
 			return;
  8002c48:	e007      	b.n	8002c5a <GameAddBonus+0x11a>
-	for (i = 0; i < num_bonus; i++)
+	for (i = 0; i < NUMBER_BONUS; i++)
  8002c4a:	7dfb      	ldrb	r3, [r7, #23]
  8002c4c:	3301      	adds	r3, #1
  8002c4e:	75fb      	strb	r3, [r7, #23]
@@ -5567,18 +5567,18 @@ void GameUpdateBonus(GameCtx* g){
 
 		//Check duration of st_tracekr if active
 
-		if(g->player.bonus_duration > 0)
+		if(g->player.bonusDuration > 0)
  8002c7c:	687b      	ldr	r3, [r7, #4]
  8002c7e:	6a1b      	ldr	r3, [r3, #32]
  8002c80:	2b00      	cmp	r3, #0
  8002c82:	dd04      	ble.n	8002c8e <GameUpdateBonus+0x1e>
-			g->player.bonus_duration -= 1;
+			g->player.bonusDuration -= 1;
  8002c84:	687b      	ldr	r3, [r7, #4]
  8002c86:	6a1b      	ldr	r3, [r3, #32]
  8002c88:	1e5a      	subs	r2, r3, #1
  8002c8a:	687b      	ldr	r3, [r7, #4]
  8002c8c:	621a      	str	r2, [r3, #32]
-		if(g->player.bonus_duration == 0 && g->player.shoot_type == st_tracker)
+		if(g->player.bonusDuration == 0 && g->player.shootType == ST_Tracker)
  8002c8e:	687b      	ldr	r3, [r7, #4]
  8002c90:	6a1b      	ldr	r3, [r3, #32]
  8002c92:	2b00      	cmp	r3, #0
@@ -5587,13 +5587,13 @@ void GameUpdateBonus(GameCtx* g){
  8002c98:	7f1b      	ldrb	r3, [r3, #28]
  8002c9a:	2b01      	cmp	r3, #1
  8002c9c:	d102      	bne.n	8002ca4 <GameUpdateBonus+0x34>
-			g->player.shoot_type = st_normal;
+			g->player.shootType = ST_Normal;
  8002c9e:	687b      	ldr	r3, [r7, #4]
  8002ca0:	2200      	movs	r2, #0
  8002ca2:	771a      	strb	r2, [r3, #28]
 
 		// Checking whether a player has hovered over a bonus
-		for (i = 0; i < num_bonus; i++)
+		for (i = 0; i < NUMBER_BONUS; i++)
  8002ca4:	2300      	movs	r3, #0
  8002ca6:	60fb      	str	r3, [r7, #12]
  8002ca8:	e12f      	b.n	8002f0a <GameUpdateBonus+0x29a>
@@ -5611,7 +5611,7 @@ void GameUpdateBonus(GameCtx* g){
  8002cbe:	2b00      	cmp	r3, #0
  8002cc0:	f000 8120 	beq.w	8002f04 <GameUpdateBonus+0x294>
 			{
-				g->bonuses[i].next_update -= 1;
+				g->bonuses[i].nextUpdate -= 1;
  8002cc4:	6879      	ldr	r1, [r7, #4]
  8002cc6:	68fa      	ldr	r2, [r7, #12]
  8002cc8:	4613      	mov	r3, r2
@@ -5631,7 +5631,7 @@ void GameUpdateBonus(GameCtx* g){
  8002ce6:	4403      	add	r3, r0
  8002ce8:	f603 2354 	addw	r3, r3, #2644	@ 0xa54
  8002cec:	6019      	str	r1, [r3, #0]
-				if(g->bonuses[i].next_update <= 0)
+				if(g->bonuses[i].nextUpdate <= 0)
  8002cee:	6879      	ldr	r1, [r7, #4]
  8002cf0:	68fa      	ldr	r2, [r7, #12]
  8002cf2:	4613      	mov	r3, r2
@@ -5657,7 +5657,7 @@ void GameUpdateBonus(GameCtx* g){
  8002d1c:	2b00      	cmp	r3, #0
  8002d1e:	f000 80f1 	beq.w	8002f04 <GameUpdateBonus+0x294>
 					{
-						g->bonuses[i].next_update = g->bonuses[i].update_delay;
+						g->bonuses[i].nextUpdate = g->bonuses[i].updateDelay;
  8002d22:	6879      	ldr	r1, [r7, #4]
  8002d24:	68fa      	ldr	r2, [r7, #12]
  8002d26:	4613      	mov	r3, r2
@@ -5810,7 +5810,7 @@ void GameUpdateBonus(GameCtx* g){
  8002e54:	d011      	beq.n	8002e7a <GameUpdateBonus+0x20a>
  8002e56:	e028      	b.n	8002eaa <GameUpdateBonus+0x23a>
 							{
-							case bt_live:
+							case BT_Live:
 								g->player.lives += 1;
  8002e58:	687b      	ldr	r3, [r7, #4]
  8002e5a:	691b      	ldr	r3, [r3, #16]
@@ -5830,12 +5830,12 @@ void GameUpdateBonus(GameCtx* g){
  8002e76:	701a      	strb	r2, [r3, #0]
 								break;
  8002e78:	e017      	b.n	8002eaa <GameUpdateBonus+0x23a>
-							case bt_tracker_shoot:
-								g->player.shoot_type = st_tracker;
+							case BT_TrackerShot:
+								g->player.shootType = ST_Tracker;
  8002e7a:	687b      	ldr	r3, [r7, #4]
  8002e7c:	2201      	movs	r2, #1
  8002e7e:	771a      	strb	r2, [r3, #28]
-								g->player.bonus_duration = duration_bonus + (g->player.level * 50);
+								g->player.bonusDuration = BONUS_DURATION + (g->player.level * 50);
  8002e80:	687b      	ldr	r3, [r7, #4]
  8002e82:	695b      	ldr	r3, [r3, #20]
  8002e84:	2232      	movs	r2, #50	@ 0x32
@@ -5903,7 +5903,7 @@ void GameUpdateBonus(GameCtx* g){
  8002efc:	f503 6324 	add.w	r3, r3, #2624	@ 0xa40
  8002f00:	2200      	movs	r2, #0
  8002f02:	701a      	strb	r2, [r3, #0]
-		for (i = 0; i < num_bonus; i++)
+		for (i = 0; i < NUMBER_BONUS; i++)
  8002f04:	68fb      	ldr	r3, [r7, #12]
  8002f06:	3301      	adds	r3, #1
  8002f08:	60fb      	str	r3, [r7, #12]
@@ -5948,7 +5948,7 @@ void GameShot(GameCtx* g){
  8002f34:	e9c7 2306 	strd	r2, r3, [r7, #24]
 		int random_tracking_number;
 
-		for (i = 0; i < num_shots; ++i)
+		for (i = 0; i < NUMBER_SHOTS; ++i)
  8002f38:	2300      	movs	r3, #0
  8002f3a:	f887 3027 	strb.w	r3, [r7, #39]	@ 0x27
  8002f3e:	e105      	b.n	800314c <GameShot+0x22c>
@@ -6005,7 +6005,7 @@ void GameShot(GameCtx* g){
  8002fa4:	6019      	str	r1, [r3, #0]
 
 				//Setting the type of shot
-				switch(g->player.shoot_type)
+				switch(g->player.shootType)
  8002fa6:	687b      	ldr	r3, [r7, #4]
  8002fa8:	7f1b      	ldrb	r3, [r3, #28]
  8002faa:	2b00      	cmp	r3, #0
@@ -6013,13 +6013,13 @@ void GameShot(GameCtx* g){
  8002fae:	2b01      	cmp	r3, #1
  8002fb0:	d00c      	beq.n	8002fcc <GameShot+0xac>
 						// If you haven't found a target act like a normal shot
-						g->shots[i].type = st_normal;
+						g->shots[i].type = ST_Normal;
 					}
 					break;
 				}
 				return;
  8002fb2:	e0d0      	b.n	8003156 <GameShot+0x236>
-					g->shots[i].type = st_normal;
+					g->shots[i].type = ST_Normal;
  8002fb4:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
  8002fb8:	6879      	ldr	r1, [r7, #4]
  8002fba:	4613      	mov	r3, r2
@@ -6032,11 +6032,11 @@ void GameShot(GameCtx* g){
  8002fc8:	701a      	strb	r2, [r3, #0]
 					break;
  8002fca:	e0b9      	b.n	8003140 <GameShot+0x220>
-					for(int j = 0; j < num_enemies; j++)
+					for(int j = 0; j < NUMBER_ENEMIES; j++)
  8002fcc:	2300      	movs	r3, #0
  8002fce:	617b      	str	r3, [r7, #20]
  8002fd0:	e073      	b.n	80030ba <GameShot+0x19a>
-						if(g->enemies[j].active && !g->enemies[j].tracked_by_missile)
+						if(g->enemies[j].active && !g->enemies[j].trackedByMissile)
  8002fd2:	6879      	ldr	r1, [r7, #4]
  8002fd4:	697a      	ldr	r2, [r7, #20]
  8002fd6:	4613      	mov	r3, r2
@@ -6128,7 +6128,7 @@ void GameShot(GameCtx* g){
 								closest_enemy_number = j;
  80030b0:	697b      	ldr	r3, [r7, #20]
  80030b2:	623b      	str	r3, [r7, #32]
-					for(int j = 0; j < num_enemies; j++)
+					for(int j = 0; j < NUMBER_ENEMIES; j++)
  80030b4:	697b      	ldr	r3, [r7, #20]
  80030b6:	3301      	adds	r3, #1
  80030b8:	617b      	str	r3, [r7, #20]
@@ -6142,7 +6142,7 @@ void GameShot(GameCtx* g){
 						random_tracking_number = rand();
  80030c8:	f004 f9b8 	bl	800743c <rand>
  80030cc:	6138      	str	r0, [r7, #16]
-						g->enemies[closest_enemy_number].track_number = random_tracking_number;
+						g->enemies[closest_enemy_number].trackNumber = random_tracking_number;
  80030ce:	6879      	ldr	r1, [r7, #4]
  80030d0:	6a3a      	ldr	r2, [r7, #32]
  80030d2:	4613      	mov	r3, r2
@@ -6153,7 +6153,7 @@ void GameShot(GameCtx* g){
  80030dc:	f503 7327 	add.w	r3, r3, #668	@ 0x29c
  80030e0:	693a      	ldr	r2, [r7, #16]
  80030e2:	601a      	str	r2, [r3, #0]
-						g->enemies[closest_enemy_number].tracked_by_missile = true;
+						g->enemies[closest_enemy_number].trackedByMissile = true;
  80030e4:	6879      	ldr	r1, [r7, #4]
  80030e6:	6a3a      	ldr	r2, [r7, #32]
  80030e8:	4613      	mov	r3, r2
@@ -6164,7 +6164,7 @@ void GameShot(GameCtx* g){
  80030f2:	f503 7326 	add.w	r3, r3, #664	@ 0x298
  80030f6:	2201      	movs	r2, #1
  80030f8:	701a      	strb	r2, [r3, #0]
-						g->shots[i].type = st_tracker;
+						g->shots[i].type = ST_Tracker;
  80030fa:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
  80030fe:	6879      	ldr	r1, [r7, #4]
  8003100:	4613      	mov	r3, r2
@@ -6175,7 +6175,7 @@ void GameShot(GameCtx* g){
  800310a:	3330      	adds	r3, #48	@ 0x30
  800310c:	2201      	movs	r2, #1
  800310e:	701a      	strb	r2, [r3, #0]
-						g->shots[i].track_number = random_tracking_number;
+						g->shots[i].trackNumber = random_tracking_number;
  8003110:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
  8003114:	6879      	ldr	r1, [r7, #4]
  8003116:	4613      	mov	r3, r2
@@ -6188,7 +6188,7 @@ void GameShot(GameCtx* g){
  8003124:	601a      	str	r2, [r3, #0]
 					break;
  8003126:	e00a      	b.n	800313e <GameShot+0x21e>
-						g->shots[i].type = st_normal;
+						g->shots[i].type = ST_Normal;
  8003128:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
  800312c:	6879      	ldr	r1, [r7, #4]
  800312e:	4613      	mov	r3, r2
@@ -6203,7 +6203,7 @@ void GameShot(GameCtx* g){
  800313e:	bf00      	nop
 				return;
  8003140:	e009      	b.n	8003156 <GameShot+0x236>
-		for (i = 0; i < num_shots; ++i)
+		for (i = 0; i < NUMBER_SHOTS; ++i)
  8003142:	f897 3027 	ldrb.w	r3, [r7, #39]	@ 0x27
  8003146:	3301      	adds	r3, #1
  8003148:	f887 3027 	strb.w	r3, [r7, #39]	@ 0x27
@@ -6233,7 +6233,7 @@ void GameShotBoss(GameCtx* g){
 		 */
 		uint8_t i;
 
-		for (i = 0; i < num_boss_shots; ++i)
+		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i)
  8003174:	2300      	movs	r3, #0
  8003176:	73fb      	strb	r3, [r7, #15]
  8003178:	e038      	b.n	80031ec <GameShotBoss+0x80>
@@ -6291,7 +6291,7 @@ void GameShotBoss(GameCtx* g){
  80031e2:	6019      	str	r1, [r3, #0]
 				return;
  80031e4:	e005      	b.n	80031f2 <GameShotBoss+0x86>
-		for (i = 0; i < num_boss_shots; ++i)
+		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i)
  80031e6:	7bfb      	ldrb	r3, [r7, #15]
  80031e8:	3301      	adds	r3, #1
  80031ea:	73fb      	strb	r3, [r7, #15]
@@ -6398,7 +6398,7 @@ void GameAddEnemy(GameCtx* g){
  8003288:	f503 731f 	add.w	r3, r3, #636	@ 0x27c
  800328c:	2201      	movs	r2, #1
  800328e:	701a      	strb	r2, [r3, #0]
-				g->enemies[i].x = screen_width + 12;
+				g->enemies[i].x = SCREEN_WIDTH + 12;
  8003290:	7bfa      	ldrb	r2, [r7, #15]
  8003292:	6879      	ldr	r1, [r7, #4]
  8003294:	4613      	mov	r3, r2
@@ -6409,7 +6409,7 @@ void GameAddEnemy(GameCtx* g){
  800329e:	f503 7320 	add.w	r3, r3, #640	@ 0x280
  80032a2:	228c      	movs	r2, #140	@ 0x8c
  80032a4:	601a      	str	r2, [r3, #0]
-				g->enemies[i].y = ((rand()%(screen_height - 10))+10);
+				g->enemies[i].y = ((rand()%(SCREEN_HEIGHT - 10))+10);
  80032a6:	f004 f8c9 	bl	800743c <rand>
  80032aa:	4602      	mov	r2, r0
  80032ac:	4b72      	ldr	r3, [pc, #456]	@ (8003478 <GameAddEnemy+0x22c>)
@@ -6430,7 +6430,7 @@ void GameAddEnemy(GameCtx* g){
  80032d0:	4403      	add	r3, r0
  80032d2:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  80032d6:	6019      	str	r1, [r3, #0]
-				g->enemies[i].tracked_by_missile = false;
+				g->enemies[i].trackedByMissile = false;
  80032d8:	7bfa      	ldrb	r2, [r7, #15]
  80032da:	6879      	ldr	r1, [r7, #4]
  80032dc:	4613      	mov	r3, r2
@@ -6441,7 +6441,7 @@ void GameAddEnemy(GameCtx* g){
  80032e6:	f503 7326 	add.w	r3, r3, #664	@ 0x298
  80032ea:	2200      	movs	r2, #0
  80032ec:	701a      	strb	r2, [r3, #0]
-				g->enemies[i].track_number = 0;
+				g->enemies[i].trackNumber = 0;
  80032ee:	7bfa      	ldrb	r2, [r7, #15]
  80032f0:	6879      	ldr	r1, [r7, #4]
  80032f2:	4613      	mov	r3, r2
@@ -6473,7 +6473,7 @@ void GameAddEnemy(GameCtx* g){
  8003326:	d92b      	bls.n	8003380 <GameAddEnemy+0x134>
 				{
 
-					g->enemies[i].type = et_diver;
+					g->enemies[i].type = ET_Diver;
  8003328:	7bfa      	ldrb	r2, [r7, #15]
  800332a:	6879      	ldr	r1, [r7, #4]
  800332c:	4613      	mov	r3, r2
@@ -6504,7 +6504,7 @@ void GameAddEnemy(GameCtx* g){
  8003362:	440b      	add	r3, r1
  8003364:	f503 7325 	add.w	r3, r3, #660	@ 0x294
  8003368:	601a      	str	r2, [r3, #0]
-					g->enemies[i].bit_map = driver_map;
+					g->enemies[i].bitMap = driver_map;
  800336a:	7bfa      	ldrb	r2, [r7, #15]
  800336c:	6879      	ldr	r1, [r7, #4]
  800336e:	4613      	mov	r3, r2
@@ -6528,7 +6528,7 @@ void GameAddEnemy(GameCtx* g){
  8003390:	2b04      	cmp	r3, #4
  8003392:	dd2c      	ble.n	80033ee <GameAddEnemy+0x1a2>
 				{
-					g->enemies[i].type = et_tracker;
+					g->enemies[i].type = ET_Tracker;
  8003394:	7bfa      	ldrb	r2, [r7, #15]
  8003396:	6879      	ldr	r1, [r7, #4]
  8003398:	4613      	mov	r3, r2
@@ -6560,7 +6560,7 @@ void GameAddEnemy(GameCtx* g){
  80033d0:	4403      	add	r3, r0
  80033d2:	f503 7325 	add.w	r3, r3, #660	@ 0x294
  80033d6:	601a      	str	r2, [r3, #0]
-					g->enemies[i].bit_map = tracker_map;
+					g->enemies[i].bitMap = tracker_map;
  80033d8:	7bfa      	ldrb	r2, [r7, #15]
  80033da:	6879      	ldr	r1, [r7, #4]
  80033dc:	4613      	mov	r3, r2
@@ -6581,7 +6581,7 @@ void GameAddEnemy(GameCtx* g){
  80033f8:	2b07      	cmp	r3, #7
  80033fa:	dd37      	ble.n	800346c <GameAddEnemy+0x220>
 				{
-					g->enemies[i].type = et_bobber;
+					g->enemies[i].type = ET_Bobber;
  80033fc:	7bfa      	ldrb	r2, [r7, #15]
  80033fe:	6879      	ldr	r1, [r7, #4]
  8003400:	4613      	mov	r3, r2
@@ -6613,7 +6613,7 @@ void GameAddEnemy(GameCtx* g){
  8003438:	4403      	add	r3, r0
  800343a:	f503 7325 	add.w	r3, r3, #660	@ 0x294
  800343e:	601a      	str	r2, [r3, #0]
-					g->enemies[i].bit_map = bobber_map;
+					g->enemies[i].bitMap = bobber_map;
  8003440:	7bfa      	ldrb	r2, [r7, #15]
  8003442:	6879      	ldr	r1, [r7, #4]
  8003444:	4613      	mov	r3, r2
@@ -6657,7 +6657,7 @@ void GameAddEnemy(GameCtx* g){
 
 08003490 <GameSetState>:
 
-void GameSetState(GameCtx* g, gamestate state){
+void GameSetState(GameCtx* g, GameState state){
  8003490:	b480      	push	{r7}
  8003492:	b083      	sub	sp, #12
  8003494:	af00      	add	r7, sp, #0
@@ -6681,7 +6681,7 @@ void GameSetState(GameCtx* g, gamestate state){
 
 080034b0 <GameGetState>:
 
-gamestate GameGetState(GameCtx* g){
+GameState GameGetState(GameCtx* g){
  80034b0:	b480      	push	{r7}
  80034b2:	b083      	sub	sp, #12
  80034b4:	af00      	add	r7, sp, #0
@@ -6724,10 +6724,10 @@ int GameGetPalyerScore(GameCtx* g){
 
 080034e4 <InputInit>:
 
-static GPIO_PinState _lastBtnState = GPIO_PIN_SET;
-static GPIO_PinState _curentBtnState;
-
-
+/*
+ * @brief Assignment of input data
+ *
+ */
 void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin){
  80034e4:	b480      	push	{r7}
  80034e6:	b085      	sub	sp, #20
@@ -6736,9 +6736,7 @@ void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin){
  80034ec:	60b9      	str	r1, [r7, #8]
  80034ee:	4613      	mov	r3, r2
  80034f0:	80fb      	strh	r3, [r7, #6]
-	/*
-	 * Assignment of input data
-	 */
+
 	_hadc = hadc;
  80034f2:	4a07      	ldr	r2, [pc, #28]	@ (8003510 <InputInit+0x2c>)
  80034f4:	68fb      	ldr	r3, [r7, #12]
@@ -6763,14 +6761,15 @@ void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin){
 
 0800351c <InputRead>:
 
+/*
+ * @brief Reading and returning current states
+ */
 InputSnapshot InputRead (void){
  800351c:	b580      	push	{r7, lr}
  800351e:	b084      	sub	sp, #16
  8003520:	af00      	add	r7, sp, #0
  8003522:	6078      	str	r0, [r7, #4]
-	/*
-	 * Reading and returning current states
-	 */
+
 	InputSnapshot snap;
 	snap.joystickYValue = HAL_ADC_GetValue(_hadc);
  8003524:	4b17      	ldr	r3, [pc, #92]	@ (8003584 <InputRead+0x68>)
@@ -7044,13 +7043,13 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  ssd1327_SpiInit(&hspi1);
+  SSD1327_SpiInit(&hspi1);
  800369c:	481b      	ldr	r0, [pc, #108]	@ (800370c <main+0x98>)
- 800369e:	f000 fadd 	bl	8003c5c <ssd1327_SpiInit>
-  ssd1327_CLR();
- 80036a2:	f000 fb95 	bl	8003dd0 <ssd1327_CLR>
-  ssd1327_display();
- 80036a6:	f000 fb5b 	bl	8003d60 <ssd1327_display>
+ 800369e:	f000 fadd 	bl	8003c5c <SSD1327_SpiInit>
+  SSD1327_CLR();
+ 80036a2:	f000 fb95 	bl	8003dd0 <SSD1327_CLR>
+  SSD1327_Display();
+ 80036a6:	f000 fb5b 	bl	8003d60 <SSD1327_Display>
 
   //start_game();
   GameInit(&g_singleton);
@@ -7089,17 +7088,17 @@ int main(void)
  80036ea:	d004      	beq.n	80036f6 <main+0x82>
  80036ec:	e00b      	b.n	8003706 <main+0x92>
 		{
-		case st_menu:
+		case GS_Menu:
 			RunMenu(&input_Snap); break;
  80036ee:	4809      	ldr	r0, [pc, #36]	@ (8003714 <main+0xa0>)
  80036f0:	f000 fa1e 	bl	8003b30 <RunMenu>
  80036f4:	e007      	b.n	8003706 <main+0x92>
-		case st_playing:
+		case GS_Playing:
 			RunGame(&input_Snap); break;
  80036f6:	4807      	ldr	r0, [pc, #28]	@ (8003714 <main+0xa0>)
  80036f8:	f000 f9fa 	bl	8003af0 <RunGame>
  80036fc:	e003      	b.n	8003706 <main+0x92>
-		case st_dead:
+		case GS_Dead:
 			RunDead(&input_Snap);	break;
  80036fe:	4805      	ldr	r0, [pc, #20]	@ (8003714 <main+0xa0>)
  8003700:	f000 f97e 	bl	8003a00 <RunDead>
@@ -7656,9 +7655,9 @@ void RunDead(InputSnapshot* in)
  8003a2a:	425b      	negs	r3, r3
  8003a2c:	4a1b      	ldr	r2, [pc, #108]	@ (8003a9c <RunDead+0x9c>)
  8003a2e:	6013      	str	r3, [r2, #0]
-	ssd1327_CLR();
- 8003a30:	f000 f9ce 	bl	8003dd0 <ssd1327_CLR>
-	GFX_DrowBitMap_P(x,(screen_height/2) - 4,Defeated_map,67,16,1);
+	SSD1327_CLR();
+ 8003a30:	f000 f9ce 	bl	8003dd0 <SSD1327_CLR>
+	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 4,Defeated_map,67,16,1);
  8003a34:	4b18      	ldr	r3, [pc, #96]	@ (8003a98 <RunDead+0x98>)
  8003a36:	6818      	ldr	r0, [r3, #0]
  8003a38:	2301      	movs	r3, #1
@@ -7669,7 +7668,7 @@ void RunDead(InputSnapshot* in)
  8003a42:	4a17      	ldr	r2, [pc, #92]	@ (8003aa0 <RunDead+0xa0>)
  8003a44:	213c      	movs	r1, #60	@ 0x3c
  8003a46:	f7fd f9b1 	bl	8000dac <GFX_DrowBitMap_P>
-	GFX_DrowBitMap_P(35,(screen_height/2) + 24,Score_map,37,10,1);
+	GFX_DrowBitMap_P(35,(SCREEN_HEIGHT/2) + 24,Score_map,37,10,1);
  8003a4a:	2301      	movs	r3, #1
  8003a4c:	9301      	str	r3, [sp, #4]
  8003a4e:	230a      	movs	r3, #10
@@ -7679,7 +7678,7 @@ void RunDead(InputSnapshot* in)
  8003a56:	2158      	movs	r1, #88	@ 0x58
  8003a58:	2023      	movs	r0, #35	@ 0x23
  8003a5a:	f7fd f9a7 	bl	8000dac <GFX_DrowBitMap_P>
-	GFX_PutInt(73,(screen_height/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
+	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
  8003a5e:	4812      	ldr	r0, [pc, #72]	@ (8003aa8 <RunDead+0xa8>)
  8003a60:	f7ff fd33 	bl	80034ca <GameGetPalyerScore>
  8003a64:	4602      	mov	r2, r0
@@ -7691,8 +7690,8 @@ void RunDead(InputSnapshot* in)
  8003a70:	215b      	movs	r1, #91	@ 0x5b
  8003a72:	2049      	movs	r0, #73	@ 0x49
  8003a74:	f7fd fb2c 	bl	80010d0 <GFX_PutInt>
-	ssd1327_display();
- 8003a78:	f000 f972 	bl	8003d60 <ssd1327_display>
+	SSD1327_Display();
+ 8003a78:	f000 f972 	bl	8003d60 <SSD1327_Display>
 
 	if(in->btn1State == GPIO_PIN_SET)
  8003a7c:	687b      	ldr	r3, [r7, #4]
@@ -7702,7 +7701,7 @@ void RunDead(InputSnapshot* in)
 	{
 		PlayDeadAnim();
  8003a84:	f000 f812 	bl	8003aac <PlayDeadAnim>
-		GameSetState(&g_singleton, st_menu);//state = st_menu;
+		GameSetState(&g_singleton, GS_Menu);//state = st_menu;
  8003a88:	2100      	movs	r1, #0
  8003a8a:	4807      	ldr	r0, [pc, #28]	@ (8003aa8 <RunDead+0xa8>)
  8003a8c:	f7ff fd00 	bl	8003490 <GameSetState>
@@ -7735,8 +7734,8 @@ void PlayDeadAnim(void)
  8003ab4:	71fb      	strb	r3, [r7, #7]
  8003ab6:	e012      	b.n	8003ade <PlayDeadAnim+0x32>
 	{
-		ssd1327_CLR();
- 8003ab8:	f000 f98a 	bl	8003dd0 <ssd1327_CLR>
+		SSD1327_CLR();
+ 8003ab8:	f000 f98a 	bl	8003dd0 <SSD1327_CLR>
 		GFX_FillRect(0,0,128,128,1);
  8003abc:	2301      	movs	r3, #1
  8003abe:	9300      	str	r3, [sp, #0]
@@ -7745,13 +7744,13 @@ void PlayDeadAnim(void)
  8003ac4:	2100      	movs	r1, #0
  8003ac6:	2000      	movs	r0, #0
  8003ac8:	f7fd fa78 	bl	8000fbc <GFX_FillRect>
-		ssd1327_display();
- 8003acc:	f000 f948 	bl	8003d60 <ssd1327_display>
+		SSD1327_Display();
+ 8003acc:	f000 f948 	bl	8003d60 <SSD1327_Display>
 
-		ssd1327_CLR();
- 8003ad0:	f000 f97e 	bl	8003dd0 <ssd1327_CLR>
-		ssd1327_display();
- 8003ad4:	f000 f944 	bl	8003d60 <ssd1327_display>
+		SSD1327_CLR();
+ 8003ad0:	f000 f97e 	bl	8003dd0 <SSD1327_CLR>
+		SSD1327_Display();
+ 8003ad4:	f000 f944 	bl	8003d60 <SSD1327_Display>
 	for (i = 0; i < 10; ++i)
  8003ad8:	79fb      	ldrb	r3, [r7, #7]
  8003ada:	3301      	adds	r3, #1
@@ -7785,10 +7784,10 @@ void RunGame (InputSnapshot* in)
  8003af8:	6879      	ldr	r1, [r7, #4]
  8003afa:	480c      	ldr	r0, [pc, #48]	@ (8003b2c <RunGame+0x3c>)
  8003afc:	f7fe fc18 	bl	8002330 <GameDraw>
-	ssd1327_display();
- 8003b00:	f000 f92e 	bl	8003d60 <ssd1327_display>
-	ssd1327_CLR();
- 8003b04:	f000 f964 	bl	8003dd0 <ssd1327_CLR>
+	SSD1327_Display();
+ 8003b00:	f000 f92e 	bl	8003d60 <SSD1327_Display>
+	SSD1327_CLR();
+ 8003b04:	f000 f964 	bl	8003dd0 <SSD1327_CLR>
 
 	//update_lvl();
 	GameLevelUpdate(&g_singleton);
@@ -7849,10 +7848,10 @@ void RunMenu (InputSnapshot* in)
  8003b5a:	425b      	negs	r3, r3
  8003b5c:	4a1a      	ldr	r2, [pc, #104]	@ (8003bc8 <RunMenu+0x98>)
  8003b5e:	6013      	str	r3, [r2, #0]
-	ssd1327_CLR();
- 8003b60:	f000 f936 	bl	8003dd0 <ssd1327_CLR>
+	SSD1327_CLR();
+ 8003b60:	f000 f936 	bl	8003dd0 <SSD1327_CLR>
 
-	GFX_DrowBitMap_P(x,(screen_height/2) - 10,uGalaxy_map,54,16,1);
+	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 10,uGalaxy_map,54,16,1);
  8003b64:	4b17      	ldr	r3, [pc, #92]	@ (8003bc4 <RunMenu+0x94>)
  8003b66:	6818      	ldr	r0, [r3, #0]
  8003b68:	2301      	movs	r3, #1
@@ -7863,7 +7862,7 @@ void RunMenu (InputSnapshot* in)
  8003b72:	4a16      	ldr	r2, [pc, #88]	@ (8003bcc <RunMenu+0x9c>)
  8003b74:	2136      	movs	r1, #54	@ 0x36
  8003b76:	f7fd f919 	bl	8000dac <GFX_DrowBitMap_P>
-	GFX_DrowRoundRect(15,(screen_height/2) + 34,93,20,8,1);
+	GFX_DrowRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
  8003b7a:	2301      	movs	r3, #1
  8003b7c:	9301      	str	r3, [sp, #4]
  8003b7e:	2308      	movs	r3, #8
@@ -7873,7 +7872,7 @@ void RunMenu (InputSnapshot* in)
  8003b86:	2162      	movs	r1, #98	@ 0x62
  8003b88:	200f      	movs	r0, #15
  8003b8a:	f7fd fac1 	bl	8001110 <GFX_DrowRoundRect>
-	GFX_DrowBitMap_P(26, (screen_height/2)+ 37, PressToStart_map, 66,10,1);
+	GFX_DrowBitMap_P(26, (SCREEN_HEIGHT/2)+ 37, PressToStart_map, 66,10,1);
  8003b8e:	2301      	movs	r3, #1
  8003b90:	9301      	str	r3, [sp, #4]
  8003b92:	230a      	movs	r3, #10
@@ -7894,13 +7893,13 @@ void RunMenu (InputSnapshot* in)
 		GameInit(&g_singleton);
  8003baa:	480a      	ldr	r0, [pc, #40]	@ (8003bd4 <RunMenu+0xa4>)
  8003bac:	f7fd fb29 	bl	8001202 <GameInit>
-		GameSetState(&g_singleton, st_playing);//state = st_playing;
+		GameSetState(&g_singleton, GS_Playing);//state = st_playing;
  8003bb0:	2101      	movs	r1, #1
  8003bb2:	4808      	ldr	r0, [pc, #32]	@ (8003bd4 <RunMenu+0xa4>)
  8003bb4:	f7ff fc6c 	bl	8003490 <GameSetState>
 	}
-	ssd1327_display();
- 8003bb8:	f000 f8d2 	bl	8003d60 <ssd1327_display>
+	SSD1327_Display();
+ 8003bb8:	f000 f8d2 	bl	8003d60 <SSD1327_Display>
 
 }
  8003bbc:	bf00      	nop
@@ -7938,13 +7937,13 @@ __STATIC_FORCEINLINE void __disable_irq(void)
  8003be0:	bf00      	nop
  8003be2:	e7fd      	b.n	8003be0 <Error_Handler+0x8>
 
-08003be4 <ssd1327_cmd>:
+08003be4 <SSD1327_CMD>:
 SPI_HandleTypeDef *ssd1337_spi;
 
 static uint8_t buffer[BUF_SIZE];
 
 
-void ssd1327_cmd (uint8_t cmd){
+void SSD1327_CMD (uint8_t cmd){
  8003be4:	b580      	push	{r7, lr}
  8003be6:	b082      	sub	sp, #8
  8003be8:	af00      	add	r7, sp, #0
@@ -7954,15 +7953,15 @@ void ssd1327_cmd (uint8_t cmd){
 	HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_RESET);
  8003bee:	2200      	movs	r2, #0
  8003bf0:	2120      	movs	r1, #32
- 8003bf2:	480c      	ldr	r0, [pc, #48]	@ (8003c24 <ssd1327_cmd+0x40>)
+ 8003bf2:	480c      	ldr	r0, [pc, #48]	@ (8003c24 <SSD1327_CMD+0x40>)
  8003bf4:	f001 ff28 	bl	8005a48 <HAL_GPIO_WritePin>
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
  8003bf8:	2200      	movs	r2, #0
  8003bfa:	2110      	movs	r1, #16
- 8003bfc:	4809      	ldr	r0, [pc, #36]	@ (8003c24 <ssd1327_cmd+0x40>)
+ 8003bfc:	4809      	ldr	r0, [pc, #36]	@ (8003c24 <SSD1327_CMD+0x40>)
  8003bfe:	f001 ff23 	bl	8005a48 <HAL_GPIO_WritePin>
 	HAL_SPI_Transmit(ssd1337_spi, &cmd, 1, 10);
- 8003c02:	4b09      	ldr	r3, [pc, #36]	@ (8003c28 <ssd1327_cmd+0x44>)
+ 8003c02:	4b09      	ldr	r3, [pc, #36]	@ (8003c28 <SSD1327_CMD+0x44>)
  8003c04:	6818      	ldr	r0, [r3, #0]
  8003c06:	1df9      	adds	r1, r7, #7
  8003c08:	230a      	movs	r3, #10
@@ -7971,7 +7970,7 @@ void ssd1327_cmd (uint8_t cmd){
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_SET);
  8003c10:	2201      	movs	r2, #1
  8003c12:	2110      	movs	r1, #16
- 8003c14:	4803      	ldr	r0, [pc, #12]	@ (8003c24 <ssd1327_cmd+0x40>)
+ 8003c14:	4803      	ldr	r0, [pc, #12]	@ (8003c24 <SSD1327_CMD+0x40>)
  8003c16:	f001 ff17 	bl	8005a48 <HAL_GPIO_WritePin>
 
 }
@@ -7983,13 +7982,13 @@ void ssd1327_cmd (uint8_t cmd){
  8003c24:	48000400 	.word	0x48000400
  8003c28:	20000c18 	.word	0x20000c18
 
-08003c2c <ssd1327_Reset>:
+08003c2c <SSD1327_Reset>:
 {
-	ssd1327_cmd(SSD1327_SETCONTRASTCURRENT);	// Set Contrast Control
-	ssd1327_cmd(Contrast);
+	SSD1327_CMD(SSD1327_SETCONTRASTCURRENT);	// Set Contrast Control
+	SSD1327_CMD(Contrast);
 }
 
-void ssd1327_Reset(void){
+void SSD1327_Reset(void){
  8003c2c:	b580      	push	{r7, lr}
  8003c2e:	af00      	add	r7, sp, #0
 
@@ -8014,23 +8013,23 @@ void ssd1327_Reset(void){
  8003c58:	bf00      	nop
  8003c5a:	bd80      	pop	{r7, pc}
 
-08003c5c <ssd1327_SpiInit>:
+08003c5c <SSD1327_SpiInit>:
 
-void ssd1327_SpiInit(SPI_HandleTypeDef *spi){
+void SSD1327_SpiInit(SPI_HandleTypeDef *spi){
  8003c5c:	b580      	push	{r7, lr}
  8003c5e:	b082      	sub	sp, #8
  8003c60:	af00      	add	r7, sp, #0
  8003c62:	6078      	str	r0, [r7, #4]
 
 	ssd1337_spi = spi;
- 8003c64:	4a05      	ldr	r2, [pc, #20]	@ (8003c7c <ssd1327_SpiInit+0x20>)
+ 8003c64:	4a05      	ldr	r2, [pc, #20]	@ (8003c7c <SSD1327_SpiInit+0x20>)
  8003c66:	687b      	ldr	r3, [r7, #4]
  8003c68:	6013      	str	r3, [r2, #0]
 
-	ssd1327_Reset();
- 8003c6a:	f7ff ffdf 	bl	8003c2c <ssd1327_Reset>
-	ssd1327_Init();
- 8003c6e:	f000 f807 	bl	8003c80 <ssd1327_Init>
+	SSD1327_Reset();
+ 8003c6a:	f7ff ffdf 	bl	8003c2c <SSD1327_Reset>
+	SSD1327_Init();
+ 8003c6e:	f000 f807 	bl	8003c80 <SSD1327_Init>
 
 }
  8003c72:	bf00      	nop
@@ -8040,193 +8039,193 @@ void ssd1327_SpiInit(SPI_HandleTypeDef *spi){
  8003c7a:	bf00      	nop
  8003c7c:	20000c18 	.word	0x20000c18
 
-08003c80 <ssd1327_Init>:
+08003c80 <SSD1327_Init>:
 
-void ssd1327_Init (void){
+void SSD1327_Init (void){
  8003c80:	b580      	push	{r7, lr}
  8003c82:	af00      	add	r7, sp, #0
 
-	ssd1327_cmd(0xae);	// Turn off oled panel
+	SSD1327_CMD(0xae);	// Turn off oled panel
  8003c84:	20ae      	movs	r0, #174	@ 0xae
- 8003c86:	f7ff ffad 	bl	8003be4 <ssd1327_cmd>
+ 8003c86:	f7ff ffad 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0x15);  // Set column addresses
+	SSD1327_CMD(0x15);  // Set column addresses
  8003c8a:	2015      	movs	r0, #21
- 8003c8c:	f7ff ffaa 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x00);  // Start column  0
+ 8003c8c:	f7ff ffaa 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x00);  // Start column  0
  8003c90:	2000      	movs	r0, #0
- 8003c92:	f7ff ffa7 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x7f);  // End column  127
+ 8003c92:	f7ff ffa7 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x7f);  // End column  127
  8003c96:	207f      	movs	r0, #127	@ 0x7f
- 8003c98:	f7ff ffa4 	bl	8003be4 <ssd1327_cmd>
+ 8003c98:	f7ff ffa4 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0x75);  // Set row addresses
+	SSD1327_CMD(0x75);  // Set row addresses
  8003c9c:	2075      	movs	r0, #117	@ 0x75
- 8003c9e:	f7ff ffa1 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x00);  // Start row  0
+ 8003c9e:	f7ff ffa1 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x00);  // Start row  0
  8003ca2:	2000      	movs	r0, #0
- 8003ca4:	f7ff ff9e 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x7f);  // End row  127
+ 8003ca4:	f7ff ff9e 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x7f);  // End row  127
  8003ca8:	207f      	movs	r0, #127	@ 0x7f
- 8003caa:	f7ff ff9b 	bl	8003be4 <ssd1327_cmd>
+ 8003caa:	f7ff ff9b 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0x81);  // Set contrast control
+	SSD1327_CMD(0x81);  // Set contrast control
  8003cae:	2081      	movs	r0, #129	@ 0x81
- 8003cb0:	f7ff ff98 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x80);  // 50% (128/255) def.0x80
+ 8003cb0:	f7ff ff98 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x80);  // 50% (128/255) def.0x80
  8003cb4:	2080      	movs	r0, #128	@ 0x80
- 8003cb6:	f7ff ff95 	bl	8003be4 <ssd1327_cmd>
+ 8003cb6:	f7ff ff95 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xa0);  // Gment remap
+	SSD1327_CMD(0xa0);  // Gment remap
  8003cba:	20a0      	movs	r0, #160	@ 0xa0
- 8003cbc:	f7ff ff92 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x51);  // 51 (To my understanding, this is orientation
+ 8003cbc:	f7ff ff92 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x51);  // 51 (To my understanding, this is orientation
  8003cc0:	2051      	movs	r0, #81	@ 0x51
- 8003cc2:	f7ff ff8f 	bl	8003be4 <ssd1327_cmd>
+ 8003cc2:	f7ff ff8f 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xa1);  // Start line
+	SSD1327_CMD(0xa1);  // Start line
  8003cc6:	20a1      	movs	r0, #161	@ 0xa1
- 8003cc8:	f7ff ff8c 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x00);
+ 8003cc8:	f7ff ff8c 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x00);
  8003ccc:	2000      	movs	r0, #0
- 8003cce:	f7ff ff89 	bl	8003be4 <ssd1327_cmd>
+ 8003cce:	f7ff ff89 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xa2);  // Display offset
+	SSD1327_CMD(0xa2);  // Display offset
  8003cd2:	20a2      	movs	r0, #162	@ 0xa2
- 8003cd4:	f7ff ff86 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x00);
+ 8003cd4:	f7ff ff86 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x00);
  8003cd8:	2000      	movs	r0, #0
- 8003cda:	f7ff ff83 	bl	8003be4 <ssd1327_cmd>
+ 8003cda:	f7ff ff83 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xa4);  // rmal display
+	SSD1327_CMD(0xa4);  // rmal display
  8003cde:	20a4      	movs	r0, #164	@ 0xa4
- 8003ce0:	f7ff ff80 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0xa8);  // Set multiplex ratio
+ 8003ce0:	f7ff ff80 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0xa8);  // Set multiplex ratio
  8003ce4:	20a8      	movs	r0, #168	@ 0xa8
- 8003ce6:	f7ff ff7d 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x7f);
+ 8003ce6:	f7ff ff7d 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x7f);
  8003cea:	207f      	movs	r0, #127	@ 0x7f
- 8003cec:	f7ff ff7a 	bl	8003be4 <ssd1327_cmd>
+ 8003cec:	f7ff ff7a 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xb1);  // Set phase leghth
+	SSD1327_CMD(0xb1);  // Set phase leghth
  8003cf0:	20b1      	movs	r0, #177	@ 0xb1
- 8003cf2:	f7ff ff77 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0xf1);
+ 8003cf2:	f7ff ff77 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0xf1);
  8003cf6:	20f1      	movs	r0, #241	@ 0xf1
- 8003cf8:	f7ff ff74 	bl	8003be4 <ssd1327_cmd>
+ 8003cf8:	f7ff ff74 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xb3);  // Set dclk
+	SSD1327_CMD(0xb3);  // Set dclk
  8003cfc:	20b3      	movs	r0, #179	@ 0xb3
- 8003cfe:	f7ff ff71 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x00);  // 80Hz:0xc1 90Hz:0xe1  100Hz:0x00  110Hz:0x30 120Hz:0x50  130Hz:0x70   01
+ 8003cfe:	f7ff ff71 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x00);  // 80Hz:0xc1 90Hz:0xe1  100Hz:0x00  110Hz:0x30 120Hz:0x50  130Hz:0x70   01
  8003d02:	2000      	movs	r0, #0
- 8003d04:	f7ff ff6e 	bl	8003be4 <ssd1327_cmd>
+ 8003d04:	f7ff ff6e 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xab);  // Enable vReg
+	SSD1327_CMD(0xab);  // Enable vReg
  8003d08:	20ab      	movs	r0, #171	@ 0xab
- 8003d0a:	f7ff ff6b 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x01);
+ 8003d0a:	f7ff ff6b 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x01);
  8003d0e:	2001      	movs	r0, #1
- 8003d10:	f7ff ff68 	bl	8003be4 <ssd1327_cmd>
+ 8003d10:	f7ff ff68 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xb6);  // Set phase leghth
+	SSD1327_CMD(0xb6);  // Set phase leghth
  8003d14:	20b6      	movs	r0, #182	@ 0xb6
- 8003d16:	f7ff ff65 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x0f);
+ 8003d16:	f7ff ff65 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x0f);
  8003d1a:	200f      	movs	r0, #15
- 8003d1c:	f7ff ff62 	bl	8003be4 <ssd1327_cmd>
+ 8003d1c:	f7ff ff62 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xbe); 	// Set vcomh voltage
+	SSD1327_CMD(0xbe); 	// Set vcomh voltage
  8003d20:	20be      	movs	r0, #190	@ 0xbe
- 8003d22:	f7ff ff5f 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x0f);
+ 8003d22:	f7ff ff5f 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x0f);
  8003d26:	200f      	movs	r0, #15
- 8003d28:	f7ff ff5c 	bl	8003be4 <ssd1327_cmd>
+ 8003d28:	f7ff ff5c 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xbc); 	// Set pre-charge voltage
+	SSD1327_CMD(0xbc); 	// Set pre-charge voltage
  8003d2c:	20bc      	movs	r0, #188	@ 0xbc
- 8003d2e:	f7ff ff59 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x08);
+ 8003d2e:	f7ff ff59 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x08);
  8003d32:	2008      	movs	r0, #8
- 8003d34:	f7ff ff56 	bl	8003be4 <ssd1327_cmd>
+ 8003d34:	f7ff ff56 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xd5); 	// Second precharge period
+	SSD1327_CMD(0xd5); 	// Second precharge period
  8003d38:	20d5      	movs	r0, #213	@ 0xd5
- 8003d3a:	f7ff ff53 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x62);
+ 8003d3a:	f7ff ff53 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x62);
  8003d3e:	2062      	movs	r0, #98	@ 0x62
- 8003d40:	f7ff ff50 	bl	8003be4 <ssd1327_cmd>
+ 8003d40:	f7ff ff50 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xfd); 	// Unlock commands
+	SSD1327_CMD(0xfd); 	// Unlock commands
  8003d44:	20fd      	movs	r0, #253	@ 0xfd
- 8003d46:	f7ff ff4d 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x12);
+ 8003d46:	f7ff ff4d 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x12);
  8003d4a:	2012      	movs	r0, #18
- 8003d4c:	f7ff ff4a 	bl	8003be4 <ssd1327_cmd>
+ 8003d4c:	f7ff ff4a 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(0xA4);
+	SSD1327_CMD(0xA4);
  8003d50:	20a4      	movs	r0, #164	@ 0xa4
- 8003d52:	f7ff ff47 	bl	8003be4 <ssd1327_cmd>
+ 8003d52:	f7ff ff47 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(SSD1327_DISPLAYON);
+	SSD1327_CMD(SSD1327_DISPLAYON);
  8003d56:	20af      	movs	r0, #175	@ 0xaf
- 8003d58:	f7ff ff44 	bl	8003be4 <ssd1327_cmd>
+ 8003d58:	f7ff ff44 	bl	8003be4 <SSD1327_CMD>
 }
  8003d5c:	bf00      	nop
  8003d5e:	bd80      	pop	{r7, pc}
 
-08003d60 <ssd1327_display>:
+08003d60 <SSD1327_Display>:
 
-void ssd1327_display (void){
+void SSD1327_Display (void){
  8003d60:	b580      	push	{r7, lr}
  8003d62:	af00      	add	r7, sp, #0
 
-	ssd1327_cmd(SSD1327_SETCOLUMNADDRESS);
+	SSD1327_CMD(SSD1327_SETCOLUMNADDRESS);
  8003d64:	2015      	movs	r0, #21
- 8003d66:	f7ff ff3d 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x00);
+ 8003d66:	f7ff ff3d 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x00);
  8003d6a:	2000      	movs	r0, #0
- 8003d6c:	f7ff ff3a 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x7F);
+ 8003d6c:	f7ff ff3a 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x7F);
  8003d70:	207f      	movs	r0, #127	@ 0x7f
- 8003d72:	f7ff ff37 	bl	8003be4 <ssd1327_cmd>
+ 8003d72:	f7ff ff37 	bl	8003be4 <SSD1327_CMD>
 
-	ssd1327_cmd(SSD1327_SETROWADDRESS);
+	SSD1327_CMD(SSD1327_SETROWADDRESS);
  8003d76:	2075      	movs	r0, #117	@ 0x75
- 8003d78:	f7ff ff34 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x00);
+ 8003d78:	f7ff ff34 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x00);
  8003d7c:	2000      	movs	r0, #0
- 8003d7e:	f7ff ff31 	bl	8003be4 <ssd1327_cmd>
-	ssd1327_cmd(0x7F);
+ 8003d7e:	f7ff ff31 	bl	8003be4 <SSD1327_CMD>
+	SSD1327_CMD(0x7F);
  8003d82:	207f      	movs	r0, #127	@ 0x7f
- 8003d84:	f7ff ff2e 	bl	8003be4 <ssd1327_cmd>
+ 8003d84:	f7ff ff2e 	bl	8003be4 <SSD1327_CMD>
 
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
  8003d88:	2200      	movs	r2, #0
  8003d8a:	2110      	movs	r1, #16
- 8003d8c:	480d      	ldr	r0, [pc, #52]	@ (8003dc4 <ssd1327_display+0x64>)
+ 8003d8c:	480d      	ldr	r0, [pc, #52]	@ (8003dc4 <SSD1327_Display+0x64>)
  8003d8e:	f001 fe5b 	bl	8005a48 <HAL_GPIO_WritePin>
 	HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_SET);
  8003d92:	2201      	movs	r2, #1
  8003d94:	2120      	movs	r1, #32
- 8003d96:	480b      	ldr	r0, [pc, #44]	@ (8003dc4 <ssd1327_display+0x64>)
+ 8003d96:	480b      	ldr	r0, [pc, #44]	@ (8003dc4 <SSD1327_Display+0x64>)
  8003d98:	f001 fe56 	bl	8005a48 <HAL_GPIO_WritePin>
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
  8003d9c:	2200      	movs	r2, #0
  8003d9e:	2110      	movs	r1, #16
- 8003da0:	4808      	ldr	r0, [pc, #32]	@ (8003dc4 <ssd1327_display+0x64>)
+ 8003da0:	4808      	ldr	r0, [pc, #32]	@ (8003dc4 <SSD1327_Display+0x64>)
  8003da2:	f001 fe51 	bl	8005a48 <HAL_GPIO_WritePin>
 	HAL_SPI_Transmit(ssd1337_spi, (uint8_t*)&buffer, BUF_SIZE, 100);
- 8003da6:	4b08      	ldr	r3, [pc, #32]	@ (8003dc8 <ssd1327_display+0x68>)
+ 8003da6:	4b08      	ldr	r3, [pc, #32]	@ (8003dc8 <SSD1327_Display+0x68>)
  8003da8:	6818      	ldr	r0, [r3, #0]
  8003daa:	2364      	movs	r3, #100	@ 0x64
  8003dac:	f44f 5200 	mov.w	r2, #8192	@ 0x2000
- 8003db0:	4906      	ldr	r1, [pc, #24]	@ (8003dcc <ssd1327_display+0x6c>)
+ 8003db0:	4906      	ldr	r1, [pc, #24]	@ (8003dcc <SSD1327_Display+0x6c>)
  8003db2:	f003 f870 	bl	8006e96 <HAL_SPI_Transmit>
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_SET);
  8003db6:	2201      	movs	r2, #1
  8003db8:	2110      	movs	r1, #16
- 8003dba:	4802      	ldr	r0, [pc, #8]	@ (8003dc4 <ssd1327_display+0x64>)
+ 8003dba:	4802      	ldr	r0, [pc, #8]	@ (8003dc4 <SSD1327_Display+0x64>)
  8003dbc:	f001 fe44 	bl	8005a48 <HAL_GPIO_WritePin>
 
 }
@@ -8236,24 +8235,24 @@ void ssd1327_display (void){
  8003dc8:	20000c18 	.word	0x20000c18
  8003dcc:	20000c1c 	.word	0x20000c1c
 
-08003dd0 <ssd1327_CLR>:
+08003dd0 <SSD1327_CLR>:
 
-void ssd1327_CLR(void){
+void SSD1327_CLR(void){
  8003dd0:	b580      	push	{r7, lr}
  8003dd2:	af00      	add	r7, sp, #0
 		memset(buffer, (0 << 4 | 0), BUF_SIZE);
  8003dd4:	f44f 5200 	mov.w	r2, #8192	@ 0x2000
  8003dd8:	2100      	movs	r1, #0
- 8003dda:	4802      	ldr	r0, [pc, #8]	@ (8003de4 <ssd1327_CLR+0x14>)
+ 8003dda:	4802      	ldr	r0, [pc, #8]	@ (8003de4 <SSD1327_CLR+0x14>)
  8003ddc:	f003 fc71 	bl	80076c2 <memset>
 }
  8003de0:	bf00      	nop
  8003de2:	bd80      	pop	{r7, pc}
  8003de4:	20000c1c 	.word	0x20000c1c
 
-08003de8 <ssd1327_setPixel>:
+08003de8 <SSD1327_SetPixel>:
 
-void ssd1327_setPixel( int x , int y , uint8_t bw){
+void SSD1327_SetPixel( int x , int y , uint8_t bw){
  8003de8:	b480      	push	{r7}
  8003dea:	b087      	sub	sp, #28
  8003dec:	af00      	add	r7, sp, #0
@@ -8264,16 +8263,16 @@ void ssd1327_setPixel( int x , int y , uint8_t bw){
 	if ((x < 0) || (x >= SSD1327_WIDTH) || (y < 0) || (y >= SSD1327_HEIGHT))
  8003df6:	68fb      	ldr	r3, [r7, #12]
  8003df8:	2b00      	cmp	r3, #0
- 8003dfa:	db3d      	blt.n	8003e78 <ssd1327_setPixel+0x90>
+ 8003dfa:	db3d      	blt.n	8003e78 <SSD1327_SetPixel+0x90>
  8003dfc:	68fb      	ldr	r3, [r7, #12]
  8003dfe:	2b7f      	cmp	r3, #127	@ 0x7f
- 8003e00:	dc3a      	bgt.n	8003e78 <ssd1327_setPixel+0x90>
+ 8003e00:	dc3a      	bgt.n	8003e78 <SSD1327_SetPixel+0x90>
  8003e02:	68bb      	ldr	r3, [r7, #8]
  8003e04:	2b00      	cmp	r3, #0
- 8003e06:	db37      	blt.n	8003e78 <ssd1327_setPixel+0x90>
+ 8003e06:	db37      	blt.n	8003e78 <SSD1327_SetPixel+0x90>
  8003e08:	68bb      	ldr	r3, [r7, #8]
  8003e0a:	2b7f      	cmp	r3, #127	@ 0x7f
- 8003e0c:	dc34      	bgt.n	8003e78 <ssd1327_setPixel+0x90>
+ 8003e0c:	dc34      	bgt.n	8003e78 <SSD1327_SetPixel+0x90>
 		return;
 
 	uint8_t SelectedCell = buffer[x/2 + y*(SSD1327_WIDTH/2)];
@@ -8285,7 +8284,7 @@ void ssd1327_setPixel( int x , int y , uint8_t bw){
  8003e18:	68bb      	ldr	r3, [r7, #8]
  8003e1a:	019b      	lsls	r3, r3, #6
  8003e1c:	4413      	add	r3, r2
- 8003e1e:	4a19      	ldr	r2, [pc, #100]	@ (8003e84 <ssd1327_setPixel+0x9c>)
+ 8003e1e:	4a19      	ldr	r2, [pc, #100]	@ (8003e84 <SSD1327_SetPixel+0x9c>)
  8003e20:	5cd3      	ldrb	r3, [r2, r3]
  8003e22:	75fb      	strb	r3, [r7, #23]
 
@@ -8293,7 +8292,7 @@ void ssd1327_setPixel( int x , int y , uint8_t bw){
  8003e24:	68fb      	ldr	r3, [r7, #12]
  8003e26:	f003 0301 	and.w	r3, r3, #1
  8003e2a:	2b00      	cmp	r3, #0
- 8003e2c:	d00b      	beq.n	8003e46 <ssd1327_setPixel+0x5e>
+ 8003e2c:	d00b      	beq.n	8003e46 <SSD1327_SetPixel+0x5e>
 	{
 		SelectedCell &= ~(0x0F);
  8003e2e:	7dfb      	ldrb	r3, [r7, #23]
@@ -8306,7 +8305,7 @@ void ssd1327_setPixel( int x , int y , uint8_t bw){
  8003e3e:	7dfb      	ldrb	r3, [r7, #23]
  8003e40:	4313      	orrs	r3, r2
  8003e42:	75fb      	strb	r3, [r7, #23]
- 8003e44:	e00c      	b.n	8003e60 <ssd1327_setPixel+0x78>
+ 8003e44:	e00c      	b.n	8003e60 <SSD1327_SetPixel+0x78>
 	}
 	else
 	{
@@ -8333,10 +8332,10 @@ void ssd1327_setPixel( int x , int y , uint8_t bw){
  8003e6a:	68bb      	ldr	r3, [r7, #8]
  8003e6c:	019b      	lsls	r3, r3, #6
  8003e6e:	4413      	add	r3, r2
- 8003e70:	4904      	ldr	r1, [pc, #16]	@ (8003e84 <ssd1327_setPixel+0x9c>)
+ 8003e70:	4904      	ldr	r1, [pc, #16]	@ (8003e84 <SSD1327_SetPixel+0x9c>)
  8003e72:	7dfa      	ldrb	r2, [r7, #23]
  8003e74:	54ca      	strb	r2, [r1, r3]
- 8003e76:	e000      	b.n	8003e7a <ssd1327_setPixel+0x92>
+ 8003e76:	e000      	b.n	8003e7a <SSD1327_SetPixel+0x92>
 		return;
  8003e78:	bf00      	nop
 

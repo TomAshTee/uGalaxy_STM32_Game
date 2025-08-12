@@ -14,20 +14,21 @@
   * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
+  *
+  * @todo
+  * - PascalCase implementation for functions, types and variables
+  * - Transferring and adding comments in Doxygen format.
+  * - Breakdown of overly large functions, e.g. GameTick()
+  * - Add DMA support to SPI (screen).
+  * - Add debounce support to the button (input.c), also FSM ?
+  * - Add DEBUG mode -> #define DEBUG_MODE 1
+  * - Adding bonuses: quick shots, protective shield.
+  * - Introduction of tests
+  * - Addition of storyline breakers and storyline introduction.
+  *
+  *
+  ******************************************************************************
   */
-
-/*
- * ToDo:
- * - Ekran - SPI po DMA
- * - ADC - Po DMA
- *
- *
- * - Dodanie może wprowadzenia fabularnego ?
- * - Dodanie przrywników fabularnych ?
- * - Poprawa czasów trwania poziomów ?
- * - Wprowadzenie testów ?
- *
- */
 
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
@@ -137,9 +138,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  ssd1327_SpiInit(&hspi1);
-  ssd1327_CLR();
-  ssd1327_display();
+  SSD1327_SpiInit(&hspi1);
+  SSD1327_CLR();
+  SSD1327_Display();
 
   //start_game();
   GameInit(&g_singleton);
@@ -152,11 +153,11 @@ int main(void)
 
 		switch (GameGetState(&g_singleton))
 		{
-		case st_menu:
+		case GS_Menu:
 			RunMenu(&input_Snap); break;
-		case st_playing:
+		case GS_Playing:
 			RunGame(&input_Snap); break;
-		case st_dead:
+		case GS_Dead:
 			RunDead(&input_Snap);	break;
 		}
     /* USER CODE END WHILE */
@@ -378,16 +379,16 @@ void RunDead(InputSnapshot* in)
 
 	x += dx;
 	if (x < 1 || x > 55) dx = -dx;
-	ssd1327_CLR();
-	GFX_DrowBitMap_P(x,(screen_height/2) - 4,Defeated_map,67,16,1);
-	GFX_DrowBitMap_P(35,(screen_height/2) + 24,Score_map,37,10,1);
-	GFX_PutInt(73,(screen_height/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
-	ssd1327_display();
+	SSD1327_CLR();
+	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 4,Defeated_map,67,16,1);
+	GFX_DrowBitMap_P(35,(SCREEN_HEIGHT/2) + 24,Score_map,37,10,1);
+	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
+	SSD1327_Display();
 
 	if(in->btn1State == GPIO_PIN_SET)
 	{
 		PlayDeadAnim();
-		GameSetState(&g_singleton, st_menu);//state = st_menu;
+		GameSetState(&g_singleton, GS_Menu);//state = st_menu;
 	}
 }
 
@@ -400,12 +401,12 @@ void PlayDeadAnim(void)
 
 	for (i = 0; i < 10; ++i)
 	{
-		ssd1327_CLR();
+		SSD1327_CLR();
 		GFX_FillRect(0,0,128,128,1);
-		ssd1327_display();
+		SSD1327_Display();
 
-		ssd1327_CLR();
-		ssd1327_display();
+		SSD1327_CLR();
+		SSD1327_Display();
 
 	}
 }
@@ -417,8 +418,8 @@ void RunGame (InputSnapshot* in)
 	 */
 	//drow_game();
 	GameDraw(&g_singleton, in);
-	ssd1327_display();
-	ssd1327_CLR();
+	SSD1327_Display();
+	SSD1327_CLR();
 
 	//update_lvl();
 	GameLevelUpdate(&g_singleton);
@@ -438,19 +439,19 @@ void RunMenu (InputSnapshot* in)
 	static int x = 0, dx = 1;
 	x += dx;
 	if (x < 1 || x > 65) dx = -dx;
-	ssd1327_CLR();
+	SSD1327_CLR();
 
-	GFX_DrowBitMap_P(x,(screen_height/2) - 10,uGalaxy_map,54,16,1);
-	GFX_DrowRoundRect(15,(screen_height/2) + 34,93,20,8,1);
-	GFX_DrowBitMap_P(26, (screen_height/2)+ 37, PressToStart_map, 66,10,1);
+	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 10,uGalaxy_map,54,16,1);
+	GFX_DrowRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
+	GFX_DrowBitMap_P(26, (SCREEN_HEIGHT/2)+ 37, PressToStart_map, 66,10,1);
 
 	if(in->btn1State == GPIO_PIN_SET)
 	{
 		//start_game();
 		GameInit(&g_singleton);
-		GameSetState(&g_singleton, st_playing);//state = st_playing;
+		GameSetState(&g_singleton, GS_Playing);//state = st_playing;
 	}
-	ssd1327_display();
+	SSD1327_Display();
 
 }
 

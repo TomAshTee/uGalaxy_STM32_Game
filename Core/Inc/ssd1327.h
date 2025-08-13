@@ -22,6 +22,7 @@
 #define INC_SSD1327_H_
 
 #include "stm32l4xx_hal.h"
+#include <stdbool.h>
 
 /** ##########################################################################
  *  @name Using DMA for SIP transmission
@@ -134,6 +135,9 @@ void SSD1327_Data ( uint8_t dat );								/**< Sending data */
 void SSD1327_Display (void);									/**< Sending data from the buffer */
 void SSD1327_SetPixel( int x , int y , uint8_t bw); 			/**< Pixel setting */
 void SSD1327_CLR(void);											/**< Cleaning the screen */
+void SSD1327_BeginFrame(void);   								/**< Cleans back buffer (for drawing) */
+bool SSD1327_Present(void);      								/**< If SPI DMA free: changes buffers and starts SPI DMA; returns true when started*/
+bool SSD1327_IsBusy(void);       								/**< Status SPI DMA */
 
 /** @} */
 

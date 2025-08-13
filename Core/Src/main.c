@@ -74,10 +74,16 @@ ADC_HandleTypeDef hadc1;
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_tx;
 
+TIM_HandleTypeDef htim6;
+
 /* USER CODE BEGIN PV */
 
 uint8_t btn_prev = 0;					//Key operation prevent , repetition
 InputSnapshot input_Snap;
+
+volatile uint8_t g_logicTick = 0;
+volatile uint8_t g_renderTick = 0;
+InputSnapshot in_cache = {0};
 
 /* USER CODE END PV */
 
@@ -87,6 +93,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_TIM6_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -129,6 +136,7 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_SPI1_Init();
+  MX_TIM6_Init();
 
   /* Initialize interrupts */
   MX_NVIC_Init();
@@ -140,6 +148,7 @@ int main(void)
 
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   HAL_ADC_Start(&hadc1);
+  HAL_TIM_Base_Start_IT(&htim6);
 
   /* USER CODE END 2 */
 
@@ -157,17 +166,37 @@ int main(void)
 
   while (1)
   {
-	  input_Snap = InputRead();
 
-		switch (GameGetState(&g_singleton))
-		{
-		case GS_Menu:
-			RunMenu(&input_Snap); break;
-		case GS_Playing:
-			RunGame(&input_Snap); break;
-		case GS_Dead:
-			RunDead(&input_Snap);	break;
-		}
+	    // --- LOGIKA, 60 Hz ---
+	    if (g_logicTick){
+	        g_logicTick = 0;
+	        in_cache = InputRead();
+
+	        GameLevelUpdate(&g_singleton);
+	        GameTick(&g_singleton, &in_cache);
+	        GameUpdateBackgrand(&g_singleton);
+	        GameUpdateBonus(&g_singleton);
+	    }
+
+	    // --- RENDER, 60 Hz (lub 30 Hz) ---
+	    if (g_renderTick && !SSD1327_IsBusy()){
+	        g_renderTick = 0;
+	        SSD1327_BeginFrame();            // czyść bufor rysowania (back)
+	        GameDraw(&g_singleton, &in_cache);
+	        SSD1327_Present();               // start DMA albo drop jeżeli nadal zajęty
+	    }
+
+//	  input_Snap = InputRead();
+//
+//		switch (GameGetState(&g_singleton))
+//		{
+//		case GS_Menu:
+//			RunMenu(&input_Snap); break;
+//		case GS_Playing:
+//			RunGame(&input_Snap); break;
+//		case GS_Dead:
+//			RunDead(&input_Snap);	break;
+//		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -241,12 +270,15 @@ void SystemClock_Config(void)
   */
 static void MX_NVIC_Init(void)
 {
-  /* SPI1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(SPI1_IRQn);
   /* DMA1_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
+  /* SPI1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(SPI1_IRQn);
+  /* TIM6_DAC_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 10, 0);
+  HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
 }
 
 /**
@@ -344,6 +376,44 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
+
+}
+
+/**
+  * @brief TIM6 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM6_Init(void)
+{
+
+  /* USER CODE BEGIN TIM6_Init 0 */
+
+  /* USER CODE END TIM6_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM6_Init 1 */
+
+  /* USER CODE END TIM6_Init 1 */
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 7999;
+  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim6.Init.Period = 80;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM6_Init 2 */
+
+  /* USER CODE END TIM6_Init 2 */
 
 }
 
@@ -495,12 +565,14 @@ void RunMenu (InputSnapshot* in)
 
 }
 
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
-
-	if(hspi == &hspi1){
-		HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_SET);
-	}
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim->Instance == TIM6)   // to wystarczy
+    {
+        g_logicTick  = 1;
+        g_renderTick = 1;
+    }
 }
+
 /* USER CODE END 4 */
 
 /**

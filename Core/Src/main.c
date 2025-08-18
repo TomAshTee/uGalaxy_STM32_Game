@@ -81,8 +81,8 @@ TIM_HandleTypeDef htim6;
 uint8_t btn_prev = 0;					//Key operation prevent , repetition
 InputSnapshot input_Snap;
 
-volatile uint8_t g_logicTick = 0;
-volatile uint8_t g_renderTick = 0;
+volatile bool g_logicTick = false;
+volatile bool g_renderTick = false;
 InputSnapshot in_cache = {0};
 
 /* USER CODE END PV */
@@ -167,36 +167,58 @@ int main(void)
   while (1)
   {
 
-	    // --- LOGIKA, 60 Hz ---
-	    if (g_logicTick){
-	        g_logicTick = 0;
-	        in_cache = InputRead();
+	  switch(GameGetState(&g_singleton)){
 
-	        GameLevelUpdate(&g_singleton);
-	        GameTick(&g_singleton, &in_cache);
-	        GameUpdateBackgrand(&g_singleton);
-	        GameUpdateBonus(&g_singleton);
-	    }
+	  case GS_Menu:
+		  if(g_logicTick){
+			  g_logicTick = false;
+			  input_Snap = InputRead();
+			  RunMenuTick(&input_Snap);
+		  }
 
-	    // --- RENDER, 60 Hz (lub 30 Hz) ---
-	    if (g_renderTick && !SSD1327_IsBusy()){
-	        g_renderTick = 0;
-	        SSD1327_BeginFrame();            // czyść bufor rysowania (back)
-	        GameDraw(&g_singleton, &in_cache);
-	        SSD1327_Present();               // start DMA albo drop jeżeli nadal zajęty
-	    }
+		  if(g_renderTick && !SSD1327_IsBusy()){
+			  g_renderTick = false;
 
-//	  input_Snap = InputRead();
-//
-//		switch (GameGetState(&g_singleton))
-//		{
-//		case GS_Menu:
-//			RunMenu(&input_Snap); break;
-//		case GS_Playing:
-//			RunGame(&input_Snap); break;
-//		case GS_Dead:
-//			RunDead(&input_Snap);	break;
-//		}
+			  SSD1327_BeginFrame();
+			  RunMenu(&input_Snap);
+			  SSD1327_Present();
+		  }
+		  break;
+
+	  case GS_Playing:
+		  if(g_logicTick){
+			  g_logicTick = false;
+			  input_Snap = InputRead();
+			  RunGameTick(&input_Snap, &g_singleton);
+		  }
+
+		  if(g_renderTick && !SSD1327_IsBusy()){
+			  g_renderTick = false;
+
+			  SSD1327_BeginFrame();
+			  RunGame(&input_Snap);
+			  SSD1327_Present();
+		  }
+
+		  break;
+
+	  case GS_Dead:
+		  if(g_logicTick){
+			  g_logicTick = false;
+			  input_Snap = InputRead();
+			  RunDeadTick(&input_Snap);
+		  }
+
+		  if(g_renderTick && !SSD1327_IsBusy()){
+			  g_renderTick = false;
+
+			  SSD1327_BeginFrame();
+			  RunDead(&input_Snap);
+			  SSD1327_Present();
+		  }
+
+		  break;
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -479,34 +501,25 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void RunDead(InputSnapshot* in)
 {
-
-	/*
-	 * Screen after player death. Display of score and animated text.
-	 */
-
 	static int x = 0, dx = 1;
-
-
 	x += dx;
 	if (x < 1 || x > 55) dx = -dx;
-	SSD1327_CLR();
+
 	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 4,Defeated_map,67,16,1);
 	GFX_DrowBitMap_P(35,(SCREEN_HEIGHT/2) + 24,Score_map,37,10,1);
 	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
-	SSD1327_Display();
+}
 
+void RunDeadTick(InputSnapshot* in){
 	if(in->btn1State == GPIO_PIN_SET)
 	{
 		PlayDeadAnim();
-		GameSetState(&g_singleton, GS_Menu);//state = st_menu;
+		GameSetState(&g_singleton, GS_Menu);
 	}
 }
 
 void PlayDeadAnim(void)
 {
-	/*
-	 * Animation between separate screens. Gives the illusion of an old game.
-	 */
 	uint8_t i;
 
 	for (i = 0; i < 10; ++i)
@@ -514,62 +527,51 @@ void PlayDeadAnim(void)
 		SSD1327_CLR();
 		GFX_FillRect(0,0,128,128,1);
 		SSD1327_Display();
+		HAL_Delay(10);
 
 		SSD1327_CLR();
 		SSD1327_Display();
-
+		HAL_Delay(10);
 	}
 }
 
 void RunGame (InputSnapshot* in)
 {
-	/*
-	 * The main loop of the game, executing the relevant functions one by one
-	 */
-	//drow_game();
 	GameDraw(&g_singleton, in);
-	SSD1327_Display();
-	SSD1327_CLR();
+}
 
-	//update_lvl();
-	GameLevelUpdate(&g_singleton);
-	//update_scene();
-	GameTick(&g_singleton, in);
-	//update_backgrand();
-	GameUpdateBackgrand(&g_singleton);
-	//update_bonus();
-	GameUpdateBonus(&g_singleton);
+void RunGameTick(InputSnapshot* in, GameCtx* g){
+
+	GameLevelUpdate(g);
+	GameTick(g, in);
+	GameUpdateBackgrand(g);
+	GameUpdateBonus(g);
 }
 
 void RunMenu (InputSnapshot* in)
 {
-	/*
-	 * Start screen, basic information for the player at the beginning
-	 */
 	static int x = 0, dx = 1;
 	x += dx;
 	if (x < 1 || x > 65) dx = -dx;
-	SSD1327_CLR();
 
 	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 10,uGalaxy_map,54,16,1);
 	GFX_DrowRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
 	GFX_DrowBitMap_P(26, (SCREEN_HEIGHT/2)+ 37, PressToStart_map, 66,10,1);
 
+}
+void RunMenuTick(InputSnapshot* in){
 	if(in->btn1State == GPIO_PIN_SET)
 	{
-		//start_game();
 		GameInit(&g_singleton);
-		GameSetState(&g_singleton, GS_Playing);//state = st_playing;
+		GameSetState(&g_singleton, GS_Playing);
 	}
-	SSD1327_Display();
-
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-    if (htim->Instance == TIM6)   // to wystarczy
+    if (htim->Instance == TIM6)
     {
-        g_logicTick  = 1;
-        g_renderTick = 1;
+        g_logicTick  = true;
+        g_renderTick = true;
     }
 }
 

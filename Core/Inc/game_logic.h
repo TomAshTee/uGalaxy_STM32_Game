@@ -190,10 +190,14 @@ typedef struct {			/**<  Context of the current game */
 
 extern GameCtx g_singleton;						/**<  Game context */
 
-void RunMenu (InputSnapshot* in);				/**<  Menu operation */
-void RunGame (InputSnapshot* in);				/**<  The main skeleton of the game sequence */
+void RunMenu (InputSnapshot* in);				/**<  Drawing Menu  */
+void RunGame (InputSnapshot* in);				/**<  Drawing Game */
+void RunDead(InputSnapshot* in);				/**<  Drawing end game animation */
+void RunMenuTick(InputSnapshot* in);			/**<  Execution of logic-> Menu*/
+void RunGameTick(InputSnapshot* in, GameCtx* g);/**<  Execution of logic-> Game*/
+void RunDeadTick(InputSnapshot* in);			/**<  Execution of logic-> Dead*/
 void PlayDeadAnim(void);						/**<  Display of animation after death - climate building ;) */
-void RunDead(InputSnapshot* in);				/**<  End of game support */
+
 
 void GameInit(GameCtx* g);						/**<  Starting the game */
 void GameTick(GameCtx* g, InputSnapshot* in);	/**<  Handling of "core game" events */

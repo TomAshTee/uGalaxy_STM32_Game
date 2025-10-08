@@ -35,26 +35,29 @@
  *  ##########################################################################
  */
 
-#define NUMBER_SHOTS  			25		/**<  Maximum number of shots def.8 */
-#define NUMBER_ENEMIES  		10		/**<  Maximum number of opponents */
-#define NUMBER_BACKGROUND		80		/**<  Max. background objects (stars) (high RAM consumption) def.40 */
-#define NUMBER_BACKGROUND_FREQ 	12		/**<  Background adding frequency (0-100) def.20 */
-#define NUMBER_BONUS			3		/**<  Max. number of bonuses on the map */
+#define NUMBER_SHOTS  			25					/**<  Maximum number of shots def.8 */
+#define NUMBER_ENEMIES  		10					/**<  Maximum number of opponents */
+#define NUMBER_BACKGROUND		80					/**<  Max. background objects (stars) (high RAM consumption) def.40 */
+#define NUMBER_BACKGROUND_FREQ 	12					/**<  Background adding frequency (0-100) def.20 */
+#define NUMBER_BONUS			3					/**<  Max. number of bonuses on the map */
 
-#define NUMBER_BOSS_SHOTS 		5		/**<  Number of boss shots !!!! NOT SURE WHY THE GAME CRASHES WITH A DIFFERENT AMOUNT !!! def.5 */
-#define INITIAL_BOSS_X			(SSD1327_WIDTH + 12)	/**<  Initial position of the boss - off screen + size of the graphic */
-#define INITIAL_BOSS_Y			(SSD1327_HEIGHT / 2)	/**<  Initial boss position in the middle of the screen */
-#define INITIAL_BOSS_UPDATE_DELAY	3	/**<  Initial boss speed */
+#define NUMBER_EXPLOSION		NUMBER_ENEMIES + 2	/**< Max. number of explosion on the map - every enemy + boss + player*/
+#define EXPLOSION_TIMER			20					/**< Duration of explosion */
 
-#define BONUS_FREQUENCY			15		/**<  Frequency of bonuses (1-99)  */
-#define BONUS_DURATION			150		/**<  Duration of bonus  */
+#define NUMBER_BOSS_SHOTS 		5					/**<  Number of boss shots !!!! NOT SURE WHY THE GAME CRASHES WITH A DIFFERENT AMOUNT !!! def.5 */
+#define INITIAL_BOSS_X			(SSD1327_WIDTH + 12)/**<  Initial position of the boss - off screen + size of the graphic */
+#define INITIAL_BOSS_Y			(SSD1327_HEIGHT / 2)/**<  Initial boss position in the middle of the screen */
+#define INITIAL_BOSS_UPDATE_DELAY	3				/**<  Initial boss speed */
 
-#define INITIAL_LIVES 			3		/**<  Initial number of lives  */
-#define INITIAL_SCORE 			0		/**<  Initial result of the game */
-#define INITIAL_X				2		/**<  Initial position X of player */
-#define INITIAL_Y				64		/**<  Initial position Y of player */
-#define INITIAL_LEVEL			1		/**<  Initial level of play */
-#define INITIAL_GAME_PROGRES 	0		/**<  Initial game progress */
+#define BONUS_FREQUENCY			15					/**<  Frequency of bonuses (1-99)  */
+#define BONUS_DURATION			150					/**<  Duration of bonus  */
+
+#define INITIAL_LIVES 			5					/**<  Initial number of lives  */
+#define INITIAL_SCORE 			0					/**<  Initial result of the game */
+#define INITIAL_X				2					/**<  Initial position X of player */
+#define INITIAL_Y				64					/**<  Initial position Y of player */
+#define INITIAL_LEVEL			1					/**<  Initial level of play */
+#define INITIAL_GAME_PROGRES 	0					/**<  Initial game progress */
 
 #define BLACK 					0
 #define WHITE 					15
@@ -114,6 +117,7 @@ typedef struct				/**<  Player and its parameters */
 	int gameProgres;
 	ShotType shootType;
 	int bonusDuration;
+	int shieldDuration;
 } T_player;
 
 typedef struct				/**<  Player shots, boss shots */
@@ -167,6 +171,14 @@ typedef struct				/**<  Bonus structures */
 	int updateDelay;
 }T_bonus;
 
+typedef struct				/**<  Explosion structures */
+{
+	bool active;
+	int explosionTimer;
+	int x, y;
+
+}T_explosion;
+
 typedef struct {			/**<  Context of the current game */
 	T_player 	player;
 	T_shot 		shots[NUMBER_SHOTS];
@@ -175,6 +187,7 @@ typedef struct {			/**<  Context of the current game */
 	T_backgrand background[NUMBER_BACKGROUND];
 	T_boss		boss;
 	T_bonus 	bonuses[NUMBER_BONUS];
+	T_explosion explosion[NUMBER_EXPLOSION];
 	GameState	state;
 	uint8_t		btnPrevious;
 }GameCtx;
@@ -214,6 +227,7 @@ void GameAddEnemy(GameCtx* g);					/**<  Adding opponents */
 void GameSetState(GameCtx* g, GameState state);	/**<  Setting the game state */
 GameState GameGetState(GameCtx* g);				/**<  Returns the current status of the game */
 int GameGetPalyerScore(GameCtx* g);				/**<  Returns the player's current score */
+void GameUpdateExplosion(GameCtx* g);			/**<  Updates explosions, deactivates when timer expires */
 
 /** @} */
 

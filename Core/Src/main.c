@@ -16,10 +16,8 @@
   ******************************************************************************
   *
   * @todo
-  * - PascalCase implementation for functions, types and variables
-  * - Transferring and adding comments in Doxygen format.
+  * - Bug fix: Currently the BOSS only moves up and as if it is not controlling the shots
   * - Breakdown of overly large functions, e.g. GameTick()
-  * - Add DMA support to SPI (screen).
   * - Add debounce support to the button (input.c), also FSM ?
   * - Add DEBUG mode -> #define DEBUG_MODE 1
   * - Adding bonuses: quick shots, protective shield.
@@ -546,6 +544,7 @@ void RunGameTick(InputSnapshot* in, GameCtx* g){
 	GameTick(g, in);
 	GameUpdateBackgrand(g);
 	GameUpdateBonus(g);
+	GameUpdateExplosion(g);
 }
 
 void RunMenu (InputSnapshot* in)

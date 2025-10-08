@@ -54,13 +54,18 @@ void GameInit(GameCtx *g) {
 	g->boss.x = INITIAL_BOSS_X;
 	g->boss.y = INITIAL_BOSS_Y;
 	g->boss.updateDelay = INITIAL_BOSS_UPDATE_DELAY;
+
+	//Deactivation of explosion
+	for(i = 0; i < NUMBER_EXPLOSION; i++)
+		g->explosion[i].active = false;
+
 }
 
 void GameTick(GameCtx *g, InputSnapshot* in) {
 	/*
 	 * The logic of the whole game
 	 */
-	uint8_t i, j;
+	uint8_t i, j, k;
 
 	static uint8_t y = 0, dy = 1;
 	// Read analog stick
@@ -159,8 +164,19 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 						g->enemies[i].active = false;
 						g->enemies[i].trackedByMissile = false;
 						g->enemies[i].trackNumber = 0;
-						GFX_DrowBitMap_P(g->enemies[i].x + 2, g->enemies[i].y,
-								explosion_map, 10, 10, 1);
+
+//						GFX_DrowBitMap_P(g->enemies[i].x + 2, g->enemies[i].y,
+//								explosion_map, 10, 10, 1);
+						for (j = 0; j < NUMBER_EXPLOSION; j++){
+							if (!g->explosion[j].active){
+								g->explosion[j].active = true;
+								g->explosion[j].x = g->enemies[i].x + 2;
+								g->explosion[j].y = g->enemies[i].y;
+								g->explosion[j].explosionTimer = EXPLOSION_TIMER;
+
+								break;
+							}
+						}
 						GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
 								player_shield_map, 10, 16, 1);
 						GFX_DrowBitMap_P(g->player.x, g->player.y, player_map,
@@ -263,8 +279,19 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					g->player.lives -= 1;
 					;
 					g->bossShots[i].active = false;
-					GFX_DrowBitMap_P(g->bossShots[i].x + 2, g->bossShots[i].y,
-							explosion_map, 10, 10, 1);
+//					GFX_DrowBitMap_P(g->bossShots[i].x + 2, g->bossShots[i].y,
+//							explosion_map, 10, 10, 1);
+
+					for (j = 0; j < NUMBER_EXPLOSION; j++) {
+						if (!g->explosion[j].active) {
+							g->explosion[j].active = true;
+							g->explosion[j].x = g->bossShots[i].x + 2;
+							g->explosion[j].y = g->bossShots[i].y;
+							g->explosion[j].explosionTimer = EXPLOSION_TIMER;
+
+							break;
+						}
+					}
 					GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
 							player_shield_map, 10, 16, 1);
 					GFX_DrowBitMap_P(g->player.x, g->player.y, player_map, 11,
@@ -291,8 +318,18 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					g->boss.lives -= 1;
 					g->shots[i].active = false;
 					g->shots[i].trackNumber = 0;
-					GFX_DrowBitMap_P(g->shots[i].x, g->shots[i].y,
-							explosion_map, 10, 10, 1);
+//					GFX_DrowBitMap_P(g->shots[i].x, g->shots[i].y,
+//							explosion_map, 10, 10, 1);
+					for (j = 0; j < NUMBER_EXPLOSION; j++) {
+						if (!g->explosion[j].active) {
+							g->explosion[j].active = true;
+							g->explosion[j].x = g->shots[i].x + 2;
+							g->explosion[j].y = g->shots[i].y;
+							g->explosion[j].explosionTimer = EXPLOSION_TIMER;
+
+							break;
+						}
+					}
 
 					if (g->boss.lives <= 0) {
 						g->boss.active = false;
@@ -330,8 +367,18 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					g->enemies[j].trackNumber = 0;
 					g->shots[i].active = false;
 					g->player.score += 1;
-					GFX_DrowBitMap_P(g->enemies[j].x, g->enemies[j].y,
-							explosion_map, 10, 10, 1);
+//					GFX_DrowBitMap_P(g->enemies[j].x, g->enemies[j].y,
+//							explosion_map, 10, 10, 1);
+					for (k = 0; k < NUMBER_EXPLOSION; k++) {
+						if (!g->explosion[k].active) {
+							g->explosion[k].active = true;
+							g->explosion[k].x = g->enemies[j].x + 2;
+							g->explosion[k].y = g->enemies[j].y;
+							g->explosion[k].explosionTimer = EXPLOSION_TIMER;
+
+							break;
+						}
+					}
 
 					//Dodanie bonusa w miejscu zestrzelenia
 					if ((rand() % 100) < BONUS_FREQUENCY)
@@ -421,6 +468,12 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 		}
 	}
 
+	//Drawing explosion
+	for (i = 0; i < NUMBER_EXPLOSION; i++){
+		if (g->explosion[i].active){
+			GFX_DrowBitMap_P(g->explosion[i].x, g->explosion[i].y, explosion_map, 10, 10, 1);
+		}
+	}
 }
 
 void GameLevelUpdate(GameCtx* g) {
@@ -548,10 +601,8 @@ void GameAddBonus(GameCtx* g, int x, int y){
 	uint8_t i;
 	int bonus_type;
 
-	for (i = 0; i < NUMBER_BONUS; i++)
-	{
-		if (!g->bonuses[i].active)
-		{
+	for(i = 0; i < NUMBER_BONUS; i++){
+		if(!g->bonuses[i].active){
 			g->bonuses[i].active = true;
 			g->bonuses[i].x = x;
 			g->bonuses[i].y = y;
@@ -559,15 +610,13 @@ void GameAddBonus(GameCtx* g, int x, int y){
 
 			bonus_type = rand()%100;
 
-			if(bonus_type > 30)
-			{
+			if(bonus_type > 30){
 				g->bonuses[i].bitMap = bonus_live_map;
-				g->bonuses[i].type = ST_Normal;
+				g->bonuses[i].type = BT_Live;
 			}
-			if(bonus_type < 30)
-			{
+			if(bonus_type < 30){
 				g->bonuses[i].bitMap = bonus_tracker_shoot_map;
-				g->bonuses[i].type = ST_Tracker;
+				g->bonuses[i].type = BT_TrackerShot;
 			}
 			return;
 		}
@@ -768,6 +817,22 @@ void GameAddEnemy(GameCtx* g){
 		}
 }
 
+void GameUpdateExplosion(GameCtx* g){
+	/*
+	 * Updates explosions, deactivates when timer expires
+	 * */
+	uint8_t i;
+
+	for(i = 0; i < NUMBER_EXPLOSION; i++){
+		if(g->explosion[i].active){
+			g->explosion[i].explosionTimer -= 1;
+			if(g->explosion[i].explosionTimer <= 0){
+				g->explosion[i].active = false;
+			}
+		}
+	}
+}
+
 void GameSetState(GameCtx* g, GameState state){
 	/*
 	 * Sets the game state in the passed context
@@ -791,5 +856,6 @@ int GameGetPalyerScore(GameCtx* g){
 
 	return g->player.score;
 }
+
 
 

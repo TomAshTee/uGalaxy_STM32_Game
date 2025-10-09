@@ -16,8 +16,9 @@
   ******************************************************************************
   *
   * @todo
-  * - Bug fix: Currently the BOSS only moves up and as if it is not controlling the shots
   * - Breakdown of overly large functions, e.g. GameTick()
+  * - Adding shield support similarly to what happens with explosion support.
+  * 	Add shield to Boss (shield == number of lives of Boss)
   * - Add debounce support to the button (input.c), also FSM ?
   * - Add DEBUG mode -> #define DEBUG_MODE 1
   * - Adding bonuses: quick shots, protective shield.

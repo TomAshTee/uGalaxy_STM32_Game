@@ -514,26 +514,26 @@ void GameLevelUpdate(GameCtx* g) {
 		//--------------------------------------
 
 		//Next levels
-		if(g->player.gameProgres > 9 && g->player.gameProgres < 10 )
-			g->player.level = 1;
-		if(g->player.gameProgres > 10 && g->player.gameProgres < 19)
-			g->player.level = 2;
-		if(g->player.gameProgres > 20 && g->player.gameProgres < 29)
-			g->player.level = 3;
-		if(g->player.gameProgres > 30 && g->player.gameProgres < 39)
-			g->player.level = 4;
-		if(g->player.gameProgres > 40 && g->player.gameProgres < 49)
-			g->player.level = 5;
-		if(g->player.gameProgres > 50 && g->player.gameProgres < 59)
-			g->player.level = 6;
-		if(g->player.gameProgres > 60 && g->player.gameProgres < 69)
-			g->player.level = 7;
-		if(g->player.gameProgres > 70 && g->player.gameProgres < 79)
-			g->player.level = 8;
-		if(g->player.gameProgres > 80 && g->player.gameProgres < 89)
-			g->player.level = 9;
-		if(g->player.gameProgres > 90)
-			g->player.level = 10;
+	if (g->player.gameProgres <= 9)
+		g->player.level = 1;
+	else if (g->player.gameProgres <= 19)
+		g->player.level = 2;
+	else if (g->player.gameProgres <= 29)
+		g->player.level = 3;
+	else if (g->player.gameProgres <= 39)
+		g->player.level = 4;
+	else if (g->player.gameProgres <= 49)
+		g->player.level = 5;
+	else if (g->player.gameProgres <= 59)
+		g->player.level = 6;
+	else if (g->player.gameProgres <= 69)
+		g->player.level = 7;
+	else if (g->player.gameProgres <= 79)
+		g->player.level = 8;
+	else if (g->player.gameProgres <= 89)
+		g->player.level = 9;
+	else
+		g->player.level = 10;
 
 }
 

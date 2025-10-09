@@ -29,7 +29,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  12 .debug_info   00015bb9  00000000  00000000  0000d0ac  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 0000361c  00000000  00000000  00022c65  2**0
+ 13 .debug_abbrev 0000361d  00000000  00000000  00022c65  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  14 .debug_aranges 000015f0  00000000  00000000  00026288  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  00024657  00000000  00000000  00028934  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000194cd  00000000  00000000  0004cf8b  2**0
+ 17 .debug_line   000194cf  00000000  00000000  0004cf8b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000db284  00000000  00000000  00066458  2**0
+ 18 .debug_str    000db284  00000000  00000000  0006645a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  001416dc  2**0
+ 19 .comment      00000043  00000000  00000000  001416de  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000696c  00000000  00000000  00141720  2**2
+ 20 .debug_frame  0000696c  00000000  00000000  00141724  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000062  00000000  00000000  0014808c  2**0
+ 21 .debug_line_str 00000062  00000000  00000000  00148090  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -7328,11 +7328,11 @@ int GameGetPalyerScore(GameCtx* g){
  8003872:	4770      	bx	lr
 
 08003874 <onBtn1Pressed>:
-
-static bool _btn1PressedEdge = false;
-
-static TButton _btn1;
-
+/**
+ * @brief Callback invoked by the button FSM on press event.
+ * @details
+ * Sets a one-shot edge flag consumed in @ref InputRead().
+ */
 static void onBtn1Pressed(void) {
  8003874:	b480      	push	{r7}
  8003876:	af00      	add	r7, sp, #0
@@ -7348,10 +7348,10 @@ static void onBtn1Pressed(void) {
  8003888:	20000c04 	.word	0x20000c04
 
 0800388c <InputInit>:
-
-/*
- * @brief Assignment of input data
- *
+ * @details
+ * - Stores hardware handles for later readout.
+ * - Initializes button FSM with a 20 ms debounce time.
+ * - Registers @ref onBtn1Pressed() as press-event callback.
  */
 void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btn1Port, uint16_t btn1Pin){
  800388c:	b580      	push	{r7, lr}
@@ -7387,9 +7387,10 @@ void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btn1Port, uint16_t btn1Pin
  80038c4:	08003875 	.word	0x08003875
 
 080038c8 <InputRead>:
-
-/*
- * @brief Reading and returning current states
+ * @details
+ * - Invokes ButtonTask() to advance FSM and process debouncing.
+ * - Converts the press callback into a one-shot flag consumed here, which
+ *   prevents key repetition in tick-based loops.
  */
 InputSnapshot InputRead (void){
  80038c8:	b580      	push	{r7, lr}

@@ -506,7 +506,7 @@ void RunDead(InputSnapshot* in)
 
 	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 4,Defeated_map,67,16,1);
 	GFX_DrowBitMap_P(35,(SCREEN_HEIGHT/2) + 24,Score_map,37,10,1);
-	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
+	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPlayerScore(&g_singleton),1,1,0);
 }
 
 void RunDeadTick(InputSnapshot* in){
@@ -543,7 +543,7 @@ void RunGameTick(InputSnapshot* in, GameCtx* g){
 
 	GameLevelUpdate(g);
 	GameTick(g, in);
-	GameUpdateBackgrand(g);
+	GameUpdateBackground(g);
 	GameUpdateBonus(g);
 	GameUpdateExplosion(g);
 }
@@ -555,7 +555,7 @@ void RunMenu (InputSnapshot* in)
 	if (x < 1 || x > 65) dx = -dx;
 
 	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 10,uGalaxy_map,54,16,1);
-	GFX_DrowRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
+	GFX_DrawRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
 	GFX_DrowBitMap_P(26, (SCREEN_HEIGHT/2)+ 37, PressToStart_map, 66,10,1);
 
 }

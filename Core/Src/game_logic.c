@@ -71,16 +71,16 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	// Read analog stick
 	int stick = in->joystickYValue;
 
-	if (stick < 1000)
+	if (stick < JOYSTICK_LOW_THRESH)
 		g->player.y -= 1;
-	else if (stick > 3500)
+	else if (stick > JOYSTICK_HIGH_THRESH)
 		g->player.y += 1;
 
 	// Keeping the player within the screen
-	if (g->player.y < 10)
-		g->player.y = 10;
-	if (g->player.y > (SCREEN_HEIGHT - 14))
-		g->player.y = (SCREEN_HEIGHT - 14);
+	if (g->player.y < PLAYER_Y_MIN)
+		g->player.y = PLAYER_Y_MIN;
+	if (g->player.y > PLAYER_Y_MAX)
+		g->player.y = PLAYER_Y_MAX;
 
 	// Shifting shots forward
 	bool shoot_updated = false;
@@ -220,7 +220,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					}
 
 					// If off-screen, deactivation
-					if (g->enemies[i].x < -4) {
+					if (g->enemies[i].x < ENEMY_OFFSCREEN_X) {
 						g->enemies[i].active = false;
 						g->enemies[i].trackedByMissile = false;
 						g->enemies[i].trackNumber = 0;
@@ -239,15 +239,15 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 			g->boss.nextUpdate = g->boss.updateDelay;
 
 			y += dy;
-			if (y < 1 || y > (SCREEN_HEIGHT - 24))
+			if (y < BOSS_Y_MIN || y > BOSS_Y_MAX)
 				dy = -dy;
 
 			g->boss.y = y;
 
-			if (g->boss.y < 10)
-				g->boss.y = 10;
-			if (g->boss.y > (SCREEN_HEIGHT - 24))
-				g->boss.y = (SCREEN_HEIGHT - 24);
+			if (g->boss.y < BOSS_Y_MIN)
+				g->boss.y = BOSS_Y_MIN;
+			if (g->boss.y > BOSS_Y_MAX)
+				g->boss.y = BOSS_Y_MAX;
 
 			g->boss.x -= 1;
 			if (g->boss.x < 100)
@@ -262,7 +262,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i) {
 			if (g->bossShots[i].active)
 				g->bossShots[i].x--;
-			if (g->bossShots[i].x < -4)
+			if (g->bossShots[i].x < ENEMY_OFFSCREEN_X)
 				g->bossShots[i].active = false;
 		}
 
@@ -537,7 +537,7 @@ void GameLevelUpdate(GameCtx* g) {
 
 }
 
-void GameUpdateBackgrand(GameCtx* g) {
+void GameUpdateBackground(GameCtx* g) {
 
 	/*
 	 * Refreshes the background effect, stars.
@@ -583,7 +583,7 @@ void GameAddBackground(GameCtx* g){
 		{
 			g->background[i].active 		= true;
 			g->background[i].x 				= SCREEN_WIDTH;
-			g->background[i].y				= (rand()%(SCREEN_HEIGHT-10)) +10;
+			g->background[i].y				= (rand()%(SCREEN_HEIGHT-STAR_Y_MARGIN)) + STAR_Y_MARGIN;
 			g->background[i].updateDelay 	= (rand()%6)+2; // def. (rand()%4)+2;
 
 			break;
@@ -690,7 +690,7 @@ void GameShot(GameCtx* g){
 
 		int closest_enemy_number;
 		double temp_distance;
-		double smolest_distance = 500;
+		double smallest_distance = 500;
 		int random_tracking_number;
 
 		for (i = 0; i < NUMBER_SHOTS; ++i)
@@ -698,8 +698,8 @@ void GameShot(GameCtx* g){
 			if (!g->shots[i].active)
 			{
 				g->shots[i].active = true;
-				g->shots[i].x = 11;
-				g->shots[i].y = g->player.y + 5;
+				g->shots[i].x = SHOT_INIT_X;
+				g->shots[i].y = g->player.y + SHOT_INIT_Y_OFFSET;
 
 				//Setting the type of shot
 				switch(g->player.shootType)
@@ -721,9 +721,9 @@ void GameShot(GameCtx* g){
 
 							temp_distance = sqrt(pow(g->enemies[j].x - g->player.x, 2) + pow(g->enemies[j].y - g->player.y, 2));
 
-							if (temp_distance < smolest_distance)
+							if (temp_distance < smallest_distance)
 							{
-								smolest_distance = temp_distance;
+								smallest_distance = temp_distance;
 								closest_enemy_number = j;
 							}
 						}
@@ -787,7 +787,7 @@ void GameAddEnemy(GameCtx* g){
 			{
 				g->enemies[i].active = true;
 				g->enemies[i].x = SCREEN_WIDTH + 12;
-				g->enemies[i].y = ((rand()%(SCREEN_HEIGHT - 10))+10);
+				g->enemies[i].y = ((rand()%(SCREEN_HEIGHT - ENEMIES_Y_MARGIN))+ENEMIES_Y_MARGIN);
 				g->enemies[i].trackedByMissile = false;
 				g->enemies[i].trackNumber = 0;
 
@@ -849,7 +849,7 @@ GameState GameGetState(GameCtx* g){
 	return g->state;
 }
 
-int GameGetPalyerScore(GameCtx* g){
+int GameGetPlayerScore(GameCtx* g){
 	/*
 	 * Returns the player's current score from the passed context.
 	 * */

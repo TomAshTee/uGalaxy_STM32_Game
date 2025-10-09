@@ -1,6 +1,6 @@
 /**
  * @file    input.c
- * @author  Tomasz
+ * @author  Tomasz Jaeschke
  * @date    2025-08-10
  * @brief   Handles joystick and button inputs for the game.
  * @details

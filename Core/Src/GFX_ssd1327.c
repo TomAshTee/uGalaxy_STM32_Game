@@ -17,7 +17,7 @@
 
 int cursor_x, cursor_y;
 
-void GFX_DrowCircle(int CX, int CY ,int R,int I_O) {
+void GFX_DrawCircle(int CX, int CY ,int R,int I_O) {
 	   int X, Y, Xchange, YChange, RadiusError;
 
 	   X = R;
@@ -47,7 +47,7 @@ void GFX_DrowCircle(int CX, int CY ,int R,int I_O) {
 }
 
 //Bresenham's algorithm - Wikipedia
-void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
+void GFX_DrawLine(int X1, int Y1,int X2,int Y2,int I_O) {
 	int CurrentX, CurrentY, Xinc, Yinc,
 		Dx, Dy, TwoDx, TwoDy,
 		TwoDxAccumulatedError, TwoDyAccumulatedError;
@@ -130,18 +130,18 @@ void GFX_FillCircleHelper(int x0, int y0, int r, uint8_t cornername, int delta, 
 
 		if(cornername & 0x1)
 		{
-			GFX_DrowFastVLine(x0+x, y0-y, 2*y+1+delta, color);
-			GFX_DrowFastVLine(x0+y, y0-x, 2*x+1+delta, color);
+			GFX_DrawFastVLine(x0+x, y0-y, 2*y+1+delta, color);
+			GFX_DrawFastVLine(x0+y, y0-x, 2*x+1+delta, color);
 		}
 		if(cornername & 0x2)
 		{
-			GFX_DrowFastVLine(x0-x, y0-y, 2*y+1+delta, color);
-			GFX_DrowFastVLine(x0-y, y0-x, 2*x+1+delta, color);
+			GFX_DrawFastVLine(x0-x, y0-y, 2*y+1+delta, color);
+			GFX_DrawFastVLine(x0-y, y0-x, 2*x+1+delta, color);
 		}
 	}
 }
 
-void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t color )
+void GFX_DrawCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t color )
 {
 	int f 		= 1 - r;
 	int ddF_x 	= 1;
@@ -196,7 +196,7 @@ int y = R;
 	/*
 	 * Fill in the center between the two halves
 	 */
-	GFX_DrowLine(x0, y0-R, x0, y0+R,I_O);
+	GFX_DrawLine(x0, y0-R, x0, y0+R,I_O);
 
 	while(x < y)
 	{
@@ -219,10 +219,10 @@ int y = R;
 		 * perimeter points on the upper and lower quadrants of the 2 halves of the circle.
 		 */
 
-		GFX_DrowLine(x0+x, y0+y, x0+x, y0-y,I_O);
-		GFX_DrowLine(x0-x, y0+y, x0-x, y0-y,I_O);
-		GFX_DrowLine(x0+y, y0+x, y+x0, y0-x,I_O);
-		GFX_DrowLine(x0-y, y0+x, x0-y, y0-x,I_O);
+		GFX_DrawLine(x0+x, y0+y, x0+x, y0-y,I_O);
+		GFX_DrawLine(x0-x, y0+y, x0-x, y0-y,I_O);
+		GFX_DrawLine(x0+y, y0+x, y+x0, y0-x,I_O);
+		GFX_DrawLine(x0-y, y0+x, x0-y, y0-x,I_O);
   	}
 }
 
@@ -278,7 +278,7 @@ void GFX_DrowBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h
 
 }
 
-void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
+void GFX_DrawChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
 {
 
 	  uint8_t line;
@@ -319,18 +319,18 @@ void GFX_FillRect (int x, int y, int w, int h, uint8_t color )
 	int16_t i;
 	for(i=x; i <x+w; i++)
 	{
-		GFX_DrowFastVLine(i, y, h, color);
+		GFX_DrawFastVLine(i, y, h, color);
 	}
 }
 
-void GFX_DrowFastVLine(int x, int y, int h, uint8_t color)
+void GFX_DrawFastVLine(int x, int y, int h, uint8_t color)
 {
-	GFX_DrowLine(x, y, x, y+h-1, color);
+	GFX_DrawLine(x, y, x, y+h-1, color);
 }
 
-void GFX_DrowFastHLine(int x, int y, int w, uint8_t color)
+void GFX_DrawFastHLine(int x, int y, int w, uint8_t color)
 {
-	GFX_DrowLine(x, y, x+w-1 ,y , color);
+	GFX_DrawLine(x, y, x+w-1 ,y , color);
 }
 
 void GFX_PutString(int x, int y, char* str, uint8_t txt_size, uint8_t color, uint8_t bg)
@@ -340,7 +340,7 @@ void GFX_PutString(int x, int y, char* str, uint8_t txt_size, uint8_t color, uin
 
 	while(*str)		//do kiedy jest cos w stringu
 	{
-		GFX_DrowChar(cursor_x,cursor_y, *str++, color, bg, txt_size);
+		GFX_DrawChar(cursor_x,cursor_y, *str++, color, bg, txt_size);
 		cursor_x += txt_size*6; // tylko pod dany font trzeba potem to korygowa�
 	}
 }
@@ -354,18 +354,18 @@ void GFX_PutInt (int x, int y, int data, uint8_t txt_size, uint8_t color, uint8_
 	//GFX_PutString(x, y, buf , txt_size, color, bg);
 }
 
-void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
+void GFX_DrawRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
 {
 	// r - to jest wielkosc zaokraglonego naro�nika
-	GFX_DrowFastHLine(x+r	,y		,w-2*r	,color );
-	GFX_DrowFastHLine(x+r	,y+h-1	,w-2*r	,color );
-	GFX_DrowFastVLine(x		,y+r	,h-2*r	,color );
-	GFX_DrowFastVLine(x+w-1	,y+r	,h-2*r	,color );
+	GFX_DrawFastHLine(x+r	,y		,w-2*r	,color );
+	GFX_DrawFastHLine(x+r	,y+h-1	,w-2*r	,color );
+	GFX_DrawFastVLine(x		,y+r	,h-2*r	,color );
+	GFX_DrawFastVLine(x+w-1	,y+r	,h-2*r	,color );
 
-	GFX_DrowCircleHelper(x+r	,y+r	,r	,1	,color);
-	GFX_DrowCircleHelper(x+w-r-1,y+r	,r	,2	,color);
-	GFX_DrowCircleHelper(x+w-r-1,y+h-r-1,r	,4	,color);
-	GFX_DrowCircleHelper(x+r	,y+h-r-1,r	,8	,color);
+	GFX_DrawCircleHelper(x+r	,y+r	,r	,1	,color);
+	GFX_DrawCircleHelper(x+w-r-1,y+r	,r	,2	,color);
+	GFX_DrawCircleHelper(x+w-r-1,y+h-r-1,r	,4	,color);
+	GFX_DrawCircleHelper(x+r	,y+h-r-1,r	,8	,color);
 }
 
 void GFX_FillRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)

@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0000d07c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00015bb9  00000000  00000000  0000d0ac  2**0
+ 12 .debug_info   00015bfa  00000000  00000000  0000d0ac  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 0000361d  00000000  00000000  00022c65  2**0
+ 13 .debug_abbrev 000036db  00000000  00000000  00022ca6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000015f0  00000000  00000000  00026288  2**3
+ 14 .debug_aranges 000015f0  00000000  00000000  00026388  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 000010bc  00000000  00000000  00027878  2**0
+ 15 .debug_rnglists 000010bc  00000000  00000000  00027978  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00024657  00000000  00000000  00028934  2**0
+ 16 .debug_macro  00024699  00000000  00000000  00028a34  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000194cf  00000000  00000000  0004cf8b  2**0
+ 17 .debug_line   000194d1  00000000  00000000  0004d0cd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000db284  00000000  00000000  0006645a  2**0
+ 18 .debug_str    000db378  00000000  00000000  0006659e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  001416de  2**0
+ 19 .comment      00000043  00000000  00000000  00141916  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000696c  00000000  00000000  00141724  2**2
+ 20 .debug_frame  0000696c  00000000  00000000  0014195c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000062  00000000  00000000  00148090  2**0
+ 21 .debug_line_str 00000062  00000000  00000000  001482c8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -897,13 +897,13 @@ Disassembly of section .text:
  8000b42:	f04f 0001 	mov.w	r0, #1
  8000b46:	4770      	bx	lr
 
-08000b48 <GFX_DrowLine>:
+08000b48 <GFX_DrawLine>:
 	        }
 	   }
 }
 
 //Bresenham's algorithm - Wikipedia
-void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
+void GFX_DrawLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000b48:	b580      	push	{r7, lr}
  8000b4a:	b08e      	sub	sp, #56	@ 0x38
  8000b4c:	af00      	add	r7, sp, #0
@@ -952,7 +952,7 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
 	if(Dx < 0) {
  8000b82:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
  8000b84:	2b00      	cmp	r3, #0
- 8000b86:	da08      	bge.n	8000b9a <GFX_DrowLine+0x52>
+ 8000b86:	da08      	bge.n	8000b9a <GFX_DrawLine+0x52>
 
 		Xinc = -1;
  8000b88:	f04f 33ff 	mov.w	r3, #4294967295
@@ -970,7 +970,7 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
 	if (Dy < 0) {
  8000b9a:	6a3b      	ldr	r3, [r7, #32]
  8000b9c:	2b00      	cmp	r3, #0
- 8000b9e:	da08      	bge.n	8000bb2 <GFX_DrowLine+0x6a>
+ 8000b9e:	da08      	bge.n	8000bb2 <GFX_DrawLine+0x6a>
 		Yinc = -1;
  8000ba0:	f04f 33ff 	mov.w	r3, #4294967295
  8000ba4:	62bb      	str	r3, [r7, #40]	@ 0x28
@@ -995,16 +995,16 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
 	if ((Dx != 0) || (Dy != 0)) {
  8000bc0:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
  8000bc2:	2b00      	cmp	r3, #0
- 8000bc4:	d102      	bne.n	8000bcc <GFX_DrowLine+0x84>
+ 8000bc4:	d102      	bne.n	8000bcc <GFX_DrawLine+0x84>
  8000bc6:	6a3b      	ldr	r3, [r7, #32]
  8000bc8:	2b00      	cmp	r3, #0
- 8000bca:	d046      	beq.n	8000c5a <GFX_DrowLine+0x112>
+ 8000bca:	d046      	beq.n	8000c5a <GFX_DrawLine+0x112>
 
 		if (Dy <= Dx) {
  8000bcc:	6a3a      	ldr	r2, [r7, #32]
  8000bce:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
  8000bd0:	429a      	cmp	r2, r3
- 8000bd2:	dc21      	bgt.n	8000c18 <GFX_DrowLine+0xd0>
+ 8000bd2:	dc21      	bgt.n	8000c18 <GFX_DrawLine+0xd0>
 			TwoDxAccumulatedError = 0;
  8000bd4:	2300      	movs	r3, #0
  8000bd6:	617b      	str	r3, [r7, #20]
@@ -1023,7 +1023,7 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000be8:	697a      	ldr	r2, [r7, #20]
  8000bea:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
  8000bec:	429a      	cmp	r2, r3
- 8000bee:	dd07      	ble.n	8000c00 <GFX_DrowLine+0xb8>
+ 8000bee:	dd07      	ble.n	8000c00 <GFX_DrawLine+0xb8>
 			        CurrentY += Yinc;
  8000bf0:	6b3a      	ldr	r2, [r7, #48]	@ 0x30
  8000bf2:	6abb      	ldr	r3, [r7, #40]	@ 0x28
@@ -1046,14 +1046,14 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000c0e:	6b7a      	ldr	r2, [r7, #52]	@ 0x34
  8000c10:	687b      	ldr	r3, [r7, #4]
  8000c12:	429a      	cmp	r2, r3
- 8000c14:	d1e0      	bne.n	8000bd8 <GFX_DrowLine+0x90>
+ 8000c14:	d1e0      	bne.n	8000bd8 <GFX_DrawLine+0x90>
 			      }
 			      SSD1327_SetPixel(CurrentX,CurrentY,I_O);
 			  } while (CurrentY != Y2);
 		  }
 	}
 }
- 8000c16:	e020      	b.n	8000c5a <GFX_DrowLine+0x112>
+ 8000c16:	e020      	b.n	8000c5a <GFX_DrawLine+0x112>
 			  TwoDyAccumulatedError = 0;
  8000c18:	2300      	movs	r3, #0
  8000c1a:	613b      	str	r3, [r7, #16]
@@ -1071,7 +1071,7 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000c2c:	693a      	ldr	r2, [r7, #16]
  8000c2e:	6a3b      	ldr	r3, [r7, #32]
  8000c30:	429a      	cmp	r2, r3
- 8000c32:	dd07      	ble.n	8000c44 <GFX_DrowLine+0xfc>
+ 8000c32:	dd07      	ble.n	8000c44 <GFX_DrawLine+0xfc>
 				      CurrentX += Xinc;
  8000c34:	6b7a      	ldr	r2, [r7, #52]	@ 0x34
  8000c36:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
@@ -1093,19 +1093,19 @@ void GFX_DrowLine(int X1, int Y1,int X2,int Y2,int I_O) {
  8000c52:	6b3a      	ldr	r2, [r7, #48]	@ 0x30
  8000c54:	683b      	ldr	r3, [r7, #0]
  8000c56:	429a      	cmp	r2, r3
- 8000c58:	d1e0      	bne.n	8000c1c <GFX_DrowLine+0xd4>
+ 8000c58:	d1e0      	bne.n	8000c1c <GFX_DrawLine+0xd4>
 }
  8000c5a:	bf00      	nop
  8000c5c:	3738      	adds	r7, #56	@ 0x38
  8000c5e:	46bd      	mov	sp, r7
  8000c60:	bd80      	pop	{r7, pc}
 
-08000c62 <GFX_DrowCircleHelper>:
+08000c62 <GFX_DrawCircleHelper>:
 		}
 	}
 }
 
-void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t color )
+void GFX_DrawCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t color )
 {
  8000c62:	b580      	push	{r7, lr}
  8000c64:	b08a      	sub	sp, #40	@ 0x28
@@ -1136,12 +1136,12 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000c8e:	617b      	str	r3, [r7, #20]
 
 	while(x<y)
- 8000c90:	e082      	b.n	8000d98 <GFX_DrowCircleHelper+0x136>
+ 8000c90:	e082      	b.n	8000d98 <GFX_DrawCircleHelper+0x136>
 	{
 		if(f >= 0)
  8000c92:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
  8000c94:	2b00      	cmp	r3, #0
- 8000c96:	db09      	blt.n	8000cac <GFX_DrowCircleHelper+0x4a>
+ 8000c96:	db09      	blt.n	8000cac <GFX_DrawCircleHelper+0x4a>
 		{
 			y--;
  8000c98:	697b      	ldr	r3, [r7, #20]
@@ -1175,7 +1175,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000cc0:	78fb      	ldrb	r3, [r7, #3]
  8000cc2:	f003 0304 	and.w	r3, r3, #4
  8000cc6:	2b00      	cmp	r3, #0
- 8000cc8:	d015      	beq.n	8000cf6 <GFX_DrowCircleHelper+0x94>
+ 8000cc8:	d015      	beq.n	8000cf6 <GFX_DrawCircleHelper+0x94>
 		{
 			SSD1327_SetPixel(x0 + x, y0 + y, color);
  8000cca:	68fa      	ldr	r2, [r7, #12]
@@ -1202,7 +1202,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000cf6:	78fb      	ldrb	r3, [r7, #3]
  8000cf8:	f003 0302 	and.w	r3, r3, #2
  8000cfc:	2b00      	cmp	r3, #0
- 8000cfe:	d015      	beq.n	8000d2c <GFX_DrowCircleHelper+0xca>
+ 8000cfe:	d015      	beq.n	8000d2c <GFX_DrawCircleHelper+0xca>
 		{
 			SSD1327_SetPixel(x0 + x, y0 - y, color);
  8000d00:	68fa      	ldr	r2, [r7, #12]
@@ -1229,7 +1229,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d2c:	78fb      	ldrb	r3, [r7, #3]
  8000d2e:	f003 0308 	and.w	r3, r3, #8
  8000d32:	2b00      	cmp	r3, #0
- 8000d34:	d015      	beq.n	8000d62 <GFX_DrowCircleHelper+0x100>
+ 8000d34:	d015      	beq.n	8000d62 <GFX_DrawCircleHelper+0x100>
 		{
 			SSD1327_SetPixel(x0 - x, y0 + y, color);
  8000d36:	68fa      	ldr	r2, [r7, #12]
@@ -1256,7 +1256,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d62:	78fb      	ldrb	r3, [r7, #3]
  8000d64:	f003 0301 	and.w	r3, r3, #1
  8000d68:	2b00      	cmp	r3, #0
- 8000d6a:	d015      	beq.n	8000d98 <GFX_DrowCircleHelper+0x136>
+ 8000d6a:	d015      	beq.n	8000d98 <GFX_DrawCircleHelper+0x136>
 		{
 			SSD1327_SetPixel(x0 - x, y0 - y, color);
  8000d6c:	68fa      	ldr	r2, [r7, #12]
@@ -1282,7 +1282,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000d98:	69ba      	ldr	r2, [r7, #24]
  8000d9a:	697b      	ldr	r3, [r7, #20]
  8000d9c:	429a      	cmp	r2, r3
- 8000d9e:	f6ff af78 	blt.w	8000c92 <GFX_DrowCircleHelper+0x30>
+ 8000d9e:	f6ff af78 	blt.w	8000c92 <GFX_DrawCircleHelper+0x30>
 		}
 	}
 }
@@ -1293,7 +1293,7 @@ void GFX_DrowCircleHelper(int x0, int y0, int r, uint8_t cornername, uint8_t col
  8000daa:	bd80      	pop	{r7, pc}
 
 08000dac <GFX_DrowBitMap_P>:
-		GFX_DrowLine(x0-y, y0+x, x0-y, y0-x,I_O);
+		GFX_DrawLine(x0-y, y0+x, x0-y, y0-x,I_O);
   	}
 }
 
@@ -1387,9 +1387,9 @@ void GFX_DrowBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h
  8000e3c:	bd80      	pop	{r7, pc}
 	...
 
-08000e40 <GFX_DrowChar>:
+08000e40 <GFX_DrawChar>:
 
-void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
+void GFX_DrawChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
 {
  8000e40:	b590      	push	{r4, r7, lr}
  8000e42:	b089      	sub	sp, #36	@ 0x24
@@ -1408,10 +1408,10 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
 	  if((x >= SSD1327_WIDTH)            || // Clip right
  8000e56:	68fb      	ldr	r3, [r7, #12]
  8000e58:	2b7f      	cmp	r3, #127	@ 0x7f
- 8000e5a:	f300 80a9 	bgt.w	8000fb0 <GFX_DrowChar+0x170>
+ 8000e5a:	f300 80a9 	bgt.w	8000fb0 <GFX_DrawChar+0x170>
  8000e5e:	68bb      	ldr	r3, [r7, #8]
  8000e60:	2b7f      	cmp	r3, #127	@ 0x7f
- 8000e62:	f300 80a5 	bgt.w	8000fb0 <GFX_DrowChar+0x170>
+ 8000e62:	f300 80a5 	bgt.w	8000fb0 <GFX_DrawChar+0x170>
 	     (y >= SSD1327_HEIGHT)           || // Clip bottom
 	     ((x + 6 * size - 1) < 0) || // Clip left
  8000e66:	f897 202c 	ldrb.w	r2, [r7, #44]	@ 0x2c
@@ -1424,7 +1424,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000e76:	4413      	add	r3, r2
 	     (y >= SSD1327_HEIGHT)           || // Clip bottom
  8000e78:	2b00      	cmp	r3, #0
- 8000e7a:	f340 8099 	ble.w	8000fb0 <GFX_DrowChar+0x170>
+ 8000e7a:	f340 8099 	ble.w	8000fb0 <GFX_DrawChar+0x170>
 	     ((y + 8 * size - 1) < 0))   // Clip top
  8000e7e:	f897 302c 	ldrb.w	r3, [r7, #44]	@ 0x2c
  8000e82:	00da      	lsls	r2, r3, #3
@@ -1432,21 +1432,21 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000e86:	4413      	add	r3, r2
 	     ((x + 6 * size - 1) < 0) || // Clip left
  8000e88:	2b00      	cmp	r3, #0
- 8000e8a:	f340 8091 	ble.w	8000fb0 <GFX_DrowChar+0x170>
+ 8000e8a:	f340 8091 	ble.w	8000fb0 <GFX_DrawChar+0x170>
 	    return;
 
 	  for  (i=0; i<6; i++ ) {
  8000e8e:	2300      	movs	r3, #0
  8000e90:	75bb      	strb	r3, [r7, #22]
- 8000e92:	e087      	b.n	8000fa4 <GFX_DrowChar+0x164>
+ 8000e92:	e087      	b.n	8000fa4 <GFX_DrawChar+0x164>
 	    if (i == 5)
  8000e94:	f997 3016 	ldrsb.w	r3, [r7, #22]
  8000e98:	2b05      	cmp	r3, #5
- 8000e9a:	d102      	bne.n	8000ea2 <GFX_DrowChar+0x62>
+ 8000e9a:	d102      	bne.n	8000ea2 <GFX_DrawChar+0x62>
 	      line = 0x0;
  8000e9c:	2300      	movs	r3, #0
  8000e9e:	75fb      	strb	r3, [r7, #23]
- 8000ea0:	e009      	b.n	8000eb6 <GFX_DrowChar+0x76>
+ 8000ea0:	e009      	b.n	8000eb6 <GFX_DrawChar+0x76>
 	    else
 	      //line = pgm_read_byte(font+(c*5)+i);
 	    	line = (font[(c*5)+i]);
@@ -1456,22 +1456,22 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000ea8:	441a      	add	r2, r3
  8000eaa:	f997 3016 	ldrsb.w	r3, [r7, #22]
  8000eae:	4413      	add	r3, r2
- 8000eb0:	4a41      	ldr	r2, [pc, #260]	@ (8000fb8 <GFX_DrowChar+0x178>)
+ 8000eb0:	4a41      	ldr	r2, [pc, #260]	@ (8000fb8 <GFX_DrawChar+0x178>)
  8000eb2:	5cd3      	ldrb	r3, [r2, r3]
  8000eb4:	75fb      	strb	r3, [r7, #23]
 	    for (j = 0; j<8; j++) {
  8000eb6:	2300      	movs	r3, #0
  8000eb8:	757b      	strb	r3, [r7, #21]
- 8000eba:	e069      	b.n	8000f90 <GFX_DrowChar+0x150>
+ 8000eba:	e069      	b.n	8000f90 <GFX_DrawChar+0x150>
 	      if (line & 0x1) {
  8000ebc:	7dfb      	ldrb	r3, [r7, #23]
  8000ebe:	f003 0301 	and.w	r3, r3, #1
  8000ec2:	2b00      	cmp	r3, #0
- 8000ec4:	d02a      	beq.n	8000f1c <GFX_DrowChar+0xdc>
+ 8000ec4:	d02a      	beq.n	8000f1c <GFX_DrawChar+0xdc>
 	        if (size == 1) // default size
  8000ec6:	f897 302c 	ldrb.w	r3, [r7, #44]	@ 0x2c
  8000eca:	2b01      	cmp	r3, #1
- 8000ecc:	d10c      	bne.n	8000ee8 <GFX_DrowChar+0xa8>
+ 8000ecc:	d10c      	bne.n	8000ee8 <GFX_DrawChar+0xa8>
 	        	SSD1327_SetPixel(x+i, y+j, color);
  8000ece:	f997 2016 	ldrsb.w	r2, [r7, #22]
  8000ed2:	68fb      	ldr	r3, [r7, #12]
@@ -1482,7 +1482,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000ede:	79ba      	ldrb	r2, [r7, #6]
  8000ee0:	4619      	mov	r1, r3
  8000ee2:	f003 fab3 	bl	800444c <SSD1327_SetPixel>
- 8000ee6:	e04a      	b.n	8000f7e <GFX_DrowChar+0x13e>
+ 8000ee6:	e04a      	b.n	8000f7e <GFX_DrawChar+0x13e>
 	        else {  // big size
 	        	GFX_FillRect(x+(i*size), y+(j*size), size, size, color);
  8000ee8:	f997 3016 	ldrsb.w	r3, [r7, #22]
@@ -1501,17 +1501,17 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000f12:	9300      	str	r3, [sp, #0]
  8000f14:	4623      	mov	r3, r4
  8000f16:	f000 f851 	bl	8000fbc <GFX_FillRect>
- 8000f1a:	e030      	b.n	8000f7e <GFX_DrowChar+0x13e>
+ 8000f1a:	e030      	b.n	8000f7e <GFX_DrawChar+0x13e>
 	        }
 	      } else if (bg != color) {
  8000f1c:	f897 2028 	ldrb.w	r2, [r7, #40]	@ 0x28
  8000f20:	79bb      	ldrb	r3, [r7, #6]
  8000f22:	429a      	cmp	r2, r3
- 8000f24:	d02b      	beq.n	8000f7e <GFX_DrowChar+0x13e>
+ 8000f24:	d02b      	beq.n	8000f7e <GFX_DrawChar+0x13e>
 	        if (size == 1) // default size
  8000f26:	f897 302c 	ldrb.w	r3, [r7, #44]	@ 0x2c
  8000f2a:	2b01      	cmp	r3, #1
- 8000f2c:	d10d      	bne.n	8000f4a <GFX_DrowChar+0x10a>
+ 8000f2c:	d10d      	bne.n	8000f4a <GFX_DrawChar+0x10a>
 	        	SSD1327_SetPixel(x+i, y+j, bg);
  8000f2e:	f997 2016 	ldrsb.w	r2, [r7, #22]
  8000f32:	68fb      	ldr	r3, [r7, #12]
@@ -1522,7 +1522,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000f3e:	f897 2028 	ldrb.w	r2, [r7, #40]	@ 0x28
  8000f42:	4619      	mov	r1, r3
  8000f44:	f003 fa82 	bl	800444c <SSD1327_SetPixel>
- 8000f48:	e019      	b.n	8000f7e <GFX_DrowChar+0x13e>
+ 8000f48:	e019      	b.n	8000f7e <GFX_DrawChar+0x13e>
 	        else {  // big size
 	        	GFX_FillRect(x+i*size, y+j*size, size, size, bg);
  8000f4a:	f997 3016 	ldrsb.w	r3, [r7, #22]
@@ -1555,7 +1555,7 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000f8e:	757b      	strb	r3, [r7, #21]
  8000f90:	f997 3015 	ldrsb.w	r3, [r7, #21]
  8000f94:	2b07      	cmp	r3, #7
- 8000f96:	dd91      	ble.n	8000ebc <GFX_DrowChar+0x7c>
+ 8000f96:	dd91      	ble.n	8000ebc <GFX_DrawChar+0x7c>
 	  for  (i=0; i<6; i++ ) {
  8000f98:	f997 3016 	ldrsb.w	r3, [r7, #22]
  8000f9c:	b2db      	uxtb	r3, r3
@@ -1564,8 +1564,8 @@ void GFX_DrowChar(int x, int y, char c, uint8_t color, uint8_t bg, uint8_t size)
  8000fa2:	75bb      	strb	r3, [r7, #22]
  8000fa4:	f997 3016 	ldrsb.w	r3, [r7, #22]
  8000fa8:	2b05      	cmp	r3, #5
- 8000faa:	f77f af73 	ble.w	8000e94 <GFX_DrowChar+0x54>
- 8000fae:	e000      	b.n	8000fb2 <GFX_DrowChar+0x172>
+ 8000faa:	f77f af73 	ble.w	8000e94 <GFX_DrawChar+0x54>
+ 8000fae:	e000      	b.n	8000fb2 <GFX_DrawChar+0x172>
 	    return;
  8000fb0:	bf00      	nop
 	    }
@@ -1593,12 +1593,12 @@ void GFX_FillRect (int x, int y, int w, int h, uint8_t color )
  8000fcc:	82fb      	strh	r3, [r7, #22]
  8000fce:	e00d      	b.n	8000fec <GFX_FillRect+0x30>
 	{
-		GFX_DrowFastVLine(i, y, h, color);
+		GFX_DrawFastVLine(i, y, h, color);
  8000fd0:	f9b7 0016 	ldrsh.w	r0, [r7, #22]
  8000fd4:	f897 3020 	ldrb.w	r3, [r7, #32]
  8000fd8:	683a      	ldr	r2, [r7, #0]
  8000fda:	68b9      	ldr	r1, [r7, #8]
- 8000fdc:	f000 f812 	bl	8001004 <GFX_DrowFastVLine>
+ 8000fdc:	f000 f812 	bl	8001004 <GFX_DrawFastVLine>
 	for(i=x; i <x+w; i++)
  8000fe0:	f9b7 3016 	ldrsh.w	r3, [r7, #22]
  8000fe4:	b29b      	uxth	r3, r3
@@ -1619,9 +1619,9 @@ void GFX_FillRect (int x, int y, int w, int h, uint8_t color )
  8001000:	46bd      	mov	sp, r7
  8001002:	bd80      	pop	{r7, pc}
 
-08001004 <GFX_DrowFastVLine>:
+08001004 <GFX_DrawFastVLine>:
 
-void GFX_DrowFastVLine(int x, int y, int h, uint8_t color)
+void GFX_DrawFastVLine(int x, int y, int h, uint8_t color)
 {
  8001004:	b580      	push	{r7, lr}
  8001006:	b086      	sub	sp, #24
@@ -1630,7 +1630,7 @@ void GFX_DrowFastVLine(int x, int y, int h, uint8_t color)
  800100c:	60b9      	str	r1, [r7, #8]
  800100e:	607a      	str	r2, [r7, #4]
  8001010:	70fb      	strb	r3, [r7, #3]
-	GFX_DrowLine(x, y, x, y+h-1, color);
+	GFX_DrawLine(x, y, x, y+h-1, color);
  8001012:	68ba      	ldr	r2, [r7, #8]
  8001014:	687b      	ldr	r3, [r7, #4]
  8001016:	4413      	add	r3, r2
@@ -1641,16 +1641,16 @@ void GFX_DrowFastVLine(int x, int y, int h, uint8_t color)
  8001020:	68fa      	ldr	r2, [r7, #12]
  8001022:	68b9      	ldr	r1, [r7, #8]
  8001024:	68f8      	ldr	r0, [r7, #12]
- 8001026:	f7ff fd8f 	bl	8000b48 <GFX_DrowLine>
+ 8001026:	f7ff fd8f 	bl	8000b48 <GFX_DrawLine>
 }
  800102a:	bf00      	nop
  800102c:	3710      	adds	r7, #16
  800102e:	46bd      	mov	sp, r7
  8001030:	bd80      	pop	{r7, pc}
 
-08001032 <GFX_DrowFastHLine>:
+08001032 <GFX_DrawFastHLine>:
 
-void GFX_DrowFastHLine(int x, int y, int w, uint8_t color)
+void GFX_DrawFastHLine(int x, int y, int w, uint8_t color)
 {
  8001032:	b580      	push	{r7, lr}
  8001034:	b086      	sub	sp, #24
@@ -1659,7 +1659,7 @@ void GFX_DrowFastHLine(int x, int y, int w, uint8_t color)
  800103a:	60b9      	str	r1, [r7, #8]
  800103c:	607a      	str	r2, [r7, #4]
  800103e:	70fb      	strb	r3, [r7, #3]
-	GFX_DrowLine(x, y, x+w-1 ,y , color);
+	GFX_DrawLine(x, y, x+w-1 ,y , color);
  8001040:	68fa      	ldr	r2, [r7, #12]
  8001042:	687b      	ldr	r3, [r7, #4]
  8001044:	4413      	add	r3, r2
@@ -1669,7 +1669,7 @@ void GFX_DrowFastHLine(int x, int y, int w, uint8_t color)
  800104c:	68bb      	ldr	r3, [r7, #8]
  800104e:	68b9      	ldr	r1, [r7, #8]
  8001050:	68f8      	ldr	r0, [r7, #12]
- 8001052:	f7ff fd79 	bl	8000b48 <GFX_DrowLine>
+ 8001052:	f7ff fd79 	bl	8000b48 <GFX_DrawLine>
 }
  8001056:	bf00      	nop
  8001058:	3710      	adds	r7, #16
@@ -1700,7 +1700,7 @@ void GFX_PutString(int x, int y, char* str, uint8_t txt_size, uint8_t color, uin
 	while(*str)		//do kiedy jest cos w stringu
  800107a:	e01c      	b.n	80010b6 <GFX_PutString+0x56>
 	{
-		GFX_DrowChar(cursor_x,cursor_y, *str++, color, bg, txt_size);
+		GFX_DrawChar(cursor_x,cursor_y, *str++, color, bg, txt_size);
  800107c:	4b12      	ldr	r3, [pc, #72]	@ (80010c8 <GFX_PutString+0x68>)
  800107e:	6818      	ldr	r0, [r3, #0]
  8001080:	4b12      	ldr	r3, [pc, #72]	@ (80010cc <GFX_PutString+0x6c>)
@@ -1715,7 +1715,7 @@ void GFX_PutString(int x, int y, char* str, uint8_t txt_size, uint8_t color, uin
  8001094:	f897 3024 	ldrb.w	r3, [r7, #36]	@ 0x24
  8001098:	9300      	str	r3, [sp, #0]
  800109a:	4623      	mov	r3, r4
- 800109c:	f7ff fed0 	bl	8000e40 <GFX_DrowChar>
+ 800109c:	f7ff fed0 	bl	8000e40 <GFX_DrawChar>
 		cursor_x += txt_size*6; // tylko pod dany font trzeba potem to korygowa�
  80010a0:	78fa      	ldrb	r2, [r7, #3]
  80010a2:	4613      	mov	r3, r2
@@ -1781,9 +1781,9 @@ void GFX_PutInt (int x, int y, int data, uint8_t txt_size, uint8_t color, uint8_
  800110c:	46bd      	mov	sp, r7
  800110e:	bd80      	pop	{r7, pc}
 
-08001110 <GFX_DrowRoundRect>:
+08001110 <GFX_DrawRoundRect>:
 
-void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
+void GFX_DrawRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
 {
  8001110:	b580      	push	{r7, lr}
  8001112:	b086      	sub	sp, #24
@@ -1793,7 +1793,7 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  800111a:	607a      	str	r2, [r7, #4]
  800111c:	603b      	str	r3, [r7, #0]
 	// r - to jest wielkosc zaokraglonego naro�nika
-	GFX_DrowFastHLine(x+r	,y		,w-2*r	,color );
+	GFX_DrawFastHLine(x+r	,y		,w-2*r	,color );
  800111e:	7e3a      	ldrb	r2, [r7, #24]
  8001120:	68fb      	ldr	r3, [r7, #12]
  8001122:	18d0      	adds	r0, r2, r3
@@ -1803,8 +1803,8 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  800112a:	1ad2      	subs	r2, r2, r3
  800112c:	7f3b      	ldrb	r3, [r7, #28]
  800112e:	68b9      	ldr	r1, [r7, #8]
- 8001130:	f7ff ff7f 	bl	8001032 <GFX_DrowFastHLine>
-	GFX_DrowFastHLine(x+r	,y+h-1	,w-2*r	,color );
+ 8001130:	f7ff ff7f 	bl	8001032 <GFX_DrawFastHLine>
+	GFX_DrawFastHLine(x+r	,y+h-1	,w-2*r	,color );
  8001134:	7e3a      	ldrb	r2, [r7, #24]
  8001136:	68fb      	ldr	r3, [r7, #12]
  8001138:	18d0      	adds	r0, r2, r3
@@ -1817,8 +1817,8 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  8001146:	687a      	ldr	r2, [r7, #4]
  8001148:	1ad2      	subs	r2, r2, r3
  800114a:	7f3b      	ldrb	r3, [r7, #28]
- 800114c:	f7ff ff71 	bl	8001032 <GFX_DrowFastHLine>
-	GFX_DrowFastVLine(x		,y+r	,h-2*r	,color );
+ 800114c:	f7ff ff71 	bl	8001032 <GFX_DrawFastHLine>
+	GFX_DrawFastVLine(x		,y+r	,h-2*r	,color );
  8001150:	7e3a      	ldrb	r2, [r7, #24]
  8001152:	68bb      	ldr	r3, [r7, #8]
  8001154:	18d1      	adds	r1, r2, r3
@@ -1828,8 +1828,8 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  800115c:	1ad2      	subs	r2, r2, r3
  800115e:	7f3b      	ldrb	r3, [r7, #28]
  8001160:	68f8      	ldr	r0, [r7, #12]
- 8001162:	f7ff ff4f 	bl	8001004 <GFX_DrowFastVLine>
-	GFX_DrowFastVLine(x+w-1	,y+r	,h-2*r	,color );
+ 8001162:	f7ff ff4f 	bl	8001004 <GFX_DrawFastVLine>
+	GFX_DrawFastVLine(x+w-1	,y+r	,h-2*r	,color );
  8001166:	68fa      	ldr	r2, [r7, #12]
  8001168:	687b      	ldr	r3, [r7, #4]
  800116a:	4413      	add	r3, r2
@@ -1842,9 +1842,9 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  8001178:	683a      	ldr	r2, [r7, #0]
  800117a:	1ad2      	subs	r2, r2, r3
  800117c:	7f3b      	ldrb	r3, [r7, #28]
- 800117e:	f7ff ff41 	bl	8001004 <GFX_DrowFastVLine>
+ 800117e:	f7ff ff41 	bl	8001004 <GFX_DrawFastVLine>
 
-	GFX_DrowCircleHelper(x+r	,y+r	,r	,1	,color);
+	GFX_DrawCircleHelper(x+r	,y+r	,r	,1	,color);
  8001182:	7e3a      	ldrb	r2, [r7, #24]
  8001184:	68fb      	ldr	r3, [r7, #12]
  8001186:	18d0      	adds	r0, r2, r3
@@ -1855,8 +1855,8 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  8001190:	7f3b      	ldrb	r3, [r7, #28]
  8001192:	9300      	str	r3, [sp, #0]
  8001194:	2301      	movs	r3, #1
- 8001196:	f7ff fd64 	bl	8000c62 <GFX_DrowCircleHelper>
-	GFX_DrowCircleHelper(x+w-r-1,y+r	,r	,2	,color);
+ 8001196:	f7ff fd64 	bl	8000c62 <GFX_DrawCircleHelper>
+	GFX_DrawCircleHelper(x+w-r-1,y+r	,r	,2	,color);
  800119a:	68fa      	ldr	r2, [r7, #12]
  800119c:	687b      	ldr	r3, [r7, #4]
  800119e:	441a      	add	r2, r3
@@ -1870,8 +1870,8 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  80011ae:	7f3b      	ldrb	r3, [r7, #28]
  80011b0:	9300      	str	r3, [sp, #0]
  80011b2:	2302      	movs	r3, #2
- 80011b4:	f7ff fd55 	bl	8000c62 <GFX_DrowCircleHelper>
-	GFX_DrowCircleHelper(x+w-r-1,y+h-r-1,r	,4	,color);
+ 80011b4:	f7ff fd55 	bl	8000c62 <GFX_DrawCircleHelper>
+	GFX_DrawCircleHelper(x+w-r-1,y+h-r-1,r	,4	,color);
  80011b8:	68fa      	ldr	r2, [r7, #12]
  80011ba:	687b      	ldr	r3, [r7, #4]
  80011bc:	441a      	add	r2, r3
@@ -1888,8 +1888,8 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  80011d2:	7f3b      	ldrb	r3, [r7, #28]
  80011d4:	9300      	str	r3, [sp, #0]
  80011d6:	2304      	movs	r3, #4
- 80011d8:	f7ff fd43 	bl	8000c62 <GFX_DrowCircleHelper>
-	GFX_DrowCircleHelper(x+r	,y+h-r-1,r	,8	,color);
+ 80011d8:	f7ff fd43 	bl	8000c62 <GFX_DrawCircleHelper>
+	GFX_DrawCircleHelper(x+r	,y+h-r-1,r	,8	,color);
  80011dc:	7e3a      	ldrb	r2, [r7, #24]
  80011de:	68fb      	ldr	r3, [r7, #12]
  80011e0:	18d0      	adds	r0, r2, r3
@@ -1903,7 +1903,7 @@ void GFX_DrowRoundRect(int x, int y, int w, int h, uint8_t r, uint8_t color)
  80011f0:	7f3b      	ldrb	r3, [r7, #28]
  80011f2:	9300      	str	r3, [sp, #0]
  80011f4:	2308      	movs	r3, #8
- 80011f6:	f7ff fd34 	bl	8000c62 <GFX_DrowCircleHelper>
+ 80011f6:	f7ff fd34 	bl	8000c62 <GFX_DrawCircleHelper>
 }
  80011fa:	bf00      	nop
  80011fc:	3710      	adds	r7, #16
@@ -2421,7 +2421,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80014e0:	681b      	ldr	r3, [r3, #0]
  80014e2:	60bb      	str	r3, [r7, #8]
 
-	if (stick < 1000)
+	if (stick < JOYSTICK_LOW_THRESH)
  80014e4:	68bb      	ldr	r3, [r7, #8]
  80014e6:	f5b3 7f7a 	cmp.w	r3, #1000	@ 0x3e8
  80014ea:	da05      	bge.n	80014f8 <GameTick+0x24>
@@ -2432,7 +2432,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  80014f2:	687b      	ldr	r3, [r7, #4]
  80014f4:	605a      	str	r2, [r3, #4]
  80014f6:	e009      	b.n	800150c <GameTick+0x38>
-	else if (stick > 3500)
+	else if (stick > JOYSTICK_HIGH_THRESH)
  80014f8:	68bb      	ldr	r3, [r7, #8]
  80014fa:	f640 52ac 	movw	r2, #3500	@ 0xdac
  80014fe:	4293      	cmp	r3, r2
@@ -2445,21 +2445,21 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  800150a:	605a      	str	r2, [r3, #4]
 
 	// Keeping the player within the screen
-	if (g->player.y < 10)
+	if (g->player.y < PLAYER_Y_MIN)
  800150c:	687b      	ldr	r3, [r7, #4]
  800150e:	685b      	ldr	r3, [r3, #4]
  8001510:	2b09      	cmp	r3, #9
  8001512:	dc02      	bgt.n	800151a <GameTick+0x46>
-		g->player.y = 10;
+		g->player.y = PLAYER_Y_MIN;
  8001514:	687b      	ldr	r3, [r7, #4]
  8001516:	220a      	movs	r2, #10
  8001518:	605a      	str	r2, [r3, #4]
-	if (g->player.y > (SCREEN_HEIGHT - 14))
+	if (g->player.y > PLAYER_Y_MAX)
  800151a:	687b      	ldr	r3, [r7, #4]
  800151c:	685b      	ldr	r3, [r3, #4]
  800151e:	2b72      	cmp	r3, #114	@ 0x72
  8001520:	dd02      	ble.n	8001528 <GameTick+0x54>
-		g->player.y = (SCREEN_HEIGHT - 14);
+		g->player.y = PLAYER_Y_MAX;
  8001522:	687b      	ldr	r3, [r7, #4]
  8001524:	2272      	movs	r2, #114	@ 0x72
  8001526:	605a      	str	r2, [r3, #4]
@@ -3606,7 +3606,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					}
 
 					// If off-screen, deactivation
-					if (g->enemies[i].x < -4) {
+					if (g->enemies[i].x < ENEMY_OFFSCREEN_X) {
  8001d92:	7dfa      	ldrb	r2, [r7, #23]
  8001d94:	6879      	ldr	r1, [r7, #4]
  8001d96:	4613      	mov	r3, r2
@@ -3696,7 +3696,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001e36:	b2da      	uxtb	r2, r3
  8001e38:	4b96      	ldr	r3, [pc, #600]	@ (8002094 <GameTick+0xbc0>)
  8001e3a:	701a      	strb	r2, [r3, #0]
-			if (y < 1 || y > (SCREEN_HEIGHT - 24))
+			if (y < BOSS_Y_MIN || y > BOSS_Y_MAX)
  8001e3c:	4b95      	ldr	r3, [pc, #596]	@ (8002094 <GameTick+0xbc0>)
  8001e3e:	781b      	ldrb	r3, [r3, #0]
  8001e40:	2b00      	cmp	r3, #0
@@ -3720,21 +3720,21 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001e5e:	687b      	ldr	r3, [r7, #4]
  8001e60:	f8c3 2a30 	str.w	r2, [r3, #2608]	@ 0xa30
 
-			if (g->boss.y < 10)
+			if (g->boss.y < BOSS_Y_MIN)
  8001e64:	687b      	ldr	r3, [r7, #4]
  8001e66:	f8d3 3a30 	ldr.w	r3, [r3, #2608]	@ 0xa30
- 8001e6a:	2b09      	cmp	r3, #9
+ 8001e6a:	2b00      	cmp	r3, #0
  8001e6c:	dc03      	bgt.n	8001e76 <GameTick+0x9a2>
-				g->boss.y = 10;
+				g->boss.y = BOSS_Y_MIN;
  8001e6e:	687b      	ldr	r3, [r7, #4]
- 8001e70:	220a      	movs	r2, #10
+ 8001e70:	2201      	movs	r2, #1
  8001e72:	f8c3 2a30 	str.w	r2, [r3, #2608]	@ 0xa30
-			if (g->boss.y > (SCREEN_HEIGHT - 24))
+			if (g->boss.y > BOSS_Y_MAX)
  8001e76:	687b      	ldr	r3, [r7, #4]
  8001e78:	f8d3 3a30 	ldr.w	r3, [r3, #2608]	@ 0xa30
  8001e7c:	2b68      	cmp	r3, #104	@ 0x68
  8001e7e:	dd03      	ble.n	8001e88 <GameTick+0x9b4>
-				g->boss.y = (SCREEN_HEIGHT - 24);
+				g->boss.y = BOSS_Y_MAX;
  8001e80:	687b      	ldr	r3, [r7, #4]
  8001e82:	2268      	movs	r2, #104	@ 0x68
  8001e84:	f8c3 2a30 	str.w	r2, [r3, #2608]	@ 0xa30
@@ -3815,7 +3815,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
  8001f16:	4403      	add	r3, r0
  8001f18:	f503 7308 	add.w	r3, r3, #544	@ 0x220
  8001f1c:	6019      	str	r1, [r3, #0]
-			if (g->bossShots[i].x < -4)
+			if (g->bossShots[i].x < ENEMY_OFFSCREEN_X)
  8001f1e:	7dfa      	ldrb	r2, [r7, #23]
  8001f20:	6879      	ldr	r1, [r7, #4]
  8001f22:	4613      	mov	r3, r2
@@ -5621,9 +5621,9 @@ void GameLevelUpdate(GameCtx* g) {
  8002c36:	bf00      	nop
  8002c38:	20000bfd 	.word	0x20000bfd
 
-08002c3c <GameUpdateBackgrand>:
+08002c3c <GameUpdateBackground>:
 
-void GameUpdateBackgrand(GameCtx* g) {
+void GameUpdateBackground(GameCtx* g) {
  8002c3c:	b580      	push	{r7, lr}
  8002c3e:	b084      	sub	sp, #16
  8002c40:	af00      	add	r7, sp, #0
@@ -5636,7 +5636,7 @@ void GameUpdateBackgrand(GameCtx* g) {
 	for(i = 0; i < NUMBER_BACKGROUND; i++)
  8002c44:	2300      	movs	r3, #0
  8002c46:	73fb      	strb	r3, [r7, #15]
- 8002c48:	e07c      	b.n	8002d44 <GameUpdateBackgrand+0x108>
+ 8002c48:	e07c      	b.n	8002d44 <GameUpdateBackground+0x108>
 	{
 		if(g->background[i].active)
  8002c4a:	7bfa      	ldrb	r2, [r7, #15]
@@ -5649,7 +5649,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002c58:	f503 737a 	add.w	r3, r3, #1000	@ 0x3e8
  8002c5c:	781b      	ldrb	r3, [r3, #0]
  8002c5e:	2b00      	cmp	r3, #0
- 8002c60:	d06d      	beq.n	8002d3e <GameUpdateBackgrand+0x102>
+ 8002c60:	d06d      	beq.n	8002d3e <GameUpdateBackground+0x102>
 		{
 			g->background[i].nextUpdate -= 1;
  8002c62:	7bfa      	ldrb	r2, [r7, #15]
@@ -5682,7 +5682,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002c9a:	f503 737d 	add.w	r3, r3, #1012	@ 0x3f4
  8002c9e:	681b      	ldr	r3, [r3, #0]
  8002ca0:	2b00      	cmp	r3, #0
- 8002ca2:	dc4c      	bgt.n	8002d3e <GameUpdateBackgrand+0x102>
+ 8002ca2:	dc4c      	bgt.n	8002d3e <GameUpdateBackground+0x102>
 			{
 				g->background[i].nextUpdate = g->background[i].updateDelay;
  8002ca4:	7bf9      	ldrb	r1, [r7, #15]
@@ -5714,7 +5714,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002cda:	f503 737a 	add.w	r3, r3, #1000	@ 0x3e8
  8002cde:	781b      	ldrb	r3, [r3, #0]
  8002ce0:	2b00      	cmp	r3, #0
- 8002ce2:	d02c      	beq.n	8002d3e <GameUpdateBackgrand+0x102>
+ 8002ce2:	d02c      	beq.n	8002d3e <GameUpdateBackground+0x102>
 				{
 					g->background[i].x -= 1;
  8002ce4:	7bfa      	ldrb	r2, [r7, #15]
@@ -5748,7 +5748,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002d1c:	f503 737b 	add.w	r3, r3, #1004	@ 0x3ec
  8002d20:	681b      	ldr	r3, [r3, #0]
  8002d22:	f1b3 3fff 	cmp.w	r3, #4294967295
- 8002d26:	da0a      	bge.n	8002d3e <GameUpdateBackgrand+0x102>
+ 8002d26:	da0a      	bge.n	8002d3e <GameUpdateBackground+0x102>
 						g->background[i].active = false;
  8002d28:	7bfa      	ldrb	r2, [r7, #15]
  8002d2a:	6879      	ldr	r1, [r7, #4]
@@ -5766,7 +5766,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002d42:	73fb      	strb	r3, [r7, #15]
  8002d44:	7bfb      	ldrb	r3, [r7, #15]
  8002d46:	2b4f      	cmp	r3, #79	@ 0x4f
- 8002d48:	f67f af7f 	bls.w	8002c4a <GameUpdateBackgrand+0xe>
+ 8002d48:	f67f af7f 	bls.w	8002c4a <GameUpdateBackground+0xe>
 				}
 			}
 		}
@@ -5775,7 +5775,7 @@ void GameUpdateBackgrand(GameCtx* g) {
 	if ((rand()%100) < NUMBER_BACKGROUND_FREQ) 		//Frequency of background additions
  8002d4c:	f005 ff04 	bl	8008b58 <rand>
  8002d50:	4602      	mov	r2, r0
- 8002d52:	4b09      	ldr	r3, [pc, #36]	@ (8002d78 <GameUpdateBackgrand+0x13c>)
+ 8002d52:	4b09      	ldr	r3, [pc, #36]	@ (8002d78 <GameUpdateBackground+0x13c>)
  8002d54:	fb83 1302 	smull	r1, r3, r3, r2
  8002d58:	1159      	asrs	r1, r3, #5
  8002d5a:	17d3      	asrs	r3, r2, #31
@@ -5784,7 +5784,7 @@ void GameUpdateBackgrand(GameCtx* g) {
  8002d60:	fb01 f303 	mul.w	r3, r1, r3
  8002d64:	1ad3      	subs	r3, r2, r3
  8002d66:	2b0b      	cmp	r3, #11
- 8002d68:	dc02      	bgt.n	8002d70 <GameUpdateBackgrand+0x134>
+ 8002d68:	dc02      	bgt.n	8002d70 <GameUpdateBackground+0x134>
 		GameAddBackground(g);//add_background();
  8002d6a:	6878      	ldr	r0, [r7, #4]
  8002d6c:	f000 f806 	bl	8002d7c <GameAddBackground>
@@ -5850,7 +5850,7 @@ void GameAddBackground(GameCtx* g){
  8002dcc:	f503 737b 	add.w	r3, r3, #1004	@ 0x3ec
  8002dd0:	2280      	movs	r2, #128	@ 0x80
  8002dd2:	601a      	str	r2, [r3, #0]
-			g->background[i].y				= (rand()%(SCREEN_HEIGHT-10)) +10;
+			g->background[i].y				= (rand()%(SCREEN_HEIGHT-STAR_Y_MARGIN)) + STAR_Y_MARGIN;
  8002dd4:	f005 fec0 	bl	8008b58 <rand>
  8002dd8:	4602      	mov	r2, r0
  8002dda:	4b1d      	ldr	r3, [pc, #116]	@ (8002e50 <GameAddBackground+0xd4>)
@@ -6474,7 +6474,7 @@ void GameShot(GameCtx* g){
 
 		int closest_enemy_number;
 		double temp_distance;
-		double smolest_distance = 500;
+		double smallest_distance = 500;
  8003246:	f04f 0200 	mov.w	r2, #0
  800324a:	4b8d      	ldr	r3, [pc, #564]	@ (8003480 <GameShot+0x248>)
  800324c:	e9c7 2306 	strd	r2, r3, [r7, #24]
@@ -6511,7 +6511,7 @@ void GameShot(GameCtx* g){
  8003288:	3328      	adds	r3, #40	@ 0x28
  800328a:	2201      	movs	r2, #1
  800328c:	701a      	strb	r2, [r3, #0]
-				g->shots[i].x = 11;
+				g->shots[i].x = SHOT_INIT_X;
  800328e:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
  8003292:	6879      	ldr	r1, [r7, #4]
  8003294:	4613      	mov	r3, r2
@@ -6522,7 +6522,7 @@ void GameShot(GameCtx* g){
  800329e:	332c      	adds	r3, #44	@ 0x2c
  80032a0:	220b      	movs	r2, #11
  80032a2:	601a      	str	r2, [r3, #0]
-				g->shots[i].y = g->player.y + 5;
+				g->shots[i].y = g->player.y + SHOT_INIT_Y_OFFSET;
  80032a4:	687b      	ldr	r3, [r7, #4]
  80032a6:	685b      	ldr	r3, [r3, #4]
  80032a8:	f897 2027 	ldrb.w	r2, [r7, #39]	@ 0x27
@@ -6647,14 +6647,14 @@ void GameShot(GameCtx* g){
  80033a2:	eef0 0a67 	vmov.f32	s1, s15
  80033a6:	f006 fc23 	bl	8009bf0 <sqrt>
  80033aa:	ed87 0b02 	vstr	d0, [r7, #8]
-							if (temp_distance < smolest_distance)
+							if (temp_distance < smallest_distance)
  80033ae:	e9d7 2306 	ldrd	r2, r3, [r7, #24]
  80033b2:	e9d7 0102 	ldrd	r0, r1, [r7, #8]
  80033b6:	f7fd fb89 	bl	8000acc <__aeabi_dcmplt>
  80033ba:	4603      	mov	r3, r0
  80033bc:	2b00      	cmp	r3, #0
  80033be:	d005      	beq.n	80033cc <GameShot+0x194>
-								smolest_distance = temp_distance;
+								smallest_distance = temp_distance;
  80033c0:	e9d7 2302 	ldrd	r2, r3, [r7, #8]
  80033c4:	e9c7 2306 	strd	r2, r3, [r7, #24]
 								closest_enemy_number = j;
@@ -6941,7 +6941,7 @@ void GameAddEnemy(GameCtx* g){
  80035b6:	f503 7321 	add.w	r3, r3, #644	@ 0x284
  80035ba:	228c      	movs	r2, #140	@ 0x8c
  80035bc:	601a      	str	r2, [r3, #0]
-				g->enemies[i].y = ((rand()%(SCREEN_HEIGHT - 10))+10);
+				g->enemies[i].y = ((rand()%(SCREEN_HEIGHT - ENEMIES_Y_MARGIN))+ENEMIES_Y_MARGIN);
  80035be:	f005 facb 	bl	8008b58 <rand>
  80035c2:	4602      	mov	r2, r0
  80035c4:	4b72      	ldr	r3, [pc, #456]	@ (8003790 <GameAddEnemy+0x22c>)
@@ -7306,9 +7306,9 @@ GameState GameGetState(GameCtx* g){
  8003856:	f85d 7b04 	ldr.w	r7, [sp], #4
  800385a:	4770      	bx	lr
 
-0800385c <GameGetPalyerScore>:
+0800385c <GameGetPlayerScore>:
 
-int GameGetPalyerScore(GameCtx* g){
+int GameGetPlayerScore(GameCtx* g){
  800385c:	b480      	push	{r7}
  800385e:	b083      	sub	sp, #12
  8003860:	af00      	add	r7, sp, #0
@@ -8609,9 +8609,9 @@ void RunDead(InputSnapshot* in)
  8003fbe:	2158      	movs	r1, #88	@ 0x58
  8003fc0:	2023      	movs	r0, #35	@ 0x23
  8003fc2:	f7fc fef3 	bl	8000dac <GFX_DrowBitMap_P>
-	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPalyerScore(&g_singleton),1,1,0);
+	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPlayerScore(&g_singleton),1,1,0);
  8003fc6:	480c      	ldr	r0, [pc, #48]	@ (8003ff8 <RunDead+0x8c>)
- 8003fc8:	f7ff fc48 	bl	800385c <GameGetPalyerScore>
+ 8003fc8:	f7ff fc48 	bl	800385c <GameGetPlayerScore>
  8003fcc:	4602      	mov	r2, r0
  8003fce:	2300      	movs	r3, #0
  8003fd0:	9301      	str	r3, [sp, #4]
@@ -8747,9 +8747,9 @@ void RunGameTick(InputSnapshot* in, GameCtx* g){
  80040a0:	6879      	ldr	r1, [r7, #4]
  80040a2:	6838      	ldr	r0, [r7, #0]
  80040a4:	f7fd fa16 	bl	80014d4 <GameTick>
-	GameUpdateBackgrand(g);
+	GameUpdateBackground(g);
  80040a8:	6838      	ldr	r0, [r7, #0]
- 80040aa:	f7fe fdc7 	bl	8002c3c <GameUpdateBackgrand>
+ 80040aa:	f7fe fdc7 	bl	8002c3c <GameUpdateBackground>
 	GameUpdateBonus(g);
  80040ae:	6838      	ldr	r0, [r7, #0]
  80040b0:	f7fe ff6a 	bl	8002f88 <GameUpdateBonus>
@@ -8806,7 +8806,7 @@ void RunMenu (InputSnapshot* in)
  8004102:	4a10      	ldr	r2, [pc, #64]	@ (8004144 <RunMenu+0x80>)
  8004104:	2136      	movs	r1, #54	@ 0x36
  8004106:	f7fc fe51 	bl	8000dac <GFX_DrowBitMap_P>
-	GFX_DrowRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
+	GFX_DrawRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
  800410a:	2301      	movs	r3, #1
  800410c:	9301      	str	r3, [sp, #4]
  800410e:	2308      	movs	r3, #8
@@ -8815,7 +8815,7 @@ void RunMenu (InputSnapshot* in)
  8004114:	225d      	movs	r2, #93	@ 0x5d
  8004116:	2162      	movs	r1, #98	@ 0x62
  8004118:	200f      	movs	r0, #15
- 800411a:	f7fc fff9 	bl	8001110 <GFX_DrowRoundRect>
+ 800411a:	f7fc fff9 	bl	8001110 <GFX_DrawRoundRect>
 	GFX_DrowBitMap_P(26, (SCREEN_HEIGHT/2)+ 37, PressToStart_map, 66,10,1);
  800411e:	2301      	movs	r3, #1
  8004120:	9301      	str	r3, [sp, #4]
@@ -8926,11 +8926,11 @@ __STATIC_FORCEINLINE void __disable_irq(void)
  80041ba:	e7fd      	b.n	80041b8 <Error_Handler+0x8>
 
 080041bc <SSD1327_CMD>:
-static uint8_t* _bufferDraw = _bufferBack;
-static uint8_t* _bufferTx = _bufferFront;
 
-static volatile bool _ssd1327DMA_Busy = false;
-
+/**
+ * @brief Sends a single command byte to the SSD1327 controller.
+ * @param cmd Command byte to send.
+ */
 void SSD1327_CMD (uint8_t cmd){
  80041bc:	b580      	push	{r7, lr}
  80041be:	b082      	sub	sp, #8
@@ -8971,11 +8971,11 @@ void SSD1327_CMD (uint8_t cmd){
  8004200:	20000d94 	.word	0x20000d94
 
 08004204 <SSD1327_Reset>:
-{
-	SSD1327_CMD(SSD1327_SETCONTRASTCURRENT);	// Set Contrast Control
-	SSD1327_CMD(Contrast);
 }
 
+/**
+ * @brief Performs hardware reset sequence for SSD1327.
+ */
 void SSD1327_Reset(void){
  8004204:	b580      	push	{r7, lr}
  8004206:	af00      	add	r7, sp, #0
@@ -9003,6 +9003,10 @@ void SSD1327_Reset(void){
 
 08004234 <SSD1327_SpiInit>:
 
+/**
+ * @brief Initializes SPI interface and display.
+ * @param spi Pointer to SPI handle.
+ */
 void SSD1327_SpiInit(SPI_HandleTypeDef *spi){
  8004234:	b580      	push	{r7, lr}
  8004236:	b082      	sub	sp, #8
@@ -9029,6 +9033,10 @@ void SSD1327_SpiInit(SPI_HandleTypeDef *spi){
 
 08004258 <SSD1327_Init>:
 
+/**
+ * @brief Sends full initialization command sequence to SSD1327.
+ * @details Configures addressing mode, contrast, remapping, voltages, etc.
+ */
 void SSD1327_Init (void){
  8004258:	b580      	push	{r7, lr}
  800425a:	af00      	add	r7, sp, #0
@@ -9164,12 +9172,16 @@ void SSD1327_Init (void){
 
 08004338 <SSD1327_Display>:
 
+/**
+ * @brief Transfers frame buffer to display.
+ * @details If DMA is enabled, starts asynchronous transfer using @ref SSD1327_Present().
+ */
 void SSD1327_Display (void){
  8004338:	b580      	push	{r7, lr}
  800433a:	af00      	add	r7, sp, #0
 
 #ifdef SSD1327_USE_DMA
-    (void)SSD1327_Present();  // jeśli zajęty – po prostu pomiń tę klatkę
+    (void)SSD1327_Present();  /// Skip frame if DMA busy
  800433c:	f000 f860 	bl	8004400 <SSD1327_Present>
 //
 //	HAL_SPI_Transmit(ssd1327_spi, (uint8_t*)&_bufferBack, BUF_SIZE, 100);
@@ -9182,6 +9194,9 @@ void SSD1327_Display (void){
 
 08004344 <SSD1327_CLR>:
 
+/**
+ * @brief Clears drawing buffer (sets all pixels to black).
+ */
 void SSD1327_CLR(void){
  8004344:	b580      	push	{r7, lr}
  8004346:	af00      	add	r7, sp, #0
@@ -9199,6 +9214,9 @@ void SSD1327_CLR(void){
 
 08004360 <SSD1327_BeginFrame>:
 
+/**
+ * @brief Begins a new frame by clearing the back buffer.
+ */
 void SSD1327_BeginFrame(void){
  8004360:	b580      	push	{r7, lr}
  8004362:	af00      	add	r7, sp, #0
@@ -9216,6 +9234,10 @@ void SSD1327_BeginFrame(void){
 
 0800437c <SSD1327_IsBusy>:
 
+/**
+ * @brief Checks if SPI DMA transfer is currently in progress.
+ * @return `true` if busy, otherwise `false`.
+ */
 bool SSD1327_IsBusy(void){
  800437c:	b480      	push	{r7}
  800437e:	af00      	add	r7, sp, #0
@@ -9231,14 +9253,18 @@ bool SSD1327_IsBusy(void){
  8004390:	20004d98 	.word	0x20004d98
 
 08004394 <SSD1327_StartDMATransfer>:
-
+/**
+ * @brief Starts DMA transfer of display buffer.
+ * @param data Pointer to buffer data.
+ * @param len  Length of buffer in bytes.
+ */
 static void SSD1327_StartDMATransfer(uint8_t* data, size_t len){
  8004394:	b580      	push	{r7, lr}
  8004396:	b082      	sub	sp, #8
  8004398:	af00      	add	r7, sp, #0
  800439a:	6078      	str	r0, [r7, #4]
  800439c:	6039      	str	r1, [r7, #0]
-    // ustaw adresy okna (komendy, blokujące – to tylko kilka bajtów)
+    // set window addresses (commands, blocking - it's only a few bytes)
     SSD1327_CMD(SSD1327_SETCOLUMNADDRESS); SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
  800439e:	2015      	movs	r0, #21
  80043a0:	f7ff ff0c 	bl	80041bc <SSD1327_CMD>
@@ -9289,11 +9315,15 @@ static void SSD1327_StartDMATransfer(uint8_t* data, size_t len){
 
 08004400 <SSD1327_Present>:
 
+/**
+ * @brief Presents current frame by swapping buffers and starting DMA transfer.
+ * @return `true` if transfer started, `false` if DMA was busy.
+ */
 bool SSD1327_Present(void){
  8004400:	b580      	push	{r7, lr}
  8004402:	b082      	sub	sp, #8
  8004404:	af00      	add	r7, sp, #0
-    if (_ssd1327DMA_Busy) return false;   // jeszcze nadajemy poprzednią klatkę
+    if (_ssd1327DMA_Busy) return false;   // Still transmitting previous frame
  8004406:	4b0e      	ldr	r3, [pc, #56]	@ (8004440 <SSD1327_Present+0x40>)
  8004408:	781b      	ldrb	r3, [r3, #0]
  800440a:	b2db      	uxtb	r3, r3
@@ -9302,7 +9332,7 @@ bool SSD1327_Present(void){
  8004410:	2300      	movs	r3, #0
  8004412:	e011      	b.n	8004438 <SSD1327_Present+0x38>
 
-    // zamiana ról buforów
+    // swapping buffer roles
     uint8_t* tmp = _bufferTx;
  8004414:	4b0b      	ldr	r3, [pc, #44]	@ (8004444 <SSD1327_Present+0x44>)
  8004416:	681b      	ldr	r3, [r3, #0]
@@ -9317,7 +9347,7 @@ bool SSD1327_Present(void){
  8004424:	687b      	ldr	r3, [r7, #4]
  8004426:	6013      	str	r3, [r2, #0]
 
-    // start DMA następnej ramki
+    // DMA start of the next frame
     SSD1327_StartDMATransfer(_bufferTx, BUF_SIZE);
  8004428:	4b06      	ldr	r3, [pc, #24]	@ (8004444 <SSD1327_Present+0x44>)
  800442a:	681b      	ldr	r3, [r3, #0]
@@ -9336,8 +9366,11 @@ bool SSD1327_Present(void){
  8004448:	2000000c 	.word	0x2000000c
 
 0800444c <SSD1327_SetPixel>:
-
-
+ * @brief Sets grayscale pixel at given coordinates.
+ * @param x  X position (0–127).
+ * @param y  Y position (0–127).
+ * @param bw 4-bit grayscale value (0–15).
+ */
 void SSD1327_SetPixel( int x , int y , uint8_t bw){
  800444c:	b480      	push	{r7}
  800444e:	b087      	sub	sp, #28
@@ -9442,6 +9475,10 @@ void SSD1327_SetPixel( int x , int y , uint8_t bw){
 
 080044f4 <HAL_SPI_TxCpltCallback>:
 
+/**
+ * @brief HAL callback executed when SPI DMA transmission completes.
+ * @param hspi Pointer to SPI handle that triggered the callback.
+ */
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
  80044f4:	b580      	push	{r7, lr}
  80044f6:	b082      	sub	sp, #8

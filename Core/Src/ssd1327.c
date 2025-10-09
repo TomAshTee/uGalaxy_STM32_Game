@@ -1,8 +1,12 @@
-/*
- * ssd1327.c
- *
- *  Created on: Jul 5, 2022
- *      Author: Tomasz Jaeschke
+/**
+ * @file    ssd1327.c
+ * @author  Tomasz Jaeschke
+ * @date    2022-07-05
+ * @brief   Low-level driver implementation for SSD1327 OLED display.
+ * @details
+ * This file contains all low-level functions required to initialize,
+ * control, and update the SSD1327 OLED display over SPI (optionally with DMA).
+ * It provides buffer management, command transmission, and pixel operations.
  */
 
 #include "main.h"
@@ -10,16 +14,31 @@
 #include <string.h>
 #include <stdbool.h>
 
-// Definition of buffer
-SPI_HandleTypeDef *ssd1327_spi;
+/** ##########################################################################
+ *  @name Private Variables
+ *  @brief Internal buffers and SPI handler.
+ *  ##########################################################################
+ */
 
-static uint8_t _bufferBack[BUF_SIZE]; 	// Rysowanie
-static uint8_t _bufferFront[BUF_SIZE];	// Wysyłanie do SPI DMA
-static uint8_t* _bufferDraw = _bufferBack;
-static uint8_t* _bufferTx = _bufferFront;
+SPI_HandleTypeDef *ssd1327_spi;					/**< Pointer to active SPI handle. */
 
-static volatile bool _ssd1327DMA_Busy = false;
+static uint8_t _bufferBack[BUF_SIZE]; 			/**< Back buffer – used for drawing. */
+static uint8_t _bufferFront[BUF_SIZE];			/**< Front buffer – used for transmission (DMA). */
+static uint8_t* _bufferDraw = _bufferBack;		/**< Pointer to current draw buffer. */
+static uint8_t* _bufferTx = _bufferFront;		/**< Pointer to current TX buffer. */
 
+static volatile bool _ssd1327DMA_Busy = false;	/**< Flag indicating DMA transfer in progress. */
+
+/** ##########################################################################
+ *  @name Command and Initialization
+ *  @brief Functions for control and setup.
+ *  ##########################################################################
+ */
+
+/**
+ * @brief Sends a single command byte to the SSD1327 controller.
+ * @param cmd Command byte to send.
+ */
 void SSD1327_CMD (uint8_t cmd){
 
 	HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_RESET);
@@ -29,12 +48,19 @@ void SSD1327_CMD (uint8_t cmd){
 
 }
 
+/**
+ * @brief Sets display contrast.
+ * @param Contrast Contrast value (0–255).
+ */
 void SSD1327_SetContrast(uint8_t Contrast)
 {
 	SSD1327_CMD(SSD1327_SETCONTRASTCURRENT);	// Set Contrast Control
 	SSD1327_CMD(Contrast);
 }
 
+/**
+ * @brief Performs hardware reset sequence for SSD1327.
+ */
 void SSD1327_Reset(void){
 
 	HAL_GPIO_WritePin(RST_PORT, RST, GPIO_PIN_RESET);
@@ -44,6 +70,10 @@ void SSD1327_Reset(void){
 
 }
 
+/**
+ * @brief Initializes SPI interface and display.
+ * @param spi Pointer to SPI handle.
+ */
 void SSD1327_SpiInit(SPI_HandleTypeDef *spi){
 
 	ssd1327_spi = spi;
@@ -53,6 +83,10 @@ void SSD1327_SpiInit(SPI_HandleTypeDef *spi){
 
 }
 
+/**
+ * @brief Sends full initialization command sequence to SSD1327.
+ * @details Configures addressing mode, contrast, remapping, voltages, etc.
+ */
 void SSD1327_Init (void){
 
 	SSD1327_CMD(0xae);	// Turn off oled panel
@@ -110,12 +144,23 @@ void SSD1327_Init (void){
 	SSD1327_CMD(SSD1327_DISPLAYON);
 }
 
+
+/** ##########################################################################
+ *  @name Framebuffer and Rendering
+ *  @brief Functions for drawing, clearing, and displaying data.
+ *  ##########################################################################
+ */
+
+/**
+ * @brief Transfers frame buffer to display.
+ * @details If DMA is enabled, starts asynchronous transfer using @ref SSD1327_Present().
+ */
 void SSD1327_Display (void){
 
 #ifdef SSD1327_USE_DMA
-    (void)SSD1327_Present();  // jeśli zajęty – po prostu pomiń tę klatkę
+    (void)SSD1327_Present();  /// Skip frame if DMA busy
 #else
-//    // stara wersja blokująca (fallback)
+//    // old fallback version
 //    SSD1327_CMD(SSD1327_SETCOLUMNADDRESS); SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
 //    SSD1327_CMD(SSD1327_SETROWADDRESS);    SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
 //
@@ -151,20 +196,42 @@ void SSD1327_Display (void){
 
 }
 
+/**
+ * @brief Clears drawing buffer (sets all pixels to black).
+ */
 void SSD1327_CLR(void){
 	memset(_bufferDraw, (0 << 4 | 0), BUF_SIZE);
 }
 
+/**
+ * @brief Begins a new frame by clearing the back buffer.
+ */
 void SSD1327_BeginFrame(void){
     memset(_bufferDraw, 0x00, BUF_SIZE);
 }
 
+/**
+ * @brief Checks if SPI DMA transfer is currently in progress.
+ * @return `true` if busy, otherwise `false`.
+ */
 bool SSD1327_IsBusy(void){
     return _ssd1327DMA_Busy;;
 }
 
+
+/** ##########################################################################
+ *  @name DMA Transfer Control
+ *  @brief Internal routines for asynchronous frame sending.
+ *  ##########################################################################
+ */
+
+/**
+ * @brief Starts DMA transfer of display buffer.
+ * @param data Pointer to buffer data.
+ * @param len  Length of buffer in bytes.
+ */
 static void SSD1327_StartDMATransfer(uint8_t* data, size_t len){
-    // ustaw adresy okna (komendy, blokujące – to tylko kilka bajtów)
+    // set window addresses (commands, blocking - it's only a few bytes)
     SSD1327_CMD(SSD1327_SETCOLUMNADDRESS); SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
     SSD1327_CMD(SSD1327_SETROWADDRESS);    SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
 
@@ -176,20 +243,36 @@ static void SSD1327_StartDMATransfer(uint8_t* data, size_t len){
     HAL_SPI_Transmit_DMA(ssd1327_spi, data, len);
 }
 
+/**
+ * @brief Presents current frame by swapping buffers and starting DMA transfer.
+ * @return `true` if transfer started, `false` if DMA was busy.
+ */
 bool SSD1327_Present(void){
-    if (_ssd1327DMA_Busy) return false;   // jeszcze nadajemy poprzednią klatkę
+    if (_ssd1327DMA_Busy) return false;   // Still transmitting previous frame
 
-    // zamiana ról buforów
+    // swapping buffer roles
     uint8_t* tmp = _bufferTx;
     _bufferTx   = _bufferDraw;
     _bufferDraw = tmp;
 
-    // start DMA następnej ramki
+    // DMA start of the next frame
     SSD1327_StartDMATransfer(_bufferTx, BUF_SIZE);
     return true;
 }
 
 
+/** ##########################################################################
+ *  @name Pixel Operations
+ *  @brief Manipulation of single pixels in buffer.
+ *  ##########################################################################
+ */
+
+/**
+ * @brief Sets grayscale pixel at given coordinates.
+ * @param x  X position (0–127).
+ * @param y  Y position (0–127).
+ * @param bw 4-bit grayscale value (0–15).
+ */
 void SSD1327_SetPixel( int x , int y , uint8_t bw){
 	if ((x < 0) || (x >= SSD1327_WIDTH) || (y < 0) || (y >= SSD1327_HEIGHT))
 		return;
@@ -215,6 +298,16 @@ void SSD1327_SetPixel( int x , int y , uint8_t bw){
 //	else buffer[x + (y/4)*SSD1327_WIDTH] &= ~(1<<(y%4));
 }
 
+/** ##########################################################################
+ *  @name HAL Callbacks
+ *  @brief SPI DMA completion handler.
+ *  ##########################################################################
+ */
+
+/**
+ * @brief HAL callback executed when SPI DMA transmission completes.
+ * @param hspi Pointer to SPI handle that triggered the callback.
+ */
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 
 	if (hspi == ssd1327_spi){

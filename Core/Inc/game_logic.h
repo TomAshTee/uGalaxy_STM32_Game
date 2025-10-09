@@ -64,6 +64,24 @@
 #define SCREEN_WIDTH 			SSD1327_WIDTH
 #define SCREEN_HEIGHT 			SSD1327_HEIGHT
 
+#define JOYSTICK_LOW_THRESH     1000				/** Lower joystick threshold for downward movement */
+#define JOYSTICK_HIGH_THRESH    3500				/** Upper joystick threshold for upward movement */
+
+#define PLAYER_Y_MIN            10					/** Minimum vertical position of the player */
+#define PLAYER_Y_MAX            (SCREEN_HEIGHT - 14)/** Maximum vertical position of the player */
+
+#define BOSS_Y_MIN              1					/** Minimum vertical position of the boss sprite */
+#define BOSS_Y_MAX              (SCREEN_HEIGHT - 24)/** Maximum vertical position of the boss sprite */
+
+#define ENEMY_OFFSCREEN_X       (-4)				/** X position at which enemies are considered off-screen */
+
+#define SHOT_INIT_X             11					/** Initial X position of the player's shot */
+#define SHOT_INIT_Y_OFFSET      5					/** Vertical offset for spawning player's shot */
+
+#define STAR_Y_MARGIN           10					/** Vertical margin for starfield random placement */
+#define ENEMIES_Y_MARGIN        10					/** Vertical margin for enemies random placement */
+
+
 /** @} */
 
 /** ##########################################################################
@@ -216,7 +234,7 @@ void GameInit(GameCtx* g);						/**<  Starting the game */
 void GameTick(GameCtx* g, InputSnapshot* in);	/**<  Handling of "core game" events */
 void GameDraw(GameCtx* g, InputSnapshot* in);	/**<  "Drawing" the game */
 void GameLevelUpdate(GameCtx* g);				/**<  Player level update */
-void GameUpdateBackgrand(GameCtx* g);			/**<  Background handling */
+void GameUpdateBackground(GameCtx* g);			/**<  Background handling */
 void GameAddBackground(GameCtx* g);				/**<  Addition of a background unit */
 void GameAddBonus(GameCtx* g, int x, int y);	/**<  Adding a bonus on the position of a downed enemy */
 void GameUpdateBonus(GameCtx* g);				/**<  Bonus handling */
@@ -226,7 +244,7 @@ bool Colliding(int x0, int y0, int x1, int y1);	/**<  Checking for collisions be
 void GameAddEnemy(GameCtx* g);					/**<  Adding opponents */
 void GameSetState(GameCtx* g, GameState state);	/**<  Setting the game state */
 GameState GameGetState(GameCtx* g);				/**<  Returns the current status of the game */
-int GameGetPalyerScore(GameCtx* g);				/**<  Returns the player's current score */
+int GameGetPlayerScore(GameCtx* g);				/**<  Returns the player's current score */
 void GameUpdateExplosion(GameCtx* g);			/**<  Updates explosions, deactivates when timer expires */
 
 /** @} */

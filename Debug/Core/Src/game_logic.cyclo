@@ -2,7 +2,7 @@
 ../Core/Src/game_logic.c:64:6:GameTick	91
 ../Core/Src/game_logic.c:394:6:GameDraw	23
 ../Core/Src/game_logic.c:479:6:GameLevelUpdate	14
-../Core/Src/game_logic.c:540:6:GameUpdateBackgrand	7
+../Core/Src/game_logic.c:540:6:GameUpdateBackground	7
 ../Core/Src/game_logic.c:572:6:GameAddBackground	3
 ../Core/Src/game_logic.c:594:6:GameAddBonus	5
 ../Core/Src/game_logic.c:626:6:GameUpdateBonus	15
@@ -13,4 +13,4 @@
 ../Core/Src/game_logic.c:820:6:GameUpdateExplosion	4
 ../Core/Src/game_logic.c:836:6:GameSetState	1
 ../Core/Src/game_logic.c:844:11:GameGetState	1
-../Core/Src/game_logic.c:852:5:GameGetPalyerScore	1
+../Core/Src/game_logic.c:852:5:GameGetPlayerScore	1

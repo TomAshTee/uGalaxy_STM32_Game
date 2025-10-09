@@ -1,2 +1,3 @@
-../Core/Src/input.c:23:6:InputInit	1
-../Core/Src/input.c:33:15:InputRead	3
+../Core/Src/input.c:18:13:onBtn1Pressed	1
+../Core/Src/input.c:26:6:InputInit	1
+../Core/Src/input.c:37:15:InputRead	2

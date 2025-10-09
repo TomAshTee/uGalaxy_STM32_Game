@@ -1,4 +1,5 @@
 "./Core/Src/GFX_ssd1327.o"
+"./Core/Src/buttonFSM.o"
 "./Core/Src/game_logic.o"
 "./Core/Src/graphics_map.o"
 "./Core/Src/input.o"

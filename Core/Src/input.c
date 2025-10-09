@@ -6,25 +6,29 @@
  */
 
 #include "input.h"
+#include "buttonFSM.h"
 
 
 static ADC_HandleTypeDef* _hadc;
-static GPIO_TypeDef* _btnPort;
-static uint16_t _btnPin;
 
-static GPIO_PinState _lastBtnState = GPIO_PIN_SET;
-static GPIO_PinState _curentBtnState;
+static bool _btn1PressedEdge = false;
 
+static TButton _btn1;
+
+static void onBtn1Pressed(void) {
+	_btn1PressedEdge = true;
+}
 
 /*
  * @brief Assignment of input data
  *
  */
-void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin){
+void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btn1Port, uint16_t btn1Pin){
 
 	_hadc = hadc;
-	_btnPort = btnPort;
-	_btnPin = btnPin;
+
+	ButtonInitKey(&_btn1, btn1Port, btn1Pin, 20);
+	ButtonPressedRegisterCallback(&_btn1, onBtn1Pressed);
 }
 
 /*
@@ -35,15 +39,15 @@ InputSnapshot InputRead (void){
 	InputSnapshot snap;
 	snap.joystickYValue = HAL_ADC_GetValue(_hadc);
 
-	// Removal of button repetition
-	_curentBtnState = HAL_GPIO_ReadPin(_btnPort, _btnPin);
+	ButtonTask(&_btn1);
 
-	if(_curentBtnState && !_lastBtnState){
+	// Removal of repetition
+	if(_btn1PressedEdge){
 		snap.btn1State = GPIO_PIN_SET;
+		_btn1PressedEdge = false;
 	} else {
 		snap.btn1State = GPIO_PIN_RESET;
 	}
-	_lastBtnState = _curentBtnState;
 
 	return snap;
 }

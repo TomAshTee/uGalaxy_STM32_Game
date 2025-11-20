@@ -82,10 +82,12 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	if (g->player.y > PLAYER_Y_MAX)
 		g->player.y = PLAYER_Y_MAX;
 
-	// Shifting shots forward
-	bool shoot_updated = false;
 
 	for (i = 0; i < NUMBER_SHOTS; ++i) {
+
+		// Shifting shots forward
+		bool shoot_updated = false;
+
 		switch (g->shots[i].type) {
 		case ST_Normal:
 			if (g->shots[i].active)
@@ -177,9 +179,9 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 								break;
 							}
 						}
-						GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
+						GFX_DrawBitMap_P(g->player.x + 8, g->player.y - 2,
 								player_shield_map, 10, 16, 1);
-						GFX_DrowBitMap_P(g->player.x, g->player.y, player_map,
+						GFX_DrawBitMap_P(g->player.x, g->player.y, player_map,
 								11, 11, 1);
 
 						//SSD1327_Display();
@@ -292,9 +294,9 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 							break;
 						}
 					}
-					GFX_DrowBitMap_P(g->player.x + 8, g->player.y - 2,
+					GFX_DrawBitMap_P(g->player.x + 8, g->player.y - 2,
 							player_shield_map, 10, 16, 1);
-					GFX_DrowBitMap_P(g->player.x, g->player.y, player_map, 11,
+					GFX_DrawBitMap_P(g->player.x, g->player.y, player_map, 11,
 							11, 1);
 
 					//SSD1327_Display();
@@ -346,7 +348,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
 			if (g->bossShots[i].active) {
 				g->bossShots[i].active = false;
-				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
+				GFX_DrawBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
 						player_shot_map, 4, 1, 0);
 			}
 		}
@@ -399,15 +401,15 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 
 	//Drowing the game information
 	GFX_PutInt(5, 0, g->player.score, 1, 1, 0);
-	GFX_DrowBitMap_P(102, 0, lives_map, 8, 6, 1);
+	GFX_DrawBitMap_P(102, 0, lives_map, 8, 6, 1);
 	GFX_PutInt(114, 0, g->player.lives, 1, 1, 0);
-	GFX_DrowBitMap_P(50, 0, Level_map, 20, 7, 1);
+	GFX_DrawBitMap_P(50, 0, Level_map, 20, 7, 1);
 	GFX_PutInt(80, 0, g->player.level, 1, 1, 0);
 
 	//Drawing graphics of a player's shot
 	for (i = 0; i < NUMBER_SHOTS; i++) {
 		if (g->shots[i].active) {
-			GFX_DrowBitMap_P(g->shots[i].x, g->shots[i].y, player_shot_map, 4, 1, 1);
+			GFX_DrawBitMap_P(g->shots[i].x, g->shots[i].y, player_shot_map, 4, 1, 1);
 		}
 	}
 
@@ -415,7 +417,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	if (g->boss.active) {
 		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
 			if (g->bossShots[i].active) {
-				GFX_DrowBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
+				GFX_DrawBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
 						player_shot_map, 4, 1, 1);
 			}
 		}
@@ -425,19 +427,19 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	for (i = 0; i < NUMBER_ENEMIES; i++) {
 		if (g->enemies[i].active) {
 			if (g->enemies[i].type == ET_Tracker)
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
+				GFX_DrawBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
 						5, 5, 1);
 			if (g->enemies[i].type == ET_Diver)
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
+				GFX_DrawBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
 						3, 7, 1);
 			if (g->enemies[i].type == ET_Bobber)
-				GFX_DrowBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
+				GFX_DrawBitMap_P(g->enemies[i].x, g->enemies[i].y, g->enemies[i].bitMap,
 						5, 5, 1);
 		}
 	}
 
 	//Drawing the player's graphics
-	GFX_DrowBitMap_P(g->player.x, g->player.y, player_map, 11, 11, 1);
+	GFX_DrawBitMap_P(g->player.x, g->player.y, player_map, 11, 11, 1);
 
 	//Drawing a background
 	for (i = 0; i < NUMBER_BACKGROUND; i++) {
@@ -448,20 +450,20 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 
 	//Drawing Boss
 	if (g->boss.active && g->player.gameProgres == 30)
-		GFX_DrowBitMap_P(g->boss.x, g->boss.y, boss_map_1, 10, 18, 1);
+		GFX_DrawBitMap_P(g->boss.x, g->boss.y, boss_map_1, 10, 18, 1);
 	if (g->boss.active && g->player.gameProgres == 60)
-		GFX_DrowBitMap_P(g->boss.x, g->boss.y, boss_map_2, 10, 18, 1);
+		GFX_DrawBitMap_P(g->boss.x, g->boss.y, boss_map_2, 10, 18, 1);
 
 	//Drawing bonuses
 	for (i = 0; i < NUMBER_BONUS; i++) {
 		if (g->bonuses[i].active) {
 			switch (g->bonuses[i].type) {
 			case BT_Live:
-				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y, bonus_live_map, 7,
+				GFX_DrawBitMap_P(g->bonuses[i].x, g->bonuses[i].y, bonus_live_map, 7,
 						7, 1);
 				break;
 			case BT_TrackerShot:
-				GFX_DrowBitMap_P(g->bonuses[i].x, g->bonuses[i].y,
+				GFX_DrawBitMap_P(g->bonuses[i].x, g->bonuses[i].y,
 						bonus_tracker_shoot_map, 7, 7, 1);
 				break;
 			}
@@ -471,7 +473,7 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	//Drawing explosion
 	for (i = 0; i < NUMBER_EXPLOSION; i++){
 		if (g->explosion[i].active){
-			GFX_DrowBitMap_P(g->explosion[i].x, g->explosion[i].y, explosion_map, 10, 10, 1);
+			GFX_DrawBitMap_P(g->explosion[i].x, g->explosion[i].y, explosion_map, 10, 10, 1);
 		}
 	}
 }

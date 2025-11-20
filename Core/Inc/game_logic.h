@@ -37,7 +37,7 @@
 
 #define NUMBER_SHOTS  			25					/**<  Maximum number of shots def.8 */
 #define NUMBER_ENEMIES  		10					/**<  Maximum number of opponents */
-#define NUMBER_BACKGROUND		80					/**<  Max. background objects (stars) (high RAM consumption) def.40 */
+#define NUMBER_BACKGROUND		40					/**<  Max. background objects (stars) (high RAM consumption) def.40 */
 #define NUMBER_BACKGROUND_FREQ 	12					/**<  Background adding frequency (0-100) def.20 */
 #define NUMBER_BONUS			3					/**<  Max. number of bonuses on the map */
 
@@ -153,7 +153,7 @@ typedef struct				/**<  Background - "stars" */
 	int y;
 	int nextUpdate;
 	int updateDelay;
-}T_backgrand;
+}T_background;
 
 typedef struct				/**<  Opponents structures */
 {
@@ -202,7 +202,7 @@ typedef struct {			/**<  Context of the current game */
 	T_shot 		shots[NUMBER_SHOTS];
 	T_shot 		bossShots[NUMBER_BOSS_SHOTS];
 	T_enemy 	enemies[NUMBER_ENEMIES];
-	T_backgrand background[NUMBER_BACKGROUND];
+	T_background background[NUMBER_BACKGROUND];
 	T_boss		boss;
 	T_bonus 	bonuses[NUMBER_BONUS];
 	T_explosion explosion[NUMBER_EXPLOSION];

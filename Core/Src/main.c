@@ -16,6 +16,7 @@
   ******************************************************************************
   *
   * @todo
+  * - Creation of a BOT for the game instead of the player (some kind of special sequence to run)
   * - Breakdown of overly large functions, e.g. GameTick()
   * - Adding shield support similarly to what happens with explosion support.
   * 	Add shield to Boss (shield == number of lives of Boss)
@@ -472,6 +473,12 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LD3_Pin|CS_Pin|DC_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin : PA2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pin : USER_BTN_1_Pin */
   GPIO_InitStruct.Pin = USER_BTN_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -504,8 +511,8 @@ void RunDead(InputSnapshot* in)
 	x += dx;
 	if (x < 1 || x > 55) dx = -dx;
 
-	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 4,Defeated_map,67,16,1);
-	GFX_DrowBitMap_P(35,(SCREEN_HEIGHT/2) + 24,Score_map,37,10,1);
+	GFX_DrawBitMap_P(x,(SCREEN_HEIGHT/2) - 4,Defeated_map,67,16,1);
+	GFX_DrawBitMap_P(35,(SCREEN_HEIGHT/2) + 24,Score_map,37,10,1);
 	GFX_PutInt(73,(SCREEN_HEIGHT/2) + 27,GameGetPlayerScore(&g_singleton),1,1,0);
 }
 
@@ -554,9 +561,9 @@ void RunMenu (InputSnapshot* in)
 	x += dx;
 	if (x < 1 || x > 65) dx = -dx;
 
-	GFX_DrowBitMap_P(x,(SCREEN_HEIGHT/2) - 10,uGalaxy_map,54,16,1);
+	GFX_DrawBitMap_P(x,(SCREEN_HEIGHT/2) - 10,uGalaxy_map,54,16,1);
 	GFX_DrawRoundRect(15,(SCREEN_HEIGHT/2) + 34,93,20,8,1);
-	GFX_DrowBitMap_P(26, (SCREEN_HEIGHT/2)+ 37, PressToStart_map, 66,10,1);
+	GFX_DrawBitMap_P(26, (SCREEN_HEIGHT/2)+ 37, PressToStart_map, 66,10,1);
 
 }
 void RunMenuTick(InputSnapshot* in){

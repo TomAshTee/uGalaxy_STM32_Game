@@ -3,7 +3,7 @@
 ../Core/Src/GFX_ssd1327.c:110:6:GFX_FillCircleHelper	48	static
 ../Core/Src/GFX_ssd1327.c:144:6:GFX_DrawCircleHelper	48	static
 ../Core/Src/GFX_ssd1327.c:187:6:GFX_FillCircle	64	static
-../Core/Src/GFX_ssd1327.c:229:6:GFX_DrowBitMap_P	32	static
+../Core/Src/GFX_ssd1327.c:229:6:GFX_DrawBitMap_P	32	static
 ../Core/Src/GFX_ssd1327.c:281:6:GFX_DrawChar	48	static
 ../Core/Src/GFX_ssd1327.c:317:6:GFX_FillRect	32	static
 ../Core/Src/GFX_ssd1327.c:326:6:GFX_DrawFastVLine	32	static

@@ -226,7 +226,7 @@ int y = R;
   	}
 }
 
-void GFX_DrowBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color)
+void GFX_DrawBitMap_P (int x, int y, const uint8_t *bitmap, uint8_t w, uint8_t h, uint8_t color)
 {
 //	int i, j, byteWidth = (w + 7) / 8 ;
 //

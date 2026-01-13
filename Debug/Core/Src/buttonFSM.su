@@ -1,9 +1,0 @@
-../Core/Src/buttonFSM.c:25:6:ButtonInitKey	24	static
-../Core/Src/buttonFSM.c:39:6:ButtonSetDebounceTime	16	static
-../Core/Src/buttonFSM.c:47:6:ButtonPressedRegisterCallback	16	static
-../Core/Src/buttonFSM.c:54:6:ButtonReleaseRegisterCallback	16	static
-../Core/Src/buttonFSM.c:65:13:ButtonIdleRutine	16	static
-../Core/Src/buttonFSM.c:73:13:ButtonDebounceRutine	16	static
-../Core/Src/buttonFSM.c:87:13:ButtonPressedRutine	16	static
-../Core/Src/buttonFSM.c:94:13:ButtonReleaseRutine	16	static
-../Core/Src/buttonFSM.c:112:6:ButtonTask	16	static

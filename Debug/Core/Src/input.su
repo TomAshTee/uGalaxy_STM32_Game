@@ -1,3 +1,0 @@
-../Core/Src/input.c:44:13:onBtn1Pressed	4	static
-../Core/Src/input.c:67:6:InputInit	24	static
-../Core/Src/input.c:85:15:InputRead	24	static

@@ -161,7 +161,8 @@ int main(void)
 
   //start_game();
   GameInit(&g_singleton);
-  InputInit(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
+  //InputInit(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin);
+  InputInit(&hadc1, USER_BTN_1_GPIO_Port, USER_BTN_1_Pin, USER_BTN_2_GPIO_Port, USER_BTN_2_Pin);
   //add_enemy();
 
   while (1)
@@ -478,6 +479,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USER_BTN_2_Pin */
+  GPIO_InitStruct.Pin = USER_BTN_2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(USER_BTN_2_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : USER_BTN_1_Pin */
   GPIO_InitStruct.Pin = USER_BTN_1_Pin;

@@ -38,6 +38,7 @@
 typedef struct {
 	uint32_t joystickYValue;	/**< Raw Y-axis ADC value from joystick. */
 	GPIO_PinState btn1State;	/**< State of button 1 (pressed/released). */
+	GPIO_PinState btn2State;	/**< State of button 2 (pressed/released). */
 }InputSnapshot;
 
 /** @} */
@@ -55,7 +56,7 @@ typedef struct {
  * @param btnPort  GPIO port for the button.
  * @param btnPin   GPIO pin number for the button.
  */
-void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btnPort, uint16_t btnPin);
+void InputInit(ADC_HandleTypeDef* hadc, GPIO_TypeDef* btn1Port, uint16_t btn1Pin, GPIO_TypeDef* btn2Port, uint16_t btn2Pin);
 
 /**
  * @brief Read current input states.

@@ -1,7 +1,9 @@
 # ==== STM32CubeIDE / Eclipse ====
-.metadata/
-.settings/
+.project
+.cproject
 *.launch
+.settings/
+.metadata/
 
 # CubeIDE build outputs
 Debug/

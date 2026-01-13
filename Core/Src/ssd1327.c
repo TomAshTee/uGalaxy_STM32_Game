@@ -1,7 +1,7 @@
 /**
  * @file    ssd1327.c
  * @author  Tomasz Jaeschke
- * @date    2022-07-05
+ * @date    2026-01-13
  * @brief   Low-level driver implementation for SSD1327 OLED display.
  * @details
  * This file contains all low-level functions required to initialize,
@@ -15,12 +15,12 @@
 #include <stdbool.h>
 
 /** ##########################################################################
- *  @name Private Variables
+ *  @name Private Variables and Functions
  *  @brief Internal buffers and SPI handler.
  *  ##########################################################################
  */
 
-SPI_HandleTypeDef *ssd1327_spi;					/**< Pointer to active SPI handle. */
+static SPI_HandleTypeDef *ssd1327_spi;					/**< Pointer to active SPI handle. */
 
 static uint8_t _bufferBack[BUF_SIZE]; 			/**< Back buffer – used for drawing. */
 static uint8_t _bufferFront[BUF_SIZE];			/**< Front buffer – used for transmission (DMA). */
@@ -28,6 +28,14 @@ static uint8_t* _bufferDraw = _bufferBack;		/**< Pointer to current draw buffer.
 static uint8_t* _bufferTx = _bufferFront;		/**< Pointer to current TX buffer. */
 
 static volatile bool _ssd1327DMA_Busy = false;	/**< Flag indicating DMA transfer in progress. */
+
+
+static void SSD1327_Init (void); 									/**< Initialising the display */
+static void SSD1327_Reset(void);									/**< Screen reset */
+static void SSD1327_CMD (uint8_t cmd); 								/**< Sending commands */
+//static void SSD1327_SetContrast(uint8_t Contrast);					/**< Contrast setting */
+static void SSD1327_StartDMATransfer(uint8_t* data, size_t len);	/**< Starts DMA transfer of display buffer.*/
+
 
 /** ##########################################################################
  *  @name Command and Initialization
@@ -39,7 +47,7 @@ static volatile bool _ssd1327DMA_Busy = false;	/**< Flag indicating DMA transfer
  * @brief Sends a single command byte to the SSD1327 controller.
  * @param cmd Command byte to send.
  */
-void SSD1327_CMD (uint8_t cmd){
+static void SSD1327_CMD (uint8_t cmd){
 
 	HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
@@ -52,16 +60,16 @@ void SSD1327_CMD (uint8_t cmd){
  * @brief Sets display contrast.
  * @param Contrast Contrast value (0–255).
  */
-void SSD1327_SetContrast(uint8_t Contrast)
-{
-	SSD1327_CMD(SSD1327_SETCONTRASTCURRENT);	// Set Contrast Control
-	SSD1327_CMD(Contrast);
-}
+//static void SSD1327_SetContrast(uint8_t Contrast)
+//{
+//	SSD1327_CMD(SSD1327_SETCONTRASTCURRENT);	// Set Contrast Control
+//	SSD1327_CMD(Contrast);
+//}
 
 /**
  * @brief Performs hardware reset sequence for SSD1327.
  */
-void SSD1327_Reset(void){
+static void SSD1327_Reset(void){
 
 	HAL_GPIO_WritePin(RST_PORT, RST, GPIO_PIN_RESET);
 	HAL_Delay(20);
@@ -87,7 +95,7 @@ void SSD1327_SpiInit(SPI_HandleTypeDef *spi){
  * @brief Sends full initialization command sequence to SSD1327.
  * @details Configures addressing mode, contrast, remapping, voltages, etc.
  */
-void SSD1327_Init (void){
+static void SSD1327_Init (void){
 
 	SSD1327_CMD(0xae);	// Turn off oled panel
 
@@ -160,47 +168,16 @@ void SSD1327_Display (void){
 #ifdef SSD1327_USE_DMA
     (void)SSD1327_Present();  /// Skip frame if DMA busy
 #else
-//    // old fallback version
-//    SSD1327_CMD(SSD1327_SETCOLUMNADDRESS); SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
-//    SSD1327_CMD(SSD1327_SETROWADDRESS);    SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
-//
-//    HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_SET);
-//    HAL_SPI_Transmit(ssd1327_spi, (uint8_t*)_bufferDraw, BUF_SIZE, 100);
-//    HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_SET);
+    SSD1327_CMD(SSD1327_SETCOLUMNADDRESS); SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
+    SSD1327_CMD(SSD1327_SETROWADDRESS);    SSD1327_CMD(0x00); SSD1327_CMD(0x7F);
+
+    HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_SET);
+    HAL_SPI_Transmit(ssd1327_spi, (uint8_t*)_bufferDraw, BUF_SIZE, 100);
+    HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_SET);
 #endif
-//	SSD1327_CMD(SSD1327_SETCOLUMNADDRESS);
-//	SSD1327_CMD(0x00);
-//	SSD1327_CMD(0x7F);
-//
-//	SSD1327_CMD(SSD1327_SETROWADDRESS);
-//	SSD1327_CMD(0x00);
-//	SSD1327_CMD(0x7F);
-//
-//#ifdef SSD1327_USE_DMA
-//	HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_SET);
-//	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
-//
-//	if(HAL_SPI_GetState(ssd1327_spi) == HAL_SPI_STATE_READY){
-//		HAL_SPI_Transmit_DMA(ssd1327_spi, (uint8_t*)&_bufferBack, BUF_SIZE);
-//	}
-//
-//#else
-//	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(DC_PORT, DC, GPIO_PIN_SET);
-//	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_RESET);
-//
-//	HAL_SPI_Transmit(ssd1327_spi, (uint8_t*)&_bufferBack, BUF_SIZE, 100);
-//	HAL_GPIO_WritePin(CS_PORT, CS, GPIO_PIN_SET);
-//#endif
 
-}
 
-/**
- * @brief Clears drawing buffer (sets all pixels to black).
- */
-void SSD1327_CLR(void){
-	memset(_bufferDraw, (0 << 4 | 0), BUF_SIZE);
 }
 
 /**

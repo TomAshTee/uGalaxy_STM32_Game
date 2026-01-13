@@ -1,7 +1,7 @@
 /**
  * @file    ssd1327.h
  * @author  Tomasz Jaeschke
- * @date    2022-07-05
+ * @date    2026-01-13
  * @brief   Low-level driver for SSD1327 OLED display.
  * @details
  * This module provides low-level control functions for the SSD1327 OLED display,
@@ -126,15 +126,9 @@ typedef enum {page0, page1, page2, page3, page4, page5, page6, page7} TPAGE ;
  *  ##########################################################################
  */
 
-void SSD1327_Init (void); 										/**< Initialising the display */
 void SSD1327_SpiInit(SPI_HandleTypeDef *spi);					/**< Initialisation via SPI */
-void SSD1327_Reset(void);										/**< Screen reset */
-void SSD1327_CMD (uint8_t cmd); 								/**< Sending commands */
-void SSD1327_SetContrast(uint8_t Contrast);						/**< Contrast setting */
-void SSD1327_Data ( uint8_t dat );								/**< Sending data */
 void SSD1327_Display (void);									/**< Sending data from the buffer */
 void SSD1327_SetPixel( int x , int y , uint8_t bw); 			/**< Pixel setting */
-void SSD1327_CLR(void);											/**< Cleaning the screen */
 void SSD1327_BeginFrame(void);   								/**< Cleans back buffer (for drawing) */
 bool SSD1327_Present(void);      								/**< If SPI DMA free: changes buffers and starts SPI DMA; returns true when started*/
 bool SSD1327_IsBusy(void);       								/**< Status SPI DMA */

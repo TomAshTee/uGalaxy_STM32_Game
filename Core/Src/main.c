@@ -156,7 +156,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
   SSD1327_SpiInit(&hspi1);
-  SSD1327_CLR();
+  SSD1327_BeginFrame();
   SSD1327_Display();
 
   //start_game();
@@ -530,12 +530,12 @@ void PlayDeadAnim(void)
 
 	for (i = 0; i < 10; ++i)
 	{
-		SSD1327_CLR();
+		SSD1327_BeginFrame();
 		GFX_FillRect(0,0,128,128,1);
 		SSD1327_Display();
 		HAL_Delay(10);
 
-		SSD1327_CLR();
+		SSD1327_BeginFrame();
 		SSD1327_Display();
 		HAL_Delay(10);
 	}

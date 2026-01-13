@@ -1,0 +1,49 @@
+# ==== STM32CubeIDE / Eclipse ====
+.metadata/
+.settings/
+*.launch
+
+# CubeIDE build outputs
+Debug/
+Release/
+*/Debug/
+*/Release/
+
+# CMake / other build dirs (if ever used)
+build/
+cmake-build-*/
+
+# ==== CubeMX generated / temporary ====
+*.mxproject
+*.tmp
+*.bak
+*.swp
+
+# ==== Compiled objects / binaries ====
+*.o
+*.a
+*.so
+*.d
+*.su
+*.cyclo
+*.gcda
+*.gcno
+*.gcov
+
+*.elf
+*.hex
+*.bin
+*.map
+*.list
+
+# ==== OS / editor noise ====
+.DS_Store
+Thumbs.db
+
+# ==== Optional: keep .ioc, ignore everything else from user-specific IDE state ====
+# (Do NOT ignore *.ioc, bo to jest "źródło prawdy" dla CubeMX)
+!*.ioc
+
+# ==== Optional: if you use CLion / VSCode occasionally ====
+.idea/
+.vscode/

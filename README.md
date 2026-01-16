@@ -78,12 +78,8 @@ The video below shows:
 - manufactured PCB,
 - assembled handheld device,
 - real gameplay running on STM32
-
- <video width="640" controls>
-  <source src="https://github.com/user-attachments/assets/75927860-7996-492d-9544-00e155972743/IMG_0586.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</source>
-</video>
+  
+https://github.com/user-attachments/assets/c8ee87c2-e7b8-4f8f-901f-ed7810f95134
 
 ---
 

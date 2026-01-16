@@ -77,11 +77,12 @@ It demonstrates how much can be achieved on a **low-power STM32** with limited R
 The video below shows:
 - manufactured PCB,
 - assembled handheld device,
-- real gameplay running on STM32 
+- real gameplay running on STM32
 
-<video width="640" controls>
-  <source src="https://raw.githubusercontent.com/TomAshTee/uGalaxy_STM32_Game/main/IMG_0586.mp4" type="video/mp4">
+ <video width="640" controls>
+  <source src="https://github.com/user-attachments/assets/75927860-7996-492d-9544-00e155972743/IMG_0586.mp4" type="video/mp4">
   Your browser does not support the video tag.
+</source>
 </video>
 
 ---
@@ -101,6 +102,8 @@ The image below shows a 3D visualization of the custom PCB, including component 
 The following image presents the PCB routing view, showing signal paths, power distribution, and overall board topology.
 
 ![PCB Routing](https://raw.githubusercontent.com/TomAshTee/uGalaxy_STM32_Game/main/PCB.png)
+
+
 
 ---
 

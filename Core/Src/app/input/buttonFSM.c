@@ -10,7 +10,7 @@
  */
 
 #include "main.h"
-#include "buttonFSM.h"
+#include "app/input/buttonFSM.h"
 
 /** ##########################################################################
  *  @name Initialization and Configuration

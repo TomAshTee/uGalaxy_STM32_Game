@@ -10,7 +10,7 @@
  */
 
 #include "main.h"
-#include "ssd1327.h"
+#include "drivers/ssd1327.h"
 #include <string.h>
 #include <stdbool.h>
 

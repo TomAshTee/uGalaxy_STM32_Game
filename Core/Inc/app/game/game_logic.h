@@ -24,8 +24,7 @@
 
 #include "stdbool.h"
 #include "stdint.h"
-#include "ssd1327.h"
-#include "input.h"
+#include "app/input/input.h"
 
 
 /** ##########################################################################

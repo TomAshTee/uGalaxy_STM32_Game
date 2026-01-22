@@ -8,7 +8,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include "graphics_map.h"
 
 //#####################################################
 //				Graphic definitions

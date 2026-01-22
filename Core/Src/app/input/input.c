@@ -13,8 +13,8 @@
  * - One-shot button press event
  */
 
-#include "input.h"
-#include "buttonFSM.h"
+#include "app/input/input.h"
+#include "app/input/buttonFSM.h"
 
 /** ##########################################################################
  *  @name Private Variables

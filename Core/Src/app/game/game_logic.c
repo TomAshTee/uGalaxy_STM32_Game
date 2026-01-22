@@ -5,9 +5,9 @@
  *      Author: Tomasz
  */
 
-#include "game_logic.h"
-#include "graphics_map.h"
-#include "GFX_ssd1327.h"
+#include "app/game/game_logic.h"
+#include "gfx/graphics_map.h"
+#include "gfx/GFX_ssd1327.h"
 #include <stdlib.h>
 #include <math.h>
 

@@ -43,11 +43,11 @@
 /* USER CODE BEGIN Includes */
 
 #include <math.h>
-#include "graphics_map.h"
-#include "game_logic.h"
-#include "GFX_ssd1327.h"
-#include "ssd1327.h"
-#include "input.h"
+#include "gfx/graphics_map.h"
+#include "app/game/game_logic.h"
+#include "gfx/GFX_ssd1327.h"
+#include "drivers/ssd1327.h"
+#include "app/input/input.h"
 #include <stdbool.h>
 #include <stdlib.h>
 

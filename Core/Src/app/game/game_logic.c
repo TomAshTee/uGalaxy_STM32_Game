@@ -8,6 +8,7 @@
 #include "app/game/game_logic.h"
 #include "gfx/graphics_map.h"
 #include "gfx/GFX_ssd1327.h"
+#include "drivers/ssd1327.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -184,9 +185,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 						GFX_DrawBitMap_P(g->player.x, g->player.y, player_map,
 								11, 11, 1);
 
-						//SSD1327_Display();
 						if (g->player.lives <= 0) {
-							PlayDeadAnim();
 							g->state = GS_Dead;
 						}
 					}
@@ -299,9 +298,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					GFX_DrawBitMap_P(g->player.x, g->player.y, player_map, 11,
 							11, 1);
 
-					//SSD1327_Display();
 					if (g->player.lives <= 0) {
-						PlayDeadAnim();
 						g->state = GS_Dead;
 					}
 				}

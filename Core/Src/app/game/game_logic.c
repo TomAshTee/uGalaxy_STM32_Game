@@ -10,6 +10,7 @@
 #include "gfx/GFX_ssd1327.h"
 #include "drivers/ssd1327.h"
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 GameCtx g_singleton;
@@ -21,8 +22,9 @@ void GameInit(GameCtx *g) {
 	 * the player and the first boss. Furthermore, it "resets"
 	 * the arrays of shot, opponents and bonuses.
 	 */
-	uint8_t i;
-	//Player initial settings
+
+	memset(g, 0, sizeof(*g));
+
 	g->player.lives = INITIAL_LIVES;
 	g->player.score = INITIAL_SCORE;
 	g->player.x = INITIAL_X;
@@ -31,34 +33,10 @@ void GameInit(GameCtx *g) {
 	g->player.gameProgres = INITIAL_GAME_PROGRES;
 	g->player.shootType = ST_Normal;
 
-	//Deactivation of player shots
-	for (i = 0; i < NUMBER_SHOTS; ++i)
-		g->shots[i].active = false;
-
-	//Deactivation of boss shots
-	for (i = 0; i < NUMBER_BOSS_SHOTS; ++i)
-		g->bossShots[i].active = false;
-
-	//Deactivation enemies
-	for (i = 0; i < NUMBER_ENEMIES; i++) {
-		g->enemies[i].active = false;
-		g->enemies[i].trackNumber = 0;
-		g->enemies[i].trackedByMissile = false;
-	}
-
-	//Deactivation bonuses
-	for (i = 0; i < NUMBER_BONUS; i++)
-		g->bonuses[i].active = false;
-
-	//Deactivation boss
 	g->boss.active = false;
 	g->boss.x = INITIAL_BOSS_X;
 	g->boss.y = INITIAL_BOSS_Y;
 	g->boss.updateDelay = INITIAL_BOSS_UPDATE_DELAY;
-
-	//Deactivation of explosion
-	for(i = 0; i < NUMBER_EXPLOSION; i++)
-		g->explosion[i].active = false;
 
 }
 

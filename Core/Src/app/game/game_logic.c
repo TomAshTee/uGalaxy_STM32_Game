@@ -68,14 +68,15 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 		bool shoot_updated = false;
 
 		switch (g->shots[i].type) {
+
 		case ST_Normal:
 			if (g->shots[i].active)
 				g->shots[i].x++;
 			if (g->shots[i].x > SCREEN_WIDTH)
 				g->shots[i].active = false;
 			break;
-		case ST_Tracker:
 
+		case ST_Tracker:
 			for (int j = 0; j < NUMBER_ENEMIES; j++) {
 				if (g->shots[i].trackNumber == g->enemies[j].trackNumber) {
 					if (g->shots[i].x > g->enemies[j].x)
@@ -141,13 +142,10 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 							|| Colliding(g->enemies[i].x, g->enemies[i].y,
 									g->player.x + 7, g->player.y + 5)) {
 						g->player.lives -= 1;
-						;
 						g->enemies[i].active = false;
 						g->enemies[i].trackedByMissile = false;
 						g->enemies[i].trackNumber = 0;
 
-//						GFX_DrowBitMap_P(g->enemies[i].x + 2, g->enemies[i].y,
-//								explosion_map, 10, 10, 1);
 						for (j = 0; j < NUMBER_EXPLOSION; j++){
 							if (!g->explosion[j].active){
 								g->explosion[j].active = true;
@@ -158,10 +156,11 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 								break;
 							}
 						}
-						GFX_DrawBitMap_P(g->player.x + 8, g->player.y - 2,
-								player_shield_map, 10, 16, 1);
-						GFX_DrawBitMap_P(g->player.x, g->player.y, player_map,
-								11, 11, 1);
+//						GFX_DrawBitMap_P(g->player.x + 8, g->player.y - 2,
+//								player_shield_map, 10, 16, 1);
+//						GFX_DrawBitMap_P(g->player.x, g->player.y, player_map,
+//								11, 11, 1);
+						g->player.shieldDurationOfVisibility = DURATION_OF_SHIELD_VISIBILITY;
 
 						if (g->player.lives <= 0) {
 							g->state = GS_Dead;
@@ -208,6 +207,8 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 			}
 		}
 	}
+	if(g->player.shieldDurationOfVisibility > 0)
+		g->player.shieldDurationOfVisibility--;
 
 	//------------- Boss service ---------------
 	if (g->boss.active) {
@@ -295,8 +296,6 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 					g->boss.lives -= 1;
 					g->shots[i].active = false;
 					g->shots[i].trackNumber = 0;
-//					GFX_DrowBitMap_P(g->shots[i].x, g->shots[i].y,
-//							explosion_map, 10, 10, 1);
 					for (j = 0; j < NUMBER_EXPLOSION; j++) {
 						if (!g->explosion[j].active) {
 							g->explosion[j].active = true;
@@ -414,6 +413,8 @@ void GameDraw(GameCtx *g, InputSnapshot* in) {
 	}
 
 	//Drawing the player's graphics
+	if (g->player.shieldDurationOfVisibility > 0)
+		GFX_DrawBitMap_P(g->player.x + 8, g->player.y - 2, player_shield_map, 10, 16, 1);
 	GFX_DrawBitMap_P(g->player.x, g->player.y, player_map, 11, 11, 1);
 
 	//Drawing a background

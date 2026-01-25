@@ -57,6 +57,7 @@
 #define INITIAL_Y				64					/**<  Initial position Y of player */
 #define INITIAL_LEVEL			1					/**<  Initial level of play */
 #define INITIAL_GAME_PROGRES 	0					/**<  Initial game progress */
+#define DURATION_OF_SHIELD_VISIBILITY	8			/**<  Duration of disc visibility */
 
 #define BLACK 					0
 #define WHITE 					15
@@ -134,7 +135,7 @@ typedef struct				/**<  Player and its parameters */
 	int gameProgres;
 	ShotType shootType;
 	int bonusDuration;
-	int shieldDuration;
+	int shieldDurationOfVisibility; //Duration of disc visibility
 } T_player;
 
 typedef struct				/**<  Player shots, boss shots */

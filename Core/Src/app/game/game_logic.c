@@ -15,6 +15,12 @@
 
 GameCtx g_singleton;
 
+static void TickPlayerMove(GameCtx *g, InputSnapshot *in);
+static void TickShotsForward(GameCtx *g);
+static void TickEnemies(GameCtx *g);
+static void TickBoss(GameCtx *g);
+static void TickPlayerShotsToEnemies(GameCtx *g);
+
 void GameInit(GameCtx *g) {
 	/*
 	 * This function is only called once at the start of the game.
@@ -44,327 +50,23 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	/*
 	 * The logic of the whole game
 	 */
-	uint8_t i, j, k;
-
-	static uint8_t y = 0, dy = 1;
-	// Read analog stick
-	int stick = in->joystickYValue;
-
-	if (stick < JOYSTICK_LOW_THRESH)
-		g->player.y -= 1;
-	else if (stick > JOYSTICK_HIGH_THRESH)
-		g->player.y += 1;
-
-	// Keeping the player within the screen
-	if (g->player.y < PLAYER_Y_MIN)
-		g->player.y = PLAYER_Y_MIN;
-	if (g->player.y > PLAYER_Y_MAX)
-		g->player.y = PLAYER_Y_MAX;
 
 
-	for (i = 0; i < NUMBER_SHOTS; ++i) {
+	TickPlayerMove(g, in);
 
-		// Shifting shots forward
-		bool shoot_updated = false;
+	TickShotsForward(g);
 
-		switch (g->shots[i].type) {
+	TickEnemies(g);
 
-		case ST_Normal:
-			if (g->shots[i].active)
-				g->shots[i].x++;
-			if (g->shots[i].x > SCREEN_WIDTH)
-				g->shots[i].active = false;
-			break;
-
-		case ST_Tracker:
-			for (int j = 0; j < NUMBER_ENEMIES; j++) {
-				if (g->shots[i].trackNumber == g->enemies[j].trackNumber) {
-					if (g->shots[i].x > g->enemies[j].x)
-						g->shots[i].x -= 2;
-					if (g->shots[i].x < g->enemies[j].x)
-						g->shots[i].x += 2;
-					if (g->shots[i].y > g->enemies[j].y)
-						g->shots[i].y -= 2;
-					if (g->shots[i].y < g->enemies[j].y)
-						g->shots[i].y += 2;
-					shoot_updated = true;
-					break;
-				}
-			}
-			//Remove tracking missiles that have no target
-			if (!shoot_updated && g->shots[i].type == ST_Tracker) {
-				g->shots[i].active = false;
-				g->shots[i].trackNumber = 0;
-				shoot_updated = false;
-			}
-
-			//Remove off-map shots
-			if (g->shots[i].x > SCREEN_WIDTH) {
-				g->shots[i].active = false;
-				g->shots[i].trackNumber = 0;
-			}
-			break;
-		}
-
-	}
-
-	//Remove the markers on enemies whose shots have been used on others
-	bool is_there_a_missile;
-	for (i = 0; i < NUMBER_ENEMIES; i++) {
-		is_there_a_missile = false;
-
-		for (j = 0; j < NUMBER_SHOTS; j++) {
-			if (g->enemies[i].trackNumber == g->shots[j].trackNumber)
-				is_there_a_missile = true;
-		}
-
-		if (!is_there_a_missile)
-			g->enemies[i].trackNumber = 0;
-	}
-
-	// Updated enemies
-	for (i = 0; i < NUMBER_ENEMIES; ++i) {
-
-		if (g->enemies[i].active) {
-			g->enemies[i].nextUpdate -= 1;
-			if (g->enemies[i].nextUpdate <= 0) {
-				if (g->enemies[i].active) {
-
-					g->enemies[i].nextUpdate = g->enemies[i].updateDelay;
-
-					//Checking for collisions between opponents and the player
-					if (Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
-							g->player.y)
-							|| Colliding(g->enemies[i].x, g->enemies[i].y,
-									g->player.x, g->player.y + 5)
-							|| Colliding(g->enemies[i].x, g->enemies[i].y,
-									g->player.x + 7, g->player.y)
-							|| Colliding(g->enemies[i].x, g->enemies[i].y,
-									g->player.x + 7, g->player.y + 5)) {
-						g->player.lives -= 1;
-						g->enemies[i].active = false;
-						g->enemies[i].trackedByMissile = false;
-						g->enemies[i].trackNumber = 0;
-
-						for (j = 0; j < NUMBER_EXPLOSION; j++){
-							if (!g->explosion[j].active){
-								g->explosion[j].active = true;
-								g->explosion[j].x = g->enemies[i].x + 2;
-								g->explosion[j].y = g->enemies[i].y;
-								g->explosion[j].explosionTimer = EXPLOSION_TIMER;
-
-								break;
-							}
-						}
-//						GFX_DrawBitMap_P(g->player.x + 8, g->player.y - 2,
-//								player_shield_map, 10, 16, 1);
-//						GFX_DrawBitMap_P(g->player.x, g->player.y, player_map,
-//								11, 11, 1);
-						g->player.shieldDurationOfVisibility = DURATION_OF_SHIELD_VISIBILITY;
-
-						if (g->player.lives <= 0) {
-							g->state = GS_Dead;
-						}
-					}
-
-					// Moving to the left and making special moves
-					g->enemies[i].x -= 1;
-
-					switch (g->enemies[i].type) {
-					case ET_Tracker:
-						if (g->enemies[i].x < 70) {
-							if (g->player.y > g->enemies[i].y)
-								g->enemies[i].y += 1;
-							if (g->player.y < g->enemies[i].y)
-								g->enemies[i].y -= 1;
-						}
-						break;
-					case ET_Diver:
-						break;
-					case ET_Bobber:
-						if ((g->enemies[i].x % 4 == 0)
-								&& (g->enemies[i].x % 8 == 0))
-							g->enemies[i].y += 4;
-						if ((g->enemies[i].x % 4 == 0)
-								&& !(g->enemies[i].x % 8 == 0))
-							g->enemies[i].y -= 4;
-						if (g->enemies[i].x < 70) {
-							if (g->player.y > g->enemies[i].y)
-								g->enemies[i].y += 1;
-							if (g->player.y < g->enemies[i].y)
-								g->enemies[i].y -= 1;
-						}
-						break;
-					}
-
-					// If off-screen, deactivation
-					if (g->enemies[i].x < ENEMY_OFFSCREEN_X) {
-						g->enemies[i].active = false;
-						g->enemies[i].trackedByMissile = false;
-						g->enemies[i].trackNumber = 0;
-					}
-				}
-			}
-		}
-	}
-	if(g->player.shieldDurationOfVisibility > 0)
-		g->player.shieldDurationOfVisibility--;
-
-	//------------- Boss service ---------------
-	if (g->boss.active) {
-		g->boss.nextUpdate -= 1;
-
-		//Boss position
-		if (g->boss.nextUpdate <= 0) {
-			g->boss.nextUpdate = g->boss.updateDelay;
-
-			y += dy;
-			if (y < BOSS_Y_MIN || y > BOSS_Y_MAX)
-				dy = -dy;
-
-			g->boss.y = y;
-
-			if (g->boss.y < BOSS_Y_MIN)
-				g->boss.y = BOSS_Y_MIN;
-			if (g->boss.y > BOSS_Y_MAX)
-				g->boss.y = BOSS_Y_MAX;
-
-			g->boss.x -= 1;
-			if (g->boss.x < 100)
-				g->boss.x = 100;
-		}
-
-		//Frequency of boss shots
-		if ((rand() % 100) < (g->boss.level * 5))
-			GameShotBoss(g);
-
-
-		for (i = 0; i < NUMBER_BOSS_SHOTS; ++i) {
-			if (g->bossShots[i].active)
-				g->bossShots[i].x--;
-			if (g->bossShots[i].x < ENEMY_OFFSCREEN_X)
-				g->bossShots[i].active = false;
-		}
-
-		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
-			if (g->bossShots[i].active) {
-				if (Colliding(g->bossShots[i].x, g->bossShots[i].y,
-						g->player.x, g->player.y)
-						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
-								g->player.x, g->player.y + 5)
-						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
-								g->player.x + 7, g->player.y)
-						|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
-								g->player.x + 7, g->player.y + 5)) {
-					g->player.lives -= 1;
-					;
-					g->bossShots[i].active = false;
-//					GFX_DrowBitMap_P(g->bossShots[i].x + 2, g->bossShots[i].y,
-//							explosion_map, 10, 10, 1);
-
-					for (j = 0; j < NUMBER_EXPLOSION; j++) {
-						if (!g->explosion[j].active) {
-							g->explosion[j].active = true;
-							g->explosion[j].x = g->bossShots[i].x + 2;
-							g->explosion[j].y = g->bossShots[i].y;
-							g->explosion[j].explosionTimer = EXPLOSION_TIMER;
-
-							break;
-						}
-					}
-					GFX_DrawBitMap_P(g->player.x + 8, g->player.y - 2,
-							player_shield_map, 10, 16, 1);
-					GFX_DrawBitMap_P(g->player.x, g->player.y, player_map, 11,
-							11, 1);
-
-					if (g->player.lives <= 0) {
-						g->state = GS_Dead;
-					}
-				}
-			}
-		}
-
-		// Player's shots to the boss
-		for (i = 0; i < NUMBER_SHOTS; i++) {
-			if (g->shots[i].active) {
-				if (Colliding(g->boss.x, g->boss.y, g->shots[i].x,
-						g->shots[i].y)
-						|| Colliding(g->boss.x, g->boss.y + 6, g->shots[i].x,
-								g->shots[i].y)
-						|| Colliding(g->boss.x, g->boss.y + 12, g->shots[i].x,
-								g->shots[i].y)) {
-					g->boss.lives -= 1;
-					g->shots[i].active = false;
-					g->shots[i].trackNumber = 0;
-					for (j = 0; j < NUMBER_EXPLOSION; j++) {
-						if (!g->explosion[j].active) {
-							g->explosion[j].active = true;
-							g->explosion[j].x = g->shots[i].x + 2;
-							g->explosion[j].y = g->shots[i].y;
-							g->explosion[j].explosionTimer = EXPLOSION_TIMER;
-
-							break;
-						}
-					}
-
-					if (g->boss.lives <= 0) {
-						g->boss.active = false;
-						g->boss.lives = 0;
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	//Painting over and deactivating shots left over from the boss
-	if (!g->boss.active) {
-		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
-			if (g->bossShots[i].active) {
-				g->bossShots[i].active = false;
-				GFX_DrawBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
-						player_shot_map, 4, 1, 0);
-			}
-		}
-	}
-	//-------------------------------------------
+	TickBoss(g);
 
 	if (in->btn1State == GPIO_PIN_SET)
-		GameShot(g);//shot();
+		GameShot(g);
 
-	// Checking the collision of a player's shots with opponents. Adding Bonuses
-	for (i = 0; i < NUMBER_SHOTS; ++i) {
-		for (j = 0; j < NUMBER_ENEMIES; ++j) {
-			if (g->shots[i].active && g->enemies[j].active) {
-				if (Colliding(g->enemies[j].x, g->enemies[j].y, g->shots[i].x,
-						g->shots[i].y)) {
-					g->enemies[j].active = false;
-					g->enemies[j].trackedByMissile = false;
-					g->enemies[j].trackNumber = 0;
-					g->shots[i].active = false;
-					g->player.score += 1;
-//					GFX_DrowBitMap_P(g->enemies[j].x, g->enemies[j].y,
-//							explosion_map, 10, 10, 1);
-					for (k = 0; k < NUMBER_EXPLOSION; k++) {
-						if (!g->explosion[k].active) {
-							g->explosion[k].active = true;
-							g->explosion[k].x = g->enemies[j].x + 2;
-							g->explosion[k].y = g->enemies[j].y;
-							g->explosion[k].explosionTimer = EXPLOSION_TIMER;
+	TickPlayerShotsToEnemies(g);
 
-							break;
-						}
-					}
-
-					//Dodanie bonusa w miejscu zestrzelenia
-					if ((rand() % 100) < BONUS_FREQUENCY)
-						GameAddBonus(g, g->enemies[j].x, g->enemies[j].y);//add_bonus(g->enemies[j].x, g->enemies[j].y);
-				}
-			}
-		}
-	}
 	if ((rand() % 100) < (g->player.level * 2) && !(g->boss.active)) //Frequency of adding opponents according to level
-		GameAddEnemy(g);//add_enemy();
+		GameAddEnemy(g);
 }
 
 void GameDraw(GameCtx *g, InputSnapshot* in) {
@@ -833,6 +535,344 @@ int GameGetPlayerScore(GameCtx* g){
 	 * */
 
 	return g->player.score;
+}
+
+static void TickPlayerMove(GameCtx *g, InputSnapshot *in) {
+	if (in->joystickYValue < JOYSTICK_LOW_THRESH)
+		g->player.y -= 1;
+	else if (in->joystickYValue > JOYSTICK_HIGH_THRESH)
+		g->player.y += 1;
+
+	// Keeping the player within the screen
+	if (g->player.y < PLAYER_Y_MIN)
+		g->player.y = PLAYER_Y_MIN;
+	if (g->player.y > PLAYER_Y_MAX)
+		g->player.y = PLAYER_Y_MAX;
+}
+
+static void TickShotsForward(GameCtx *g) {
+	uint8_t i, j;
+
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
+
+		// Shifting shots forward
+		bool shoot_updated = false;
+
+		switch (g->shots[i].type) {
+
+		case ST_Normal:
+			if (g->shots[i].active)
+				g->shots[i].x++;
+			if (g->shots[i].x > SCREEN_WIDTH)
+				g->shots[i].active = false;
+			break;
+
+		case ST_Tracker:
+			for (int j = 0; j < NUMBER_ENEMIES; j++) {
+				if (g->shots[i].trackNumber == g->enemies[j].trackNumber) {
+					if (g->shots[i].x > g->enemies[j].x)
+						g->shots[i].x -= 2;
+					if (g->shots[i].x < g->enemies[j].x)
+						g->shots[i].x += 2;
+					if (g->shots[i].y > g->enemies[j].y)
+						g->shots[i].y -= 2;
+					if (g->shots[i].y < g->enemies[j].y)
+						g->shots[i].y += 2;
+					shoot_updated = true;
+					break;
+				}
+			}
+			//Remove tracking missiles that have no target
+			if (!shoot_updated && g->shots[i].type == ST_Tracker) {
+				g->shots[i].active = false;
+				g->shots[i].trackNumber = 0;
+				shoot_updated = false;
+			}
+
+			//Remove off-map shots
+			if (g->shots[i].x > SCREEN_WIDTH) {
+				g->shots[i].active = false;
+				g->shots[i].trackNumber = 0;
+			}
+			break;
+		}
+
+	}
+
+	//Remove the markers on enemies whose shots have been used on others
+	bool is_there_a_missile;
+	for (i = 0; i < NUMBER_ENEMIES; i++) {
+		is_there_a_missile = false;
+
+		for (j = 0; j < NUMBER_SHOTS; j++) {
+			if (g->enemies[i].trackNumber == g->shots[j].trackNumber)
+				is_there_a_missile = true;
+		}
+
+		if (!is_there_a_missile)
+			g->enemies[i].trackNumber = 0;
+	}
+}
+
+static void TickEnemies(GameCtx *g) {
+
+	uint8_t i, j;
+	// Updated enemies
+	for (i = 0; i < NUMBER_ENEMIES; ++i) {
+
+		//Test
+		if (!g->enemies[i].active)
+			continue;
+
+		g->enemies[i].nextUpdate -= 1;
+
+		if (g->enemies[i].nextUpdate > 0)
+			continue;
+
+		g->enemies[i].nextUpdate = g->enemies[i].updateDelay;
+
+		//Checking for collisions between opponents and the player
+		if (Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
+				g->player.y)
+				|| Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x,
+						g->player.y + 5)
+				|| Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x + 7,
+						g->player.y)
+				|| Colliding(g->enemies[i].x, g->enemies[i].y, g->player.x + 7,
+						g->player.y + 5)) {
+			g->player.lives -= 1;
+			g->enemies[i].active = false;
+			g->enemies[i].trackedByMissile = false;
+			g->enemies[i].trackNumber = 0;
+
+			for (j = 0; j < NUMBER_EXPLOSION; j++) {
+
+				if (g->explosion[j].active)
+					continue;
+
+				g->explosion[j].active = true;
+				g->explosion[j].x = g->enemies[i].x + 2;
+				g->explosion[j].y = g->enemies[i].y;
+				g->explosion[j].explosionTimer = EXPLOSION_TIMER;
+				break;
+			}
+
+			g->player.shieldDurationOfVisibility =
+					DURATION_OF_SHIELD_VISIBILITY;
+
+			if (g->player.lives <= 0) {
+				g->state = GS_Dead;
+			}
+		}
+
+		// Moving to the left and making special moves
+		g->enemies[i].x -= 1;
+
+		switch (g->enemies[i].type) {
+		case ET_Tracker:
+			if (g->enemies[i].x < 70) {
+				if (g->player.y > g->enemies[i].y)
+					g->enemies[i].y += 1;
+				if (g->player.y < g->enemies[i].y)
+					g->enemies[i].y -= 1;
+			}
+			break;
+		case ET_Diver:
+			break;
+		case ET_Bobber:
+			if ((g->enemies[i].x % 4 == 0) && (g->enemies[i].x % 8 == 0))
+				g->enemies[i].y += 4;
+			if ((g->enemies[i].x % 4 == 0) && !(g->enemies[i].x % 8 == 0))
+				g->enemies[i].y -= 4;
+			if (g->enemies[i].x < 70) {
+				if (g->player.y > g->enemies[i].y)
+					g->enemies[i].y += 1;
+				if (g->player.y < g->enemies[i].y)
+					g->enemies[i].y -= 1;
+			}
+			break;
+		}
+
+		// If off-screen, deactivation
+		if (g->enemies[i].x < ENEMY_OFFSCREEN_X) {
+			g->enemies[i].active = false;
+			g->enemies[i].trackedByMissile = false;
+			g->enemies[i].trackNumber = 0;
+		}
+
+	}
+	if (g->player.shieldDurationOfVisibility > 0)
+		g->player.shieldDurationOfVisibility--;
+}
+
+static void TickBoss(GameCtx *g) {
+
+	uint8_t i, j;
+	static uint8_t y = 0, dy = 1;
+
+	//------------- Boss service ---------------
+
+	// Deactivation of shots when the boss disappeared
+	if (!g->boss.active) {
+
+		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
+			if (g->bossShots[i].active) {
+				g->bossShots[i].active = false;
+				GFX_DrawBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
+						player_shot_map, 4, 1, 0);
+			}
+		}
+		return;
+	}
+	g->boss.nextUpdate -= 1;
+
+
+	//Boss position
+	if (g->boss.nextUpdate <= 0) {
+		g->boss.nextUpdate = g->boss.updateDelay;
+
+		y += dy;
+		if (y < BOSS_Y_MIN || y > BOSS_Y_MAX)
+			dy = -dy;
+
+		g->boss.y = y;
+
+		if (g->boss.y < BOSS_Y_MIN)
+			g->boss.y = BOSS_Y_MIN;
+		if (g->boss.y > BOSS_Y_MAX)
+			g->boss.y = BOSS_Y_MAX;
+
+		g->boss.x -= 1;
+		if (g->boss.x < 100)
+			g->boss.x = 100;
+	}
+
+	//Frequency of boss shots
+	if ((rand() % 100) < (g->boss.level * 5))
+		GameShotBoss(g);
+
+	for (i = 0; i < NUMBER_BOSS_SHOTS; ++i) {
+		if (g->bossShots[i].active)
+			g->bossShots[i].x--;
+		if (g->bossShots[i].x < ENEMY_OFFSCREEN_X)
+			g->bossShots[i].active = false;
+	}
+
+	for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
+		if (!g->bossShots[i].active)
+			continue;
+		if (Colliding(g->bossShots[i].x, g->bossShots[i].y, g->player.x,
+				g->player.y)
+				|| Colliding(g->bossShots[i].x, g->bossShots[i].y, g->player.x,
+						g->player.y + 5)
+				|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
+						g->player.x + 7, g->player.y)
+				|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
+						g->player.x + 7, g->player.y + 5)) {
+			g->player.lives -= 1;
+			;
+			g->bossShots[i].active = false;
+			//					GFX_DrowBitMap_P(g->bossShots[i].x + 2, g->bossShots[i].y,
+			//							explosion_map, 10, 10, 1);
+
+			for (j = 0; j < NUMBER_EXPLOSION; j++) {
+				if (!g->explosion[j].active) {
+					g->explosion[j].active = true;
+					g->explosion[j].x = g->bossShots[i].x + 2;
+					g->explosion[j].y = g->bossShots[i].y;
+					g->explosion[j].explosionTimer = EXPLOSION_TIMER;
+
+					break;
+				}
+			}
+
+			g->player.shieldDurationOfVisibility =
+			DURATION_OF_SHIELD_VISIBILITY;
+
+			if (g->player.lives <= 0)
+				g->state = GS_Dead;
+		}
+
+	}
+
+	// Player's shots to the boss
+	for (i = 0; i < NUMBER_SHOTS; i++) {
+		if (!g->shots[i].active)
+			continue;
+		if (Colliding(g->boss.x, g->boss.y, g->shots[i].x, g->shots[i].y)
+				|| Colliding(g->boss.x, g->boss.y + 6, g->shots[i].x,
+						g->shots[i].y)
+				|| Colliding(g->boss.x, g->boss.y + 12, g->shots[i].x,
+						g->shots[i].y)) {
+			g->boss.lives -= 1;
+			g->shots[i].active = false;
+			g->shots[i].trackNumber = 0;
+			for (j = 0; j < NUMBER_EXPLOSION; j++) {
+				if (!g->explosion[j].active) {
+					g->explosion[j].active = true;
+					g->explosion[j].x = g->shots[i].x + 2;
+					g->explosion[j].y = g->shots[i].y;
+					g->explosion[j].explosionTimer = EXPLOSION_TIMER;
+
+					break;
+				}
+			}
+
+			if (g->boss.lives <= 0) {
+				g->boss.active = false;
+				g->boss.lives = 0;
+				break;
+			}
+		}
+
+	}
+
+//	//Painting over and deactivating shots left over from the boss
+//	if (!g->boss.active) {
+//		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
+//			if (g->bossShots[i].active) {
+//				g->bossShots[i].active = false;
+//				GFX_DrawBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
+//						player_shot_map, 4, 1, 0);
+//			}
+//		}
+//	}
+}
+
+static void TickPlayerShotsToEnemies(GameCtx *g) {
+
+	uint8_t i, j, k;
+
+	// Checking the collision of a player's shots with opponents. Adding Bonuses
+	for (i = 0; i < NUMBER_SHOTS; ++i) {
+		for (j = 0; j < NUMBER_ENEMIES; ++j) {
+			if (g->shots[i].active && g->enemies[j].active) {
+				if (Colliding(g->enemies[j].x, g->enemies[j].y, g->shots[i].x,
+						g->shots[i].y)) {
+					g->enemies[j].active = false;
+					g->enemies[j].trackedByMissile = false;
+					g->enemies[j].trackNumber = 0;
+					g->shots[i].active = false;
+					g->player.score += 1;
+
+					for (k = 0; k < NUMBER_EXPLOSION; k++) {
+						if (!g->explosion[k].active) {
+							g->explosion[k].active = true;
+							g->explosion[k].x = g->enemies[j].x + 2;
+							g->explosion[k].y = g->enemies[j].y;
+							g->explosion[k].explosionTimer = EXPLOSION_TIMER;
+
+							break;
+						}
+					}
+
+					//Adding a bonus at the location of the shootdown
+					if ((rand() % 100) < BONUS_FREQUENCY)
+						GameAddBonus(g, g->enemies[j].x, g->enemies[j].y);
+				}
+			}
+		}
+	}
 }
 
 

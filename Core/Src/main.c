@@ -16,14 +16,7 @@
  ******************************************************************************
  *
  * @todo
- * - Creation of a BOT for the game instead of the player (some kind of special sequence to run)
- * - Breakdown of overly large functions, e.g. GameTick()
- * - Adding shield support similarly to what happens with explosion support.
- * 	Add shield to Boss (shield == number of lives of Boss)
- * - Add debounce support to the button (input.c), also FSM ?
- * - Add DEBUG mode -> #define DEBUG_MODE 1
  * - Adding bonuses: quick shots, protective shield.
- * - Introduction of tests
  * - Addition of storyline breakers and storyline introduction.
  *
  *

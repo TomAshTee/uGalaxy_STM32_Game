@@ -770,10 +770,7 @@ static void TickBoss(GameCtx *g) {
 				|| Colliding(g->bossShots[i].x, g->bossShots[i].y,
 						g->player.x + 7, g->player.y + 5)) {
 			g->player.lives -= 1;
-			;
 			g->bossShots[i].active = false;
-			//					GFX_DrowBitMap_P(g->bossShots[i].x + 2, g->bossShots[i].y,
-			//							explosion_map, 10, 10, 1);
 
 			for (j = 0; j < NUMBER_EXPLOSION; j++) {
 				if (!g->explosion[j].active) {
@@ -824,19 +821,7 @@ static void TickBoss(GameCtx *g) {
 				break;
 			}
 		}
-
 	}
-
-//	//Painting over and deactivating shots left over from the boss
-//	if (!g->boss.active) {
-//		for (i = 0; i < NUMBER_BOSS_SHOTS; i++) {
-//			if (g->bossShots[i].active) {
-//				g->bossShots[i].active = false;
-//				GFX_DrawBitMap_P(g->bossShots[i].x, g->bossShots[i].y,
-//						player_shot_map, 4, 1, 0);
-//			}
-//		}
-//	}
 }
 
 static void TickPlayerShotsToEnemies(GameCtx *g) {

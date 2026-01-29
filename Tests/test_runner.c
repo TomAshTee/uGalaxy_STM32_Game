@@ -21,6 +21,9 @@ extern void test_game_init_player_game_progres(void);
 extern void test_game_init_player_shoot_type(void);
 
 extern void test_shot_normal_uses_first_free_slot(void);
+extern void test_shot_normal_skip_used_slot(void);
+extern void test_shot_tracker_assigns_track_number_from_rand_to_enemy_and_shot(void);
+extern void test_shot_tracker_falls_back_to_normal_when_no_enemy_available(void);
 
 void setUp(void) {
     memset(&g, 0, sizeof(g));
@@ -54,6 +57,9 @@ int main(void) {
 
     //Shots
     RUN_TEST(test_shot_normal_uses_first_free_slot);
+    RUN_TEST(test_shot_normal_skip_used_slot);
+    RUN_TEST(test_shot_tracker_assigns_track_number_from_rand_to_enemy_and_shot);
+    RUN_TEST(test_shot_tracker_falls_back_to_normal_when_no_enemy_available);
 
     return UNITY_END();
 }

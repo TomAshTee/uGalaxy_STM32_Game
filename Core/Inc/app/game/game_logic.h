@@ -26,6 +26,11 @@
 #include "stdint.h"
 #include "app/input/input.h"
 
+/* --- Unit-test hooks ---------------------------------------------------- */
+#ifdef UNIT_TEST
+int rand_next(void);
+#define rand rand_next
+#endif
 
 /** ##########################################################################
  *  @name Constants

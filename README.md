@@ -67,8 +67,6 @@ The project is still evolving, but it is already in a solid, understandable stat
 
 ---
 
----
-
 ## Running unit tests (Visual Studio Code)
 
 Unit tests are executed on the host machine (not on the STM32 target) and are integrated using **Visual Studio Code Tasks**.

@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Tests",
+      "type": "shell",
+      "command": "gcc",
+      "args": [
+        "-DUNIT_TEST",
+
+        "-I./tests/mocks",
+        "-I./Core/Inc",
+        "-I./Unity/src",
+
+        "./Core/Src/app/game/game_logic.c",
+        "./tests/mocks/gfx_stubs.c",
+        "./tests/mocks/test_rand_stub.c",
+        "./tests/test_shots.c",
+        "./tests/test_collision.c",
+        "./tests/test_game_init.c",
+        "./tests/test_runner.c",
+        "./Unity/src/unity.c",
+
+        "-o",
+        "./tests/test_app.exe"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "Build unit tests with stubbed HAL (PC build)"
+    },
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": "${workspaceFolder}/tests/test_app.exe",
+      "group": "test",
+      "dependsOn": "Build Tests",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    }
+  ]
+}

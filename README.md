@@ -20,6 +20,7 @@ uGalaxy is a complete game loop running on a resource-constrained microcontrolle
 - simple animations and effects
 - real hardware input (buttons + analog joystick)
 - real hardware rendering on a grayscale OLED
+- unit tests for game logic using the Unity test framework
 
 The main goal of the project is to explore **clean C architecture**, **embedded graphics**, and **timing-sensitive logic** on bare metal hardware, while still keeping things fun.
 
@@ -46,6 +47,7 @@ What is already done:
 - ✅ Custom **handheld PCB** designed and manufactured
 - ✅ Code comments translated and cleaned up
 - ✅ README, repository structure, and commits improved based on community feedback
+- ✅ Unit tests have been using the Unity framework
 
 The project is still evolving, but it is already in a solid, understandable state.
 
@@ -64,6 +66,20 @@ The project is still evolving, but it is already in a solid, understandable stat
   - GPIO (buttons)
 
 ---
+
+---
+
+## Running unit tests (Visual Studio Code)
+
+Unit tests are executed on the host machine (not on the STM32 target) and are integrated using **Visual Studio Code Tasks**.
+
+To run the tests:
+
+1. Open the project in **Visual Studio Code**
+2. Press **Ctrl + Shift + P** to open the Command Palette
+3. Select **Tasks: Run Build Task**
+2. Press **Ctrl + Shift + P** to open the Command Palette
+5. Selsct **Tasks: Run Test Task**
 
 ## Media
 

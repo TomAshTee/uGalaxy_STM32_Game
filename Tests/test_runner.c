@@ -1,8 +1,10 @@
 #include "unity.h"
 #include <string.h>
 #include "../Core/Inc/app/game/game_logic.h"
+#include "../Core/Inc/app/input/input.h"
 
 GameCtx g;
+InputSnapshot in;
 
 // === EXTERN DECLARATIONS ===
 extern void test_collision_same_position(void);
@@ -25,13 +27,17 @@ extern void test_shot_normal_skip_used_slot(void);
 extern void test_shot_tracker_assigns_track_number_from_rand_to_enemy_and_shot(void);
 extern void test_shot_tracker_falls_back_to_normal_when_no_enemy_available(void);
 
+extern void test_player_does_not_leave_screen_top_bottom(void);
+
 void setUp(void) {
     memset(&g, 0, sizeof(g));
+    memset(&in, 0, sizeof(in));
     
 }
 
 void tearDown(void) {
     memset(&g, 0, sizeof(g));
+    memset(&in, 0, sizeof(in));
 }
 
 // === MAIN - ENTRY POINT ===
@@ -60,6 +66,9 @@ int main(void) {
     RUN_TEST(test_shot_normal_skip_used_slot);
     RUN_TEST(test_shot_tracker_assigns_track_number_from_rand_to_enemy_and_shot);
     RUN_TEST(test_shot_tracker_falls_back_to_normal_when_no_enemy_available);
+
+    //Player move
+    RUN_TEST(test_player_does_not_leave_screen_top_bottom);
 
     return UNITY_END();
 }

@@ -3,6 +3,7 @@
 #include "../Core/Inc/app/game/game_logic.h"
 
 extern GameCtx g;
+extern InputSnapshot in;
 
 void test_shot_normal_uses_first_free_slot(void)
 {
@@ -78,4 +79,37 @@ void test_shot_tracker_falls_back_to_normal_when_no_enemy_available(void)
     GameShot(&g);
 
     TEST_ASSERT_EQUAL_INT(ST_Normal,g.shots[0].type);
+}
+
+extern void test_shot_tracker_hit_the_target(void)
+{
+    GameInit(&g);
+
+    g.player.y = 25;
+    g.player.shootType = ST_Tracker;
+
+    g.enemies[0].active = true;
+    g.enemies[0].trackedByMissile = false;
+    g.enemies[0].x = 60;
+    g.enemies[0].y = 50;
+
+    static const int rand_number[] = {123,99,99,99};
+    rand_set_sequence(rand_number,4);
+    rand_reset();
+
+    GameShot(&g);
+
+    TEST_ASSERT_TRUE(g.enemies[0].active);
+    TEST_ASSERT_EQUAL_INT(g.shots[0].trackNumber, g.enemies[0].trackNumber);
+
+    for(int i = 0; i < 100 ; i++){
+        GameTick(&g, &in);
+
+        if(!g.enemies[0].active){
+            break;
+        }
+    }
+
+    TEST_ASSERT_FALSE(g.enemies[0].active);
+    TEST_ASSERT_FALSE(g.shots[0].active);
 }

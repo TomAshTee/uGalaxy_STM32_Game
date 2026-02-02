@@ -180,11 +180,11 @@ static void RunGame(InputSnapshot *in, GameCtx *g) {
 }
 
 static void RunGameTick(InputSnapshot *in, GameCtx *g) {
-	GameLevelUpdate(g);
+	//GameLevelUpdate(g);
 	GameTick(g, in);
-	GameUpdateBackground(g);
-	GameUpdateBonus(g);
-	GameUpdateExplosion(g);
+	// GameUpdateBackground(g);
+	// GameUpdateBonus(g);
+	// GameUpdateExplosion(g);
 }
 
 static void RunMenu(InputSnapshot *in) {

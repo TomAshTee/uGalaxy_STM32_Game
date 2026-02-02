@@ -16,6 +16,7 @@
         "./tests/mocks/gfx_stubs.c",
         "./tests/mocks/test_rand_stub.c",
         "./tests/test_shots.c",
+        "./tests/test_bonus.c",
         "./tests/test_player.c",
         "./tests/test_collision.c",
         "./tests/test_game_init.c",

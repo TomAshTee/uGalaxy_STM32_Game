@@ -51,6 +51,7 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 	 * The logic of the whole game
 	 */
 
+	GameLevelUpdate(g);
 
 	TickPlayerMove(g, in);
 
@@ -67,6 +68,12 @@ void GameTick(GameCtx *g, InputSnapshot* in) {
 
 	if ((rand() % 100) < (g->player.level * 2) && !(g->boss.active)) //Frequency of adding opponents according to level
 		GameAddEnemy(g);
+
+	GameUpdateBackground(g);
+
+	GameUpdateBonus(g);
+	
+	GameUpdateExplosion(g);
 }
 
 void GameDraw(GameCtx *g, InputSnapshot* in) {
